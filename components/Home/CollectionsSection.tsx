@@ -38,12 +38,12 @@ export default function CollectionsSection() {
                 />
                 <div className={`${bodyFont.className} absolute top-4 left-4 z-10 rounded bg-red-600 px-3 py-1 text-xs font-bold text-white`}>FEATURED</div>
               </div>
-              <h3 className={`${bodyFont.className} mb-2 text-sm font-semibold text-gray-900`}>3 Sisters Fan Favorites Beer Box</h3>
+              <h3 className={`${bodyFont.className} mb-2 text-sm font-semibold text-gray-900`}>My Drink Fan Favorites Beer Box</h3>
               <div className="flex gap-1 mb-2">
                 <span className="text-gray-300 text-sm">☆☆☆☆☆</span>
               </div>
               <div className={`${bodyFont.className} flex items-center gap-2`}>
-                <span className="text-lg font-semibold text-gray-900">Rs. 627.00</span>
+                <span className="text-lg font-semibold text-gray-900">Rs. 10.00</span>
                 <span className="text-sm text-gray-500 line-through">Rs. 668.00</span>
               </div>
             </div>
@@ -67,7 +67,7 @@ export default function CollectionsSection() {
                 <span className={`${bodyFont.className} ml-2 text-xs text-gray-500`}>1 review</span>
               </div>
               <div className={`${bodyFont.className} flex items-center gap-2`}>
-                <span className="text-lg font-semibold text-gray-900">Rs. 1,150.00</span>
+                <span className="text-lg font-semibold text-gray-900">Rs. 20.00</span>
                 <span className="text-sm text-gray-500 line-through">Rs. 1,499.00</span>
               </div>
             </div>
@@ -84,7 +84,7 @@ export default function CollectionsSection() {
                 />
                 <div className={`${bodyFont.className} absolute top-4 left-4 z-10 rounded bg-red-600 px-3 py-1 text-xs font-bold text-white`}>FEATURED</div>
               </div>
-              <h3 className={`${bodyFont.className} mb-2 text-sm font-semibold text-gray-900`}>3Sisters Weird Cocktail Combo (Mad Mix)</h3>
+              <h3 className={`${bodyFont.className} mb-2 text-sm font-semibold text-gray-900`}>My Drink  Weird Cocktail Combo (Mad Mix)</h3>
               <div className="flex gap-1 mb-2">
                 <span className="text-gray-300 text-sm">☆☆☆☆☆</span>
               </div>
@@ -106,7 +106,7 @@ export default function CollectionsSection() {
                 />
                 <div className={`${bodyFont.className} absolute top-4 left-4 z-10 rounded bg-red-600 px-3 py-1 text-xs font-bold text-white`}>FEATURED</div>
               </div>
-              <h3 className={`${bodyFont.className} mb-2 text-sm font-semibold text-gray-900`}>3 Sisters Ultimate Chill Can Box</h3>
+              <h3 className={`${bodyFont.className} mb-2 text-sm font-semibold text-gray-900`}>My Drink  Ultimate Chill Can Box</h3>
               <div className="flex gap-1 mb-2">
                 <span className="text-gray-300 text-sm">☆☆☆☆☆</span>
               </div>

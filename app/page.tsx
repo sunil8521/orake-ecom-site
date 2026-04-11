@@ -28,13 +28,14 @@ export default function Home() {
       {/* <PrivacyPolicySection /> */}
       <SmoothieShowcaseSection />
       <TaglineBanner />
+      <FollowUsSection />
       <GiftExperienceSection />
       <VideoShowcaseSection />
       <IndulgenceSection />
       <ClosebyAlwaysSection />
       <ValuesAndBeliefsSection />
       <TriedAndCelebratedSection />
-      <FollowUsSection />
+      
       <Footer />
     </div>
   );

@@ -18,7 +18,7 @@ export default function HeroSection() {
     useEffect(() => {
       const interval = setInterval(() => {
         setCanIdx((prev) => (prev + 1) % canImages.length);
-      }, 3000); // 3 seconds
+      }, 1000); // 3 seconds
       return () => clearInterval(interval);
     }, []);
   // Coffee bean or lemon
@@ -53,11 +53,11 @@ export default function HeroSection() {
         </span>
       </div>
 
-      {/* Floating coffee beans or lemons */}
-      <Image src={beanImg} alt={canIdx === 0 ? "bean" : "lemon"} width={158} height={48} className="absolute left-12 top-54 z-20 animate-float-slow" />
-      <Image src={beanImg} alt={canIdx === 0 ? "bean" : "lemon"} width={196} height={76} className="absolute right-24 top-32 z-20 animate-float" />
-      <Image src={beanImg} alt={canIdx === 0 ? "bean" : "lemon"} width={112} height={32} className="absolute left-1/4 bottom-92 z-20 animate-float-reverse" />
-      <Image src={beanImg} alt={canIdx === 0 ? "bean" : "lemon"} width={124} height={40} className="absolute right-1/3 bottom-74 z-20 animate-float" />
+      {/* Modern 3D rotating coffee beans or lemons */}
+      <Image src={beanImg} alt={canIdx === 0 ? "bean" : "lemon"} width={158} height={48} className="absolute top-54 z-20 animate-rot3d-1" style={{ left: 0, transformStyle: 'preserve-3d' }} />
+      <Image src={beanImg} alt={canIdx === 0 ? "bean" : "lemon"} width={196} height={76} className="absolute top-32 z-20 animate-rot3d-2" style={{ right: 0, transformStyle: 'preserve-3d' }} />
+      <Image src={beanImg} alt={canIdx === 0 ? "bean" : "lemon"} width={112} height={32} className="absolute bottom-92 z-20 animate-rot3d-3" style={{ left: '25%', transformStyle: 'preserve-3d' }} />
+      <Image src={beanImg} alt={canIdx === 0 ? "bean" : "lemon"} width={124} height={40} className="absolute bottom-74 z-20 animate-rot3d-4" style={{ right: '33%', transformStyle: 'preserve-3d' }} />
 
       {/* Center can and caramel splash */}
       <div className="relative flex flex-col items-center justify-center pt-37 pb-16 z-30">
@@ -146,16 +146,34 @@ export default function HeroSection() {
         </svg>
       </div>
 
-      {/* Animations for floating beans */}
+      {/* Modern 3D rotating animations for beans/lemons */}
       <style jsx>{`
-        @keyframes float {
-          0% { transform: translateY(0); }
-          50% { transform: translateY(-18px); }
-          100% { transform: translateY(0); }
+        @keyframes rot3d-1 {
+          0% { transform: rotateY(-18deg) rotateX(0deg); }
+          30% { transform: rotateY(12deg) rotateX(8deg); }
+          60% { transform: rotateY(18deg) rotateX(-8deg); }
+          100% { transform: rotateY(-18deg) rotateX(0deg); }
         }
-        .animate-float { animation: float 4s ease-in-out infinite; }
-        .animate-float-slow { animation: float 7s ease-in-out infinite; }
-        .animate-float-reverse { animation: float 5s ease-in-out infinite reverse; }
+        @keyframes rot3d-2 {
+          0% { transform: rotateX(14deg) rotateY(0deg); }
+          40% { transform: rotateX(-10deg) rotateY(16deg); }
+          80% { transform: rotateX(10deg) rotateY(-12deg); }
+          100% { transform: rotateX(14deg) rotateY(0deg); }
+        }
+        @keyframes rot3d-3 {
+          0% { transform: rotateY(0deg) rotateX(-10deg); }
+          50% { transform: rotateY(18deg) rotateX(10deg); }
+          100% { transform: rotateY(0deg) rotateX(-10deg); }
+        }
+        @keyframes rot3d-4 {
+          0% { transform: rotateX(-16deg) rotateY(8deg); }
+          60% { transform: rotateX(12deg) rotateY(-14deg); }
+          100% { transform: rotateX(-16deg) rotateY(8deg); }
+        }
+        .animate-rot3d-1 { animation: rot3d-1 7s cubic-bezier(0.4,0,0.2,1) infinite; }
+        .animate-rot3d-2 { animation: rot3d-2 8.5s cubic-bezier(0.4,0,0.2,1) infinite 1.1s; }
+        .animate-rot3d-3 { animation: rot3d-3 7.8s cubic-bezier(0.4,0,0.2,1) infinite 0.6s; }
+        .animate-rot3d-4 { animation: rot3d-4 9s cubic-bezier(0.4,0,0.2,1) infinite 1.6s; }
       `}</style>
     </section>
   );

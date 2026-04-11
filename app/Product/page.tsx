@@ -9,11 +9,11 @@ export default function ProductPage() {
 	return (
 		<div className="min-h-screen bg-[#2b0a14]">
 			<Navbar />
-			{/* <ProductHeroSection />
+			<ProductHeroSection />
 			<ProductPageSection />
 			<ProductHighlightsSection />
 			<ProductBundleSection />
-			<ProductFaqSection /> */}
+			<ProductFaqSection />
 		</div>
 	);
 }
