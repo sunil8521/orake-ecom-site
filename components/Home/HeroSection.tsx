@@ -21,8 +21,9 @@ export default function HeroSection() {
       }, 3000); // 3 seconds
       return () => clearInterval(interval);
     }, []);
-  // Coffee bean
-  const beanImg = "/food1.png";
+  // Coffee bean or lemon
+  const beanImgs = ["/food1.png", "/lemon.png"];
+  const beanImg = beanImgs[canIdx];
   // Product cans
   const productCans = [
     "/can1.png",
@@ -52,11 +53,11 @@ export default function HeroSection() {
         </span>
       </div>
 
-      {/* Floating coffee beans */}
-      <Image src={beanImg} alt="bean" width={158} height={48} className="absolute left-12 top-54 z-20 animate-float-slow" />
-      <Image src={beanImg} alt="bean" width={196} height={76} className="absolute right-24 top-32 z-20 animate-float" />
-      <Image src={beanImg} alt="bean" width={112} height={32} className="absolute left-1/4 bottom-92 z-20 animate-float-reverse" />
-      <Image src={beanImg} alt="bean" width={124} height={40} className="absolute right-1/3 bottom-74 z-20 animate-float" />
+      {/* Floating coffee beans or lemons */}
+      <Image src={beanImg} alt={canIdx === 0 ? "bean" : "lemon"} width={158} height={48} className="absolute left-12 top-54 z-20 animate-float-slow" />
+      <Image src={beanImg} alt={canIdx === 0 ? "bean" : "lemon"} width={196} height={76} className="absolute right-24 top-32 z-20 animate-float" />
+      <Image src={beanImg} alt={canIdx === 0 ? "bean" : "lemon"} width={112} height={32} className="absolute left-1/4 bottom-92 z-20 animate-float-reverse" />
+      <Image src={beanImg} alt={canIdx === 0 ? "bean" : "lemon"} width={124} height={40} className="absolute right-1/3 bottom-74 z-20 animate-float" />
 
       {/* Center can and caramel splash */}
       <div className="relative flex flex-col items-center justify-center pt-37 pb-16 z-30">
