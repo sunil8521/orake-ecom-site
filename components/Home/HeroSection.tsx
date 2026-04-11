@@ -1,12 +1,26 @@
 "use client";
+
 import Image from "next/image";
+import { useState, useEffect } from "react";
 
 export default function HeroSection() {
   // Placeholder assets (replace with your own for perfect match)
   // Unsplash image URLs for demo purposes
   // Unsplash images for demo
-  const canImg = "/can1.png"; // Place can1.png in public/
+  const canImages = ["/can1.png", "/can2.png"];
+  const [canIdx, setCanIdx] = useState(0);
   const caramelSplash = "/can2.png"; // Place can2.png in public/
+
+  // Background color changes with image
+  const bgColors = ["#ce777b", "#d7b452"];
+
+    // Auto-slide between can images
+    useEffect(() => {
+      const interval = setInterval(() => {
+        setCanIdx((prev) => (prev + 1) % canImages.length);
+      }, 3000); // 3 seconds
+      return () => clearInterval(interval);
+    }, []);
   // Coffee bean
   const beanImg = "/food1.png";
   // Product cans
@@ -22,12 +36,20 @@ export default function HeroSection() {
   
 
   return (
-    <section className="relative min-h-[100vh] flex flex-col justify-between bg-[#ce777b] overflow-hidden">
+    <section
+      className="relative min-h-[100vh] flex flex-col justify-between overflow-hidden transition-colors duration-700"
+      style={{ backgroundColor: bgColors[canIdx] }}
+    >
       {/* Removed top fog effect for solid background */}
 
-      {/* Large faded background text */}
+      {/* Large faded background text, animated */}
       <div className="absolute inset-0 flex items-center justify-center z-0 select-none">
-        <span className="text-[min(16vw,180px)]  font-extrabold text-[#ae5d61] tracking-widest uppercase" style={{letterSpacing: '0.4em'}}>VANILLA</span>
+        <span className={`text-[min(16vw,180px)] font-extrabold tracking-widest uppercase transition-colors duration-700`} style={{
+          letterSpacing: '0.4em',
+          color: canIdx === 0 ? '#ae5d61' : '#b89c3a',
+        }}>
+          {canIdx === 0 ? 'VANILLA' : 'LEMON'}
+        </span>
       </div>
 
       {/* Floating coffee beans */}
@@ -41,8 +63,21 @@ export default function HeroSection() {
         <div className="relative flex items-center justify-center" style={{minHeight: 340}}>
           {/* Caramel splash behind can */}
           <Image src={caramelSplash} alt="caramel splash" width={380} height={320} className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 pointer-events-none" style={{filter: 'drop-shadow(0 8px 32px #b97a3c88)'}} />
-          {/* Central can */}
-          <Image src={canImg} alt="cold brew can" width={770} height={620} className="relative z-20 drop-shadow-2xl" />
+          {/* Animated central can */}
+          <div className="relative z-20 w-[700px] h-[560px] flex items-center justify-center overflow-hidden">
+            {canImages.map((src, idx) => (
+              <Image
+                key={src}
+                src={src}
+                alt="cold brew can"
+                width={1400}
+                height={1120}
+                className={`absolute left-0 top-0 w-full h-full object-contain transition-opacity duration-700 ${canIdx === idx ? 'opacity-100' : 'opacity-0'}`}
+                style={{ width: '700px', height: '560px' }}
+                priority={idx === 0}
+              />
+            ))}
+          </div>
           {/* Lactose Free badge */}
           <div className="absolute left-0 bottom-8 z-30">
             <div className="bg-green-500 text-white font-bold rounded-full px-4 py-2 text-xs shadow-lg border-4 border-white">LACTOSE FREE</div>
@@ -65,6 +100,8 @@ export default function HeroSection() {
           const radius = 410;
           const x = Math.sin(angle) * radius;
           const y = -Math.cos(angle) * radius * 0.4; // NEGATIVE for upward curve
+          // Highlight the can if it matches the current canIdx (even indices: 0,2,4 = can1.png; odd: 1,3,5 = can2.png)
+          const isActive = (canIdx === 0 && src === "/can1.png") || (canIdx === 1 && src === "/can2.png");
           return (
             <div
               key={i}
@@ -74,7 +111,28 @@ export default function HeroSection() {
                 zIndex: 10 + i,
               }}
             >
-              <Image src={src} alt={`can${i+1}`} width={194} height={300} className="object-contain" />
+              {isActive && (
+                <div
+                  className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
+                  style={{
+                    width: 80,
+                    height: 80,
+                    background: canIdx === 0
+                      ? 'radial-gradient(circle, #fbeee6 60%, #ae5d61 100%)'
+                      : 'radial-gradient(circle, #fffbe6 60%, #b89c3a 100%)',
+                    opacity: 0.45,
+                    zIndex: 1,
+                  }}
+                />
+              )}
+              <Image
+                src={src}
+                alt={`can${i+1}`}
+                width={194}
+                height={300}
+                className={`object-contain transition-all duration-500 ${isActive ? 'opacity-100' : 'opacity-60'} ${isActive ? 'z-20' : ''}`}
+                style={{ position: 'relative', zIndex: 2 }}
+              />
             </div>
           );
         })}
