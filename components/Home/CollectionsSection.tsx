@@ -30,7 +30,7 @@ export default function CollectionsSection() {
             <div className="group">
               <div className="relative bg-gray-100 rounded-lg overflow-hidden h-96 mb-4 flex items-center justify-center">
                 <Image
-                  src="https://images.unsplash.com/photo-1700893417209-18dc88c989a0?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                  src="/can1.png"
                   alt="3 Sisters Fan Favorites Beer Box"
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
@@ -52,7 +52,7 @@ export default function CollectionsSection() {
             <div className="group">
               <div className="relative bg-gray-100 rounded-lg overflow-hidden h-96 mb-4 flex items-center justify-center">
                 <Image
-                  src="https://images.unsplash.com/photo-1697115355157-c95fbd5250fd?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                  src="/can2.png"
                   alt="Crack Open the Chaos Ultimate Party Gift Box"
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
@@ -76,7 +76,7 @@ export default function CollectionsSection() {
             <div className="group">
               <div className="relative bg-gray-100 rounded-lg overflow-hidden h-96 mb-4 flex items-center justify-center">
                 <Image
-                  src="https://images.unsplash.com/photo-1714377676631-bef738815d62?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                  src="/can1.png"
                   alt="3Sisters Weird Cocktail Combo"
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
@@ -98,7 +98,7 @@ export default function CollectionsSection() {
             <div className="group">
               <div className="relative bg-gray-100 rounded-lg overflow-hidden h-96 mb-4 flex items-center justify-center">
                 <Image
-                  src="https://images.unsplash.com/photo-1645022581259-a2f88d7432ef?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                  src="/can2.png"
                   alt="3 Sisters Ultimate Chill Can Box"
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
