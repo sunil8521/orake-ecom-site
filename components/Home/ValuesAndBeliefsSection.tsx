@@ -1,71 +1,55 @@
-export default function ValuesAndBeliefsSection() {
-  return (
-    <section className="relative bg-gray-50 py-20 px-6 sm:px-12 lg:px-20">
-      <div className="max-w-7xl mx-auto">
-        {/* Title */}
-        <h2 className="text-center text-5xl sm:text-6xl font-black text-black mb-16">
-          VALUES AND BELIEFS
-        </h2>
 
-        {/* Values Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* Value Card 1 - Quality Rules */}
-          <div className="bg-white rounded-3xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
-            <div className="flex justify-center mb-6">
-              <div className="w-20 h-20 bg-blue-900 rounded-full flex items-center justify-center text-4xl">
-                ✓
-              </div>
-            </div>
-            <h3 className="text-center text-2xl font-black text-black mb-4">
-              QUALITY RULES
-            </h3>
-            <p className="text-center text-gray-600 leading-relaxed">
-              Absolutely no compromise with ingredients, taste and manufacturing standards.
+export default function ValuesAndBeliefsSection() {
+
+  return (
+    <section className="relative py-24 px-6 sm:px-12 lg:px-20 bg-gradient-to-br from-[#ce777b] via-[#ffffff] to-[#ebb839]">
+      <div className="max-w-7xl mx-auto">
+        <h2 className="text-center text-5xl sm:text-6xl font-black text-gray-900 mb-4 tracking-tight drop-shadow-lg">
+          Our Core Values
+        </h2>
+        <p className="text-center text-lg sm:text-xl text-gray-600 mb-16 max-w-2xl mx-auto">
+          We believe in more than just great taste. Our mission is to deliver quality, innovation, and transparency for everyone.
+        </p>
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-8 relative">
+          {/* Timeline/Stepper Line */}
+           {/* Step 1 */}
+          <div className="relative z-10 flex flex-col items-center text-center flex-1 group">
+            <span className="w-20 h-20 flex items-center justify-center rounded-full bg-[#ebb839] text-white text-5xl shadow-lg mb-4 group-hover:scale-110 transition-transform duration-300">
+              <FaCheckCircle />
+            </span>
+            <h3 className="text-2xl font-extrabold text-gray-900 mb-2 tracking-tight">Quality Rules</h3>
+            <p className="text-gray-700 leading-relaxed text-base max-w-xs">
+              Absolutely no compromise with ingredients, taste, and manufacturing standards.
             </p>
           </div>
-
-          {/* Value Card 2 - Innovation Matters */}
-          <div className="bg-white rounded-3xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
-            <div className="flex justify-center mb-6">
-              <div className="w-20 h-20 bg-blue-900 rounded-full flex items-center justify-center text-4xl">
-                ⚗️
-              </div>
-            </div>
-            <h3 className="text-center text-2xl font-black text-black mb-4">
-              INNOVATION MATTERS
-            </h3>
-            <p className="text-center text-gray-600 leading-relaxed">
+          {/* Step 2 */}
+          <div className="relative z-10 flex flex-col items-center text-center flex-1 group">
+            <span className="w-20 h-20 flex items-center justify-center rounded-full bg-[#ce777b] text-white text-5xl shadow-lg mb-4 group-hover:scale-110 transition-transform duration-300">
+              <FaFlask />
+            </span>
+            <h3 className="text-2xl font-extrabold text-gray-900 mb-2 tracking-tight">Innovation Matters</h3>
+            <p className="text-gray-700 leading-relaxed text-base max-w-xs">
               We continually experiment with flavors to create drinks that our customers love.
             </p>
           </div>
-
-          {/* Value Card 3 - Transparency Wins */}
-          <div className="bg-white rounded-3xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
-            <div className="flex justify-center mb-6">
-              <div className="w-20 h-20 bg-blue-900 rounded-full flex items-center justify-center text-4xl">
-                👁️
-              </div>
-            </div>
-            <h3 className="text-center text-2xl font-black text-black mb-4">
-              TRANSPARENCY WINS
-            </h3>
-            <p className="text-center text-gray-600 leading-relaxed">
+          {/* Step 3 */}
+          <div className="relative z-10 flex flex-col items-center text-center flex-1 group">
+            <span className="w-20 h-20 flex items-center justify-center rounded-full bg-[#ebb839] text-white text-5xl shadow-lg mb-4 group-hover:scale-110 transition-transform duration-300">
+              <FaEye />
+            </span>
+            <h3 className="text-2xl font-extrabold text-gray-900 mb-2 tracking-tight">Transparency Wins</h3>
+            <p className="text-gray-700 leading-relaxed text-base max-w-xs">
               Consumers must know what they are drinking. We honestly reveal our ingredients.
             </p>
           </div>
-
-          {/* Value Card 4 - All-Inclusive */}
-          <div className="bg-white rounded-3xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
-            <div className="flex justify-center mb-6">
-              <div className="w-20 h-20 bg-blue-900 rounded-full flex items-center justify-center text-3xl">
-                ⚡⚡
-              </div>
-            </div>
-            <h3 className="text-center text-2xl font-black text-black mb-4">
-              ALL-INCLUSIVE
-            </h3>
-            <p className="text-center text-gray-600 leading-relaxed">
-              Our non alcoholic beverages are for everyone - kids, adults, wellness-minded & party lovers.
+          {/* Step 4 */}
+          <div className="relative z-10 flex flex-col items-center text-center flex-1 group">
+            <span className="w-20 h-20 flex items-center justify-center rounded-full bg-[#ce777b] text-white text-5xl shadow-lg mb-4 group-hover:scale-110 transition-transform duration-300">
+              <FaUsers />
+            </span>
+            <h3 className="text-2xl font-extrabold text-gray-900 mb-2 tracking-tight">All-Inclusive</h3>
+            <p className="text-gray-700 leading-relaxed text-base max-w-xs">
+              Our non-alcoholic beverages are for everyone—kids, adults, wellness-minded & party lovers.
             </p>
           </div>
         </div>
@@ -73,3 +57,4 @@ export default function ValuesAndBeliefsSection() {
     </section>
   );
 }
+import { FaCheckCircle, FaFlask, FaEye, FaUsers } from "react-icons/fa";

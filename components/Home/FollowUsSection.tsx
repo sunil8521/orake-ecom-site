@@ -1,39 +1,60 @@
-const socialTiles = [
-  { title: "REGARDING A DELETED POST", subtitle: "Let us explain.", bg: "bg-[#13234f] text-white" },
-  { title: "LOVE IPL?", subtitle: "Be ready with match day essentials!", bg: "bg-[#1f4bb8] text-white" },
-  { title: "Party Mood", subtitle: "Bold flavors for every vibe.", bg: "bg-[#f4e9d4] text-[#1f1f1f]" },
-  { title: "Out of Office", subtitle: "Refresh mode on.", bg: "bg-[#4c331f] text-white" },
-  { title: "Mood vs Chill", subtitle: "Find your perfect sip.", bg: "bg-[#172d5a] text-white" },
-  { title: "Summer Essentials", subtitle: "Limited seasonal picks.", bg: "bg-[#ffe2cd] text-[#4b1d17]" },
-  { title: "Cheers Together", subtitle: "Pass the bottle.", bg: "bg-[#111827] text-white" },
-  { title: "Indie Soda Duo", subtitle: "Kala Khatta & Jeera Masala.", bg: "bg-[#f7c785] text-[#2b1f1f]" },
-  { title: "Fan Favorites", subtitle: "Top picks this week.", bg: "bg-[#f0e5db] text-[#202020]" },
-  { title: "Working + 3Sisters", subtitle: "Sip smart, stay active.", bg: "bg-[#2c0f14] text-[#ffd168]" },
-  { title: "Street Buzz", subtitle: "People are talking flavor.", bg: "bg-[#dbe9df] text-[#1e1e1e]" },
-  { title: "Campus Tasting", subtitle: "Real reactions, real fun.", bg: "bg-[#e9d5be] text-[#2a2017]" },
-];
+import Image from "next/image";
 
 export default function FollowUsSection() {
   return (
     <section className="bg-[#f3f3f3] py-20 px-6 sm:px-12 lg:px-20">
       <div className="mx-auto max-w-7xl">
         <h2 className="text-center text-5xl sm:text-6xl lg:text-7xl font-black text-black leading-tight">
-          DO NOT MISS THE FUN - FOLLOW US ON
+          DISCOVER OUR FEATURED DRINKS
         </h2>
-        <p className="mt-6 text-center text-4xl sm:text-5xl font-black text-black underline underline-offset-8">
-          @3sistersdrinks
+        <p className="mt-6 text-center text-3xl sm:text-4xl font-bold text-[#2b0a14] underline underline-offset-8">
+          @3Mydrinks - Taste the Difference
         </p>
 
-        <div className="mt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
-          {socialTiles.map((tile) => (
-            <article
-              key={tile.title}
-              className={`h-[230px] rounded-2xl p-5 flex flex-col justify-between shadow-sm ${tile.bg}`}
-            >
-              <h3 className="text-2xl font-black leading-tight">{tile.title}</h3>
-              <p className="text-sm font-semibold opacity-90">{tile.subtitle}</p>
-            </article>
-          ))}
+        <div className="mt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-5">
+          {Array.from({ length: 12 }).map((_, idx) => {
+            const images = [
+              "https://images.unsplash.com/photo-1553190250-110d63ee4c7a?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+              "https://images.unsplash.com/photo-1653777712017-c1728c343027?q=80&w=764&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+              "https://images.unsplash.com/photo-1632000781988-f2894640cdd7?q=80&w=686&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+              "https://images.unsplash.com/photo-1713474839506-1e75e2c21024?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+              "https://images.unsplash.com/photo-1775634137310-9a3ea503c34c?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+              "https://images.unsplash.com/photo-1622372923862-a2d96330dd96?q=80&w=764&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+              "https://images.unsplash.com/photo-1622372923877-9e87a948f7ca?q=80&w=764&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+              "https://images.unsplash.com/photo-1714668105787-e439be86da08?q=80&w=724&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+              "https://images.unsplash.com/photo-1622372923877-9e87a948f7ca?q=80&w=764&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+              "https://images.unsplash.com/photo-1755013306890-dd8517d75eeb?q=80&w=916&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+              "https://images.unsplash.com/photo-1668422539118-01a992da0edd?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+              "https://images.unsplash.com/photo-1663228903416-f851e20f1974?q=80&w=1084&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            ];
+            let name, tagline, img;
+            if (idx % 4 === 0) {
+              name = "Energy Blast";
+              tagline = "Unleash your energy with every sip.";
+            } else if (idx % 4 === 1) {
+              name = "Tropical Zest";
+              tagline = "A refreshing burst of tropical flavors.";
+            } else if (idx % 4 === 2) {
+              name = "Berry Rush";
+              tagline = "Sweet, tangy, and irresistibly bold.";
+            } else {
+              name = "Smart Fizz";
+              tagline = "Boost your mind, refresh your day.";
+            }
+            img = images[idx % images.length];
+            return (
+              <article
+                key={"can-image-" + idx}
+                className="h-[260px] rounded-2xl overflow-hidden shadow-sm bg-white relative flex items-end"
+              >
+                <Image src={img} alt="Can" fill priority style={{objectFit: 'cover'}} className="object-cover" />
+                <div className="absolute bottom-0 left-0 w-full bg-black/60 text-white p-3 flex flex-col">
+                  <span className="font-bold text-lg">{name}</span>
+                  <span className="text-xs opacity-90">{tagline}</span>
+                </div>
+              </article>
+            );
+          })}
         </div>
       </div>
     </section>
