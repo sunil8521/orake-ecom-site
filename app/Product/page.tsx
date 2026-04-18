@@ -1,19 +1,26 @@
-import Navbar from "@/components/Navbar";
-import ProductHeroSection from "@/components/Product/ProductHeroSection";
-import ProductPageSection from "@/components/Product/ProductPageSection";
-import ProductHighlightsSection from "@/components/Product/ProductHighlightsSection";
-import ProductBundleSection from "@/components/Product/ProductBundleSection";
-import ProductFaqSection from "@/components/Product/ProductFaqSection";
 
+ import Hero from "@/components/Product/Hero";
+import BestSelling from "@/components/Product/BestSelling";
+import CategorySection from "@/components/Product/CategorySection";
+import CraftingMoments from "@/components/Product/CraftingMoments";
+import SpecialCollection from "@/components/Product/SpecialCollection";
+import Testimonials from "@/components/Product/Testimonials";
+import Newsletter from "@/components/Product/Newsletter";
+import FooterBanner from "@/components/Product/FooterBanner";
+ 
 export default function ProductPage() {
 	return (
-		<div className="min-h-screen bg-[#2b0a14]">
-			<Navbar />
-			<ProductHeroSection />
-			<ProductPageSection />
-			<ProductHighlightsSection />
-			<ProductBundleSection />
-			<ProductFaqSection />
+		<div className="min-h-screen bg-white">
+		 
+			<Hero />
+			<CategorySection />
+			<BestSelling />
+			<CraftingMoments />
+			<SpecialCollection />
+			<Testimonials />
+			<Newsletter />
+			<FooterBanner />
+			 
 		</div>
 	);
 }

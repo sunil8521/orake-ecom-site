@@ -11,15 +11,15 @@ import ClosebyAlwaysSection from "@/components/Home/ClosebyAlwaysSection";
 import ValuesAndBeliefsSection from "@/components/Home/ValuesAndBeliefsSection";
 import TriedAndCelebratedSection from "@/components/Home/TriedAndCelebratedSection";
 import FollowUsSection from "@/components/Home/FollowUsSection";
-import Navbar from "@/components/Navbar";
-import PrivacyPolicySection from "@/components/Home/PrivacyPolicySection";
-import Footer from "@/components/Footer";
+// import Navbar from "@/components/Navbar";
+// import PrivacyPolicySection from "@/components/Home/PrivacyPolicySection";
+// import Footer from "@/components/Footer";
  
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-white">
-      <Navbar />
+      {/* <Navbar /> */}
       
       <HeroSection />
       <CollectionsSection />
@@ -35,8 +35,6 @@ export default function Home() {
       <ClosebyAlwaysSection />
       <ValuesAndBeliefsSection />
       <TriedAndCelebratedSection />
-      
-      <Footer />
     </div>
   );
 }

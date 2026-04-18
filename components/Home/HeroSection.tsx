@@ -18,7 +18,7 @@ export default function HeroSection() {
     useEffect(() => {
       const interval = setInterval(() => {
         setCanIdx((prev) => (prev + 1) % canImages.length);
-      }, 1000); // 3 seconds
+      }, 2000); // 3 seconds
       return () => clearInterval(interval);
     }, []);
   // Coffee bean or lemon
