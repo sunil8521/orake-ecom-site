@@ -17,10 +17,10 @@ export default function WhyChooseUs() {
     <section id="why-us" className="relative bg-white py-20 md:py-28 overflow-hidden">
 
       {/* watermark */}
-      <p className="absolute top-6 left-0 right-0 text-center font-playfair font-extrabold uppercase text-gray-900 opacity-[0.025] leading-none pointer-events-none select-none whitespace-nowrap
+      {/* <p className="absolute top-6 left-0 right-0 text-center font-playfair font-extrabold uppercase text-gray-900 opacity-[0.065] leading-none pointer-events-none select-none whitespace-nowrap
         text-[5rem] sm:text-[6rem] md:text-[9rem] lg:text-[11rem]">
         Why Choose
-      </p>
+      </p> */}
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
@@ -43,7 +43,7 @@ export default function WhyChooseUs() {
             {/* Background image (large, tilted) */}
             <div className="relative w-48 sm:w-52 md:w-56 lg:w-48 xl:w-52 rounded-full overflow-hidden border-4 border-white shadow-xl aspect-square z-10">
               <img
-                src="https://placehold.co/400x400/f5d5b0/7a3c00.jpg?text=Dining"
+                src="https://images.unsplash.com/photo-1652256128119-9bc6fd8bd0b4?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 alt="Dining experience"
                 className="w-full h-full object-cover"
               />
@@ -52,7 +52,7 @@ export default function WhyChooseUs() {
             {/* Second image — offset overlapping */}
             <div className="absolute right-0 sm:right-8 md:right-12 lg:right-0 xl:right-4 top-[55%] sm:top-[50%] w-36 sm:w-40 md:w-44 lg:w-36 xl:w-40 rounded-full overflow-hidden border-4 border-white shadow-xl aspect-square z-20">
               <img
-                src="https://placehold.co/400x400/fde8d0/9a3c00.jpg?text=Chef"
+                src="https://images.unsplash.com/photo-1720217095888-8c047bdb8156?q=80&w=875&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 alt="Chef"
                 className="w-full h-full object-cover"
               />
@@ -64,7 +64,7 @@ export default function WhyChooseUs() {
               <div className="flex -space-x-2">
                 {["/f5e8d0/8b4513", "/fde8c8/7a4010", "/e8f5e0/2d6a0a"].map((c, i) => (
                   <div key={i} className="w-7 h-7 rounded-full border-2 border-white overflow-hidden shrink-0">
-                    <img src={`https://placehold.co/28x28/${c}.jpg?text=+`} alt="" className="w-full h-full object-cover" />
+                    <img src={`https://images.unsplash.com/photo-1720217095888-8c047bdb8156?q=80&w=875&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D`} alt="" className="w-full h-full object-cover" />
                   </div>
                 ))}
               </div>

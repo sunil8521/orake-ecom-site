@@ -11,19 +11,19 @@ interface MenuItem {
 }
 
 const startersData: MenuItem[] = [
-  { name: "Spicy Potato Wedges", price: "$11", description: "Lorem ipsum dolor sit amet", tag: "NEW", tagColor: "text-red-500 border-red-500", image: "https://placehold.co/120x120.png?text=Wedges" },
-  { name: "Vegetable Spring Rolls", price: "$12", description: "Lorem ipsum dolor sit amet", tag: "POPULAR", tagColor: "text-red-500 border-red-500", image: "https://placehold.co/120x120.png?text=Rolls" },
-  { name: "Garlic Bread with Cheese", price: "$10", description: "Lorem ipsum dolor sit amet", tag: "NEW", tagColor: "text-red-500 border-red-500", image: "https://placehold.co/120x120.png?text=Bread" },
-  { name: "Greek Feta Salad", price: "$7", description: "Lorem ipsum dolor sit amet", tag: "TRENDING", tagColor: "text-red-500 border-red-500", image: "https://placehold.co/120x120.png?text=Salad" },
-  { name: "Mozzarella Sticks", price: "$15", description: "Lorem ipsum dolor sit amet", tag: "CHEF'S SPECIAL", tagColor: "text-red-500 border-red-500", image: "https://placehold.co/120x120.png?text=Sticks" },
+  { name: "Spicy Potato Wedges", price: "$11", description: "Lorem ipsum dolor sit amet", tag: "NEW", tagColor: "text-white border-white", image: "/can1.png" },
+  { name: "Vegetable Spring Rolls", price: "$12", description: "Lorem ipsum dolor sit amet", tag: "POPULAR", tagColor: "text-white border-white", image: "/can2.png" },
+  { name: "Garlic Bread with Cheese", price: "$10", description: "Lorem ipsum dolor sit amet", tag: "NEW", tagColor: "text-white border-white", image: "/can1.png" },
+  { name: "Greek Feta Salad", price: "$7", description: "Lorem ipsum dolor sit amet", tag: "TRENDING", tagColor: "text-white border-white", image: "/can2.png" },
+  { name: "Mozzarella Sticks", price: "$15", description: "Lorem ipsum dolor sit amet", tag: "CHEF'S SPECIAL", tagColor: "text-white border-white", image: "/can1.png" },
 ];
 
 const mainCourseData: MenuItem[] = [
-  { name: "Pesto Zucchini Noodles", price: "$11", description: "Lorem ipsum dolor sit amet", tag: "CHEF'S SPECIAL", tagColor: "text-red-500 border-red-500", image: "https://placehold.co/120x120.png?text=Noodles" },
-  { name: "Pepperoni Paradise Pie", price: "$13", description: "Lorem ipsum dolor sit amet", tag: "TRENDING", tagColor: "text-red-500 border-red-500", image: "https://placehold.co/120x120.png?text=Pizza" },
-  { name: "Caprese Carnival Crust", price: "$15", description: "Lorem ipsum dolor sit amet", tag: "NEW", tagColor: "text-red-500 border-red-500", image: "https://placehold.co/120x120.png?text=Crust" },
-  { name: "Quinoa Tacos", price: "$10", description: "Lorem ipsum dolor sit amet", tag: "POPULAR", tagColor: "text-red-500 border-red-500", image: "https://placehold.co/120x120.png?text=Tacos" },
-  { name: "Udon Noodles", price: "$6", description: "Lorem ipsum dolor sit amet", tag: "MUST TRY", tagColor: "text-red-500 border-red-500", image: "https://placehold.co/120x120.png?text=Udon" },
+  { name: "Pesto Zucchini Noodles", price: "$11", description: "Lorem ipsum dolor sit amet", tag: "CHEF'S SPECIAL", tagColor: "text-white border-white", image: "/can2.png" },
+  { name: "Pepperoni Paradise Pie", price: "$13", description: "Lorem ipsum dolor sit amet", tag: "TRENDING", tagColor: "text-white border-white", image: "/can1.png" },
+  { name: "Caprese Carnival Crust", price: "$15", description: "Lorem ipsum dolor sit amet", tag: "NEW", tagColor: "text-white border-white", image: "/can2.png" },
+  { name: "Quinoa Tacos", price: "$10", description: "Lorem ipsum dolor sit amet", tag: "POPULAR", tagColor: "text-white border-white", image: "/can1.png" },
+  { name: "Udon Noodles", price: "$6", description: "Lorem ipsum dolor sit amet", tag: "MUST TRY", tagColor: "text-white border-white", image: "/can2.png" },
 ];
 
 function MenuItemCard({ item, index }: { item: MenuItem; index: number }) {
@@ -48,18 +48,18 @@ function MenuItemCard({ item, index }: { item: MenuItem; index: number }) {
       <div className="flex-1 min-w-0 flex flex-col justify-center gap-1.5">
         {/* Title & Price Row */}
         <div className="flex items-center w-full">
-          <h4 className="font-playfair text-lg sm:text-[19px] font-bold text-gray-900 whitespace-nowrap">
+          <h4 className="font-playfair text-lg sm:text-[19px] font-bold text-white whitespace-nowrap">
             {item.name}
           </h4>
           <div className="flex-1 border-b-[2px] border-dotted border-gray-300 mx-4 opacity-70 relative top-[2px]"></div>
-          <span className="font-playfair text-lg sm:text-xl font-bold text-gray-900 whitespace-nowrap">
+          <span className="font-playfair text-lg sm:text-xl font-bold text-white whitespace-nowrap">
             {item.price}
           </span>
         </div>
 
         {/* Description & Badge Row */}
         <div className="flex items-center justify-between mt-1 gap-4">
-          <p className="text-gray-500 text-[14px] whitespace-nowrap overflow-hidden text-ellipsis italic font-light">
+          <p className="text-yellow-300 text-[14px] whitespace-nowrap overflow-hidden text-ellipsis italic font-light">
             {item.description}
           </p>
           <span className={`flex-shrink-0 text-[11px] font-bold uppercase px-3 py-1 rounded-[30px] border-[1.5px] tracking-widest bg-transparent ${item.tagColor}`}>
@@ -86,15 +86,9 @@ export default function FoodMenu() {
   const tearPath = `polygon(0 100%, 100% 100%, 100% 90%, ${tearPoints}, 0 90%)`;
 
   return (
-    <section id="menu" className="py-24 bg-[#fffaf5] relative overflow-hidden -mb-[2px] z-20">
+    <section id="menu" className="py-24 bg-[#c25b5e] relative overflow-hidden -mb-[2px] z-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-
-        {/* Background watermark text */}
-        <div className="absolute top-10 left-1/2 -translate-x-1/2 w-full text-center pointer-events-none select-none opacity-[0.02]">
-          <h2 className="text-[10rem] md:text-[14rem] font-playfair font-bold text-gray-900 leading-none whitespace-nowrap uppercase">
-            FOOD MENU
-          </h2>
-        </div>
+ 
 
         {/* Section Header */}
         <motion.div 
@@ -105,23 +99,25 @@ export default function FoodMenu() {
           className="text-center mb-16 relative z-10 flex flex-col items-center"
         >
           <div className="flex items-center gap-4 mb-3">
-            <span className="text-red-600 text-xl tracking-widest flex gap-1">
+            <span className="text-white text-xl tracking-widest flex gap-1">
               <span>♦</span><span>♦</span><span>♦</span>
             </span>
           </div>
-          <p className="text-red-600 text-[13px] font-bold uppercase tracking-[4px] mb-3">
-            Food Menu
+          <p className="text-white text-[13px] font-bold uppercase tracking-[4px] mb-3">
+            Drink Menu
           </p>
           <h2 className="font-playfair text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
-            Timeless <span className="font-bold text-red-600">Culinary Delights</span>
+            Timeless <span className="font-bold text-white">Culinary Delights</span>
           </h2>
         </motion.div>
+
+         
 
         {/* Category Ribbons */}
         <div className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-32 mb-16 relative z-10 w-full">
           {/* Starters Ribbon */}
           <div
-            className="bg-red-600 text-white font-playfair sm:font-semibold text-xl px-16 py-3.5 inline-block text-center flex-shrink-0"
+            className="bg-white text-gray-900 font-playfair sm:font-semibold text-xl px-16 py-3.5 inline-block text-center flex-shrink-0"
             style={{ clipPath: 'polygon(15px 0%, calc(100% - 15px) 0%, 100% 50%, calc(100% - 15px) 100%, 15px 100%, 0% 50%)' }}
           >
             Starters & Appetizers
@@ -129,7 +125,7 @@ export default function FoodMenu() {
 
           {/* Main Course Ribbon */}
           <div
-            className="bg-red-600 text-white font-playfair sm:font-semibold text-xl px-16 py-3.5 inline-block text-center flex-shrink-0"
+            className="bg-white text-gray-900 font-playfair sm:font-semibold text-xl px-16 py-3.5 inline-block text-center flex-shrink-0"
             style={{ clipPath: 'polygon(15px 0%, calc(100% - 15px) 0%, 100% 50%, calc(100% - 15px) 100%, 15px 100%, 0% 50%)' }}
           >
             Main Course
@@ -154,7 +150,7 @@ export default function FoodMenu() {
         <div className="text-center mt-16 pt-4 border-t border-gray-200">
           <a
             href="#"
-            className="inline-flex items-center px-8 py-3 border border-red-500 text-red-500 text-[13px] font-semibold uppercase tracking-[2px] rounded-[30px] hover:bg-red-500 hover:text-white transition-all duration-300 shadow-sm mt-8"
+            className="inline-flex items-center px-8 py-3 border border-white text-white text-[13px] font-semibold uppercase tracking-[2px] rounded-[30px] hover:bg-red-500 hover:text-white transition-all duration-300 shadow-sm mt-8"
           >
             BROWSE FULL MENU
           </a>

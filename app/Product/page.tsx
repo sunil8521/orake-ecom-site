@@ -4,8 +4,7 @@ import BestSelling from "@/components/Product/BestSelling";
 import CategorySection from "@/components/Product/CategorySection";
 import CraftingMoments from "@/components/Product/CraftingMoments";
 import SpecialCollection from "@/components/Product/SpecialCollection";
-import Testimonials from "@/components/Product/Testimonials";
-// import Newsletter from "@/components/Product/Newsletter";
+ // import Newsletter from "@/components/Product/Newsletter";
 import FooterBanner from "@/components/Product/FooterBanner";
  
 export default function ProductPage() {
@@ -17,7 +16,7 @@ export default function ProductPage() {
 			<BestSelling />
 			<CraftingMoments />
 			<SpecialCollection />
-			<Testimonials />
+		 
 			{/* <Newsletter /> */}
 			<FooterBanner />
 			 

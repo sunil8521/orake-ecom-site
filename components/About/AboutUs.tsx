@@ -13,12 +13,12 @@ export default function AboutUs() {
     <section id="about-us" className="relative bg-white overflow-hidden py-20 md:py-28">
 
       {/* watermark */}
-      <p
-        className="absolute top-8 right-0 font-playfair font-extrabold uppercase text-gray-900 opacity-[0.025] leading-none pointer-events-none select-none
+      {/* <p
+        className="absolute top-8 right-0 font-playfair font-extrabold uppercase text-[#c25b5e] opacity-[0.5] leading-none pointer-events-none select-none
           text-[6rem] sm:text-[8rem] md:text-[11rem] lg:text-[13rem]"
       >
         About&nbsp;Us
-      </p>
+      </p> */}
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20 xl:gap-28">
@@ -33,13 +33,13 @@ export default function AboutUs() {
           >
 
             {/* soft circle behind image */}
-            <div className="absolute inset-0 rounded-full bg-orange-50 scale-110 -z-10" />
+            <div className="absolute inset-0 rounded-full bg-[#c25b5e] scale-110 -z-10" />
 
             {/* portrait */}
             <div className="relative w-56 sm:w-64 md:w-72 lg:w-80 xl:w-[340px]">
               <div className="rounded-[50%] overflow-hidden border-[6px] border-white shadow-2xl aspect-[4/5]">
                 <img
-                  src="https://placehold.co/600x750/f5e8d8/7a5630.jpg?text=Jenny"
+                  src="./can1.png"
                   alt="Jenny Alexander — Owner"
                   className="w-full h-full object-cover"
                 />
@@ -62,13 +62,13 @@ export default function AboutUs() {
               </motion.div>
 
               {/* ── Sparkle decorations ── */}
-              <div className="absolute -bottom-2 -left-6 sm:-left-10 text-red-600 animate-pulse">
+              <div className="absolute -bottom-2 -left-6 sm:-left-10 text-yellow-400 animate-pulse">
                 <Sparkles size={48} className="fill-red-600 opacity-90" />
               </div>
-              <div className="absolute bottom-16 -left-4 sm:-left-8 text-red-400 animate-pulse delay-150">
+              <div className="absolute bottom-16 -left-4 sm:-left-8 text-yellow-400 animate-pulse delay-150">
                 <Sparkles size={28} className="fill-red-400 opacity-70" />
               </div>
-              <div className="absolute -bottom-4 left-8 text-red-300 animate-pulse delay-300">
+              <div className="absolute -bottom-4 left-8 text-yellow-400 animate-pulse delay-300">
                 <Sparkles size={18} className="fill-red-300 opacity-60" />
               </div>
             </div>

@@ -2,7 +2,7 @@ import Image from "next/image";
 
 const EnergyDrinkSection = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center bg-[#d7b452] rounded-3xl p-8 overflow-hidden">
+    <section className="relative min-h-screen flex items-center justify-center bg-[#c0a14c] rounded-3xl p-8 overflow-hidden">
       {/* Decorative SVG Background */}
       <svg
         className="absolute left-0 top-0 w-full h-full pointer-events-none z-0"
@@ -13,8 +13,7 @@ const EnergyDrinkSection = () => {
       >
         <g>
             <path d="M0,600 Q400,700 900,500 T1440,700" stroke="#ffffff" strokeWidth="10" fill="none" opacity="0.73" />
-          <path d="M0,200 Q600,100 1140,300" stroke="#ffffff" strokeWidth="7" fill="none" opacity="0.70" />
-        </g>
+         </g>
       </svg>
       <div className="flex flex-col md:flex-row w-full max-w-6xl gap-8 items-center relative z-10">
         {/* Left: Main Image & Heading */}

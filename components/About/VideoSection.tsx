@@ -1,10 +1,21 @@
 "use client";
-import { Play } from "lucide-react";
-import { useState } from "react";
+import { Play, Pause } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 
 export default function VideoSection() {
-  const [playing, setPlaying] = useState(false);
+  const [playing, setPlaying] = useState(true);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    if (playing) {
+      v.play().catch(() => {});
+    } else {
+      v.pause();
+      v.currentTime = 0;
+    }
+  }, [playing]);
 
   // Generate a totally deterministic organic & rugged torn edge path
   const tearPoints = Array.from({ length: 300 }).map((_, i) => {
@@ -35,14 +46,18 @@ export default function VideoSection() {
       />
 
       {/* ── Background image ── */}
-      <div className="relative w-full h-[320px] sm:h-[400px] md:h-[480px] lg:h-[520px]">
-        <img
-          src="https://placehold.co/1920x900/2c1a0e/2c1a0e.jpg?text=."
-          alt="Restaurant dining experience"
+      <div className="relative w-full h-[520px] sm:h-[400px] md:h-[580px] lg:h-[620px]">
+        <video
+          ref={videoRef}
+          src="/bottlevideo.mp4"
+          playsInline
+          autoPlay
+          muted
+          loop
           className="w-full h-full object-cover"
         />
         {/* Dark overlay */}
-        <div className="absolute inset-0 bg-black/55" />
+        <div className="absolute inset-0 bg-black/45" />
 
         {/* ── Content ── */}
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 gap-5 sm:gap-7">
@@ -78,14 +93,15 @@ export default function VideoSection() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.4, type: "spring", stiffness: 120 }}
-            onClick={() => setPlaying(!playing)}
+            onClick={() => setPlaying((s) => !s)}
             className="group w-14 h-14 sm:w-16 sm:h-16 rounded-full border-2 border-white/80 flex items-center justify-center hover:bg-red-600 hover:border-red-600 transition-all duration-300 mt-1"
             aria-label="Play video"
           >
-            <Play
-              size={22}
-              className="text-white fill-white group-hover:scale-110 transition-transform duration-300 ml-0.5"
-            />
+            {playing ? (
+              <Pause size={22} className="text-white group-hover:scale-110 transition-transform duration-300" />
+            ) : (
+              <Play size={22} className="text-white group-hover:scale-110 transition-transform duration-300 ml-0.5" />
+            )}
           </motion.button>
         </div>
       </div>

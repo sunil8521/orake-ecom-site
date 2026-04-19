@@ -33,6 +33,39 @@ const products = [
 		volume: "700ml",
 		rating: 4.7,
 		description: "Smooth, crisp tequila with fresh agave flavor and a hint of citrus."
+	},
+	{
+		id: 3,
+		name: "SILVER PATRON",
+		type: "Tequila",
+		price: "$79.00",
+		tag: "PREMIUM",
+		image: "/can2.png",
+		volume: "700ml",
+		rating: 4.7,
+		description: "Smooth, crisp tequila with fresh agave flavor and a hint of citrus."
+	},
+	{
+		id: 3,
+		name: "SILVER PATRON",
+		type: "Tequila",
+		price: "$79.00",
+		tag: "PREMIUM",
+		image: "/can1.png",
+		volume: "700ml",
+		rating: 4.7,
+		description: "Smooth, crisp tequila with fresh agave flavor and a hint of citrus."
+	},
+	{
+		id: 3,
+		name: "SILVER PATRON",
+		type: "Tequila",
+		price: "$79.00",
+		tag: "PREMIUM",
+		image: "/can2.png",
+		volume: "700ml",
+		rating: 4.7,
+		description: "Smooth, crisp tequila with fresh agave flavor and a hint of citrus."
 	}
 ];
 

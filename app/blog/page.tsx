@@ -4,6 +4,7 @@ import LatestArticles from "@/components/Blogs/LatestArticles";
 import ConservationProjects from "@/components/Blogs/ConservationProjects";
 import PopularArticles from "@/components/Blogs/PopularArticles";
 import Footer from "@/components/Blogs/Footer";
+import NewsBlogs from "@/components/Blogs/NewsBlogs";
 
 export default function BlogPage() {
     return (
@@ -16,7 +17,7 @@ export default function BlogPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="section-divider" />
       </div>
-
+<NewsBlogs />
       <PopularArticles />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">

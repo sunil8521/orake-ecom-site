@@ -29,14 +29,14 @@ const offers = [
 
 export default function SpecialOffers() {
   return (
-    <section id="special-offers" className="relative bg-white py-20 md:py-28 overflow-hidden">
+    <section id="special-offers" className="relative bg-white py-15 md:py-28 overflow-hidden">
 
       {/* watermark */}
-      <p className="absolute top-6 inset-x-0 text-center font-playfair font-extrabold uppercase text-gray-900 opacity-[0.025] leading-none pointer-events-none select-none text-[4rem] sm:text-[6rem] md:text-[9rem] lg:text-[11rem] whitespace-nowrap">
+      {/* <p className="absolute top-1 inset-x-0 text-center font-playfair font-extrabold uppercase text-[#a20404] opacity-[0.095] leading-none pointer-events-none select-none text-[4rem] sm:text-[6rem] md:text-[9rem] lg:text-[11rem] whitespace-nowrap">
         Special Offers
-      </p>
+      </p> */}
 
-      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10  max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* ── Header ── */}
         <div className="text-center mb-14">

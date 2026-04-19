@@ -31,9 +31,9 @@ export default function NewsBlogs() {
   return (
     <section id="blogs" className="py-20 md:py-28 bg-white relative overflow-hidden">
       {/* watermark */}
-      <div className="absolute top-6 left-0 right-0 text-center font-playfair font-extrabold uppercase text-gray-900 opacity-[0.025] leading-none pointer-events-none select-none whitespace-nowrap text-[4rem] sm:text-[6rem] md:text-[9rem] lg:text-[11rem]">
+      {/* <div className="absolute top-6 left-0 right-0 text-center font-playfair font-extrabold uppercase text-gray-900 opacity-[0.025] leading-none pointer-events-none select-none whitespace-nowrap text-[4rem] sm:text-[6rem] md:text-[9rem] lg:text-[11rem]">
         NEWS & BLOGS
-      </div>
+      </div> */}
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         

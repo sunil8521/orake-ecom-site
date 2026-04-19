@@ -7,17 +7,17 @@ const chefs = [
   {
     name: "Leslie Alexander",
     title: "Executive Chef",
-    image: "https://placehold.co/400x500/2a2a2a/ffffff.jpg?text=Chef+1",
+    image: "https://images.unsplash.com/photo-1674469293966-2f4595497296?q=80&w=733&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
     name: "Robert Fox",
     title: "Sous Chef",
-    image: "https://placehold.co/400x500/2a2a2a/ffffff.jpg?text=Chef+2",
+    image: "https://images.unsplash.com/photo-1638891204491-eccf2e5bdca9?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
     name: "Esther Howard",
     title: "Pastry Chef",
-    image: "https://placehold.co/400x500/2a2a2a/ffffff.jpg?text=Chef+3",
+    image: "https://images.unsplash.com/photo-1652256128119-9bc6fd8bd0b4?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
 ];
 

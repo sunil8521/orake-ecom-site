@@ -41,11 +41,11 @@ export default function Testimonials() {
       {/* ── Background Image ── */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         <img
-          src="https://placehold.co/1920x1080/4a2c1a/4a2c1a.jpg?text=."
+          src="https://images.unsplash.com/photo-1719941257432-972e62c890d0?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           alt="Testimonials background"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/60 to-black/80" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-black/30 to-black/20" />
       </div>
 
       {/* ── Torn Paper Top ── */}

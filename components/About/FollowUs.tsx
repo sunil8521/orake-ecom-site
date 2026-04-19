@@ -1,24 +1,21 @@
 "use client";
 
 const instaImages = [
-    "https://placehold.co/300x300/444/fff.jpg?text=Gallery+1",
-    "https://placehold.co/300x300/444/fff.jpg?text=Gallery+2",
-    "https://placehold.co/300x300/444/fff.jpg?text=Gallery+3",
-    "https://placehold.co/300x300/444/fff.jpg?text=Gallery+4",
-    "https://placehold.co/600x600/444/fff.jpg?text=Main+Feature",
-    "https://placehold.co/300x300/444/fff.jpg?text=Gallery+5",
-    "https://placehold.co/300x300/444/fff.jpg?text=Gallery+6",
-    "https://placehold.co/300x300/444/fff.jpg?text=Gallery+7",
-    "https://placehold.co/300x300/444/fff.jpg?text=Gallery+8",
+    "https://images.unsplash.com/photo-1726521689105-420d41f78a60?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1674469294251-06c642297420?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1607811121079-c33f75be7781?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1753826469259-afeb2e96969a?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1674469295973-332f7906b5f7?q=80&w=728&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1567508505881-e96189d9c946?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1679333820580-d3a31c824463?q=80&w=688&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1583434820586-785238607d4f?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1630265927682-9e547794c530?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
 ];
 
 export default function FollowUs() {
   return (
     <section id="follow-us" className="py-20 md:py-28 bg-white relative overflow-hidden">
-      {/* watermark */}
-      <div className="absolute top-6 left-0 right-0 text-center font-playfair font-extrabold uppercase text-gray-900 opacity-[0.025] leading-none pointer-events-none select-none whitespace-nowrap text-[4rem] sm:text-[6rem] md:text-[9rem] lg:text-[11rem]">
-        FOLLOW US
-      </div>
+      
 
       <div className="relative z-10 max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 text-center pb-10">
         
