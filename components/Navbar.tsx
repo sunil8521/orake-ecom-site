@@ -33,7 +33,7 @@ export default function Navbar() {
 
   return (
     <nav className="fixed left-0 top-3 z-50 w-full translate-x-0 border-b border-[#f6efe2] md:top-4">
-      <div className={`animate-navbarReveal px-4 transition-all duration-300 sm:px-6 lg:px-8 ${scrolled ? 'bg-[#ce777b] bg-opacity-95' : 'bg-transparent'}`}> 
+      <div className={`animate-navbarReveal px-4 transition-all duration-300 sm:px-6 lg:px-8 ${scrolled ? 'bg-[#c25b5e] bg-opacity-95' : 'bg-transparent'}`}> 
         <div className="relative z-60 flex h-26 items-center justify-between md:h-20 md:justify-center lg:h-26">
           <Link href="/" className="flex items-center gap-3 md:absolute md:left-0">
             <div className="ml-4 flex h-11 w-11 items-center justify-center border border-[#f6efe2]/30 bg-[#2b0a14] text-[#f6efe2] md:ml-55">

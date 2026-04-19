@@ -22,8 +22,7 @@ export default function HeroSection() {
               Home
             </span>{" "}
             &gt;{" "}
-            <span className="text-white">What We Do</span>
-          </p>
+           </p>
         </div>
 
         {/* Headline */}
@@ -35,30 +34,6 @@ export default function HeroSection() {
           It&apos;s Diminishing, Fast.
         </h1>
 
-        {/* Search bar */}
-        <div className="flex items-center gap-2 sm:gap-3 mb-8 sm:mb-12 animate-fadeInUp delay-200">
-          <div className="flex items-center bg-white/20 backdrop-blur-sm rounded-full px-4 py-2.5 w-full max-w-xs border border-white/30">
-            <Search className="w-4 h-4 text-white/70 mr-2 flex-shrink-0" />
-            <input
-              type="text"
-              placeholder="Search news..."
-              className="bg-transparent text-white placeholder-white/60 text-sm outline-none w-full"
-            />
-          </div>
-          <button className="bg-green-700 hover:bg-green-800 text-white text-sm font-medium px-5 py-2.5 rounded-full transition-colors whitespace-nowrap">
-            Search
-          </button>
-        </div>
-
-        {/* Bottom labels */}
-        <div className="flex items-center justify-between animate-fadeIn delay-300">
-          <span className="text-white/70 text-xs sm:text-sm font-medium tracking-wide">
-            Flora Fauna
-          </span>
-          <span className="text-white/70 text-xs sm:text-sm font-medium tracking-wide">
-            What We Do
-          </span>
-        </div>
       </div>
     </section>
   );

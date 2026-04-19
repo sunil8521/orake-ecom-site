@@ -4,9 +4,9 @@ export default function FooterBanner() {
 			{/* Background Image */}
 			<div 
 				className="absolute inset-0 bg-cover bg-center"
-				style={{ backgroundImage: "url('https://placehold.co/1920x1080/1a1a1a/444444?text=Bartender+Making+Cocktail')" }}
+				style={{ backgroundImage: "url('https://images.unsplash.com/photo-1719941257432-972e62c890d0?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')" }}
 			/>
-			<div className="absolute inset-0 bg-black/60 bg-linear-to-t from-[#1f1f1f] to-transparent mix-blend-multiply" />
+			<div className="absolute inset-0 bg-black/10 bg-linear-to-t from-[#1f1f1f] to-transparent mix-blend-multiply" />
       
 			<div className="relative z-10 px-4 md:px-6 flex flex-col items-center max-w-2xl">
 				<h4 className="text-[10px] tracking-[0.3em] uppercase mb-6 md:mb-8 py-3 border-y border-white/20 inline-block font-medium">

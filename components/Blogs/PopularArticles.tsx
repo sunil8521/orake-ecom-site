@@ -70,7 +70,7 @@ export default function PopularArticles() {
               >
                 Guardians of the Pride: The Urgency of Lion Conservation Efforts
               </h3>
-              <span className="tag">Species</span>
+              <span className="tag  ">Species</span>
             </div>
           </div>
 
@@ -95,7 +95,7 @@ export default function PopularArticles() {
                   <p className="text-sm text-gray-500 mb-3 leading-relaxed line-clamp-2">
                     {article.desc}
                   </p>
-                  <span className="tag w-fit">{article.tag}</span>
+                  <span className="tag w-fit  ">{article.tag}</span>
                 </div>
               </div>
             ))}
