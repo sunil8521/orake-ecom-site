@@ -48,8 +48,8 @@ export default function Footer() {
                 <ChefHat size={22} className="text-white fill-white/10" />
               </div>
               <div className="leading-none">
-                <p className="font-playfair text-2xl font-bold text-white mb-1 tracking-wide">Restro.</p>
-                <p className="text-[10px] sm:text-xs uppercase tracking-[4px] text-white font-semibold">Restaurant</p>
+                <p className="font-playfair text-2xl font-bold text-white mb-1 tracking-wide">Orake</p>
+                <p className="text-[10px] sm:text-xs uppercase tracking-[4px] text-white font-semibold">Drink</p>
               </div>
             </div>
             <p className="text-white text-sm leading-relaxed mb-8 pr-4">
@@ -108,7 +108,7 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="border-t border-white/5 pt-8 mt-4">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-white">
-            <p>Copyright © 2025 <span className="text-red-600 hover:underline cursor-pointer">Restro.</span> Website. All Rights Reserved.</p>
+            <p>Copyright © 2026 <span className=" hover:underline cursor-pointer">Swiftrise solution PVT.LTD</span>.All Rights Reserved.</p>
             <div className="flex gap-2 text-[13px]">
               <a href="#" className="hover:text-white transition-colors">User Terms & Conditions</a>
               <span className="text-white">|</span>

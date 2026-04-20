@@ -117,11 +117,13 @@ export default function CollectionsSection() {
             </div>
           </div>
 
+
+
           {/* Navigation Arrows */}
-          <button className="absolute -left-4 top-1/2 -translate-y-1/2 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 z-10">
+          <button className="absolute -left-4 top-1/2 -translate-y-1/2 bg-[#c25b5e] rounded-full p-2 shadow-lg hover:bg-[#ef8b8e] z-10">
             ←
           </button>
-          <button className="absolute -right-4 top-1/2 -translate-y-1/2 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 z-10">
+          <button className="absolute -right-4 top-1/2 -translate-y-1/2 bg-[#c25b5e] rounded-full p-2 shadow-lg hover:bg-[#ef8b8e] z-10">
             →
           </button>
         </div>
