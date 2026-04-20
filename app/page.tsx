@@ -1,0 +1,45 @@
+import HeroSection from "@/components/Home/HeroSection";
+import EnergyDrinkSection from "@/components/Home/EnergyDrinkSection";
+import EnergyDrinksDealBanner from "@/components/Home/EnergyDrinksDealBanner";
+import SmoothieShowcaseSection from "@/components/Home/SmoothieShowcaseSection";
+import CollectionsSection from "@/components/Home/CollectionsSection";
+import TaglineBanner from "@/components/Home/TaglineBanner";
+// import IndulgenceSection from "@/components/Home/IndulgenceSection";
+import GiftExperienceSection from "@/components/Home/GiftExperienceSection";
+import VideoShowcaseSection from "@/components/Home/VideoShowcaseSection";
+import ClosebyAlwaysSection from "@/components/Home/ClosebyAlwaysSection";
+import ValuesAndBeliefsSection from "@/components/Home/ValuesAndBeliefsSection";
+ import FollowUsSection from "@/components/Home/FollowUsSection";
+import SpecialOffers from "@/components/Home/SpecialOffers";
+import Testimonials from "@/components/About/Testimonials";
+// import Navbar from "@/components/Navbar";
+// import PrivacyPolicySection from "@/components/Home/PrivacyPolicySection";
+ 
+ 
+
+export default function Home() {
+  return (
+    <div className="min-h-screen bg-white">
+      {/* <Navbar /> */}
+      
+      <HeroSection />
+      <CollectionsSection />
+       <SpecialOffers />
+       <TaglineBanner />
+        <SmoothieShowcaseSection />
+      <EnergyDrinkSection />
+    
+      <EnergyDrinksDealBanner />
+      {/* <PrivacyPolicySection /> */}
+      
+      
+      <FollowUsSection />
+      <GiftExperienceSection />
+      <VideoShowcaseSection />
+      {/* <IndulgenceSection /> */}
+      <ClosebyAlwaysSection />
+      <ValuesAndBeliefsSection />
+      <Testimonials />
+    </div>
+  );
+}
