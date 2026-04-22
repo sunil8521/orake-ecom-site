@@ -12,7 +12,7 @@ export default function ValuesAndBeliefsSection() {
         </p>
         <div className="flex flex-col lg:flex-row items-center justify-between gap-8 relative">
           {/* Timeline/Stepper Line */}
-           {/* Step 1 */}
+          {/* Step 1 */}
           <div className="relative z-10 flex flex-col items-center text-center flex-1 group">
             <span className="w-20 h-20 flex items-center justify-center rounded-full bg-[#ebb839] text-white text-5xl shadow-lg mb-4 group-hover:scale-110 transition-transform duration-300">
               <FaCheckCircle />

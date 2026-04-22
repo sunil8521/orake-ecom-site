@@ -1,25 +1,15 @@
-
- import Hero from "@/components/Product/Hero";
+import Hero from "@/components/Product/Hero";
 import BestSelling from "@/components/Product/BestSelling";
-import CategorySection from "@/components/Product/CategorySection";
 import CraftingMoments from "@/components/Product/CraftingMoments";
-import SpecialCollection from "@/components/Product/SpecialCollection";
- // import Newsletter from "@/components/Product/Newsletter";
 import FooterBanner from "@/components/Product/FooterBanner";
- 
+
 export default function ProductPage() {
 	return (
-		<div className="min-h-screen bg-white">
-		 
-			<Hero />
-			<CategorySection />
+		<div className="min-h-screen bg-white overflow-hidden">
+			{/* <Hero /> */}
 			<BestSelling />
-			<CraftingMoments />
-			<SpecialCollection />
-		 
-			{/* <Newsletter /> */}
-			<FooterBanner />
-			 
+			{/* <CraftingMoments /> */}
+			{/* <FooterBanner /> */}
 		</div>
 	);
 }

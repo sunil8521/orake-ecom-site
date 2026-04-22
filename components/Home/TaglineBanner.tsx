@@ -4,13 +4,13 @@ const headingFont = Anton({ subsets: ["latin"], weight: "400" });
 
 export default function TaglineBanner() {
   return (
-    <section className="relative overflow-hidden bg-linear-to-b from-white via-white to-gray-50 py-6">
-      <div className="max-w-full mx-auto relative">
+    <section className="relative w-full max-w-[100vw] overflow-hidden bg-linear-to-b from-white via-white to-gray-50 py-6 md:py-10">
+      <div className="w-full relative flex justify-center items-center">
         {/* Wavy Banner */}
+        {/* Using pure aspect-ratio scaling (w-[300%] on mobile, w-full on desktop) instead of forced dimensions so the text doesn't maliciously distort! */}
         <svg
-          className="w-full h-auto"
+          className="w-[300%] lg:w-[150%] xl:w-full h-auto flex-shrink-0"
           viewBox="0 0 1000 140"
-          preserveAspectRatio="none"
           style={{ filter: 'drop-shadow(0 4px 15px rgba(0,0,0,0.1))' }}
         >
           {/* Golden wavy background */}
@@ -42,7 +42,7 @@ export default function TaglineBanner() {
           <text
             dominantBaseline="central"
             alignmentBaseline="middle"
-            className={`${headingFont.className} fill-[#111111] text-[30px] uppercase tracking-[0.12em]`}
+            className={`${headingFont.className} fill-[#111111] text-[30px] uppercase tracking-normal`}
           >
             <textPath href="#taglineFlowPath" startOffset="100%">
               WHEREVER YOU ARE  •  ENJOY SOLO  •  SHARE WITH FRIENDS  •  WHEREVER YOU ARE  •  ENJOY SOLO  •  SHARE WITH FRIENDS  •
@@ -50,7 +50,7 @@ export default function TaglineBanner() {
                 attributeName="startOffset"
                 from="100%"
                 to="-100%"
-                dur="16s"
+                dur="40s"
                 repeatCount="indefinite"
               />
             </textPath>

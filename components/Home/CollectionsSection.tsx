@@ -1,138 +1,187 @@
+'use client';
+
 import Image from "next/image";
 import { Anton, Oswald } from "next/font/google";
+import { motion } from "framer-motion";
 
 const headingFont = Anton({ subsets: ["latin"], weight: "400" });
 const bodyFont = Oswald({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 
 export default function CollectionsSection() {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { 
+      opacity: 1, 
+      transition: { staggerChildren: 0.2, delayChildren: 0.1 } 
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 60, scale: 0.9 },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      scale: 1, 
+      transition: { type: "spring", bounce: 0.5, duration: 0.8 } 
+    }
+  };
+
+  const badgeVariants = {
+    initial: { rotate: -15, scale: 0, opacity: 0 },
+    animate: { 
+      rotate: 0, 
+      scale: 1, 
+      opacity: 1, 
+      transition: { type: "spring", stiffness: 200, delay: 0.5 } 
+    }
+  };
+
   return (
-    <section className="bg-white py-20 px-6 sm:px-12 lg:px-20">
-      <div className="max-w-7xl mx-auto">
-        {/* Title */}
-        <h2 className={`${headingFont.className} mb-12 text-center text-4xl font-black uppercase tracking-[0.02em] text-black sm:text-5xl`}>
-          OUR COLLECTIONS
-        </h2>
-
-        {/* Category Tabs */}
-        <div className={`${bodyFont.className} mb-12 flex flex-wrap justify-center gap-3 text-sm font-medium sm:gap-6 sm:text-base`}>
-          <button className="transition hover:text-black text-gray-700">Curated box</button>
-          <button className="transition hover:text-black text-gray-700">Non - Alcoholic Beer</button>
-          <button className="transition hover:text-black text-gray-700">Indie sodas</button>
-          <button className="transition hover:text-black text-gray-700">Aruba - Mocktails & Mixers</button>
-          <button className="transition hover:text-black text-gray-700">Super Cola</button>
-          <button className="transition hover:text-black text-gray-700">Jerk - Energy Drink</button>
-        </div>
-
-        {/* Products Carousel */}
-        <div className="relative">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {/* Product Card 1 */}
-            <div className="group">
-              <div className="relative bg-gray-100 rounded-lg overflow-hidden h-96 mb-4 flex items-center justify-center">
-                <Image
-                  src="/can1.png"
-                  alt="3 Sisters Fan Favorites Beer Box"
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                  className="object-cover"
-                />
-                <div className={`${bodyFont.className} absolute top-4 left-4 z-10 rounded bg-red-600 px-3 py-1 text-xs font-bold text-white`}>FEATURED</div>
-              </div>
-              <h3 className={`${bodyFont.className} mb-2 text-sm font-semibold text-gray-900`}>My Drink Fan Favorites Beer Box</h3>
-              <div className="flex gap-1 mb-2">
-                <span className="text-gray-300 text-sm">☆☆☆☆☆</span>
-              </div>
-              <div className={`${bodyFont.className} flex items-center gap-2`}>
-                <span className="text-lg font-semibold text-gray-900">Rs. 10.00</span>
-                <span className="text-sm text-gray-500 line-through">Rs. 668.00</span>
-              </div>
-            </div>
-
-            {/* Product Card 2 */}
-            <div className="group">
-              <div className="relative bg-gray-100 rounded-lg overflow-hidden h-96 mb-4 flex items-center justify-center">
-                <Image
-                  src="/can2.png"
-                  alt="Crack Open the Chaos Ultimate Party Gift Box"
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                  className="object-cover"
-                />
-                <div className={`${bodyFont.className} absolute top-4 left-4 z-10 rounded bg-red-600 px-3 py-1 text-xs font-bold text-white`}>FEATURED</div>
-              </div>
-              <h3 className={`${bodyFont.className} mb-2 text-sm font-semibold text-gray-900`}>Crack Open the Chaos - Ultimate Party Gift Box</h3>
-              <div className="flex gap-1 mb-2">
-                <span className="text-yellow-400">★★★★</span>
-                <span className="text-gray-300">☆</span>
-                <span className={`${bodyFont.className} ml-2 text-xs text-gray-500`}>1 review</span>
-              </div>
-              <div className={`${bodyFont.className} flex items-center gap-2`}>
-                <span className="text-lg font-semibold text-gray-900">Rs. 20.00</span>
-                <span className="text-sm text-gray-500 line-through">Rs. 1,499.00</span>
-              </div>
-            </div>
-
-            {/* Product Card 3 */}
-            <div className="group">
-              <div className="relative bg-gray-100 rounded-lg overflow-hidden h-96 mb-4 flex items-center justify-center">
-                <Image
-                  src="/can1.png"
-                  alt="3Sisters Weird Cocktail Combo"
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                  className="object-cover"
-                />
-                <div className={`${bodyFont.className} absolute top-4 left-4 z-10 rounded bg-red-600 px-3 py-1 text-xs font-bold text-white`}>FEATURED</div>
-              </div>
-              <h3 className={`${bodyFont.className} mb-2 text-sm font-semibold text-gray-900`}>My Drink  Weird Cocktail Combo (Mad Mix)</h3>
-              <div className="flex gap-1 mb-2">
-                <span className="text-gray-300 text-sm">☆☆☆☆☆</span>
-              </div>
-              <div className={`${bodyFont.className} flex items-center gap-2`}>
-                <span className="text-lg font-semibold text-gray-900">Rs. 850.00</span>
-                <span className="text-sm text-gray-500 line-through">Rs. 936.00</span>
-              </div>
-            </div>
-
-            {/* Product Card 4 */}
-            <div className="group">
-              <div className="relative bg-gray-100 rounded-lg overflow-hidden h-96 mb-4 flex items-center justify-center">
-                <Image
-                  src="/can2.png"
-                  alt="3 Sisters Ultimate Chill Can Box"
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                  className="object-cover"
-                />
-                <div className={`${bodyFont.className} absolute top-4 left-4 z-10 rounded bg-red-600 px-3 py-1 text-xs font-bold text-white`}>FEATURED</div>
-              </div>
-              <h3 className={`${bodyFont.className} mb-2 text-sm font-semibold text-gray-900`}>My Drink  Ultimate Chill Can Box</h3>
-              <div className="flex gap-1 mb-2">
-                <span className="text-gray-300 text-sm">☆☆☆☆☆</span>
-              </div>
-              <div className={`${bodyFont.className} flex items-center gap-2`}>
-                <span className="text-lg font-semibold text-gray-900">Rs. 770.00</span>
-                <span className="text-sm text-gray-500 line-through">Rs. 840.00</span>
-              </div>
-            </div>
+    <section className="bg-white py-24 px-6 sm:px-12 lg:px-20 overflow-hidden">
+      <div className="max-w-5xl mx-auto">
+        {/* Gen Z Title Style */}
+        <motion.div
+           initial={{ opacity: 0, y: -30, filter: "blur(10px)" }}
+           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+           viewport={{ once: true, margin: "-100px" }}
+           transition={{ duration: 0.8, ease: "easeOut" }}
+           className="mb-14 text-center flex flex-col items-center"
+        >
+          <div className="bg-black text-white px-4 py-1 rounded-full text-xs font-bold tracking-[0.3em] uppercase mb-4 shadow-[0_0_15px_rgba(0,0,0,0.5)]">
+            Fresh Drops
           </div>
+          <h2 className={`${headingFont.className} text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-tight text-transparent bg-clip-text bg-gradient-to-br from-black via-gray-800 to-gray-500`}>
+            OUR COLLECTIONS
+          </h2>
+        </motion.div>
 
+        {/* Category Tabs / Pills */}
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          className={`${bodyFont.className} mb-16 flex flex-wrap justify-center gap-3 md:gap-4 text-xs md:text-sm font-bold uppercase tracking-wider`}
+        >
+          {['Curated box', 'Non-Algo Beer', 'Indie sodas', 'Mixers', 'Super Cola', 'Energy'].map((tab, i) => (
+             <motion.button 
+               key={tab}
+               whileHover={{ scale: 1.1, y: -4, rotate: (i % 2 === 0 ? 2 : -2) }}
+               whileTap={{ scale: 0.95 }}
+               className="transition-all px-5 py-2.5 rounded-full border-2 border-gray-200 hover:border-black hover:bg-black hover:text-white text-gray-500 bg-transparent shadow-sm hover:shadow-xl"
+             >
+               {tab}
+             </motion.button>
+          ))}
+        </motion.div>
 
+        {/* 2 Cans Grid */}
+        <motion.div 
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20 pt-8"
+        >
+          {/* Product Card 1 */}
+          <motion.div variants={itemVariants} className="group relative mt-24 md:mt-32">
+            <motion.div 
+               whileHover={{ y: -10 }}
+               transition={{ type: "spring", stiffness: 300, damping: 20 }}
+               className="relative rounded-[2.5rem] h-[240px] md:h-[280px] lg:h-[320px] mb-6 shadow-lg group-hover:shadow-[0_30px_60px_rgba(0,0,0,0.12)] border border-transparent transition-all duration-500"
+            >
+              {/* Background layer with overflow hidden */}
+              <div className="absolute inset-0 bg-gradient-to-tr from-gray-100 to-gray-50 rounded-[2.5rem] overflow-hidden">
+                 <div className="absolute w-[150%] h-[150%] bg-gradient-to-br from-[#c25b5e]/20 to-transparent rounded-full -top-[50%] -right-[50%] blur-[80px] group-hover:opacity-100 opacity-0 transition-opacity duration-700 pointer-events-none" />
+              </div>
 
-          {/* Navigation Arrows */}
-          <button className="absolute -left-4 top-1/2 -translate-y-1/2 bg-[#c25b5e] rounded-full p-2 shadow-lg hover:bg-[#ef8b8e] z-10">
-            ←
-          </button>
-          <button className="absolute -right-4 top-1/2 -translate-y-1/2 bg-[#c25b5e] rounded-full p-2 shadow-lg hover:bg-[#ef8b8e] z-10">
-            →
-          </button>
-        </div>
+              {/* Badges */}
+              <motion.div 
+                variants={badgeVariants}
+                className={`${bodyFont.className} absolute top-6 left-6 z-20 rounded-2xl bg-[#c25b5e] px-4 py-2 text-sm font-black tracking-widest text-white shadow-xl -rotate-6 group-hover:-rotate-2 transition-transform duration-300`}
+              >
+                HYPE DROP
+              </motion.div>
 
-        {/* Pagination Dots */}
-        <div className="flex justify-center gap-2 mt-8">
-          <div className="w-2 h-2 bg-black rounded-full"></div>
-          <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
-        </div>
+              {/* The Massive Pop-out Image */}
+              <div className="absolute inset-x-0 bottom-6 flex justify-center pointer-events-none z-10 w-full">
+                <div className="relative h-[360px] sm:h-[380px] md:h-[380px] lg:h-[460px]">
+                  <Image
+                    src="/can1.png"
+                    alt="Fan Favorites Beer Box"
+                    width={500}
+                    height={1000}
+                    priority
+                    className="h-full w-auto object-contain drop-shadow-[0_25px_35px_rgba(0,0,0,0.4)] group-hover:scale-110 group-hover:rotate-[4deg] group-hover:-translate-y-6 transition-all duration-500 pointer-events-auto"
+                  />
+                </div>
+              </div>
+            </motion.div>
+            
+            <div className="px-2 text-center md:text-left mt-8">
+               <h3 className={`${bodyFont.className} mb-3 text-2xl md:text-3xl font-black text-gray-900 group-hover:text-[#c25b5e] transition-colors leading-tight uppercase`}>
+                 Fan Favorites Beer
+               </h3>
+               <div className="flex justify-center md:justify-start gap-1 mb-3 text-xl tracking-widest">
+                 <span className="text-yellow-400">★★★★★</span>
+               </div>
+               <div className={`${bodyFont.className} flex justify-center md:justify-start items-center gap-3`}>
+                 <span className="text-3xl md:text-4xl font-black text-black">Rs. 10.00</span>
+                 <span className="text-xl text-gray-400 line-through decoration-2">Rs. 668.00</span>
+               </div>
+            </div>
+          </motion.div>
+
+          {/* Product Card 2 */}
+          <motion.div variants={itemVariants} className="group relative mt-24 md:mt-32">
+            <motion.div 
+               whileHover={{ y: -10 }}
+               transition={{ type: "spring", stiffness: 300, damping: 20 }}
+               className="relative rounded-[2.5rem] h-[240px] md:h-[280px] lg:h-[320px] mb-6 shadow-lg group-hover:shadow-[0_30px_60px_rgba(0,0,0,0.12)] border border-transparent transition-all duration-500"
+            >
+              {/* Background layer with overflow hidden */}
+              <div className="absolute inset-0 bg-gradient-to-tl from-gray-100 to-gray-50 rounded-[2.5rem] overflow-hidden">
+                <div className="absolute w-[150%] h-[150%] bg-gradient-to-bl from-black/20 to-transparent rounded-full -bottom-[50%] -left-[50%] blur-[80px] group-hover:opacity-100 opacity-0 transition-opacity duration-700 pointer-events-none" />
+              </div>
+
+              {/* Badges */}
+              <motion.div 
+                variants={badgeVariants}
+                className={`${bodyFont.className} absolute top-6 left-6 z-20 rounded-2xl bg-black px-4 py-2 text-sm font-black tracking-widest text-white shadow-xl rotate-6 group-hover:rotate-2 transition-transform duration-300`}
+              >
+                RESTOCKED
+              </motion.div>
+
+              {/* The Massive Pop-out Image */}
+              <div className="absolute inset-x-0 bottom-6 flex justify-center pointer-events-none z-10 w-full">
+                <div className="relative h-[360px] sm:h-[380px] md:h-[380px] lg:h-[460px]">
+                  <Image
+                    src="/can2.png"
+                    alt="Crack Open the Chaos"
+                    width={500}
+                    height={1000}
+                    priority
+                    className="h-full w-auto object-contain drop-shadow-[0_25px_35px_rgba(0,0,0,0.4)] group-hover:scale-110 group-hover:-rotate-[4deg] group-hover:-translate-y-6 transition-all duration-500 pointer-events-auto"
+                  />
+                </div>
+              </div>
+            </motion.div>
+
+            <div className="px-2 text-center md:text-left mt-8">
+               <h3 className={`${bodyFont.className} mb-3 text-2xl md:text-3xl font-black text-gray-900 group-hover:text-black transition-colors leading-tight uppercase`}>
+                 Chaos Edition
+               </h3>
+               <div className="flex justify-center md:justify-start items-center gap-2 mb-3">
+                 <span className="tracking-widest text-[#120f0f] text-xl">★★★★☆</span>
+                 <span className={`${bodyFont.className} text-sm font-bold text-gray-400 tracking-widest uppercase ml-2`}>12 reviews</span>
+               </div>
+               <div className={`${bodyFont.className} flex justify-center md:justify-start items-center gap-3`}>
+                 <span className="text-3xl md:text-4xl font-black text-black">Rs. 20.00</span>
+                 <span className="text-xl text-gray-400 line-through decoration-2">Rs. 1499.00</span>
+               </div>
+            </div>
+          </motion.div>
+          
+        </motion.div>
       </div>
     </section>
   );

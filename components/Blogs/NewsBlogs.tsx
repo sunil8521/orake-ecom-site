@@ -1,86 +1,102 @@
 "use client";
+import { Anton, Oswald } from "next/font/google";
+
+const titleFont = Anton({ subsets: ["latin"], weight: "400" });
+const textFont = Oswald({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 
 const posts = [
   {
-    image: "https://placehold.co/600x400/2a2a2a/ffffff.jpg?text=Dining+Experience",
-    tag: "Dining Experience",
-    author: "JENNY ALEXANDER",
-    date: "FEB 19, 2025",
-    title: "5 Tips for the Perfect Romantic Dinner: Creating an Unforgettable Experience",
-    excerpt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    image: "https://images.unsplash.com/photo-1546188994-07c34f6e5e1b?q=80&w=800&auto=format&fit=crop",
+    tag: "Science & Performance",
+    author: "DR. KATE",
+    date: "OCT 12, 2025",
+    title: "The Science of Hydration: Why Orake Hits Different at 3 AM",
+    excerpt: "We broke down the exact chemical pathways of our zero-sugar formula to show why you don't get the dreaded 4 PM crash anymore."
   },
   {
-    image: "https://placehold.co/600x400/2a2a2a/ffffff.jpg?text=Chef's+Insights",
-    tag: "Chef's Insights",
-    author: "JENNY ALEXANDER",
-    date: "FEB 18, 2025",
-    title: "A Day in the Life of Our Restaurant Kitchen: Behind the Scenes of Culinary",
-    excerpt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    image: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=800&auto=format&fit=crop",
+    tag: "Creator Spotlight",
+    author: "MARCUS G.",
+    date: "OCT 08, 2025",
+    title: "Late Night Sessions: Fueling The Next Wave of Gamers",
+    excerpt: "We sat down with top tier esports athletes to see how they maintain peak reaction times during 12-hour tournament grinds."
   },
   {
-    image: "https://placehold.co/600x400/2a2a2a/ffffff.jpg?text=Atmosphere",
-    tag: "Dining Experience",
-    author: "JENNY ALEXANDER",
-    date: "FEB 17, 2025",
-    title: "Why Ambience Matters: How We Create a Memorable Atmosphere",
-    excerpt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    image: "https://images.unsplash.com/photo-1603808033192-082d6919d3e1?q=80&w=800&auto=format&fit=crop",
+    tag: "Flavor Lab",
+    author: "THE TEAM",
+    date: "OCT 01, 2025",
+    title: "Behind The Flavor: Designing the Strawberry Vanilla Drop",
+    excerpt: "It took 47 iterations in the flavor lab to perfect the balance between sharp strawberry tartness and smooth vanilla finish."
   }
 ];
 
 export default function NewsBlogs() {
   return (
-    <section id="blogs" className="py-20 md:py-28 bg-white relative overflow-hidden">
-      {/* watermark */}
-      {/* <div className="absolute top-6 left-0 right-0 text-center font-playfair font-extrabold uppercase text-gray-900 opacity-[0.025] leading-none pointer-events-none select-none whitespace-nowrap text-[4rem] sm:text-[6rem] md:text-[9rem] lg:text-[11rem]">
-        NEWS & BLOGS
-      </div> */}
+    <section id="blogs" className="py-20 md:py-32 bg-white relative overflow-hidden">
+      {/* Dynamic Watermark */}
+      <div className={`absolute top-10 left-0 right-0 text-center ${titleFont.className} uppercase text-[#15161b] opacity-[0.03] leading-none pointer-events-none select-none whitespace-nowrap text-[6rem] sm:text-[9rem] md:text-[12rem] lg:text-[16rem]`}>
+        ARTICLES
+      </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-12 lg:px-20">
         
         {/* Header */}
-        <div className="text-center mb-16 py-4">
-          <span className="text-red-600 text-sm flex justify-center gap-0.5">♦♦♦</span>
-          <p className="text-red-600 text-[11px] font-bold uppercase tracking-[4px] mt-2 mb-3">
-            NEWS & BLOGS
-          </p>
-          <h2 className="font-playfair font-bold text-gray-900 text-3xl sm:text-4xl md:text-5xl leading-tight">
-            Our Latest <span className="text-red-600">News & Blogs</span>
+        <div className="text-center mb-16 md:mb-24 py-4">
+          <div className="inline-flex items-center justify-center gap-3 mb-6">
+            <span className="h-[2px] w-8 bg-[#de3e4f]"></span>
+            <span className={`${textFont.className} text-[#de3e4f] text-sm font-bold uppercase tracking-[0.2em] relative`}>
+              THE GRID
+              <span className="absolute -right-3 -top-2 w-2 h-2 bg-[#dbba53] rounded-full animate-ping"></span>
+            </span>
+            <span className="h-[2px] w-8 bg-[#de3e4f]"></span>
+          </div>
+          <h2 className={`${titleFont.className} text-[clamp(3.5rem,6vw,5.5rem)] uppercase leading-[0.95] tracking-wide text-[#15161b]`}>
+            Latest <span className="text-[#de3e4f] block sm:inline">Intel.</span>
           </h2>
         </div>
 
         {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-14">
           {posts.map((post, idx) => (
-             <article key={idx} className="group cursor-pointer flex flex-col items-start text-left">
-                 {/* Image */}
-                 <div className="relative w-full aspect-[4/3] sm:aspect-[3/2] overflow-hidden rounded-[2rem] mb-6 shadow-sm group-hover:shadow-lg transition-shadow duration-500">
-                     <img src={post.image} alt={post.title} className="w-full h-full object-cover transition-transform duration-[1000ms] ease-out group-hover:scale-110" />
+             <article key={idx} className="group cursor-pointer flex flex-col items-start text-left relative">
+                 {/* Image Container */}
+                 <div className="relative w-full aspect-[4/5] sm:aspect-[3/4] overflow-hidden rounded-[2rem] mb-8 bg-[#15161b]">
+                     <img 
+                       src={post.image} 
+                       alt={post.title} 
+                       className="w-full h-full object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-110 group-hover:opacity-80" 
+                     />
+                     {/* Gradient overlay to pop text if needed, or just style */}
+                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                     
                      {/* Floating Tag */}
-                     <div className="absolute bottom-4 left-4 bg-white/20 backdrop-blur-md border border-white/50 text-white text-[13px] font-medium px-5 py-2.5 rounded-full shadow-lg">
+                     <div className={`${textFont.className} absolute top-6 left-6 bg-white/90 backdrop-blur-md text-[#15161b] text-xs font-bold px-4 py-2 rounded-full uppercase tracking-wider shadow-lg transform -translate-y-2 group-hover:translate-y-0 transition-transform duration-500`}>
                          {post.tag}
                      </div>
                  </div>
 
                  {/* Meta */}
-                 <div className="flex items-center gap-2.5 text-[11px] font-semibold text-gray-400 uppercase tracking-widest mb-4">
+                 <div className={`${textFont.className} flex items-center gap-2.5 text-[12px] font-bold text-gray-400 uppercase tracking-[0.15em] mb-4`}>
                      <span>BY {post.author}</span>
-                     <span className="text-red-500 text-[16px] leading-none">•</span>
+                     <span className="text-[#de3e4f] text-[16px] leading-none">•</span>
                      <span>{post.date}</span>
                  </div>
 
                  {/* Title */}
-                 <h3 className="font-playfair text-xl md:text-[22px] font-bold text-gray-900 leading-snug mb-3 group-hover:text-red-600 transition-colors duration-300">
+                 <h3 className={`${titleFont.className} text-3xl uppercase tracking-wide text-[#15161b] leading-[1.1] mb-4 group-hover:text-[#de3e4f] transition-colors duration-300 line-clamp-3`}>
                      {post.title}
                  </h3>
 
                  {/* Excerpt */}
-                 <p className="text-gray-500 text-[15px] leading-relaxed mb-6 line-clamp-3 font-light">
+                 <p className={`${textFont.className} text-gray-500 text-lg leading-relaxed mb-8 line-clamp-3 font-light`}>
                      {post.excerpt}
                  </p>
 
-                 {/* Link */}
-                 <div className="mt-auto flex items-center text-red-600 font-bold text-[14px] underline underline-offset-4 decoration-2 decoration-transparent group-hover:decoration-red-600 transition-all duration-300">
-                     Read More <span className="ml-2 text-lg transform group-hover:translate-x-1.5 transition-transform duration-300">→</span>
+                 {/* Action Button */}
+                 <div className={`${textFont.className} mt-auto flex items-center text-[#15161b] font-bold text-lg uppercase tracking-wider group-hover:text-[#de3e4f] transition-colors duration-300`}>
+                     Read Article 
+                     <span className="ml-2 w-8 h-[2px] bg-[#15161b] block group-hover:bg-[#de3e4f] group-hover:w-12 transition-all duration-300"></span>
                  </div>
              </article>
           ))}
