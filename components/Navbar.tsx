@@ -28,18 +28,21 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleNavClick = () => {
-    setMenuOpen(false);
-  };
+  const handleNavClick = () => setMenuOpen(false);
 
   return (
-    <nav className={`fixed left-0 top-0 z-50 w-full max-w-[100vw] transition-all duration-500 ${scrolled ? 'bg-[#c25b5e] shadow-md' : 'bg-transparent py-1'}`} style={{ textShadow: scrolled ? 'none' : '0 1px 8px rgba(0,0,0,0.5)' }}>
-      <div className="w-full px-5 sm:px-12 lg:px-20">
-        <div className="flex h-16 items-center justify-between md:h-20 lg:h-20">
+    <nav
+      className={`fixed left-0 top-0 z-50 w-full transition-all duration-500 ${
+        scrolled ? "bg-[#c25b5e] shadow-md" : "bg-transparent py-2"
+      }`}
+    >
+      {/* ✅ FIXED CONTAINER */}
+      <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-12">
+        <div className="flex h-16 items-center justify-between lg:h-20">
 
           {/* Logo */}
-          <Link href="/" className="flex flex-shrink-0 items-center gap-3">
-            <div className="flex h-8 items-center justify-center md:h-10">
+          <Link href="/" className="flex items-center gap-3">
+            <div className="flex h-9 items-center">
               <Image
                 src="/orake-white-logo.svg"
                 alt="Logo"
@@ -51,99 +54,124 @@ export default function Navbar() {
             </div>
           </Link>
 
-          {/* Desktop Navigation Links */}
-          <div className="hidden flex-1 items-center justify-center md:flex md:gap-4 lg:gap-8">
+          {/* ✅ DESKTOP NAV (FIXED BREAKPOINT) */}
+          <div className="hidden flex-1 items-center justify-center lg:flex lg:gap-6 xl:gap-10">
             {navLinks.map((link) => {
-              const isActive = pathname === link.path || (link.path === "/" && pathname === "/");
+              const isActive =
+                pathname === link.path ||
+                (link.path === "/" && pathname === "/");
+
               return (
                 <Link
                   key={link.path}
                   href={link.path}
                   onClick={handleNavClick}
-                  className={`group relative px-2 py-2 text-sm lg:text-base font-bold uppercase tracking-[0.16em] transition-colors duration-300
-                    ${scrolled ? "text-[#f6efe2] hover:text-[#d4a64a]" : "text-[#f6efe2] hover:text-[#f2c56f]"}
-                  `}
+                  className={`group relative px-2 py-2 text-[13px] lg:text-[15px] font-bold uppercase tracking-[0.16em] transition-colors duration-300
+                    ${
+                      scrolled
+                        ? "text-[#f6efe2] hover:text-[#d4a64a]"
+                        : "text-[#f6efe2] hover:text-[#f2c56f]"
+                    }`}
                 >
                   {link.label}
                   <span
-                    className={`absolute bottom-0 left-2 right-2 h-0.5 rounded transition-all duration-500 ease-in-out ${scrolled ? "bg-[#d4a64a]" : "bg-[#f2c56f]"} ${isActive ? "w-[calc(100%-1rem)] opacity-100" : "w-0 opacity-0 group-hover:w-[calc(100%-1rem)] group-hover:opacity-70"}`}
+                    className={`absolute bottom-0 left-2 right-2 h-[2px] rounded transition-all duration-300
+                      ${
+                        isActive
+                          ? "w-[calc(100%-1rem)] opacity-100 bg-[#f2c56f]"
+                          : "w-0 opacity-0 group-hover:w-[calc(100%-1rem)] group-hover:opacity-70 bg-[#f2c56f]"
+                      }`}
                   />
                 </Link>
               );
             })}
           </div>
 
-          {/* Icons & Mobile Menu Toggle */}
-          <div className="flex flex-shrink-0 items-center gap-4 md:gap-6">
-            <div className="flex items-center gap-3 text-[#f6efe2] md:gap-5">
-              <Link href="/wishlist" aria-label="Favorites" className="transition-colors hover:text-[#f2c56f] hover:scale-110 active:scale-95 duration-200">
-                <Heart className="h-5 w-5 md:h-6 md:w-6" strokeWidth={1.5} />
+          {/* Icons + Hamburger */}
+          <div className="flex items-center gap-4 lg:gap-6">
+            {/* ✅ ICONS FIXED */}
+            <div className="flex items-center gap-3 lg:gap-5 text-[#f6efe2]">
+              <Link href="/wishlist" className="hover:scale-110 transition-all">
+                <Heart className="h-6 w-6 lg:h-7 lg:w-7" strokeWidth={2.2} />
               </Link>
-              <Link href="/account" aria-label="Profile" className="transition-colors hover:text-[#f2c56f] hover:scale-110 active:scale-95 duration-200">
-                <User className="h-5 w-5 md:h-6 md:w-6" strokeWidth={1.5} />
+              <Link href="/account" className="hover:scale-110 transition-all">
+                <User className="h-6 w-6 lg:h-7 lg:w-7" strokeWidth={2.2} />
               </Link>
-              <Link href="/cart" aria-label="Cart" className="transition-colors hover:text-[#f2c56f] hover:scale-110 active:scale-95 duration-200">
-                <ShoppingCart className="h-5 w-5 md:h-6 md:w-6" strokeWidth={1.5} />
+              <Link href="/cart" className="hover:scale-110 transition-all">
+                <ShoppingCart className="h-6 w-6 lg:h-7 lg:w-7" strokeWidth={2.2} />
               </Link>
             </div>
 
+            {/* ✅ BETTER HAMBURGER */}
             <button
-              className={`flex items-center justify-center p-1.5 transition-colors md:hidden text-[#f6efe2] hover:text-[#f2c56f]`}
               onClick={() => setMenuOpen(!menuOpen)}
-              aria-label="Toggle menu"
-              aria-expanded={menuOpen}
+              className="flex items-center justify-center rounded-lg text-white bg-white/10 p-2 backdrop-blur-md hover:bg-[#de3e4f] transition-all duration-300 lg:hidden"
             >
-              {menuOpen ? <X className="h-7 w-7" strokeWidth={1.5} /> : <Menu className="h-7 w-7" strokeWidth={1.5} />}
+              {menuOpen ? (
+                <X className="h-8 w-8 " strokeWidth={2.2} />  
+              ) : (
+                <Menu className="h-8 w-8 " strokeWidth={2.2} />
+              )}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Menu Overlay Background */}
+      {/* Overlay */}
       {menuOpen && (
         <div
-          className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm md:hidden transition-opacity"
+          className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40"
           onClick={() => setMenuOpen(false)}
-          aria-label="Close menu overlay"
         />
       )}
 
-      {/* Mobile Menu Sidebar */}
+      {/* ✅ MOBILE SIDEBAR FIXED */}
       <div
-        className={`fixed right-0 top-0 z-50 h-full w-4/5 max-w-xs transform bg-[#15161b] border-l border-white/10 transition-all duration-300 ease-in-out md:hidden shadow-2xl ${menuOpen ? "translate-x-0 opacity-100 visible" : "translate-x-full opacity-0 invisible"}`}
-        aria-hidden={!menuOpen}
+        className={`fixed right-0 top-0 z-50 h-full w-[85%] max-w-sm bg-[#15161b] border-l border-white/10 transition-all duration-300 ${
+          menuOpen ? "translate-x-0" : "translate-x-full"
+        }`}
       >
-        <div className={`flex h-full flex-col p-6`}>
+        <div className="flex h-full flex-col p-6">
+
+          {/* Header */}
           <div className="flex items-center justify-between pb-6 border-b border-[#de3e4f]/30">
             <div>
-              <div className={`font-sans font-bold text-2xl tracking-wide text-white uppercase`}>Orake</div>
-              <div className={`mt-1 text-[10px] font-bold uppercase tracking-[0.3em] text-[#de3e4f]`}>Main Menu</div>
+              <div className="text-2xl font-bold text-white uppercase">
+                Orake
+              </div>
+              <div className="text-[10px] tracking-[0.3em] text-[#de3e4f] uppercase">
+                Menu
+              </div>
             </div>
+
             <button
-              className={`flex items-center justify-center rounded-full bg-white/5 p-2 text-white transition-all duration-300 hover:bg-[#de3e4f] active:scale-95`}
               onClick={() => setMenuOpen(false)}
-              aria-label="Close menu"
+              className="p-2 rounded-full text-white bg-white/10 hover:bg-[#de3e4f] transition"
             >
-              <X className="h-5 w-5" strokeWidth={2} />
+              <X className="h-6 w-6" strokeWidth={2.2} />
             </button>
           </div>
 
-          <div className="mt-8 flex flex-1 flex-col gap-2">
+          {/* Links */}
+          <div className="mt-8 flex flex-col gap-2">
             {navLinks.map((link) => {
-              const isActive = pathname === link.path || (link.path === "/" && pathname === "/");
+              const isActive =
+                pathname === link.path ||
+                (link.path === "/" && pathname === "/");
+
               return (
                 <Link
                   key={link.path}
                   href={link.path}
                   onClick={handleNavClick}
-                  className={`group relative px-4 py-5 text-left text-sm font-bold uppercase tracking-[0.2em] transition-all duration-300 border-b border-white/5
-                    ${isActive ? "text-[#de3e4f]" : "text-white/80 hover:bg-[#de3e4f] hover:text-white hover:border-transparent"}
-                  `}
+                  className={`px-4 py-5 text-sm font-bold uppercase tracking-[0.2em] transition-all border-b border-white/5
+                    ${
+                      isActive
+                        ? "text-[#de3e4f]"
+                        : "text-white/80 hover:bg-[#de3e4f] hover:text-white"
+                    }`}
                 >
                   {link.label}
-                  <span
-                    className={`absolute left-0 top-0 h-full w-1 transition-all duration-300 bg-[#de3e4f] ${isActive ? "opacity-100" : "opacity-0 group-hover:w-full group-hover:opacity-10 -z-10"}`}
-                  />
                 </Link>
               );
             })}

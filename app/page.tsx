@@ -27,7 +27,7 @@ export default function Home() {
       <CollectionsSection />
       {/* <SpecialOffers /> */}
       <TaglineBanner />
-      <BrandShowcase />
+      {/* <BrandShowcase /> */}
       <SmoothieShowcaseSection />
       {/* <EnergyDrinkSection /> */}
 

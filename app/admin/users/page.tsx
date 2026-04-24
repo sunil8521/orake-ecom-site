@@ -2,10 +2,10 @@
 import { useState } from "react";
 import { Search, Eye, ShoppingBag, X, Mail, MapPin, Calendar } from "lucide-react";
 import Pagination from "@/components/admin/Pagination";
-import { Anton, Oswald } from "next/font/google";
+import { Sansita, DM_Sans } from "next/font/google";
 
-const titleFont = Anton({ subsets: ["latin"], weight: "400" });
-const textFont = Oswald({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
+const titleFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
+const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 
 const usersData = [
   { id: 1, name: "Rahul Sharma", email: "rahul@gmail.com", phone: "+91 98765 43210", joined: "2026-03-15", orders: 5, spent: 4820, city: "Bhubaneswar", status: "Active" },

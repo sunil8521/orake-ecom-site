@@ -1,6 +1,6 @@
-import { Anton } from "next/font/google";
+import { Sansita } from "next/font/google";
 
-const headingFont = Anton({ subsets: ["latin"], weight: "400" });
+const headingFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
 
 export default function TaglineBanner() {
   return (

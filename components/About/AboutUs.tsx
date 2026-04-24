@@ -1,45 +1,84 @@
 "use client";
 import { motion } from "framer-motion";
-import { Anton, Oswald } from "next/font/google";
+import { Sansita, DM_Sans } from "next/font/google";
 
-const titleFont = Anton({ subsets: ["latin"], weight: "400" });
-const textFont = Oswald({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
+const titleFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
+const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 
 export default function AboutUs() {
 	return (
 		<section className="relative bg-[#e8e8e9] overflow-hidden py-24 md:py-40">
-			<div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8">
-				<div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
+			{/* Subtle background texture dots */}
+			<div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: "radial-gradient(circle, #000 1px, transparent 1px)", backgroundSize: "24px 24px" }} />
 
-					{/* ─────── Left: Image ─────── */}
+			<div className="relative z-10 max-w-[1400px] mx-auto px-4 md:px-8">
+				<div className="flex flex-col lg:flex-row items-center gap-6 md:gap-12 lg:gap-24">
+
+					{/* ─────── Left: Two Cans Stacked Vertically ─────── */}
 					<motion.div 
 						initial={{ opacity: 0, x: -50 }}
 						whileInView={{ opacity: 1, x: 0 }}
 						viewport={{ once: true, margin: "-100px" }}
 						transition={{ duration: 0.8, ease: "easeOut" }}
-						className="relative flex justify-center w-full lg:w-[45%] shrink-0 group"
+						className="relative flex flex-row items-center justify-center w-full lg:w-[45%] shrink-0 gap-4 md:gap-6"
 					>
-                        {/* Huge glow */}
-						<div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-[#de3e4f] blur-[100px] opacity-20 transition-all duration-700 group-hover:opacity-40 rounded-full" />
+						{/* Left glow - yellow */}
+						<div className="absolute top-1/2 left-[20%] -translate-y-1/2 w-64 h-64 bg-[#dbba53] blur-[120px] opacity-15 pointer-events-none rounded-full" />
+						{/* Right glow - pink */}
+						<div className="absolute top-1/2 right-[20%] -translate-y-1/2 w-64 h-64 bg-[#c25b5e] blur-[120px] opacity-15 pointer-events-none rounded-full" />
 
-						<div className="relative w-full max-w-md scale-110 md:scale-[1.15] my-10 md:mt-16">
+						{/* ── Can 1: Ginger Lemon (Yellow) — LEFT ── */}
+						<motion.div
+							initial={{ opacity: 0, x: -30 }}
+							whileInView={{ opacity: 1, x: 0 }}
+							viewport={{ once: true }}
+							transition={{ duration: 0.7, ease: "easeOut" }}
+							className="relative w-1/2 max-w-[220px] md:max-w-[260px] xl:max-w-[360px]"
+						>
 							<img
-								src="/can1.png"
-								alt="Orake Can in Lab"
-								className="w-full h-auto object-contain drop-shadow-[0_40px_40px_rgba(0,0,0,0.3)] transform -rotate-6 group-hover:rotate-0 transition-transform duration-700 ease-out"
+								src="/caneyellow.png"
+								alt="Orake Ginger Lemon"
+								className="w-full h-auto object-contain drop-shadow-[0_30px_40px_rgba(219,186,83,0.25)] transform rotate-[9deg]"
 							/>
-                            {/* Floating Tech Badge */}
-                            <motion.div
-                                initial={{ scale: 0 }}
-                                whileInView={{ scale: 1 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.8, delay: 0.4, type: "spring" }}
-                                className="absolute -bottom-4 right-0 w-20 h-20 md:w-24 md:h-24 bg-[#15161b] rounded-full flex flex-col items-center justify-center text-white border-[3px] border-[#e8e8e9] shadow-2xl z-20 transform scale-75 md:scale-100"
-                            >
-                                <span className={`${titleFont.className} text-2xl md:text-3xl leading-none tracking-widest text-[#de3e4f]`}>0G</span>
-                                <span className={`${textFont.className} text-[7px] md:text-[9px] font-bold uppercase tracking-[0.2em]`}>Sucralose</span>
-                            </motion.div>
-						</div>
+							{/* Floating Badge — 5g Prebiotic */}
+							<motion.div
+								initial={{ scale: 0 }}
+								whileInView={{ scale: 1 }}
+								viewport={{ once: true }}
+								transition={{ duration: 0.6, delay: 0.5, type: "spring", bounce: 0.5 }}
+								className="absolute -bottom-2 -left-2 md:left-0 w-16 h-16 md:w-[76px] md:h-[76px] xl:w-[96px] xl:h-[96px] bg-[#15161b] rounded-full flex flex-col items-center justify-center text-white border-[3px] border-[#e8e8e9] shadow-2xl z-20"
+							>
+								<span className={`${titleFont.className} text-xl md:text-2xl leading-none tracking-widest text-[#dbba53]`}>5G</span>
+								<span className={`${textFont.className} text-[6px] md:text-[7px] font-bold uppercase tracking-[0.15em]`}>Prebiotic</span>
+							</motion.div>
+						</motion.div>
+
+						{/* ── Can 2: Strawberry (Pink) — RIGHT ── */}
+						<motion.div
+							initial={{ opacity: 0, x: 30 }}
+							whileInView={{ opacity: 1, x: 0 }}
+							viewport={{ once: true }}
+							transition={{ duration: 0.7, ease: "easeOut", delay: 0.15 }}
+							className="relative w-1/2 max-w-[220px] md:max-w-[260px] xl:max-w-[360px]"
+						>
+							<img
+								src="/canepink.png"
+								alt="Orake Strawberry Vanilla"
+								className="w-full h-auto object-contain drop-shadow-[0_30px_40px_rgba(194,91,94,0.25)] transform -rotate-[6deg]"
+							/>
+							{/* Floating Badge — 0g Sucralose */}
+							<motion.div
+								initial={{ scale: 0 }}
+								whileInView={{ scale: 1 }}
+								viewport={{ once: true }}
+								transition={{ duration: 0.6, delay: 0.65, type: "spring", bounce: 0.5 }}
+								className="absolute -bottom-2 -right-2 md:right-0 w-16 h-16 md:w-[76px] md:h-[76px] xl:w-[88px] xl:h-[88px] bg-[#15161b] rounded-full flex flex-col items-center justify-center text-white border-[3px] border-[#e8e8e9] shadow-2xl z-20"
+							>
+								<span className={`${titleFont.className} text-xl md:text-2xl leading-none tracking-widest text-[#c25b5e]`}>0G</span>
+								<span className={`${textFont.className} text-[6px] md:text-[7px] font-bold uppercase tracking-[0.15em]`}>Sucralose</span>
+							</motion.div>
+						</motion.div>
+
 					</motion.div>
 
 					{/* ─────── Right: Content ─────── */}
@@ -50,38 +89,38 @@ export default function AboutUs() {
 						transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
 						className="w-full lg:w-[55%] text-center lg:text-left pt-12 md:pt-0"
 					>
-						<p className={`${textFont.className} text-[#de3e4f] text-sm font-bold uppercase tracking-[0.4em] mb-4`}>
+						<p className={`${textFont.className} text-[#c25b5e] text-sm font-bold uppercase tracking-[0.4em] mb-4`}>
 							The Lab
 						</p>
 
 						<h2 className={`${titleFont.className} text-gray-900 leading-[0.9] mb-8 text-[3rem] sm:text-[4rem] md:text-[5rem] uppercase tracking-wide`}>
 							WE KILLED <br />
-							<span className="text-[#de3e4f]">THE CRASH.</span>
+							<span className="text-[#c25b5e]">THE CRASH.</span>
 						</h2>
 
 						<div className={`${textFont.className} text-gray-600 space-y-6 text-lg sm:text-xl font-light leading-relaxed max-w-2xl mx-auto lg:mx-0`}>
-                            <p>
-                                Every energy drink on the market was the same. Sugar spikes, artificial colors, and a massive crash at 3 PM. We were sick of it. 
-                            </p>
-                            <p>
-                                So we locked ourselves in the lab and built Orake. Our mission was simple: engineer a high-voltage hydration system that uses real ingredients and massive doses of focus-enhancing nootropics.
-                            </p>
-                        </div>
+							<p>
+								Every energy drink on the market was the same. Sugar spikes, artificial colors, and a massive crash at 3 PM. We were sick of it. 
+							</p>
+							<p>
+								So we locked ourselves in the lab and built Orake. Our mission was simple: engineer a high-voltage hydration system that uses real ingredients and massive doses of focus-enhancing nootropics.
+							</p>
+						</div>
 
 						{/* Stats */}
-						<div className="grid grid-cols-2 md:grid-cols-3 gap-6 mt-12 pt-12 border-t border-black/10">
-							<div className="text-left">
-                                <p className={`${titleFont.className} text-4xl text-[#15161b] mb-1`}>100%</p>
-                                <p className={`${textFont.className} text-[11px] text-gray-500 font-bold uppercase tracking-[0.2em]`}>Vegan</p>
-                            </div>
-                            <div className="text-left">
-                                <p className={`${titleFont.className} text-4xl text-[#15161b] mb-1`}>200MG</p>
-                                <p className={`${textFont.className} text-[11px] text-gray-500 font-bold uppercase tracking-[0.2em]`}>Clean Caffeine</p>
-                            </div>
-                            <div className="text-left hidden md:block">
-                                <p className={`${titleFont.className} text-4xl text-[#15161b] mb-1`}>ZERO</p>
-                                <p className={`${textFont.className} text-[11px] text-gray-500 font-bold uppercase tracking-[0.2em]`}>Jitters</p>
-                            </div>
+						<div className="grid grid-cols-3 gap-6 mt-12 pt-12 border-t border-black/10">
+							<div className="text-center lg:text-left">
+								<p className={`${titleFont.className} text-4xl md:text-5xl text-[#15161b] mb-1`}>100%</p>
+								<p className={`${textFont.className} text-[10px] md:text-[11px] text-gray-500 font-bold uppercase tracking-[0.2em]`}>Vegan</p>
+							</div>
+							<div className="text-center lg:text-left">
+								<p className={`${titleFont.className} text-4xl md:text-5xl text-[#15161b] mb-1`}>200MG</p>
+								<p className={`${textFont.className} text-[10px] md:text-[11px] text-gray-500 font-bold uppercase tracking-[0.2em]`}>Clean Caffeine</p>
+							</div>
+							<div className="text-center lg:text-left">
+								<p className={`${titleFont.className} text-4xl md:text-5xl text-[#15161b] mb-1`}>ZERO</p>
+								<p className={`${textFont.className} text-[10px] md:text-[11px] text-gray-500 font-bold uppercase tracking-[0.2em]`}>Jitters</p>
+							</div>
 						</div>
 					</motion.div>
 

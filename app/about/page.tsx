@@ -9,7 +9,7 @@ export default function AboutPage() {
 			<main>
 				<Hero />
 				<AboutUs />
-				<VideoSection />
+				{/* <VideoSection /> */}
 			</main>
 			<FooterBanner />
 		</div>

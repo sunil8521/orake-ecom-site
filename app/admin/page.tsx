@@ -1,10 +1,10 @@
 "use client";
 import { TrendingUp, ShoppingBag, Users, DollarSign, Package, ArrowUpRight, ArrowDownRight, Eye } from "lucide-react";
-import { Anton, Oswald } from "next/font/google";
+import { Sansita, DM_Sans } from "next/font/google";
 import Link from "next/link";
 
-const titleFont = Anton({ subsets: ["latin"], weight: "400" });
-const textFont = Oswald({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
+const titleFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
+const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 
 const stats = [
   { label: "Total Revenue", value: "₹1,24,500", change: "+12.5%", up: true, icon: DollarSign, color: "#c25b5e" },

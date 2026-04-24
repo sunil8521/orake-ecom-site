@@ -3,10 +3,10 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Minus, Plus, X, ShoppingBag, ArrowRight, Truck, Shield, RotateCcw } from "lucide-react";
-import { Anton, Oswald } from "next/font/google";
+import { Sansita, DM_Sans } from "next/font/google";
 
-const titleFont = Anton({ subsets: ["latin"], weight: "400" });
-const textFont = Oswald({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
+const titleFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
+const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 
 interface CartItem {
   id: number;
@@ -82,7 +82,7 @@ export default function CartPage() {
                     {/* Product */}
                     <div className="flex gap-4 items-center w-full sm:w-auto">
                       <div className="w-20 h-24 bg-white rounded-xl flex items-center justify-center shrink-0 border border-gray-100">
-                        <Image src={item.image} alt={item.name} width={150} height={250} className="w-auto h-[120%] object-contain" />
+                        <Image src={item.image} alt={item.name} width={150} height={250} className="w-auto h-[120%] object-contain" style={{ width: 'auto', height: 'auto' }} />
                       </div>
                       <div className="min-w-0">
                         <h3 className={`${textFont.className} text-base font-bold text-[#15161b] uppercase tracking-wide truncate`}>{item.name}</h3>

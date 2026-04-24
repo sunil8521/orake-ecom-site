@@ -47,7 +47,7 @@ export default function FollowUsSection() {
                 key={"can-image-" + idx}
                 className="h-[260px] rounded-2xl overflow-hidden shadow-sm bg-white relative flex items-end"
               >
-                <Image src={img} alt="Can" fill priority style={{objectFit: 'cover'}} className="object-cover" />
+                <Image src={img} alt="Can" fill priority sizes="(max-width: 768px) 100vw, 33vw" style={{objectFit: 'cover'}} className="object-cover" />
                 <div className="absolute bottom-0 left-0 w-full bg-black/60 text-white p-3 flex flex-col">
                   <span className="font-bold text-lg">{name}</span>
                   <span className="text-xs opacity-90">{tagline}</span>

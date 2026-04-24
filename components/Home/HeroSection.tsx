@@ -54,17 +54,17 @@ export default function HeroSection() {
       </div>
 
       {/* Modern 3D rotating coffee beans or lemons */}
-      <Image src={beanImg} alt={canIdx === 0 ? "bean" : "lemon"} width={158} height={48} className="absolute top-54 z-20 animate-rot3d-1 hidden md:block" style={{ left: 0, transformStyle: 'preserve-3d' }} />
-      <Image src={beanImg} alt={canIdx === 0 ? "bean" : "lemon"} width={196} height={76} className="absolute top-32 z-20 animate-rot3d-2 hidden md:block" style={{ right: 0, transformStyle: 'preserve-3d' }} />
-      <Image src={beanImg} alt={canIdx === 0 ? "bean" : "lemon"} width={112} height={32} className="absolute bottom-92 z-20 animate-rot3d-3 hidden lg:block" style={{ left: '25%', transformStyle: 'preserve-3d' }} />
-      <Image src={beanImg} alt={canIdx === 0 ? "bean" : "lemon"} width={124} height={40} className="absolute bottom-74 z-20 animate-rot3d-4 hidden lg:block" style={{ right: '33%', transformStyle: 'preserve-3d' }} />
+      <Image src={beanImg} alt={canIdx === 0 ? "bean" : "lemon"} width={158} height={48} className="absolute top-54 z-20 animate-rot3d-1 hidden md:block" style={{ left: 0, transformStyle: 'preserve-3d', width: 'auto', height: 'auto' }} />
+      <Image src={beanImg} alt={canIdx === 0 ? "bean" : "lemon"} width={196} height={76} className="absolute top-32 z-20 animate-rot3d-2 hidden md:block" style={{ right: 0, transformStyle: 'preserve-3d', width: 'auto', height: 'auto' }} />
+      <Image src={beanImg} alt={canIdx === 0 ? "bean" : "lemon"} width={112} height={32} className="absolute bottom-92 z-20 animate-rot3d-3 hidden lg:block" style={{ left: '25%', transformStyle: 'preserve-3d', width: 'auto', height: 'auto' }} />
+      <Image src={beanImg} alt={canIdx === 0 ? "bean" : "lemon"} width={124} height={40} className="absolute bottom-74 z-20 animate-rot3d-4 hidden lg:block" style={{ right: '33%', transformStyle: 'preserve-3d', width: 'auto', height: 'auto' }} />
 
 
       {/* Center can and caramel splash */}
       <div className="relative flex flex-col items-center justify-center pt-37 pb-16 z-30">
         <div className="relative flex items-center justify-center" style={{ minHeight: 340 }}>
           {/* Caramel splash behind can */}
-          <Image src={caramelSplash} alt="caramel splash" width={380} height={320} className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 pointer-events-none" style={{ filter: 'drop-shadow(0 8px 32px #b97a3c88)' }} />
+          <Image src={caramelSplash} alt="caramel splash" width={380} height={320} className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 pointer-events-none" style={{ filter: 'drop-shadow(0 8px 32px #b97a3c88)', width: 'auto', height: 'auto' }} />
           {/* Animated central can */}
           <div className="relative z-20 w-[700px] h-[560px] flex items-center justify-center overflow-hidden">
             {canImages.map((src, idx) => (
@@ -81,16 +81,16 @@ export default function HeroSection() {
             ))}
           </div>
           {/* Lactose Free badge */}
-          <div className="absolute left-0 bottom-8 z-30">
+          {/* <div className="absolute left-0 bottom-8 z-30">
             <div className="bg-green-500 text-white font-bold rounded-full px-4 py-2 text-xs shadow-lg border-4 border-white">LACTOSE FREE</div>
-          </div>
+          </div> */}
         </div>
         {/* Buy now button */}
-        <div className="absolute right-0 top-1/2 -translate-y-1/2 z-30 hidden md:block">
+        {/* <div className="absolute right-0 top-1/2 -translate-y-1/2 z-30 hidden md:block">
           <button className="flex items-center justify-center w-32 h-32 rounded-full border-2 border-white/70 bg-white/10 text-white text-lg font-semibold shadow-lg backdrop-blur-md transition hover:bg-white/30">
             Buy Now <span className="ml-2">→</span>
           </button>
-        </div>
+        </div> */}
       </div>
 
       {/* Product cans row - curved layout at bottom */}
@@ -133,7 +133,7 @@ export default function HeroSection() {
                 width={194}
                 height={300}
                 className={`object-contain transition-all duration-500 ${isActive ? 'opacity-100' : 'opacity-60'} ${isActive ? 'z-20' : ''}`}
-                style={{ position: 'relative', zIndex: 2 }}
+                style={{ position: 'relative', zIndex: 2, width: 'auto', height: 'auto' }}
               />
             </div>
           );

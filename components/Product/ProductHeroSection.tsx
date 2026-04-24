@@ -1,7 +1,7 @@
-import { Anton, Oswald } from "next/font/google";
+import { Sansita, DM_Sans } from "next/font/google";
 
-const headingFont = Anton({ subsets: ["latin"], weight: "400" });
-const bodyFont = Oswald({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
+const headingFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
+const bodyFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 
 export default function ProductHeroSection() {
   return (

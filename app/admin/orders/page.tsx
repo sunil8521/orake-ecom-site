@@ -2,10 +2,10 @@
 import { useState } from "react";
 import { Search, Eye, Package, Truck, CheckCircle, Clock, X } from "lucide-react";
 import Pagination from "@/components/admin/Pagination";
-import { Anton, Oswald } from "next/font/google";
+import { Sansita, DM_Sans } from "next/font/google";
 
-const titleFont = Anton({ subsets: ["latin"], weight: "400" });
-const textFont = Oswald({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
+const titleFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
+const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 
 const statusOptions = ["All", "Pending", "Processing", "Shipped", "Delivered", "Cancelled"];
 

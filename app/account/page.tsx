@@ -2,10 +2,10 @@
 import { useState } from "react";
 import Link from "next/link";
 import { User, Mail, Phone, MapPin, Lock, Eye, EyeOff, Camera, ShoppingBag, Heart, LogOut, Check } from "lucide-react";
-import { Anton, Oswald } from "next/font/google";
+import { Sansita, DM_Sans } from "next/font/google";
 
-const titleFont = Anton({ subsets: ["latin"], weight: "400" });
-const textFont = Oswald({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
+const titleFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
+const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 
 const tabs = [
   { id: "profile", label: "Profile", icon: User },
@@ -56,7 +56,7 @@ export default function AccountPage() {
         </div>
         <div className="relative z-10">
           {/* Avatar */}
-          <div className="relative inline-block mb-6">
+          {/* <div className="relative inline-block mb-6">
             <div className="w-24 h-24 md:w-28 md:h-28 rounded-full bg-gradient-to-br from-[#c25b5e] to-[#de3e4f] flex items-center justify-center mx-auto ring-4 ring-white/10">
               <span className={`${titleFont.className} text-white text-4xl md:text-5xl`}>
                 {profile.name.charAt(0)}
@@ -65,7 +65,7 @@ export default function AccountPage() {
             <button className="absolute bottom-0 right-0 w-9 h-9 rounded-full bg-[#c25b5e] border-3 border-[#15161b] flex items-center justify-center text-white hover:bg-[#de3e4f] transition-colors">
               <Camera size={14} />
             </button>
-          </div>
+          </div> */}
           <h1 className={`${titleFont.className} text-4xl md:text-5xl text-white tracking-tight uppercase leading-none`}>
             {profile.name}
           </h1>

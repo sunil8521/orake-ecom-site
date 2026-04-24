@@ -1,13 +1,13 @@
 "use client";
 import { motion } from "framer-motion";
-import { Anton, Oswald } from "next/font/google";
+import { Sansita, DM_Sans } from "next/font/google";
 
-const titleFont = Anton({ subsets: ["latin"], weight: "400" });
-const textFont = Oswald({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
+const titleFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
+const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 
 export default function Hero() {
 	return (
-		<section className="relative w-full min-h-[90vh] flex flex-col justify-end pb-24 pt-32 px-4 md:px-8 bg-[#15161b] z-20">
+		<section className="relative w-full min-h-[50vh] md:min-h-[60vh] lg:min-h-[80vh] flex flex-col justify-end pb-16 md:pb-20 lg:pb-24 pt-28 md:pt-32 px-4 md:px-8 bg-[#15161b] z-20">
 			{/* Aggressive Graphic Background */}
 			<div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
 				<div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#de3e4f] rounded-full opacity-[0.03] blur-[150px] -translate-y-1/2 translate-x-1/4"></div>

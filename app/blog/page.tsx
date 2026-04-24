@@ -30,7 +30,7 @@ export default function BlogPage() {
         <div className="section-divider" />
       </div>
 
-      <ConservationProjects />
+      {/* <ConservationProjects /> */}
       <CTASection />
       {/* <Footer /> */}
     </div>
