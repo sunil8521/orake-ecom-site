@@ -1,33 +1,41 @@
-import { auth } from "@/lib/auth";
-import { NextRequest, NextResponse } from "next/server";
+import { withAuth } from "next-auth/middleware";
+import { NextResponse } from "next/server";
 
-// Routes that require authentication
 const protectedRoutes = ["/account", "/orders", "/checkout"];
-// Routes only for unauthenticated users
 const authRoutes = ["/login", "/signup", "/verify-otp"];
 
-export default async function proxy(request: NextRequest) {
-  const session = await auth();
-  const { pathname } = request.nextUrl;
+export default withAuth(
+  function middleware(req) {
+    const { pathname } = req.nextUrl;
+    const isAuth = !!req.nextauth.token;
 
-  // Redirect authenticated users away from auth pages
-  if (authRoutes.some((route) => pathname.startsWith(route))) {
-    if (session?.user) {
-      return NextResponse.redirect(new URL("/", request.url));
+    if (authRoutes.some((route) => pathname.startsWith(route))) {
+      if (isAuth) {
+        return NextResponse.redirect(new URL("/", req.url));
+      }
     }
-  }
 
-  // Redirect unauthenticated users to login
-  if (protectedRoutes.some((route) => pathname.startsWith(route))) {
-    if (!session?.user) {
-      const loginUrl = new URL("/login", request.url);
-      loginUrl.searchParams.set("callbackUrl", pathname);
-      return NextResponse.redirect(loginUrl);
+    if (protectedRoutes.some((route) => pathname.startsWith(route))) {
+      if (!isAuth) {
+        let from = pathname;
+        if (req.nextUrl.search) {
+          from += req.nextUrl.search;
+        }
+
+        return NextResponse.redirect(
+          new URL(`/login?callbackUrl=${encodeURIComponent(from)}`, req.url)
+        );
+      }
     }
-  }
 
-  return NextResponse.next();
-}
+    return NextResponse.next();
+  },
+  {
+    callbacks: {
+      authorized: () => true, // We handle the redirects manually above
+    },
+  }
+);
 
 export const config = {
   matcher: [

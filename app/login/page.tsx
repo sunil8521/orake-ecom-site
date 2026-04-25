@@ -34,7 +34,7 @@ export default function LoginPage() {
         password: data.password,
         redirect: false,
       });
-
+      console.log(result);
       if (result?.error) {
         if (result.error === "OAUTH_ACCOUNT_NOT_LINKED") {
           toast.error("You signed up with Google. Please use 'Continue with Google' to sign in.");
@@ -52,7 +52,7 @@ export default function LoginPage() {
       router.refresh();
     } catch (error) {
       const axiosError = error as AxiosError;
-      const message = axiosError.response?.data?.message || "Something went wrong. Please try again.";
+      const message = (axiosError as any).response?.data?.message || "Something went wrong. Please try again.";
       toast.error(message);
     }
   };

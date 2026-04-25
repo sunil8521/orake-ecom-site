@@ -1,11 +1,11 @@
-import NextAuth from "next-auth";
+import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import bcrypt from "bcryptjs";
 import { connectDB } from "@/lib/db";
 import User from "@/models/User";
 
-export const { handlers, signIn, signOut, auth } = NextAuth({
+export const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -24,9 +24,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         await connectDB();
 
-        // If this is an OTP verification attempt
         if (credentials.isVerification === "true") {
-          const user = await User.findOne({ email: (credentials.email as string ).toLowerCase() }).select(
+          const user = await User.findOne({ email: (credentials.email as string).toLowerCase() }).select(
             "+otp +otpExpiry"
           );
 
@@ -53,8 +52,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         // Standard Login Attempt
         if (!credentials.password) return null;
 
-        const user = await User.findOne({ email: credentials.email.toLowerCase() }).select(
-          "+password"
+        const user = await User.findOne({ email: (credentials.email as string).toLowerCase() }).select(
+            "+password"
         );
 
         if (!user) return null;
@@ -68,7 +67,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           throw new Error("UNVERIFIED");
         }
         
-        if (!user.password) return null;
+        if (!user.password) throw new Error("INVALID_LOGIN");
 
         const isValid = await bcrypt.compare(
           credentials.password as string,
@@ -151,4 +150,4 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return session;
     },
   },
-});
+};

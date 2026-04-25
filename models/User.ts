@@ -20,11 +20,8 @@ const UserSchema = new Schema<IUser>(
   {
     fullName: { type: String, required: true, trim: true },
     email: { type: String, required: true, unique: true, lowercase: true, trim: true },
-    phone: {
-      type: String,
-      required: function () { return this.provider === 'credentials'; },
-      trim: true
-    },
+    phone: { type: String, trim: true },
+    password: { type: String, select: false }, // Hidden 
     isVerified: { type: Boolean, default: false },
     otp: { type: String, select: false },
     otpExpiry: { type: Date, select: false },

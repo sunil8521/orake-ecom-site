@@ -8,6 +8,7 @@ export async function POST(req: NextRequest) {
   try {
     const { fullName, email, phone, password } = await req.json();
 
+
     // ── Validation ──
     //validation will be happen in frontend using react hook form and zod
 

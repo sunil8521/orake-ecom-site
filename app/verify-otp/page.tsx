@@ -106,7 +106,7 @@ function VerifyOTPContent() {
       inputsRef.current[0]?.focus();
     } catch (error) {
       const axiosError = error as AxiosError;
-      const message = axiosError.response?.data?.message || "Failed to resend OTP";
+      const message = (axiosError as any).response?.data?.message || "Failed to resend OTP";
       toast.error(message);
     } finally {
       setResendLoading(false);
