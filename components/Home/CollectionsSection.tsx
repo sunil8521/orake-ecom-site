@@ -124,6 +124,7 @@ export default function CollectionsSection() {
                   src="/pinkcanbg.png"
                   alt=""
                   fill
+                  sizes="100vw"
                   className="object-cover opacity-[0.35] group-hover:opacity-[0.45] transition-opacity duration-700 scale-110"
                 />
                 <div className="absolute w-[150%] h-[150%] bg-gradient-to-br from-[#c25b5e]/20 to-transparent rounded-full -top-[50%] -right-[50%] blur-[80px] group-hover:opacity-100 opacity-0 transition-opacity duration-700 pointer-events-none" />
@@ -177,6 +178,7 @@ export default function CollectionsSection() {
                   src="/yellowcanbg.png"
                   alt=""
                   fill
+                  sizes="100vw"
                   className="object-cover opacity-[0.35] group-hover:opacity-[0.45] transition-opacity duration-700 scale-110"
                 />
                 <div className="absolute w-[150%] h-[150%] bg-gradient-to-bl from-[#dbba53]/20 to-transparent rounded-full -bottom-[50%] -left-[50%] blur-[80px] group-hover:opacity-100 opacity-0 transition-opacity duration-700 pointer-events-none" />

@@ -85,7 +85,7 @@ export default function SmoothieShowcaseSection() {
         {/* Layer 1 — Vanilla */}
         <div className="sticky top-0 w-full h-[100dvh] bg-[#cf797e] flex flex-col items-center justify-center p-4 z-10 overflow-hidden group">
           <div className="relative w-full h-[55%] max-w-[85vw] sm:max-w-[70vw] flex items-center justify-center">
-            <Image src="/can1.png" alt="Vanilla" fill sizes="100vw" className="object-contain drop-shadow-[0_40px_35px_rgba(0,0,0,0.5)] scale-[1.5] sm:scale-[1.45] transition-all duration-700 ease-[cubic-bezier(0.25,0.8,0.25,1)] group-hover:scale-[1.55] group-hover:-translate-y-4" />
+            <Image src="/can1.png" alt="Vanilla" fill sizes="(max-width: 640px) 85vw, 70vw" className="object-contain drop-shadow-[0_40px_35px_rgba(0,0,0,0.5)] scale-[1.5] sm:scale-[1.45] transition-all duration-700 ease-[cubic-bezier(0.25,0.8,0.25,1)] group-hover:scale-[1.55] group-hover:-translate-y-4" />
           </div>
           <div className="text-center w-full flex flex-col items-center pb-6">
             <h2 className="text-white text-3xl sm:text-4xl font-bold mb-1">Strawberry Vanilla</h2>

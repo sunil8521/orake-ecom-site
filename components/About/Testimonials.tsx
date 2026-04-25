@@ -1,54 +1,49 @@
 "use client";
-import { useState, useEffect, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { Sansita, DM_Sans } from "next/font/google";
 
 const titleFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
 const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 
-// Data Array is now highly scalable - you can add an unlimited number of reviews here!
 const testimonials = [
   {
     text: "I've never tasted a drink so fresh and natural. The mango flavor is my absolute favorite—it's like a burst of fruit!",
     author: "Emily R.",
     role: "Fitness Enthusiast",
     rating: 5,
-    accent: "#dbba53", // Gold/Lemon
-    emoji: "🍋",
   },
   {
     text: "It's my daily pick-me-up. I love that it's delicious and made with real ingredients. The perfect alternative to soda.",
     author: "Jordan M.",
     role: "Health Coach",
     rating: 5,
-    accent: "#cf797e", // Strawberry Pink
-    emoji: "🍓",
   },
   {
     text: "The perfect balance of natural sweetness. I've cut out artificial ingredients, and this has been a total game-changer!",
     author: "Carlos T.",
     role: "Wellness Blogger",
     rating: 5,
-    accent: "#8a9b87", // Sage Green
-    emoji: "🌿",
   },
-  {
-    text: "My absolute go-to after an intense workout. The flavor burst is incredibly refreshing without any nasty syrups.",
-    author: "Mark D.",
-    role: "CrossFit Athlete",
-    rating: 4,
-    accent: "#de3e4f", // Orake Red
-    emoji: "⚡",
-  },
+
 ];
 
-// Star rating component
+const decorations = [
+  "/svgs/starwbery-svg.png",
+  "/svgs/ginger-svg.png",
+  "/svgs/leaf-svg.png",
+  "/svgs/lemon-svg.png",
+  "/svgs/flower-sb.png",
+  "/svgs/leaf-2.png",
+  "/svgs/lemon-2-svg.png",
+  
+
+];
+
 const Stars = ({ count }: { count: number }) => (
-  <div className="flex gap-1">
+  <div className="flex gap-1 mb-4">
     {[...Array(5)].map((_, i) => (
       <svg
         key={i}
-        className={`w-4 h-4 sm:w-5 sm:h-5 ${i < count ? "text-[#f4d169]" : "text-gray-200"}`}
+        className={`w-5 h-5 ${i < count ? "text-[#f4d169]" : "text-gray-200"}`}
         fill="currentColor"
         viewBox="0 0 20 20"
       >
@@ -56,183 +51,132 @@ const Stars = ({ count }: { count: number }) => (
       </svg>
     ))}
   </div>
-);
-
-export default function Testimonials() {
-  const [current, setCurrent] = useState(0);
-  const [direction, setDirection] = useState(0);
-
-  const paginate = useCallback((newDirection: number) => {
-    setDirection(newDirection);
-    setCurrent((prev) => (prev + newDirection + testimonials.length) % testimonials.length);
-  }, []);
-
-  // Auto-advance every 5 seconds
-  useEffect(() => {
-    const timer = setInterval(() => paginate(1), 5000);
-    return () => clearInterval(timer);
-  }, [paginate]);
-
-  const t = testimonials[current];
-
-  const variants = {
-    enter: (d: number) => ({ x: d > 0 ? 300 : -300, opacity: 0, scale: 0.95 }),
-    center: { x: 0, opacity: 1, scale: 1 },
-    exit: (d: number) => ({ x: d > 0 ? -300 : 300, opacity: 0, scale: 0.95 }),
-  };
+);const TestimonialCard = ({ t, idx }: { t: typeof testimonials[0], idx: number }) => {
+  const Decoration = decorations[idx % decorations.length];
 
   return (
-    // Reduced heights significantly: 'py-12 md:py-16' instead of 'py-24'
-    <section id="testimonials" className={`relative w-full bg-[#faf9f6] py-16 sm:py-20 md:py-24 overflow-hidden ${textFont.className}`}>
+    <div
+      className="flex-shrink-0 w-[260px] sm:w-[300px] md:w-[350px] lg:w-[400px] min-h-[320px] sm:min-h-[auto] bg-gradient-to-br from-white via-pink-50/40 to-yellow-50/40 rounded-[24px] p-6 sm:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] relative transform transition-transform duration-300 hover:-translate-y-2 cursor-pointer flex flex-col h-full border border-gray-100 overflow-hidden group"
+    >
+      {/* Decorative Background Image */}
+      <div className="absolute -bottom-6 -right-6 w-32 h-32 sm:w-40 sm:h-40 opacity-20 group-hover:opacity-40 transition-opacity duration-500 pointer-events-none transform -rotate-12">
+        <img src={Decoration} alt="decoration" className="w-full h-full object-contain" />
+      </div>
+
+      {/* Accent top bar */}
+      <div
+        className="absolute top-0 left-0 right-0 h-[4px] bg-[#de3e4f] opacity-80 transition-opacity group-hover:opacity-100"
+      />
+
+      <div className="relative z-10 flex flex-col h-full mt-2">
+        <Stars count={t.rating} />
+
+        <p className="text-lg font-medium leading-[1.6] text-[#292a31] italic flex-grow">
+          "{t.text}"
+        </p>
+
+        <div className="mt-8 flex items-center justify-between gap-4">
+          <p className="font-bold text-[#15161b] text-base leading-tight uppercase tracking-wider">{t.author}</p>
+          
+          {/* Subtle dash to finish the minimalist layout */}
+          <div className="w-6 h-[2px] bg-[#de3e4f]/30 rounded-full" />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default function Testimonials() {
+  // Ensure we have enough items so the track is always wider than the 1500px container,
+  // allowing a seamless endless loop even if the database only returns 2 or 3 reviews.
+  const minItems = 8;
+  const displayTestimonials = [...testimonials];
+  if (displayTestimonials.length > 0) {
+    while (displayTestimonials.length < minItems) {
+      displayTestimonials.push(...testimonials);
+    }
+  }
+
+  return (
+    <section 
+      id="testimonials" 
+      className={`relative w-full py-16 sm:py-24 overflow-hidden bg-[#faf9f6] ${textFont.className}`}
+    >
+      <style>{`
+        @keyframes scroll-marquee {
+          from { transform: translateX(0); }
+          to { transform: translateX(calc(-100% - 2rem)); } /* 2rem is gap-8 on desktop */
+        }
+        .animate-marquee {
+          animation: scroll-marquee 80s linear infinite; /* very slow */
+        }
+        
+        /* Pause on hover only on devices that support hover */
+        @media (hover: hover) {
+          .marquee-wrapper:hover .animate-marquee {
+            animation-play-state: paused;
+          }
+        }
+        
+        /* Pause on active (touch and hold) for all devices, specifically mobile */
+        .marquee-wrapper:active .animate-marquee {
+          animation-play-state: paused;
+        }
+
+        @media (max-width: 640px) {
+          .animate-marquee {
+            animation-duration: 60s; /* Slower on mobile */
+            to { transform: translateX(calc(-100% - 1.5rem)); } /* 1.5rem is gap-6 on mobile */
+          }
+        }
+      `}</style>
 
       {/* Decorative background elements */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {/* Soft radial glow */}
         <div className="absolute top-[20%] left-[10%] w-[400px] h-[400px] bg-[#dbba53]/8 rounded-full blur-[120px]" />
         <div className="absolute bottom-[10%] right-[5%] w-[350px] h-[350px] bg-[#cf797e]/8 rounded-full blur-[120px]" />
-        {/* Decorative quote marks */}
         <div className="absolute top-[15%] left-[5%] sm:left-[10%] text-[12rem] sm:text-[18rem] font-serif text-black/[0.02] leading-none select-none">"</div>
         <div className="absolute bottom-[10%] right-[5%] sm:right-[10%] text-[12rem] sm:text-[18rem] font-serif text-black/[0.02] leading-none select-none rotate-180">"</div>
       </div>
 
-      <div className="relative z-10 w-full max-w-[1400px] xl:max-w-[1500px] mx-auto px-4 sm:px-6 md:px-8">
-
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-10 sm:mb-14 md:mb-16"
-        >
-          <span className="inline-block px-4 py-1.5 rounded-full bg-[#8a9b87]/10 text-[#8a9b87] text-xs sm:text-sm font-semibold tracking-widest uppercase mb-4">
-            What People Say
-          </span>
-          <h2 className={`${titleFont.className} text-[clamp(2.2rem,5.5vw,4rem)] uppercase leading-[1] text-[#15161b]`}>
-            Stories from <span className="text-[#de3e4f]">The Source</span>
-          </h2>
-          <p className="text-gray-400 mt-3 text-sm sm:text-base font-medium tracking-wider uppercase">
-            Real reviews from real sippers
-          </p>
-        </motion.div>
-
-        {/* Testimonial Carousel */}
-        <div className="relative flex flex-col items-center">
-
-          {/* Main Card */}
-          <div className="relative w-full max-w-[800px] min-h-[280px] sm:min-h-[300px]">
-            <AnimatePresence custom={direction} mode="wait">
-              <motion.div
-                key={current}
-                custom={direction}
-                variants={variants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                transition={{ duration: 0.5, ease: [0.25, 0.8, 0.25, 1] }}
-                className="w-full"
-              >
-                <div className="relative bg-white rounded-[24px] sm:rounded-[32px] p-6 sm:p-8 md:p-10 shadow-[0_8px_40px_rgba(0,0,0,0.06)] border border-gray-100/80">
-
-                  {/* Accent top bar */}
-                  <div
-                    className="absolute top-0 left-8 sm:left-10 right-8 sm:right-10 h-[3px] rounded-b-full transition-colors duration-500"
-                    style={{ backgroundColor: t.accent }}
-                  />
-
-                  {/* Emoji flavor badge */}
-                  <div
-                    className="absolute -top-5 right-6 sm:right-8 w-10 h-10 sm:w-12 sm:h-12 rounded-2xl flex items-center justify-center text-xl sm:text-2xl shadow-lg transition-colors duration-500"
-                    style={{ backgroundColor: `${t.accent}18` }}
-                  >
-                    {t.emoji}
-                  </div>
-
-                  {/* Stars */}
-                  <Stars count={t.rating} />
-
-                  {/* Quote */}
-                  <p className={`mt-5 sm:mt-6 text-lg sm:text-xl md:text-2xl font-medium leading-[1.5] text-[#292a31] italic`}>
-                    &ldquo;{t.text}&rdquo;
-                  </p>
-
-                  {/* Author info */}
-                  <div className="mt-6 sm:mt-8 flex items-center gap-3 sm:gap-4">
-                    {/* Avatar with accent ring */}
-                    <div
-                      className="w-11 h-11 sm:w-12 sm:h-12 rounded-full flex items-center justify-center text-white font-bold text-sm sm:text-base shadow-md transition-colors duration-500"
-                      style={{ backgroundColor: t.accent }}
-                    >
-                      {t.author.split(" ").map(n => n[0]).join("")}
-                    </div>
-                    <div>
-                      <p className="font-bold text-[#15161b] text-base sm:text-lg leading-tight">{t.author}</p>
-                      <p className="text-gray-400 text-xs sm:text-sm font-medium">{t.role}</p>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            </AnimatePresence>
+      {/* Center the whole content to a max width of 1500px as requested */}
+      <div className="relative z-10 w-full max-w-[1500px] mx-auto">
+        <div className="px-4 sm:px-6 md:px-8 mb-12 sm:mb-20">
+          <div className="text-center">
+            <span className="inline-block px-4 py-1.5 rounded-full bg-[#8a9b87]/10 text-[#8a9b87] text-xs sm:text-sm font-semibold tracking-widest uppercase mb-4 shadow-sm border border-[#8a9b87]/20">
+              What People Say
+            </span>
+            <h2 className={`${titleFont.className} text-[clamp(2.2rem,5.5vw,4.5rem)] uppercase leading-[1] text-[#15161b] tracking-tight`}>
+              Stories from <span className="text-[#de3e4f]">The Source</span>
+            </h2>
+            <p className="text-gray-500 mt-4 text-sm sm:text-base font-medium tracking-[0.2em] uppercase">
+              Real reviews from real sippers
+            </p>
           </div>
+        </div>
 
-          {/* Navigation Controls */}
-          <div className="flex items-center gap-6 mt-8 sm:mt-10">
-
-            {/* Prev Button */}
-            <button
-              onClick={() => paginate(-1)}
-              aria-label="Previous testimonial"
-              className="group w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-gray-200 hover:border-[#de3e4f] flex items-center justify-center transition-all duration-300 hover:bg-[#de3e4f] active:scale-90"
-            >
-              <svg className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-              </svg>
-            </button>
-
-            {/* Dot Indicators */}
-            <div className="flex gap-2 sm:gap-2.5">
-              {testimonials.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => { setDirection(i > current ? 1 : -1); setCurrent(i); }}
-                  aria-label={`Go to testimonial ${i + 1}`}
-                  className="relative"
-                >
-                  <div
-                    className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full transition-all duration-400 ${
-                      i === current ? "scale-100" : "bg-gray-200 hover:bg-gray-300 scale-100"
-                    }`}
-                    style={i === current ? { backgroundColor: t.accent } : {}}
-                  />
-                  {i === current && (
-                    <motion.div
-                      layoutId="activeDot"
-                      className="absolute inset-[-3px] rounded-full border-2 transition-colors duration-500"
-                      style={{ borderColor: t.accent }}
-                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                    />
-                  )}
-                </button>
+        <div
+          className="relative w-full overflow-hidden"
+          style={{
+            WebkitMaskImage: "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
+            maskImage: "linear-gradient(to right, transparent, black 10%, black 90%, transparent)"
+          }}
+        >
+          {/* Marquee Container without horizontal padding to allow edge-to-edge scrolling inside the 1500px wrapper */}
+          <div className="marquee-wrapper flex gap-6 sm:gap-8 py-8 items-stretch">
+            {/* First Track */}
+            <div className="flex shrink-0 gap-6 sm:gap-8 animate-marquee items-stretch">
+              {displayTestimonials.map((t, idx) => (
+                <TestimonialCard key={`t1-${idx}`} t={t} idx={idx} />
               ))}
             </div>
-
-            {/* Next Button */}
-            <button
-              onClick={() => paginate(1)}
-              aria-label="Next testimonial"
-              className="group w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 border-gray-200 hover:border-[#de3e4f] flex items-center justify-center transition-all duration-300 hover:bg-[#de3e4f] active:scale-90"
-            >
-              <svg className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-              </svg>
-            </button>
+            {/* Second Track for seamless loop */}
+            <div className="flex shrink-0 gap-6 sm:gap-8 animate-marquee items-stretch" aria-hidden="true">
+              {displayTestimonials.map((t, idx) => (
+                <TestimonialCard key={`t2-${idx}`} t={t} idx={idx} />
+              ))}
+            </div>
           </div>
-
-          {/* Review count badge */}
-          <p className="mt-6 text-xs sm:text-sm text-gray-300 font-medium tracking-wider uppercase">
-            {current + 1} / {testimonials.length}
-          </p>
-
         </div>
       </div>
     </section>

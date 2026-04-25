@@ -1,11 +1,13 @@
 "use client";
 import { Sansita, DM_Sans } from "next/font/google";
+import Link from "next/link";
 
 const titleFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
 const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 
 const posts = [
   {
+    slug: "science-of-hydration",
     image: "https://images.unsplash.com/photo-1546188994-07c34f6e5e1b?q=80&w=800&auto=format&fit=crop",
     tag: "Science & Performance",
     author: "DR. KATE",
@@ -14,6 +16,7 @@ const posts = [
     excerpt: "We broke down the exact chemical pathways of our zero-sugar formula to show why you don't get the dreaded 4 PM crash anymore."
   },
   {
+    slug: "late-night-sessions",
     image: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=800&auto=format&fit=crop",
     tag: "Creator Spotlight",
     author: "MARCUS G.",
@@ -22,6 +25,7 @@ const posts = [
     excerpt: "We sat down with top tier esports athletes to see how they maintain peak reaction times during 12-hour tournament grinds."
   },
   {
+    slug: "behind-the-flavor",
     image: "https://images.unsplash.com/photo-1603808033192-082d6919d3e1?q=80&w=800&auto=format&fit=crop",
     tag: "Flavor Lab",
     author: "THE TEAM",
@@ -59,46 +63,48 @@ export default function NewsBlogs() {
         {/* Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-14">
           {posts.map((post, idx) => (
-             <article key={idx} className="group cursor-pointer flex flex-col items-start text-left relative">
-                 {/* Image Container */}
-                 <div className="relative w-full aspect-[4/5] sm:aspect-[3/4] overflow-hidden rounded-[2rem] mb-8 bg-[#15161b]">
-                     <img 
-                       src={post.image} 
-                       alt={post.title} 
-                       className="w-full h-full object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-110 group-hover:opacity-80" 
-                     />
-                     {/* Gradient overlay to pop text if needed, or just style */}
-                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                     
-                     {/* Floating Tag */}
-                     <div className={`${textFont.className} absolute top-6 left-6 bg-white/90 backdrop-blur-md text-[#15161b] text-xs font-bold px-4 py-2 rounded-full uppercase tracking-wider shadow-lg transform -translate-y-2 group-hover:translate-y-0 transition-transform duration-500`}>
-                         {post.tag}
-                     </div>
-                 </div>
+             <Link href={`/blog/${post.slug}`} key={idx} className="block group">
+               <article className="cursor-pointer flex flex-col items-start text-left relative h-full">
+                   {/* Image Container */}
+                   <div className="relative w-full aspect-[4/5] sm:aspect-[3/4] overflow-hidden rounded-[2rem] mb-8 bg-[#15161b]">
+                       <img 
+                         src={post.image} 
+                         alt={post.title} 
+                         className="w-full h-full object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-110 group-hover:opacity-80" 
+                       />
+                       {/* Gradient overlay to pop text if needed, or just style */}
+                       <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                       
+                       {/* Floating Tag */}
+                       <div className={`${textFont.className} absolute top-6 left-6 bg-white/90 backdrop-blur-md text-[#15161b] text-xs font-bold px-4 py-2 rounded-full uppercase tracking-wider shadow-lg transform -translate-y-2 group-hover:translate-y-0 transition-transform duration-500`}>
+                           {post.tag}
+                       </div>
+                   </div>
 
-                 {/* Meta */}
-                 <div className={`${textFont.className} flex items-center gap-2.5 text-[12px] font-bold text-gray-400 uppercase tracking-[0.15em] mb-4`}>
-                     <span>BY {post.author}</span>
-                     <span className="text-[#de3e4f] text-[16px] leading-none">•</span>
-                     <span>{post.date}</span>
-                 </div>
+                   {/* Meta */}
+                   <div className={`${textFont.className} flex items-center gap-2.5 text-[12px] font-bold text-gray-400 uppercase tracking-[0.15em] mb-4`}>
+                       <span>BY {post.author}</span>
+                       <span className="text-[#de3e4f] text-[16px] leading-none">•</span>
+                       <span>{post.date}</span>
+                   </div>
 
-                 {/* Title */}
-                 <h3 className={`${titleFont.className} text-3xl uppercase tracking-wide text-[#15161b] leading-[1.1] mb-4 group-hover:text-[#de3e4f] transition-colors duration-300 line-clamp-3`}>
-                     {post.title}
-                 </h3>
+                   {/* Title */}
+                   <h3 className={`${titleFont.className} text-3xl uppercase tracking-wide text-[#15161b] leading-[1.1] mb-4 group-hover:text-[#de3e4f] transition-colors duration-300 line-clamp-3`}>
+                       {post.title}
+                   </h3>
 
-                 {/* Excerpt */}
-                 <p className={`${textFont.className} text-gray-500 text-lg leading-relaxed mb-8 line-clamp-3 font-light`}>
-                     {post.excerpt}
-                 </p>
+                   {/* Excerpt */}
+                   <p className={`${textFont.className} text-gray-500 text-lg leading-relaxed mb-8 line-clamp-3 font-light flex-grow`}>
+                       {post.excerpt}
+                   </p>
 
-                 {/* Action Button */}
-                 <div className={`${textFont.className} mt-auto flex items-center text-[#15161b] font-bold text-lg uppercase tracking-wider group-hover:text-[#de3e4f] transition-colors duration-300`}>
-                     Read Article 
-                     <span className="ml-2 w-8 h-[2px] bg-[#15161b] block group-hover:bg-[#de3e4f] group-hover:w-12 transition-all duration-300"></span>
-                 </div>
-             </article>
+                   {/* Action Button */}
+                   <div className={`${textFont.className} mt-auto flex items-center text-[#15161b] font-bold text-lg uppercase tracking-wider group-hover:text-[#de3e4f] transition-colors duration-300`}>
+                       Read Article 
+                       <span className="ml-2 w-8 h-[2px] bg-[#15161b] block group-hover:bg-[#de3e4f] group-hover:w-12 transition-all duration-300"></span>
+                   </div>
+               </article>
+             </Link>
           ))}
         </div>
       </div>

@@ -39,32 +39,35 @@ export default function GiftExperienceSection() {
         </motion.div>
 
         {/* ━━━ Right Visual: Gift Image ━━━ */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9, y: 30 }}
-          whileInView={{ opacity: 1, scale: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-          className="relative flex justify-center lg:justify-end w-full mt-2 lg:mt-0"
-        >
-          {/* Subtle glow behind the gift */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] h-[70%] bg-[#de3e4f] rounded-full blur-[100px] opacity-15 pointer-events-none" />
+        <div className="relative flex justify-center lg:justify-end w-full mt-10 lg:mt-0 pb-10 lg:pb-0 z-10">
 
-          {/* Floating Gift Box */}
+          {/* Grounding Shadow (No visible plate/pedestal, just the shadow effect) */}
           <motion.div
-            animate={{ y: [0, -15, 0] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            className="relative w-full scale-110 sm:scale-100 max-w-[420px] sm:max-w-[550px] lg:max-w-[650px] xl:max-w-[500px] aspect-square lg:scale-110 xl:scale-125 lg:origin-right"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, delay: 0.5 }}
+            className="absolute bottom-[2%] sm:bottom-[8%] lg:bottom-[4%] left-1/2 lg:left-[50%] -translate-x-1/2 w-[60%] sm:w-[50%] lg:w-[65%] h-[40px] sm:h-[60px] bg-black/25 rounded-[50%] blur-[12px] pointer-events-none z-0"
+          />
+
+          {/* Grounded Gift Box */}
+          <motion.div
+            initial={{ opacity: 0, y: -40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+            className="relative w-full max-w-[420px] sm:max-w-[550px] lg:max-w-[600px] xl:max-w-[650px] aspect-square z-10 lg:origin-right hover:-translate-y-2 transition-transform duration-500"
           >
             <Image
               src="/gift.png"
               alt="Curated Gift Box"
               fill
               sizes="(max-width: 1024px) 80vw, 50vw"
-              className="object-contain drop-shadow-[0_30px_40px_rgba(0,0,0,0.25)] hover:drop-shadow-[0_40px_50px_rgba(0,0,0,0.35)] transition-all duration-500"
+              className="object-contain drop-shadow-[0_20px_30px_rgba(0,0,0,0.3)]"
               priority
             />
           </motion.div>
-        </motion.div>
+        </div>
 
       </div>
 

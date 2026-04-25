@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { MapPin, Phone, Send, Mail, Clock } from "lucide-react";
-import { FaInstagram, FaTwitter, FaYoutube, FaTiktok } from "react-icons/fa";
+// import { FaInstagram, FaTwitter, FaYoutube, FaTiktok } from "react-icons/fa";
 import { Sansita, DM_Sans } from "next/font/google";
 
 const titleFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
@@ -234,7 +234,7 @@ export default function ContactForm() {
                 <h4 className={`${textFont.className} font-bold text-sm uppercase tracking-[0.2em] mb-5 relative z-10`}>
                   Follow The Energy
                 </h4>
-                <div className="flex gap-3 relative z-10">
+                {/* <div className="flex gap-3 relative z-10">
                   {[
                     { Icon: FaInstagram, label: "Instagram" },
                     { Icon: FaTiktok, label: "TikTok" },
@@ -250,7 +250,7 @@ export default function ContactForm() {
                       <Icon size={20} />
                     </a>
                   ))}
-                </div>
+                </div> */}
               </div>
 
               {/* Email CTA */}

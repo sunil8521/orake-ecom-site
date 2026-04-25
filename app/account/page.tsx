@@ -1,8 +1,11 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
-import { User, Mail, Phone, MapPin, Lock, Eye, EyeOff, Camera, ShoppingBag, Heart, LogOut, Check } from "lucide-react";
+import { User, Mail, Phone, MapPin, Lock, Eye, EyeOff, Camera, ShoppingBag, Heart, LogOut, Check, Settings } from "lucide-react";
 import { Sansita, DM_Sans } from "next/font/google";
+import { useSession, signOut } from "next-auth/react";
+import { useForm } from "react-hook-form";
+import { useEffect } from "react";
 
 const titleFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
 const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
@@ -10,7 +13,7 @@ const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "70
 const tabs = [
   { id: "profile", label: "Profile", icon: User },
   { id: "orders", label: "My Orders", icon: ShoppingBag },
-  { id: "security", label: "Security", icon: Lock },
+  { id: "settings", label: "Settings", icon: Settings },
 ];
 
 const orderHistory = [
@@ -27,21 +30,45 @@ const statusColors: Record<string, string> = {
 };
 
 export default function AccountPage() {
+  const { data: session } = useSession();
   const [activeTab, setActiveTab] = useState("profile");
   const [saved, setSaved] = useState(false);
   const [showOldPass, setShowOldPass] = useState(false);
   const [showNewPass, setShowNewPass] = useState(false);
-  const [profile, setProfile] = useState({
-    name: "Rahul Sharma",
-    email: "rahul@gmail.com",
-    phone: "+91 98765 43210",
-    address: "MG Road, Saheed Nagar",
-    city: "Bhubaneswar",
-    state: "Odisha",
-    pincode: "751007",
+  
+  const { register, handleSubmit, reset, watch, formState: { errors } } = useForm({
+    defaultValues: {
+      name: "",
+      email: "",
+      phone: "",
+      address: "",
+      city: "",
+      state: "",
+      pincode: "",
+    }
   });
 
-  const handleSave = () => {
+  const watchName = watch("name");
+  const watchEmail = watch("email");
+  const watchPhone = watch("phone");
+  const watchAddress = watch("address");
+
+  useEffect(() => {
+    if (session?.user) {
+      reset({
+        name: session.user.name || "",
+        email: session.user.email || "",
+        phone: (session.user as any).phone || "",
+        address: (session.user as any).address || "",
+        city: (session.user as any).city || "",
+        state: (session.user as any).state || "",
+        pincode: (session.user as any).pincode || "",
+      });
+    }
+  }, [session, reset]);
+
+  const onSubmit = (data: any) => {
+    console.log("Saving profile data:", data);
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
   };
@@ -67,10 +94,10 @@ export default function AccountPage() {
             </button>
           </div> */}
           <h1 className={`${titleFont.className} text-4xl md:text-5xl text-white tracking-tight uppercase leading-none`}>
-            {profile.name}
+            {watchName || "Welcome"}
           </h1>
           <p className={`${textFont.className} text-gray-400 text-sm tracking-[0.2em] uppercase mt-2`}>
-            {profile.email}
+            {watchEmail || "Loading..."}
           </p>
         </div>
       </div>
@@ -97,14 +124,14 @@ export default function AccountPage() {
 
           {/* Profile Tab */}
           {activeTab === "profile" && (
-            <div className="bg-white border border-gray-200 rounded-[2rem] p-8 sm:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.06)]">
-              <div className="flex items-center justify-between mb-8">
+            <form onSubmit={handleSubmit(onSubmit)} className="bg-white border border-gray-200 rounded-[2rem] p-8 sm:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.06)]">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
                 <h3 className={`${titleFont.className} text-2xl uppercase tracking-wide text-[#15161b]`}>
                   Personal Info
                 </h3>
                 <button
-                  onClick={handleSave}
-                  className={`${textFont.className} flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-all ${
+                  type="submit"
+                  className={`${textFont.className} flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-all ${
                     saved
                       ? "bg-green-500 text-white"
                       : "bg-[#c25b5e] hover:bg-[#de3e4f] text-white shadow-lg shadow-[#c25b5e]/20"
@@ -114,14 +141,16 @@ export default function AccountPage() {
                 </button>
               </div>
 
+             
+
               <div className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div>
                     <label className={`${textFont.className} block text-xs font-semibold uppercase tracking-[0.2em] text-gray-400 mb-2`}>Full Name</label>
                     <div className="relative">
                       <User size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300" />
-                      <input type="text" value={profile.name} onChange={e => setProfile({ ...profile, name: e.target.value })}
-                        className={`${textFont.className} w-full border-2 border-gray-200 bg-gray-50 pl-11 pr-4 py-3 text-sm font-medium text-[#15161b] focus:border-[#c25b5e] focus:bg-white focus:outline-none transition-all rounded-xl`}
+                      <input type="text" {...register("name", { required: "Name is required" })}
+                        className={`${textFont.className} w-full border-2 border-gray-200 bg-gray-50 pl-11 pr-4 py-3 text-sm font-medium text-[#15161b] focus:border-[#c25b5e] focus:bg-white focus:outline-none transition-all rounded-xl ${errors.name ? 'border-red-400' : ''}`}
                       />
                     </div>
                   </div>
@@ -129,8 +158,8 @@ export default function AccountPage() {
                     <label className={`${textFont.className} block text-xs font-semibold uppercase tracking-[0.2em] text-gray-400 mb-2`}>Email Address</label>
                     <div className="relative">
                       <Mail size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300" />
-                      <input type="email" value={profile.email} onChange={e => setProfile({ ...profile, email: e.target.value })}
-                        className={`${textFont.className} w-full border-2 border-gray-200 bg-gray-50 pl-11 pr-4 py-3 text-sm font-medium text-[#15161b] focus:border-[#c25b5e] focus:bg-white focus:outline-none transition-all rounded-xl`}
+                      <input type="email" {...register("email", { required: "Email is required" })} readOnly
+                        className={`${textFont.className} w-full border-2 border-gray-200 bg-gray-100 pl-11 pr-4 py-3 text-sm font-medium text-gray-500 cursor-not-allowed rounded-xl`}
                       />
                     </div>
                   </div>
@@ -140,8 +169,9 @@ export default function AccountPage() {
                   <label className={`${textFont.className} block text-xs font-semibold uppercase tracking-[0.2em] text-gray-400 mb-2`}>Phone Number</label>
                   <div className="relative">
                     <Phone size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300" />
-                    <input type="tel" value={profile.phone} onChange={e => setProfile({ ...profile, phone: e.target.value })}
-                      className={`${textFont.className} w-full border-2 border-gray-200 bg-gray-50 pl-11 pr-4 py-3 text-sm font-medium text-[#15161b] focus:border-[#c25b5e] focus:bg-white focus:outline-none transition-all rounded-xl`}
+                    <input type="tel" {...register("phone", { required: "Phone is required" })}
+                      className={`${textFont.className} w-full border-2 ${!watchPhone ? 'border-red-200 bg-red-50' : 'border-gray-200 bg-gray-50'} pl-11 pr-4 py-3 text-sm font-medium text-[#15161b] focus:border-[#c25b5e] focus:bg-white focus:outline-none transition-all rounded-xl`}
+                      placeholder="+91 98765 43210"
                     />
                   </div>
                 </div>
@@ -156,35 +186,39 @@ export default function AccountPage() {
                       <label className={`${textFont.className} block text-xs font-semibold uppercase tracking-[0.2em] text-gray-400 mb-2`}>Street Address</label>
                       <div className="relative">
                         <MapPin size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300" />
-                        <input type="text" value={profile.address} onChange={e => setProfile({ ...profile, address: e.target.value })}
-                          className={`${textFont.className} w-full border-2 border-gray-200 bg-gray-50 pl-11 pr-4 py-3 text-sm font-medium text-[#15161b] focus:border-[#c25b5e] focus:bg-white focus:outline-none transition-all rounded-xl`}
+                        <input type="text" {...register("address", { required: "Address is required" })}
+                          className={`${textFont.className} w-full border-2 ${!watchAddress ? 'border-red-200 bg-red-50' : 'border-gray-200 bg-gray-50'} pl-11 pr-4 py-3 text-sm font-medium text-[#15161b] focus:border-[#c25b5e] focus:bg-white focus:outline-none transition-all rounded-xl`}
+                          placeholder="e.g. MG Road, Saheed Nagar"
                         />
                       </div>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                       <div>
                         <label className={`${textFont.className} block text-xs font-semibold uppercase tracking-[0.2em] text-gray-400 mb-2`}>City</label>
-                        <input type="text" value={profile.city} onChange={e => setProfile({ ...profile, city: e.target.value })}
+                        <input type="text" {...register("city")}
                           className={`${textFont.className} w-full border-2 border-gray-200 bg-gray-50 px-4 py-3 text-sm font-medium text-[#15161b] focus:border-[#c25b5e] focus:bg-white focus:outline-none transition-all rounded-xl`}
+                          placeholder="City"
                         />
                       </div>
                       <div>
                         <label className={`${textFont.className} block text-xs font-semibold uppercase tracking-[0.2em] text-gray-400 mb-2`}>State</label>
-                        <input type="text" value={profile.state} onChange={e => setProfile({ ...profile, state: e.target.value })}
+                        <input type="text" {...register("state")}
                           className={`${textFont.className} w-full border-2 border-gray-200 bg-gray-50 px-4 py-3 text-sm font-medium text-[#15161b] focus:border-[#c25b5e] focus:bg-white focus:outline-none transition-all rounded-xl`}
+                          placeholder="State"
                         />
                       </div>
                       <div>
                         <label className={`${textFont.className} block text-xs font-semibold uppercase tracking-[0.2em] text-gray-400 mb-2`}>Pincode</label>
-                        <input type="text" value={profile.pincode} onChange={e => setProfile({ ...profile, pincode: e.target.value })}
+                        <input type="text" {...register("pincode")}
                           className={`${textFont.className} w-full border-2 border-gray-200 bg-gray-50 px-4 py-3 text-sm font-medium text-[#15161b] focus:border-[#c25b5e] focus:bg-white focus:outline-none transition-all rounded-xl`}
+                          placeholder="Pincode"
                         />
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </form>
           )}
 
           {/* Orders Tab */}
@@ -206,11 +240,16 @@ export default function AccountPage() {
                           <p className={`${textFont.className} text-xs text-gray-400`}>{order.date} • {order.items}</p>
                         </div>
                       </div>
-                      <div className="flex items-center gap-4 sm:gap-6">
-                        <p className={`${titleFont.className} text-lg text-[#15161b]`}>₹{order.total}</p>
-                        <span className={`${textFont.className} text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full ${statusColors[order.status] || "bg-gray-100 text-gray-600"}`}>
-                          {order.status}
-                        </span>
+                      <div className="flex flex-col sm:items-end gap-3 mt-4 sm:mt-0 w-full sm:w-auto">
+                        <div className="flex items-center justify-between sm:justify-end gap-4 w-full">
+                          <p className={`${titleFont.className} text-lg text-[#15161b]`}>₹{order.total}</p>
+                          <span className={`${textFont.className} text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full ${statusColors[order.status] || "bg-gray-100 text-gray-600"}`}>
+                            {order.status}
+                          </span>
+                        </div>
+                        <button className={`${textFont.className} w-full sm:w-auto text-[10px] font-bold uppercase tracking-widest text-gray-600 hover:text-white border border-gray-200 hover:bg-[#15161b] hover:border-[#15161b] bg-white px-5 py-2 rounded-xl transition-all`}>
+                          Track Order
+                        </button>
                       </div>
                     </div>
                   ))}
@@ -227,8 +266,8 @@ export default function AccountPage() {
             </div>
           )}
 
-          {/* Security Tab */}
-          {activeTab === "security" && (
+          {/* Settings Tab */}
+          {activeTab === "settings" && (
             <div className="bg-white border border-gray-200 rounded-[2rem] p-8 sm:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.06)]">
               <h3 className={`${titleFont.className} text-2xl uppercase tracking-wide text-[#15161b] mb-8`}>
                 Change Password
@@ -272,7 +311,7 @@ export default function AccountPage() {
                 </div>
 
                 <button
-                  onClick={handleSave}
+                  // onClick={handleSave}
                   className={`${textFont.className} w-full sm:w-auto px-8 py-3 rounded-full text-sm font-bold uppercase tracking-widest transition-all duration-300 ${
                     saved
                       ? "bg-green-500 text-white"
@@ -299,10 +338,10 @@ export default function AccountPage() {
           )}
 
           {/* Logout */}
-          <div className="mt-8 text-center">
-            <Link href="/login" className={`${textFont.className} inline-flex items-center gap-2 text-gray-400 hover:text-red-500 text-sm uppercase tracking-widest transition-colors`}>
-              <LogOut size={14} /> Sign Out
-            </Link>
+          <div className="mt-10 mb-8 max-w-xs mx-auto">
+            <button onClick={() => signOut({ callbackUrl: "/" })} className={`${textFont.className} w-full flex items-center justify-center gap-2 text-sm text-[#de3e4f] bg-red-50 hover:bg-[#de3e4f] hover:text-white border border-red-100 py-3.5 rounded-2xl font-bold uppercase tracking-widest transition-all shadow-sm`}>
+              <LogOut size={16} /> Sign Out
+            </button>
           </div>
         </div>
       </div>

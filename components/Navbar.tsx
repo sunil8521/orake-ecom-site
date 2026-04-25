@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import { ShoppingCart, User, Heart, Menu, X } from "lucide-react";
+import { ShoppingCart, User, Heart, Menu, X, LogIn } from "lucide-react";
+import { useSession } from "next-auth/react";
 
 const navLinks = [
   { path: "/", label: "Home" },
@@ -16,6 +17,7 @@ const navLinks = [
 
 export default function Navbar() {
   const pathname = usePathname();
+  const { data: session, status } = useSession();
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -94,12 +96,32 @@ export default function Navbar() {
               <Link href="/wishlist" className="hover:scale-110 transition-all">
                 <Heart className="h-6 w-6 lg:h-7 lg:w-7" strokeWidth={2.2} />
               </Link>
-              <Link href="/account" className="hover:scale-110 transition-all">
-                <User className="h-6 w-6 lg:h-7 lg:w-7" strokeWidth={2.2} />
-              </Link>
               <Link href="/cart" className="hover:scale-110 transition-all">
                 <ShoppingCart className="h-6 w-6 lg:h-7 lg:w-7" strokeWidth={2.2} />
               </Link>
+              {status === "authenticated" ? (
+                <Link href="/account" className="hover:scale-110 transition-all">
+                  <User className="h-6 w-6 lg:h-7 lg:w-7" strokeWidth={2.2} />
+                </Link>
+              ) : (
+                <Link
+                  href="/login"
+                  className="group flex items-center transition-all duration-300"
+                >
+                  {/* Mobile: Just Icon */}
+                  <LogIn className="h-6 w-6 sm:hidden hover:scale-110 transition-transform" strokeWidth={2.2} />
+                  
+                  {/* Desktop: Full Button */}
+                  <div className={`hidden sm:flex items-center gap-2 px-4 py-1.5 rounded-full border-2 border-[#f2c56f] text-[12px] lg:text-[13px] font-bold uppercase tracking-wider transition-all duration-300 ${
+                    scrolled
+                      ? "text-[#f6efe2] hover:bg-[#f2c56f] hover:text-[#15161b]"
+                      : "text-[#f6efe2] hover:bg-[#f2c56f] hover:text-[#15161b]"
+                  }`}>
+                    <LogIn className="h-4 w-4" strokeWidth={2.5} />
+                    Sign In
+                  </div>
+                </Link>
+              )}
             </div>
 
             {/* ✅ BETTER HAMBURGER */}
