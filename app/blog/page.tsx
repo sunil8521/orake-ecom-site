@@ -1,6 +1,12 @@
+import type { Metadata } from "next";
 import HeroSection from "@/components/Blogs/HeroSection";
 import CTASection from "@/components/Blogs/CTASection";
 import NewsBlogs from "@/components/Blogs/NewsBlogs";
+
+export const metadata: Metadata = {
+  title: "Orake Blog — Energy, Wellness & Lifestyle",
+  description: "Latest articles on energy science, hydration, flavor development, and the Orake lifestyle. Stay informed, stay fueled.",
+};
 
 export default function BlogPage() {
     return (

@@ -10,16 +10,16 @@ const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "70
 const statusOptions = ["All", "Pending", "Processing", "Shipped", "Delivered", "Cancelled"];
 
 const ordersData = [
-  { id: "ORK-001", customer: "Rahul Sharma", email: "rahul@gmail.com", items: [{ name: "Fan Favorites Box", qty: 2, price: 627 }], total: 1254, date: "2026-04-21", status: "Delivered", payment: "Paid", address: "MG Road, Bhubaneswar" },
-  { id: "ORK-002", customer: "Priya Patel", email: "priya@gmail.com", items: [{ name: "Chaos Edition Box", qty: 1, price: 750 }], total: 750, date: "2026-04-20", status: "Shipped", payment: "Paid", address: "Koramangala, Bangalore" },
-  { id: "ORK-003", customer: "Aditya Nair", email: "aditya@gmail.com", items: [{ name: "Tropical Rush Single", qty: 3, price: 199 }], total: 597, date: "2026-04-20", status: "Processing", payment: "Paid", address: "Andheri West, Mumbai" },
-  { id: "ORK-004", customer: "Sneha Das", email: "sneha@gmail.com", items: [{ name: "Super Cola Date", qty: 1, price: 999 }], total: 999, date: "2026-04-19", status: "Pending", payment: "COD", address: "Salt Lake, Kolkata" },
-  { id: "ORK-005", customer: "Vikram Singh", email: "vikram@gmail.com", items: [{ name: "Midnight Berry Pack", qty: 1, price: 449 }], total: 449, date: "2026-04-18", status: "Delivered", payment: "Paid", address: "Connaught Place, Delhi" },
-  { id: "ORK-006", customer: "Ananya Roy", email: "ananya@gmail.com", items: [{ name: "Citrus Blast Combo", qty: 2, price: 399 }], total: 798, date: "2026-04-18", status: "Cancelled", payment: "Refunded", address: "Jayanagar, Bangalore" },
-  { id: "ORK-007", customer: "Karan Mehta", email: "karan@gmail.com", items: [{ name: "Fan Favorites Box", qty: 1, price: 627 }, { name: "Tropical Rush", qty: 2, price: 199 }], total: 1025, date: "2026-04-17", status: "Delivered", payment: "Paid", address: "Jubilee Hills, Hyderabad" },
-  { id: "ORK-008", customer: "Meera Joshi", email: "meera@gmail.com", items: [{ name: "Energy Starter Kit", qty: 1, price: 349 }], total: 349, date: "2026-04-16", status: "Shipped", payment: "Paid", address: "Kothrud, Pune" },
-  { id: "ORK-009", customer: "Arjun Desai", email: "arjun@gmail.com", items: [{ name: "Mega Party Pack", qty: 1, price: 1499 }], total: 1499, date: "2026-04-15", status: "Delivered", payment: "Paid", address: "Vastrapur, Ahmedabad" },
-  { id: "ORK-010", customer: "Diya Reddy", email: "diya@gmail.com", items: [{ name: "Midnight Berry Pack", qty: 2, price: 449 }], total: 898, date: "2026-04-14", status: "Processing", payment: "COD", address: "Banjara Hills, Hyderabad" },
+  { id: "ORK-001", customer: "Rahul Sharma", email: "rahul@gmail.com", items: [{ name: "Fan Favorites Box", qty: 2, price: 627, image: "/pinkcan.png" }], total: 1254, date: "2026-04-21", status: "Delivered", payment: "Paid", address: "MG Road, Bhubaneswar" },
+  { id: "ORK-002", customer: "Priya Patel", email: "priya@gmail.com", items: [{ name: "Chaos Edition Box", qty: 1, price: 750, image: "/blackcan.png" }], total: 750, date: "2026-04-20", status: "Shipped", payment: "Paid", address: "Koramangala, Bangalore" },
+  { id: "ORK-003", customer: "Aditya Nair", email: "aditya@gmail.com", items: [{ name: "Tropical Rush Single", qty: 3, price: 199, image: "/yellowcan.png" }], total: 597, date: "2026-04-20", status: "Processing", payment: "Paid", address: "Andheri West, Mumbai" },
+  { id: "ORK-004", customer: "Sneha Das", email: "sneha@gmail.com", items: [{ name: "Super Cola Date", qty: 1, price: 999, image: "/blackcan.png" }], total: 999, date: "2026-04-19", status: "Pending", payment: "COD", address: "Salt Lake, Kolkata" },
+  { id: "ORK-005", customer: "Vikram Singh", email: "vikram@gmail.com", items: [{ name: "Midnight Berry Pack", qty: 1, price: 449, image: "/pinkcan.png" }], total: 449, date: "2026-04-18", status: "Delivered", payment: "Paid", address: "Connaught Place, Delhi" },
+  { id: "ORK-006", customer: "Ananya Roy", email: "ananya@gmail.com", items: [{ name: "Citrus Blast Combo", qty: 2, price: 399, image: "/yellowcan.png" }], total: 798, date: "2026-04-18", status: "Cancelled", payment: "Refunded", address: "Jayanagar, Bangalore" },
+  { id: "ORK-007", customer: "Karan Mehta", email: "karan@gmail.com", items: [{ name: "Fan Favorites Box", qty: 1, price: 627, image: "/pinkcan.png" }, { name: "Tropical Rush", qty: 2, price: 199, image: "/yellowcan.png" }], total: 1025, date: "2026-04-17", status: "Delivered", payment: "Paid", address: "Jubilee Hills, Hyderabad" },
+  { id: "ORK-008", customer: "Meera Joshi", email: "meera@gmail.com", items: [{ name: "Energy Starter Kit", qty: 1, price: 349, image: "/blackcan.png" }], total: 349, date: "2026-04-16", status: "Shipped", payment: "Paid", address: "Kothrud, Pune" },
+  { id: "ORK-009", customer: "Arjun Desai", email: "arjun@gmail.com", items: [{ name: "Mega Party Pack", qty: 1, price: 1499, image: "/pinkcan.png" }, { name: "Citrus Blast Combo", qty: 1, price: 399, image: "/yellowcan.png" }, { name: "Super Cola Date", qty: 1, price: 999, image: "/blackcan.png" }], total: 2897, date: "2026-04-15", status: "Delivered", payment: "Paid", address: "Vastrapur, Ahmedabad" },
+  { id: "ORK-010", customer: "Diya Reddy", email: "diya@gmail.com", items: [{ name: "Midnight Berry Pack", qty: 2, price: 449, image: "/pinkcan.png" }], total: 898, date: "2026-04-14", status: "Processing", payment: "COD", address: "Banjara Hills, Hyderabad" },
 ];
 
 const statusIcons: Record<string, typeof Package> = { Pending: Clock, Processing: Package, Shipped: Truck, Delivered: CheckCircle, Cancelled: X };
@@ -73,7 +73,7 @@ export default function AdminOrdersPage() {
           <table className="w-full min-w-[600px]">
             <thead className="sticky top-0 z-10">
               <tr className="bg-gray-50 border-b border-gray-100">
-                {["Order ID", "Customer", "Date", "Total", "Payment", "Status", ""].map(h => (
+                {["Order ID", "Customer", "Items", "Date", "Total", "Payment", "Status", ""].map(h => (
                   <th key={h} className={`${textFont.className} text-left px-4 md:px-6 py-3 text-[10px] font-bold uppercase tracking-[0.15em] text-gray-400 whitespace-nowrap`}>{h}</th>
                 ))}
               </tr>
@@ -87,6 +87,20 @@ export default function AdminOrdersPage() {
                     <td className="px-4 md:px-6 py-3">
                       <p className={`${textFont.className} text-sm font-semibold text-[#15161b]`}>{order.customer}</p>
                       <p className={`${textFont.className} text-[10px] text-gray-400`}>{order.email}</p>
+                    </td>
+                    <td className="px-4 md:px-6 py-3">
+                      <div className="flex items-center gap-2">
+                        <div className="flex -space-x-2 shrink-0">
+                          {order.items.slice(0, 2).map((item, idx) => (
+                            <div key={idx} className={`w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center border border-white z-[${10 - idx}] overflow-hidden`}>
+                              <img src={item.image} alt={item.name} className="h-4 object-contain" />
+                            </div>
+                          ))}
+                        </div>
+                        <p className={`${textFont.className} text-xs font-semibold text-gray-600 truncate max-w-[120px]`}>
+                          {order.items.length === 1 ? order.items[0].name : `${order.items[0].name} +${order.items.length - 1}`}
+                        </p>
+                      </div>
                     </td>
                     <td className={`${textFont.className} px-4 md:px-6 py-3 text-xs text-gray-500 uppercase tracking-wider whitespace-nowrap`}>{order.date}</td>
                     <td className={`${textFont.className} px-4 md:px-6 py-3 text-sm font-bold text-[#15161b]`}>₹{order.total}</td>
@@ -128,8 +142,24 @@ export default function AdminOrdersPage() {
               </div>
               <div className="border-t border-gray-100 pt-4">
                 <p className={`${textFont.className} text-[10px] text-gray-400 uppercase tracking-widest mb-3`}>Items</p>
-                {viewOrder.items.map((item, i) => (<div key={i} className="flex justify-between py-2"><span className={`${textFont.className} text-sm text-[#15161b]`}>{item.name} ×{item.qty}</span><span className={`${textFont.className} text-sm font-bold`}>₹{item.price * item.qty}</span></div>))}
-                <div className="flex justify-between pt-3 mt-3 border-t border-gray-100"><span className={`${titleFont.className} text-lg uppercase text-[#15161b]`}>Total</span><span className={`${titleFont.className} text-lg text-[#c25b5e]`}>₹{viewOrder.total}</span></div>
+                <div className="space-y-1">
+                  {viewOrder.items.map((item, i) => (
+                    <div key={i} className="flex items-center gap-4 py-3 border-b border-gray-50 last:border-0">
+                      <div className="w-12 h-12 bg-gray-50 rounded-xl flex items-center justify-center shrink-0 border border-gray-100 p-1">
+                        <img src={item.image} alt={item.name} className="h-full object-contain" />
+                      </div>
+                      <div className="flex-1">
+                        <p className={`${textFont.className} text-sm font-bold text-[#15161b]`}>{item.name}</p>
+                        <p className={`${textFont.className} text-xs text-gray-500 mt-0.5`}>Qty: {item.qty} × ₹{item.price}</p>
+                      </div>
+                      <span className={`${textFont.className} text-sm font-bold text-[#15161b]`}>₹{item.price * item.qty}</span>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex justify-between pt-4 mt-2 border-t border-gray-100">
+                  <span className={`${titleFont.className} text-lg uppercase text-[#15161b]`}>Total</span>
+                  <span className={`${titleFont.className} text-lg text-[#c25b5e]`}>₹{viewOrder.total}</span>
+                </div>
               </div>
               <div>
                 <p className={`${textFont.className} text-[10px] text-gray-400 uppercase tracking-widest mb-2`}>Update Status</p>

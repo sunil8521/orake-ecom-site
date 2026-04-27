@@ -1,4 +1,3 @@
-"use client";
 import { Zap } from "lucide-react";
 import { Sansita, DM_Sans } from "next/font/google";
 

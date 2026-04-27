@@ -30,7 +30,7 @@ const faqs = [
 ];
 
 export default function Faqs() {
-  const [openIdx, setOpenIdx] = useState(1);
+  const [openIdx, setOpenIdx] = useState<number | null>(null);
 
   return (
     <section id="faqs" className="py-20 md:py-32 relative overflow-hidden bg-white">

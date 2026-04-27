@@ -14,6 +14,7 @@ export interface IUser {
   role: "user" | "admin"
   createdAt: Date;
   updatedAt: Date;
+  isDelete: boolean
 }
 
 const UserSchema = new Schema<IUser>(
@@ -27,6 +28,11 @@ const UserSchema = new Schema<IUser>(
     otpExpiry: { type: Date, select: false },
     provider: { type: String, enum: ["credentials", "google"], default: "credentials" },
     role: { type: String, enum: ["user", "admin"], default: "user" },
+    isDelete: {
+      type: Boolean,
+      default: false,
+      select: false
+    }
   },
   { timestamps: true }
 );

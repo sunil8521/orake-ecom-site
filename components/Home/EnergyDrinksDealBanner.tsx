@@ -25,7 +25,7 @@ export default function EnergyDrinksDealBanner() {
           {/* Subtle Water Texture Overlay */}
           <div
             className="absolute inset-0 bg-cover bg-center opacity-20 mix-blend-overlay"
-            style={{ backgroundImage: "url('/water.png')" }}
+            style={{ backgroundImage: "url('/water-splash.png')" }}
           />
 
           {/* Subtle Right glow */}

@@ -1,4 +1,3 @@
-"use client";
 import { Sansita, DM_Sans } from "next/font/google";
 
 const titleFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });

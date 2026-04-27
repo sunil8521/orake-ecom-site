@@ -3,7 +3,8 @@
 import Image from "next/image";
 import { Sansita, DM_Sans } from "next/font/google";
 import { motion } from "framer-motion";
-
+import { ShoppingCart, Heart } from "lucide-react";
+import { useState } from "react";
 const headingFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
 const bodyFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 
@@ -37,6 +38,9 @@ function StarRating({ rating, reviews }: { rating: number; reviews: number }) {
 }
 
 export default function CollectionsSection() {
+  const [liked1, setLiked1] = useState(false);
+  const [liked2, setLiked2] = useState(false);
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -91,7 +95,7 @@ export default function CollectionsSection() {
           viewport={{ once: true }}
           className={`${bodyFont.className} mb-26 flex flex-wrap justify-center gap-3 md:gap-4 text-xs md:text-sm font-bold uppercase tracking-wider`}
         >
-          {['Curated box', 'Non-Algo Beer', 'Indie sodas', 'Mixers', 'Super Cola', 'Energy'].map((tab, i) => (
+          {['Strawberry Vanilla', 'Ginger Lemon'].map((tab, i) => (
             <motion.button
               key={tab}
               whileHover={{ scale: 1.1, y: -4, rotate: (i % 2 === 0 ? 2 : -2) }}
@@ -138,6 +142,18 @@ export default function CollectionsSection() {
                 HYPE DROP
               </motion.div>
 
+              {/* Heart Icon Top-Right */}
+              <button
+                onClick={() => setLiked1(!liked1)}
+                className={`absolute top-4 right-4 sm:top-5 sm:right-5 md:top-4 md:right-4 lg:top-5 lg:right-5 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-all active:scale-90 ${
+                  liked1
+                    ? "bg-[#c25b5e] text-white shadow-md"
+                    : "bg-white/80 text-gray-400 hover:text-[#c25b5e] hover:bg-white shadow-sm"
+                }`}
+              >
+                <Heart size={20} strokeWidth={2} fill={liked1 ? "currentColor" : "none"} />
+              </button>
+
               {/* The Massive Pop-out Image — 20% bigger */}
               <div className="absolute inset-x-0 bottom-0 flex justify-center pointer-events-none z-10 w-full">
                 <div className="relative h-[380px] sm:h-[420px] md:h-[380px] lg:h-[480px] xl:h-[560px]">
@@ -158,9 +174,14 @@ export default function CollectionsSection() {
                 Strawberry Vanilla
               </h3>
               <StarRating rating={5} reviews={24} />
-              <div className={`${bodyFont.className} flex justify-center md:justify-start items-center gap-3`}>
-                <span className="text-3xl md:text-4xl font-black text-black">Rs. 10.00</span>
-                <span className="text-xl text-gray-400 line-through decoration-2">Rs. 668.00</span>
+              <div className={`${bodyFont.className} flex justify-between md:justify-start items-center md:gap-6 mt-2`}>
+                <div className="flex items-center gap-3">
+                  <span className="text-3xl md:text-4xl font-black text-black">Rs. 10.00</span>
+                  <span className="text-xl text-gray-400 line-through decoration-2">Rs. 668.00</span>
+                </div>
+                <button className="bg-[#15161b] hover:bg-[#c25b5e] text-white w-12 h-12 md:w-14 md:h-14 rounded-[12px] md:rounded-[14px] flex items-center justify-center shadow-md hover:shadow-lg transition-all active:scale-95 group/btn">
+                  <ShoppingCart size={20} strokeWidth={2} className="group-hover/btn:-rotate-6 transition-transform" />
+                </button>
               </div>
             </div>
           </motion.div>
@@ -192,6 +213,18 @@ export default function CollectionsSection() {
                 RESTOCKED
               </motion.div>
 
+              {/* Heart Icon Top-Right */}
+              <button
+                onClick={() => setLiked2(!liked2)}
+                className={`absolute top-4 right-4 sm:top-5 sm:right-5 md:top-4 md:right-4 lg:top-5 lg:right-5 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-all active:scale-90 ${
+                  liked2
+                    ? "bg-[#dbba53] text-white shadow-md"
+                    : "bg-white/80 text-gray-400 hover:text-[#dbba53] hover:bg-white shadow-sm"
+                }`}
+              >
+                <Heart size={20} strokeWidth={2} fill={liked2 ? "currentColor" : "none"} />
+              </button>
+
               {/* The Massive Pop-out Image — 20% bigger */}
               <div className="absolute inset-x-0 bottom-0 flex justify-center pointer-events-none z-10 w-full">
                 <div className="relative h-[380px] sm:h-[420px] md:h-[380px] lg:h-[480px] xl:h-[560px]">
@@ -212,9 +245,14 @@ export default function CollectionsSection() {
                 Ginger Lemon
               </h3>
               <StarRating rating={4} reviews={12} />
-              <div className={`${bodyFont.className} flex justify-center md:justify-start items-center gap-3`}>
-                <span className="text-3xl md:text-4xl font-black text-black">Rs. 20.00</span>
-                <span className="text-xl text-gray-400 line-through decoration-2">Rs. 1499.00</span>
+              <div className={`${bodyFont.className} flex justify-between md:justify-start items-center md:gap-6 mt-2`}>
+                <div className="flex items-center gap-3">
+                  <span className="text-3xl md:text-4xl font-black text-black">Rs. 20.00</span>
+                  <span className="text-xl text-gray-400 line-through decoration-2">Rs. 1499.00</span>
+                </div>
+                <button className="bg-[#15161b] hover:bg-[#dbba53] text-white w-12 h-12 md:w-14 md:h-14 rounded-[12px] md:rounded-[14px] flex items-center justify-center shadow-md hover:shadow-lg transition-all active:scale-95 group/btn">
+                  <ShoppingCart size={20} strokeWidth={2} className="group-hover/btn:-rotate-6 transition-transform" />
+                </button>
               </div>
             </div>
           </motion.div>

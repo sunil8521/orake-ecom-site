@@ -52,7 +52,7 @@ export default function WishlistPage() {
           {items.length > 0 && (
             <div className="flex items-center justify-between mb-10 pb-6 border-b border-gray-200">
               <p className={`${textFont.className} text-gray-400 text-sm tracking-widest uppercase`}>{items.length} Products</p>
-              <Link href="/Product" className={`${textFont.className} inline-flex items-center gap-2 text-[#c25b5e] hover:text-[#15161b] text-sm font-bold uppercase tracking-widest transition-colors`}>
+              <Link href="/products" className={`${textFont.className} inline-flex items-center gap-2 text-[#c25b5e] hover:text-[#15161b] text-sm font-bold uppercase tracking-widest transition-colors`}>
                 Continue Shopping <ArrowRight size={16} />
               </Link>
             </div>
@@ -63,7 +63,7 @@ export default function WishlistPage() {
               <Heart size={80} className="mx-auto text-gray-200 mb-8" />
               <h2 className={`${titleFont.className} text-3xl text-[#15161b] uppercase mb-4`}>Your wishlist is empty</h2>
               <p className={`${textFont.className} text-gray-400 text-lg mb-8`}>Save your favorite drinks for later.</p>
-              <Link href="/Product" className={`${textFont.className} inline-flex items-center gap-3 bg-[#15161b] text-white px-8 py-4 rounded-full text-xl font-bold uppercase tracking-wider hover:bg-[#c25b5e] transition-all hover:shadow-[0_10px_30px_rgba(194,91,94,0.3)]`}>
+              <Link href="/products" className={`${textFont.className} inline-flex items-center gap-3 bg-[#15161b] text-white px-8 py-4 rounded-full text-xl font-bold uppercase tracking-wider hover:bg-[#c25b5e] transition-all hover:shadow-[0_10px_30px_rgba(194,91,94,0.3)]`}>
                 Browse Products <ArrowRight size={20} />
               </Link>
             </div>

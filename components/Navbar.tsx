@@ -10,7 +10,7 @@ import { useSession } from "next-auth/react";
 const navLinks = [
   { path: "/", label: "Home" },
   { path: "/about", label: "About" },
-  { path: "/Product", label: "Products" },
+  { path: "/products", label: "Products" },
   { path: "/contact", label: "Contact" },
   { path: "/blog", label: "Blogs" },
 ];
@@ -50,7 +50,11 @@ export default function Navbar() {
                 alt="Logo"
                 width={120}
                 height={40}
-                className="h-full w-auto object-contain"
+                className={`h-full w-auto object-contain transition-all duration-500 ${
+                  scrolled
+                    ? "[filter:brightness(0)_saturate(100%)_invert(78%)_sepia(60%)_saturate(500%)_hue-rotate(5deg)_brightness(105%)]"
+                    : ""
+                }`}
                 priority
               />
             </div>

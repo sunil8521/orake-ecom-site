@@ -104,7 +104,6 @@ export const authOptions: NextAuthOptions = {
           existingUser = await User.create({
             fullName: user.name || "Google User",
             email: user.email,
-            phone: "",
             password: null,
             isVerified: true,
             provider: "google",

@@ -34,7 +34,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // ── Rate limiting: only allow resend after 60s ──
     if (user.otpExpiry) {
       const timeSinceLastOTP =
         Date.now() - (user.otpExpiry.getTime() - 10 * 60 * 1000);

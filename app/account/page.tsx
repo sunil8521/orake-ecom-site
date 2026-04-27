@@ -1,77 +1,38 @@
 "use client";
-import { useState } from "react";
-import Link from "next/link";
-import { User, Mail, Phone, MapPin, Lock, Eye, EyeOff, Camera, ShoppingBag, Heart, LogOut, Check, Settings } from "lucide-react";
+import { useState, Suspense } from "react";
+import dynamic from "next/dynamic";
+import { User, MapPin, ShoppingBag, Settings, LogOut } from "lucide-react";
 import { Sansita, DM_Sans } from "next/font/google";
 import { useSession, signOut } from "next-auth/react";
-import { useForm } from "react-hook-form";
-import { useEffect } from "react";
+import TabSkeleton from "@/components/Account/TabSkeleton";
 
 const titleFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
 const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 
+// Lazy-load each tab — only the active tab's JS is downloaded
+const ProfileTab = dynamic(() => import("@/components/Account/ProfileTab"), {
+  loading: () => <TabSkeleton />,
+});
+const AddressesTab = dynamic(() => import("@/components/Account/AddressesTab"), {
+  loading: () => <TabSkeleton />,
+});
+const OrdersTab = dynamic(() => import("@/components/Account/OrdersTab"), {
+  loading: () => <TabSkeleton />,
+});
+const SettingsTab = dynamic(() => import("@/components/Account/SettingsTab"), {
+  loading: () => <TabSkeleton />,
+});
+
 const tabs = [
   { id: "profile", label: "Profile", icon: User },
+  { id: "addresses", label: "Addresses", icon: MapPin },
   { id: "orders", label: "My Orders", icon: ShoppingBag },
   { id: "settings", label: "Settings", icon: Settings },
 ];
 
-const orderHistory = [
-  { id: "ORK-001", date: "2026-04-21", items: "Fan Favorites Box ×2", total: 1254, status: "Delivered" },
-  { id: "ORK-003", date: "2026-04-18", items: "Tropical Rush ×3", total: 597, status: "Shipped" },
-  { id: "ORK-005", date: "2026-04-10", items: "Midnight Berry Pack ×1", total: 449, status: "Delivered" },
-];
-
-const statusColors: Record<string, string> = {
-  Delivered: "bg-green-100 text-green-700",
-  Shipped: "bg-blue-100 text-blue-700",
-  Processing: "bg-yellow-100 text-yellow-700",
-  Pending: "bg-gray-100 text-gray-600",
-};
-
 export default function AccountPage() {
   const { data: session } = useSession();
   const [activeTab, setActiveTab] = useState("profile");
-  const [saved, setSaved] = useState(false);
-  const [showOldPass, setShowOldPass] = useState(false);
-  const [showNewPass, setShowNewPass] = useState(false);
-  
-  const { register, handleSubmit, reset, watch, formState: { errors } } = useForm({
-    defaultValues: {
-      name: "",
-      email: "",
-      phone: "",
-      address: "",
-      city: "",
-      state: "",
-      pincode: "",
-    }
-  });
-
-  const watchName = watch("name");
-  const watchEmail = watch("email");
-  const watchPhone = watch("phone");
-  const watchAddress = watch("address");
-
-  useEffect(() => {
-    if (session?.user) {
-      reset({
-        name: session.user.name || "",
-        email: session.user.email || "",
-        phone: (session.user as any).phone || "",
-        address: (session.user as any).address || "",
-        city: (session.user as any).city || "",
-        state: (session.user as any).state || "",
-        pincode: (session.user as any).pincode || "",
-      });
-    }
-  }, [session, reset]);
-
-  const onSubmit = (data: any) => {
-    console.log("Saving profile data:", data);
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2000);
-  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -82,22 +43,11 @@ export default function AccountPage() {
           <div className="absolute w-72 h-72 bg-[#dbba53]/8 rounded-full blur-[100px] bottom-0 left-10" />
         </div>
         <div className="relative z-10">
-          {/* Avatar */}
-          {/* <div className="relative inline-block mb-6">
-            <div className="w-24 h-24 md:w-28 md:h-28 rounded-full bg-gradient-to-br from-[#c25b5e] to-[#de3e4f] flex items-center justify-center mx-auto ring-4 ring-white/10">
-              <span className={`${titleFont.className} text-white text-4xl md:text-5xl`}>
-                {profile.name.charAt(0)}
-              </span>
-            </div>
-            <button className="absolute bottom-0 right-0 w-9 h-9 rounded-full bg-[#c25b5e] border-3 border-[#15161b] flex items-center justify-center text-white hover:bg-[#de3e4f] transition-colors">
-              <Camera size={14} />
-            </button>
-          </div> */}
           <h1 className={`${titleFont.className} text-4xl md:text-5xl text-white tracking-tight uppercase leading-none`}>
-            {watchName || "Welcome"}
+            {session?.user?.name || "Welcome"}
           </h1>
           <p className={`${textFont.className} text-gray-400 text-sm tracking-[0.2em] uppercase mt-2`}>
-            {watchEmail || "Loading..."}
+            {session?.user?.email || "Loading..."}
           </p>
         </div>
       </div>
@@ -122,220 +72,13 @@ export default function AccountPage() {
             ))}
           </div>
 
-          {/* Profile Tab */}
-          {activeTab === "profile" && (
-            <form onSubmit={handleSubmit(onSubmit)} className="bg-white border border-gray-200 rounded-[2rem] p-8 sm:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.06)]">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
-                <h3 className={`${titleFont.className} text-2xl uppercase tracking-wide text-[#15161b]`}>
-                  Personal Info
-                </h3>
-                <button
-                  type="submit"
-                  className={`${textFont.className} flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-all ${
-                    saved
-                      ? "bg-green-500 text-white"
-                      : "bg-[#c25b5e] hover:bg-[#de3e4f] text-white shadow-lg shadow-[#c25b5e]/20"
-                  }`}
-                >
-                  {saved ? <><Check size={14} /> Saved!</> : "Save Changes"}
-                </button>
-              </div>
-
-             
-
-              <div className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  <div>
-                    <label className={`${textFont.className} block text-xs font-semibold uppercase tracking-[0.2em] text-gray-400 mb-2`}>Full Name</label>
-                    <div className="relative">
-                      <User size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300" />
-                      <input type="text" {...register("name", { required: "Name is required" })}
-                        className={`${textFont.className} w-full border-2 border-gray-200 bg-gray-50 pl-11 pr-4 py-3 text-sm font-medium text-[#15161b] focus:border-[#c25b5e] focus:bg-white focus:outline-none transition-all rounded-xl ${errors.name ? 'border-red-400' : ''}`}
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <label className={`${textFont.className} block text-xs font-semibold uppercase tracking-[0.2em] text-gray-400 mb-2`}>Email Address</label>
-                    <div className="relative">
-                      <Mail size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300" />
-                      <input type="email" {...register("email", { required: "Email is required" })} readOnly
-                        className={`${textFont.className} w-full border-2 border-gray-200 bg-gray-100 pl-11 pr-4 py-3 text-sm font-medium text-gray-500 cursor-not-allowed rounded-xl`}
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div>
-                  <label className={`${textFont.className} block text-xs font-semibold uppercase tracking-[0.2em] text-gray-400 mb-2`}>Phone Number</label>
-                  <div className="relative">
-                    <Phone size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300" />
-                    <input type="tel" {...register("phone", { required: "Phone is required" })}
-                      className={`${textFont.className} w-full border-2 ${!watchPhone ? 'border-red-200 bg-red-50' : 'border-gray-200 bg-gray-50'} pl-11 pr-4 py-3 text-sm font-medium text-[#15161b] focus:border-[#c25b5e] focus:bg-white focus:outline-none transition-all rounded-xl`}
-                      placeholder="+91 98765 43210"
-                    />
-                  </div>
-                </div>
-
-                {/* Delivery address section */}
-                <div className="pt-4 border-t border-gray-100">
-                  <h4 className={`${titleFont.className} text-lg uppercase tracking-wide text-[#15161b] mb-4`}>
-                    Delivery Address
-                  </h4>
-                  <div className="space-y-5">
-                    <div>
-                      <label className={`${textFont.className} block text-xs font-semibold uppercase tracking-[0.2em] text-gray-400 mb-2`}>Street Address</label>
-                      <div className="relative">
-                        <MapPin size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300" />
-                        <input type="text" {...register("address", { required: "Address is required" })}
-                          className={`${textFont.className} w-full border-2 ${!watchAddress ? 'border-red-200 bg-red-50' : 'border-gray-200 bg-gray-50'} pl-11 pr-4 py-3 text-sm font-medium text-[#15161b] focus:border-[#c25b5e] focus:bg-white focus:outline-none transition-all rounded-xl`}
-                          placeholder="e.g. MG Road, Saheed Nagar"
-                        />
-                      </div>
-                    </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                      <div>
-                        <label className={`${textFont.className} block text-xs font-semibold uppercase tracking-[0.2em] text-gray-400 mb-2`}>City</label>
-                        <input type="text" {...register("city")}
-                          className={`${textFont.className} w-full border-2 border-gray-200 bg-gray-50 px-4 py-3 text-sm font-medium text-[#15161b] focus:border-[#c25b5e] focus:bg-white focus:outline-none transition-all rounded-xl`}
-                          placeholder="City"
-                        />
-                      </div>
-                      <div>
-                        <label className={`${textFont.className} block text-xs font-semibold uppercase tracking-[0.2em] text-gray-400 mb-2`}>State</label>
-                        <input type="text" {...register("state")}
-                          className={`${textFont.className} w-full border-2 border-gray-200 bg-gray-50 px-4 py-3 text-sm font-medium text-[#15161b] focus:border-[#c25b5e] focus:bg-white focus:outline-none transition-all rounded-xl`}
-                          placeholder="State"
-                        />
-                      </div>
-                      <div>
-                        <label className={`${textFont.className} block text-xs font-semibold uppercase tracking-[0.2em] text-gray-400 mb-2`}>Pincode</label>
-                        <input type="text" {...register("pincode")}
-                          className={`${textFont.className} w-full border-2 border-gray-200 bg-gray-50 px-4 py-3 text-sm font-medium text-[#15161b] focus:border-[#c25b5e] focus:bg-white focus:outline-none transition-all rounded-xl`}
-                          placeholder="Pincode"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </form>
-          )}
-
-          {/* Orders Tab */}
-          {activeTab === "orders" && (
-            <div className="bg-white border border-gray-200 rounded-[2rem] p-8 sm:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.06)]">
-              <h3 className={`${titleFont.className} text-2xl uppercase tracking-wide text-[#15161b] mb-6`}>
-                Order History
-              </h3>
-              {orderHistory.length > 0 ? (
-                <div className="space-y-4">
-                  {orderHistory.map(order => (
-                    <div key={order.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-5 bg-gray-50 rounded-2xl border border-gray-100 hover:border-gray-200 transition-colors gap-4">
-                      <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 bg-[#15161b] rounded-xl flex items-center justify-center shrink-0">
-                          <ShoppingBag size={18} className="text-white" />
-                        </div>
-                        <div>
-                          <p className={`${textFont.className} text-sm font-bold text-[#15161b] uppercase tracking-wide`}>{order.id}</p>
-                          <p className={`${textFont.className} text-xs text-gray-400`}>{order.date} • {order.items}</p>
-                        </div>
-                      </div>
-                      <div className="flex flex-col sm:items-end gap-3 mt-4 sm:mt-0 w-full sm:w-auto">
-                        <div className="flex items-center justify-between sm:justify-end gap-4 w-full">
-                          <p className={`${titleFont.className} text-lg text-[#15161b]`}>₹{order.total}</p>
-                          <span className={`${textFont.className} text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full ${statusColors[order.status] || "bg-gray-100 text-gray-600"}`}>
-                            {order.status}
-                          </span>
-                        </div>
-                        <button className={`${textFont.className} w-full sm:w-auto text-[10px] font-bold uppercase tracking-widest text-gray-600 hover:text-white border border-gray-200 hover:bg-[#15161b] hover:border-[#15161b] bg-white px-5 py-2 rounded-xl transition-all`}>
-                          Track Order
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-16">
-                  <ShoppingBag size={48} className="mx-auto text-gray-200 mb-4" />
-                  <p className={`${textFont.className} text-gray-400 text-sm uppercase tracking-wider`}>No orders yet</p>
-                  <Link href="/products" className={`${textFont.className} inline-block mt-4 bg-[#c25b5e] text-white px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-[#de3e4f] transition-colors`}>
-                    Start Shopping
-                  </Link>
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* Settings Tab */}
-          {activeTab === "settings" && (
-            <div className="bg-white border border-gray-200 rounded-[2rem] p-8 sm:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.06)]">
-              <h3 className={`${titleFont.className} text-2xl uppercase tracking-wide text-[#15161b] mb-8`}>
-                Change Password
-              </h3>
-
-              <div className="space-y-6 max-w-lg">
-                <div>
-                  <label className={`${textFont.className} block text-xs font-semibold uppercase tracking-[0.2em] text-gray-400 mb-2`}>Current Password</label>
-                  <div className="relative">
-                    <Lock size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300" />
-                    <input type={showOldPass ? "text" : "password"} placeholder="••••••••"
-                      className={`${textFont.className} w-full border-2 border-gray-200 bg-gray-50 pl-11 pr-12 py-3 text-sm font-medium text-[#15161b] placeholder-gray-400 focus:border-[#c25b5e] focus:bg-white focus:outline-none transition-all rounded-xl`}
-                    />
-                    <button type="button" onClick={() => setShowOldPass(!showOldPass)} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#15161b] transition-colors">
-                      {showOldPass ? <EyeOff size={16} /> : <Eye size={16} />}
-                    </button>
-                  </div>
-                </div>
-
-                <div>
-                  <label className={`${textFont.className} block text-xs font-semibold uppercase tracking-[0.2em] text-gray-400 mb-2`}>New Password</label>
-                  <div className="relative">
-                    <Lock size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300" />
-                    <input type={showNewPass ? "text" : "password"} placeholder="••••••••"
-                      className={`${textFont.className} w-full border-2 border-gray-200 bg-gray-50 pl-11 pr-12 py-3 text-sm font-medium text-[#15161b] placeholder-gray-400 focus:border-[#c25b5e] focus:bg-white focus:outline-none transition-all rounded-xl`}
-                    />
-                    <button type="button" onClick={() => setShowNewPass(!showNewPass)} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#15161b] transition-colors">
-                      {showNewPass ? <EyeOff size={16} /> : <Eye size={16} />}
-                    </button>
-                  </div>
-                </div>
-
-                <div>
-                  <label className={`${textFont.className} block text-xs font-semibold uppercase tracking-[0.2em] text-gray-400 mb-2`}>Confirm New Password</label>
-                  <div className="relative">
-                    <Lock size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300" />
-                    <input type="password" placeholder="••••••••"
-                      className={`${textFont.className} w-full border-2 border-gray-200 bg-gray-50 pl-11 pr-4 py-3 text-sm font-medium text-[#15161b] placeholder-gray-400 focus:border-[#c25b5e] focus:bg-white focus:outline-none transition-all rounded-xl`}
-                    />
-                  </div>
-                </div>
-
-                <button
-                  // onClick={handleSave}
-                  className={`${textFont.className} w-full sm:w-auto px-8 py-3 rounded-full text-sm font-bold uppercase tracking-widest transition-all duration-300 ${
-                    saved
-                      ? "bg-green-500 text-white"
-                      : "bg-[#15161b] hover:bg-[#c25b5e] text-white hover:shadow-[0_10px_30px_rgba(194,91,94,0.3)]"
-                  }`}
-                >
-                  {saved ? "✓ Updated!" : "Update Password"}
-                </button>
-              </div>
-
-              {/* Danger Zone */}
-              <div className="mt-12 pt-8 border-t border-gray-100">
-                <h4 className={`${titleFont.className} text-lg uppercase tracking-wide text-red-500 mb-3`}>
-                  Danger Zone
-                </h4>
-                <p className={`${textFont.className} text-gray-400 text-sm mb-4`}>
-                  Once you delete your account, there&apos;s no going back. All your data will be permanently removed.
-                </p>
-                <button className={`${textFont.className} bg-red-50 border-2 border-red-200 text-red-500 hover:bg-red-100 px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-colors`}>
-                  Delete Account
-                </button>
-              </div>
-            </div>
-          )}
+          {/* Dynamic Tab Content */}
+          <Suspense fallback={<TabSkeleton />}>
+            {activeTab === "profile" && <ProfileTab />}
+            {activeTab === "addresses" && <AddressesTab />}
+            {activeTab === "orders" && <OrdersTab />}
+            {activeTab === "settings" && <SettingsTab />}
+          </Suspense>
 
           {/* Logout */}
           <div className="mt-10 mb-8 max-w-xs mx-auto">

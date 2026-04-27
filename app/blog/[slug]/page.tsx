@@ -98,6 +98,20 @@ export function generateStaticParams() {
   ];
 }
 
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const post = blogData[slug];
+
+  if (!post) {
+    return { title: "Post Not Found — Orake Blog" };
+  }
+
+  return {
+    title: `${post.title} — Orake Blog`,
+    description: `${post.tag} • By ${post.author} • ${post.date}. Read the full article on the Orake blog.`,
+  };
+}
+
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const post = blogData[slug];

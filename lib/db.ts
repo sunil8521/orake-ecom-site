@@ -6,7 +6,6 @@ if (!MONGODB_URI) {
   throw new Error("Please define MONGODB_URI in .env.local");
 }
 
-// Cache the connection across hot-reloads in dev
 let cached = (global as any).mongoose || { conn: null, promise: null };
 
 export async function connectDB() {

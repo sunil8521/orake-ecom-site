@@ -9,8 +9,8 @@ export async function POST(req: NextRequest) {
     const { fullName, email, phone, password } = await req.json();
 
 
-    // ── Validation ──
     //validation will be happen in frontend using react hook form and zod
+    //we will do later backend verification 
 
     await connectDB();
 
@@ -38,14 +38,17 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // ── Create new user ──
+    // create new user 
+
+
+
     const otp = generateOTP();
 
     await User.create({
       fullName: fullName.trim(),
       email: email.toLowerCase().trim(),
       phone: phone.trim(),
-      password: password, // The pre-save hook will hash this
+      password: password, // it will hash by pre save
       isVerified: false,
       otp,
       otpExpiry: new Date(Date.now() + 10 * 60 * 1000),

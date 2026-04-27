@@ -1,4 +1,3 @@
-"use client";
 import { Sansita, DM_Sans } from "next/font/google";
 import Link from "next/link";
 
@@ -8,7 +7,7 @@ const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "70
 const posts = [
   {
     slug: "science-of-hydration",
-    image: "https://images.unsplash.com/photo-1546188994-07c34f6e5e1b?q=80&w=800&auto=format&fit=crop",
+    image: "/blog-hydration.png",
     tag: "Science & Performance",
     author: "DR. KATE",
     date: "OCT 12, 2025",
@@ -16,17 +15,8 @@ const posts = [
     excerpt: "We broke down the exact chemical pathways of our zero-sugar formula to show why you don't get the dreaded 4 PM crash anymore."
   },
   {
-    slug: "late-night-sessions",
-    image: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=800&auto=format&fit=crop",
-    tag: "Creator Spotlight",
-    author: "MARCUS G.",
-    date: "OCT 08, 2025",
-    title: "Late Night Sessions: Fueling The Next Wave of Gamers",
-    excerpt: "We sat down with top tier esports athletes to see how they maintain peak reaction times during 12-hour tournament grinds."
-  },
-  {
     slug: "behind-the-flavor",
-    image: "https://images.unsplash.com/photo-1603808033192-082d6919d3e1?q=80&w=800&auto=format&fit=crop",
+    image: "/blog-flavor.png",
     tag: "Flavor Lab",
     author: "THE TEAM",
     date: "OCT 01, 2025",
@@ -61,7 +51,7 @@ export default function NewsBlogs() {
         </div>
 
         {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-14">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-14 max-w-4xl mx-auto">
           {posts.map((post, idx) => (
              <Link href={`/blog/${post.slug}`} key={idx} className="block group">
                <article className="cursor-pointer flex flex-col items-start text-left relative h-full">
