@@ -37,6 +37,10 @@ export default function SignUpPage() {
         phone: data.phone,
       });
 
+      if (error?.status === 422) {
+        toast.error("Email already registered");
+        return
+      }
       if (error) {
         toast.error(error.message || "Signup failed. Please try again.");
         return;
@@ -47,7 +51,7 @@ export default function SignUpPage() {
       toast.success("Account created! OTP sent to your email.");
       router.push(`/verify-otp?email=${encodeURIComponent(data.email)}`);
 
-      
+
     } catch (error) {
       toast.error("Something went wrong. Please try again.");
     }

@@ -3,6 +3,7 @@ import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { db } from "./db";
 import { emailOTP } from "better-auth/plugins";
 import { sendOTPEmail } from "./mailer";
+import { createAuthMiddleware, APIError } from "better-auth/api";
 
 export const auth = betterAuth({
   database: mongodbAdapter(db),
@@ -16,7 +17,22 @@ export const auth = betterAuth({
   emailVerification: {
     autoSignInAfterVerification: true,
   },
-
+// ─── ADD THIS HOOK ───
+	hooks: {
+		before: createAuthMiddleware(async (ctx) => {
+			// Check if user already exists during sign-up
+			if (ctx.path === "/sign-up") {
+				const existingUser = await ctx.context.internalAdapter.findUserByEmail(
+					ctx.body.email
+				);
+				if (existingUser) {
+					throw new APIError("UNPROCESSABLE_ENTITY", {
+						message: "Email already registered",
+					});
+				}
+			}
+		}),
+	},
   plugins: [
     emailOTP({
       sendVerificationOnSignUp: true,
@@ -44,6 +60,16 @@ export const auth = betterAuth({
         type: "string",
         required: false,
         input: true,
+      },
+      role: {
+        type: "string",
+        required: false,
+        defaultValue: "user",
+      },
+      isDelete: {
+        type: "boolean",
+        required: false,
+        defaultValue: false,
       },
     },
   },

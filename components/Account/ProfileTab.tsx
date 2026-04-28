@@ -1,9 +1,10 @@
 "use client";
 import { useState, useEffect } from "react";
-import { User, Mail, Phone, Check } from "lucide-react";
+import { User, Mail, Phone, Check, Loader2 } from "lucide-react";
 import { Sansita, DM_Sans } from "next/font/google";
 import { authClient } from "@/lib/auth-client";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 const titleFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
 const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
@@ -11,6 +12,7 @@ const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "70
 export default function ProfileTab() {
   const session = authClient.useSession();
   const [saved, setSaved] = useState(false);
+  const [saving, setSaving] = useState(false);
   const { register, handleSubmit, reset, watch, formState: { errors } } = useForm({
     defaultValues: {
       name: "",
@@ -33,10 +35,25 @@ export default function ProfileTab() {
     }
   }, [session.data, reset]);
 
-  const onSubmit = (data: any) => {
-    console.log("Saving profile data:", data);
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2000);
+  const onSubmit = async (data: any) => {
+    setSaving(true);
+    try {
+      const { error } = await authClient.updateUser({
+        name: data.name,
+        phone: data.phone,
+      });
+
+      if (error) {
+        toast.error(error.message || "Failed to update profile");
+      } else {
+        setSaved(true);
+        setTimeout(() => setSaved(false), 2000);
+      }
+    } catch (err) {
+      toast.error("Something went wrong");
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -47,13 +64,14 @@ export default function ProfileTab() {
         </h3>
         <button
           type="submit"
-          className={`${textFont.className} flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-all ${
+          disabled={saving}
+          className={`${textFont.className} flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-all disabled:opacity-50 ${
             saved
               ? "bg-green-500 text-white"
               : "bg-[#15161b] hover:bg-[#c25b5e] text-white shadow-lg shadow-[#c25b5e]/20"
           }`}
         >
-          {saved ? <><Check size={14} /> Saved!</> : "Save Changes"}
+          {saving ? <><Loader2 size={14} className="animate-spin" /> Saving...</> : saved ? <><Check size={14} /> Saved!</> : "Save Changes"}
         </button>
       </div>
 

@@ -48,6 +48,12 @@ export default function LoginPage() {
         return;
       }
 
+      if ((signInData?.user as any)?.isDelete) {
+        await authClient.signOut();
+        toast.error("Your account has been deleted. Please contact support.");
+        return;
+      }
+
       toast.success("Welcome back!");
       router.push("/");
       router.refresh();

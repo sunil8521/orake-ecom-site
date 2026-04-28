@@ -9,5 +9,10 @@ export async function getSession() {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
+  
+  if (session?.user?.isDelete) {
+    return null;
+  }
+  
   return session;
 }
