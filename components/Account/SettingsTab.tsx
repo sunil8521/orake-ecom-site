@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Lock, Eye, EyeOff, Loader2, AlertTriangle } from "lucide-react";
 import { Sansita, DM_Sans } from "next/font/google";
-import { signOut } from "next-auth/react";
+import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
 
 const titleFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
@@ -42,7 +42,10 @@ export default function SettingsTab() {
 
       if (res.ok) {
         toast.success("Password changed! Please log in again.");
-        setTimeout(() => signOut({ callbackUrl: "/login" }), 1500);
+        setTimeout(async () => {
+          await authClient.signOut();
+          window.location.href = "/login";
+        }, 1500);
       } else {
         const data = await res.json();
         toast.error(data.error || "Failed to change password");
@@ -61,7 +64,10 @@ export default function SettingsTab() {
 
       if (res.ok) {
         toast.success("Account deleted. Goodbye!");
-        setTimeout(() => signOut({ callbackUrl: "/" }), 1500);
+        setTimeout(async () => {
+          await authClient.signOut();
+          window.location.href = "/";
+        }, 1500);
       } else {
         const data = await res.json();
         toast.error(data.error || "Failed to delete account");

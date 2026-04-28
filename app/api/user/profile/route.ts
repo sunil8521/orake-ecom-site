@@ -1,19 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/lib/auth";
+import { getSession } from "@/lib/session";
 import { connectDB } from "@/lib/db";
 import User from "@/models/User";
 import bcrypt from "bcryptjs";
 
 export async function GET(req: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await getSession();
     if (!session || !session.user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     await connectDB();
-    const user = await User.findById((session.user as any).id).select("-password -otp -otpExpiry");
+    const user = await User.findById(session.user.id).select("-password -otp -otpExpiry");
     
     if (!user) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
@@ -27,7 +26,7 @@ export async function GET(req: NextRequest) {
 
 export async function PUT(req: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await getSession();
     if (!session || !session.user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -35,7 +34,7 @@ export async function PUT(req: NextRequest) {
     const { fullName, phone, currentPassword, newPassword } = await req.json();
 
     await connectDB();
-    const user = await User.findById((session.user as any).id).select("+password");
+    const user = await User.findById(session.user.id).select("+password");
 
     if (!user) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
@@ -76,13 +75,13 @@ export async function PUT(req: NextRequest) {
 // Soft delete account
 export async function DELETE(req: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await getSession();
     if (!session || !session.user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     await connectDB();
-    const user = await User.findById((session.user as any).id);
+    const user = await User.findById(session.user.id);
 
     if (!user) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });

@@ -2,7 +2,6 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
 import { Eye, EyeOff, Mail, Lock, Loader2 } from "lucide-react";
 import { Sansita, DM_Sans } from "next/font/google";
 import { toast } from "sonner";
@@ -10,8 +9,8 @@ import { useForm } from "react-hook-form"
 import type { loginFormType } from "@/types/loginFormType"
 import { loginFormSchema } from "@/types/loginFormType"
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios,{AxiosError} from "axios";
 import Image from "next/image";
+import { authClient } from "@/lib/auth-client";
 
 const titleFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
 const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
@@ -23,27 +22,29 @@ export default function LoginPage() {
 
   const { register, handleSubmit, formState: { isSubmitting, errors, isDirty } } = useForm<loginFormType>({
     resolver: zodResolver(loginFormSchema),
-
   })
-
 
   const onSubmit = async (data: loginFormType) => {
     try {
-      const result = await signIn("credentials", {
+      const { data: signInData, error } = await authClient.signIn.email({
         email: data.email,
         password: data.password,
-        redirect: false,
       });
-      console.log(result);
-      if (result?.error) {
-        if (result.error === "OAUTH_ACCOUNT_NOT_LINKED") {
-          toast.error("You signed up with Google. Please use 'Continue with Google' to sign in.");
-        } else if (result.error === "UNVERIFIED") {
-          toast.error("Please verify your email first");
+
+      if (error) {
+        // 403 = email not verified
+        if (error.status === 403) {
+          toast.error("Please verify your email first.");
+
+          await authClient.emailOtp.sendVerificationOtp({
+            email: data.email,
+            type: "email-verification",
+          });
           router.push(`/verify-otp?email=${encodeURIComponent(data.email)}`);
-        } else {
-          toast.error("Invalid email or password");
+          return;
         }
+
+        toast.error(error.message || "Invalid email or password");
         return;
       }
 
@@ -51,16 +52,17 @@ export default function LoginPage() {
       router.push("/");
       router.refresh();
     } catch (error) {
-      const axiosError = error as AxiosError;
-      const message = (axiosError as any).response?.data?.message || "Something went wrong. Please try again.";
-      toast.error(message);
+      toast.error("Something went wrong. Please try again.");
     }
   };
 
   const handleGoogleSignIn = async () => {
     setGoogleLoading(true);
     try {
-      await signIn("google", { callbackUrl: "/" });
+      await authClient.signIn.social({
+        provider: "google",
+        callbackURL: "/",
+      });
     } catch {
       toast.error("Google sign-in failed");
       setGoogleLoading(false);

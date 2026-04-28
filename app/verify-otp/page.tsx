@@ -1,12 +1,11 @@
 "use client";
 import { useState, useRef, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
 import { Sansita, DM_Sans } from "next/font/google";
 import { toast } from "sonner";
 import { Loader2, ShieldCheck } from "lucide-react";
-import axios from "axios";
-import { AxiosError } from "axios";
+import { authClient } from "@/lib/auth-client";
+
 const titleFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
 const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 
@@ -18,7 +17,7 @@ function VerifyOTPContent() {
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [loading, setLoading] = useState(false);
   const [resendCooldown, setResendCooldown] = useState(60);
-  const [resendLoading,setResendLoading] = useState(false)
+  const [resendLoading, setResendLoading] = useState(false);
   const inputsRef = useRef<(HTMLInputElement | null)[]>([]);
 
   // Cooldown timer
@@ -71,21 +70,17 @@ function VerifyOTPContent() {
 
     setLoading(true);
     try {
-      const res = await signIn("credentials", {
+      const { data, error } = await authClient.emailOtp.verifyEmail({
         email,
         otp: otpString,
-        isVerification: "true",
-        redirect: false,
       });
 
-      if (res?.error) {
-        if (res.error === "INVALID_OTP") toast.error("Invalid OTP. Please try again.");
-        else if (res.error === "OTP_EXPIRED") toast.error("OTP has expired. Please request a new one.");
-        else if (res.error === "NO_OTP_FOUND") toast.error("No OTP found. Please request a new one.");
-        else toast.error(res.error);
+      if (error) {
+        toast.error(error.message || "Invalid OTP. Please try again.");
       } else {
         toast.success("Email verified! Signing you in...");
         router.push("/");
+        router.refresh();
       }
     } catch (error) {
       toast.error("Something went wrong");
@@ -95,19 +90,25 @@ function VerifyOTPContent() {
   };
 
   const handleResend = async () => {
-    setResendLoading(true);
     if (resendCooldown > 0) return;
+    setResendLoading(true);
 
     try {
-      await axios.post("/api/auth/resend-otp", { email })
-      toast.success("New OTP sent to your email!");
-      setResendCooldown(60);
-      setOtp(["", "", "", "", "", ""]);
-      inputsRef.current[0]?.focus();
+      const { error } = await authClient.emailOtp.sendVerificationOtp({
+        email,
+        type: "email-verification",
+      });
+
+      if (error) {
+        toast.error(error.message || "Failed to resend OTP");
+      } else {
+        toast.success("New OTP sent to your email!");
+        setResendCooldown(60);
+        setOtp(["", "", "", "", "", ""]);
+        inputsRef.current[0]?.focus();
+      }
     } catch (error) {
-      const axiosError = error as AxiosError;
-      const message = (axiosError as any).response?.data?.message || "Failed to resend OTP";
-      toast.error(message);
+      toast.error("Failed to resend OTP");
     } finally {
       setResendLoading(false);
     }

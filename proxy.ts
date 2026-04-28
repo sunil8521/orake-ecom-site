@@ -1,41 +1,42 @@
-import { withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
 const protectedRoutes = ["/account", "/orders", "/checkout"];
 const authRoutes = ["/login", "/signup", "/verify-otp"];
 
-export default withAuth(
-  function middleware(req) {
-    const { pathname } = req.nextUrl;
-    const isAuth = !!req.nextauth.token;
+export default function middleware(req: NextRequest) {
+  const { pathname } = req.nextUrl;
 
-    if (authRoutes.some((route) => pathname.startsWith(route))) {
-      if (isAuth) {
-        return NextResponse.redirect(new URL("/", req.url));
-      }
+  // Better Auth stores session in a cookie named "better-auth.session_token"
+  const sessionToken =
+    req.cookies.get("better-auth.session_token")?.value ||
+    req.cookies.get("__Secure-better-auth.session_token")?.value;
+
+  const isAuth = !!sessionToken;
+
+  // Redirect authenticated users away from auth pages
+  if (authRoutes.some((route) => pathname.startsWith(route))) {
+    if (isAuth) {
+      return NextResponse.redirect(new URL("/", req.url));
     }
-
-    if (protectedRoutes.some((route) => pathname.startsWith(route))) {
-      if (!isAuth) {
-        let from = pathname;
-        if (req.nextUrl.search) {
-          from += req.nextUrl.search;
-        }
-
-        return NextResponse.redirect(
-          new URL(`/login?callbackUrl=${encodeURIComponent(from)}`, req.url)
-        );
-      }
-    }
-
-    return NextResponse.next();
-  },
-  {
-    callbacks: {
-      authorized: () => true, // We handle the redirects manually above
-    },
   }
-);
+
+  // Redirect unauthenticated users to login for protected routes
+  if (protectedRoutes.some((route) => pathname.startsWith(route))) {
+    if (!isAuth) {
+      let from = pathname;
+      if (req.nextUrl.search) {
+        from += req.nextUrl.search;
+      }
+
+      return NextResponse.redirect(
+        new URL(`/login?callbackUrl=${encodeURIComponent(from)}`, req.url)
+      );
+    }
+  }
+
+  return NextResponse.next();
+}
 
 export const config = {
   matcher: [

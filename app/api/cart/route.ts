@@ -1,18 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/lib/auth";
+import { getSession } from "@/lib/session";
 import { connectDB } from "@/lib/db";
 import { Cart } from "@/models/Cart";
 
 export async function GET(req: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await getSession();
     if (!session || !session.user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     await connectDB();
-    const cart = await Cart.findOne({ userId: (session.user as any).id }).populate("items.productId");
+    const cart = await Cart.findOne({ userId: session.user.id }).populate("items.productId");
     
     return NextResponse.json(cart || { items: [] });
   } catch (error: any) {
@@ -22,7 +21,7 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await getSession();
     if (!session || !session.user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -34,10 +33,10 @@ export async function POST(req: NextRequest) {
 
     await connectDB();
     
-    let cart = await Cart.findOne({ userId: (session.user as any).id });
+    let cart = await Cart.findOne({ userId: session.user.id });
     
     if (!cart) {
-      cart = new Cart({ userId: (session.user as any).id, items: [] });
+      cart = new Cart({ userId: session.user.id, items: [] });
     }
 
     const itemIndex = cart.items.findIndex((item: any) => item.productId.toString() === productId);
@@ -65,7 +64,7 @@ export async function POST(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await getSession();
     if (!session || !session.user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -77,12 +76,12 @@ export async function DELETE(req: NextRequest) {
     await connectDB();
     
     if (clear === "true") {
-      await Cart.findOneAndDelete({ userId: (session.user as any).id });
+      await Cart.findOneAndDelete({ userId: session.user.id });
       return NextResponse.json({ message: "Cart cleared" });
     }
 
     if (productId) {
-      const cart = await Cart.findOne({ userId: (session.user as any).id });
+      const cart = await Cart.findOne({ userId: session.user.id });
       if (cart) {
         cart.items = cart.items.filter((item: any) => item.productId.toString() !== productId);
         await cart.save();

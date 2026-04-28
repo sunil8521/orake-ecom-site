@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { ShoppingCart, User, Heart, Menu, X, LogIn } from "lucide-react";
-import { useSession } from "next-auth/react";
+import { authClient } from "@/lib/auth-client";
 
 const navLinks = [
   { path: "/", label: "Home" },
@@ -17,7 +17,8 @@ const navLinks = [
 
 export default function Navbar() {
   const pathname = usePathname();
-  const { data: session, status } = useSession();
+  const session = authClient.useSession();
+  const isAuthenticated = !!session.data?.user;
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -103,7 +104,7 @@ export default function Navbar() {
               <Link href="/cart" className="hover:scale-110 transition-all">
                 <ShoppingCart className="h-6 w-6 lg:h-7 lg:w-7" strokeWidth={2.2} />
               </Link>
-              {status === "authenticated" ? (
+              {isAuthenticated ? (
                 <Link href="/account" className="hover:scale-110 transition-all">
                   <User className="h-6 w-6 lg:h-7 lg:w-7" strokeWidth={2.2} />
                 </Link>

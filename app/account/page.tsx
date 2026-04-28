@@ -3,7 +3,7 @@ import { useState, Suspense } from "react";
 import dynamic from "next/dynamic";
 import { User, MapPin, ShoppingBag, Settings, LogOut } from "lucide-react";
 import { Sansita, DM_Sans } from "next/font/google";
-import { useSession, signOut } from "next-auth/react";
+import { authClient } from "@/lib/auth-client";
 import TabSkeleton from "@/components/Account/TabSkeleton";
 
 const titleFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
@@ -31,7 +31,7 @@ const tabs = [
 ];
 
 export default function AccountPage() {
-  const { data: session } = useSession();
+  const session = authClient.useSession();
   const [activeTab, setActiveTab] = useState("profile");
 
   return (
@@ -44,10 +44,10 @@ export default function AccountPage() {
         </div>
         <div className="relative z-10">
           <h1 className={`${titleFont.className} text-4xl md:text-5xl text-white tracking-tight uppercase leading-none`}>
-            {session?.user?.name || "Welcome"}
+            {session.data?.user?.name || "Welcome"}
           </h1>
           <p className={`${textFont.className} text-gray-400 text-sm tracking-[0.2em] uppercase mt-2`}>
-            {session?.user?.email || "Loading..."}
+            {session.data?.user?.email || "Loading..."}
           </p>
         </div>
       </div>
@@ -82,7 +82,7 @@ export default function AccountPage() {
 
           {/* Logout */}
           <div className="mt-10 mb-8 max-w-xs mx-auto">
-            <button onClick={() => signOut({ callbackUrl: "/" })} className={`${textFont.className} w-full flex items-center justify-center gap-2 text-sm text-[#de3e4f] bg-red-50 hover:bg-[#de3e4f] hover:text-white border border-red-100 py-3.5 rounded-2xl font-bold uppercase tracking-widest transition-all shadow-sm`}>
+            <button onClick={async () => { await authClient.signOut(); window.location.href = "/"; }} className={`${textFont.className} w-full flex items-center justify-center gap-2 text-sm text-[#de3e4f] bg-red-50 hover:bg-[#de3e4f] hover:text-white border border-red-100 py-3.5 rounded-2xl font-bold uppercase tracking-widest transition-all shadow-sm`}>
               <LogOut size={16} /> Sign Out
             </button>
           </div>

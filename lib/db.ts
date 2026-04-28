@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { MongoClient } from "mongodb";
 
 const MONGODB_URI = process.env.MONGODB_URI!;
 
@@ -6,6 +7,11 @@ if (!MONGODB_URI) {
   throw new Error("Please define MONGODB_URI in .env.local");
 }
 
+// ─── Native MongoDB Client (for Better Auth adapter) ───
+export const client = new MongoClient(MONGODB_URI);
+export const db = client.db();
+
+// ─── Mongoose Connection (for app models: User, Product, Cart, etc.) ───
 let cached = (global as any).mongoose || { conn: null, promise: null };
 
 export async function connectDB() {

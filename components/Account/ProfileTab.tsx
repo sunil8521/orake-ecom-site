@@ -2,16 +2,15 @@
 import { useState, useEffect } from "react";
 import { User, Mail, Phone, Check } from "lucide-react";
 import { Sansita, DM_Sans } from "next/font/google";
-import { useSession } from "next-auth/react";
+import { authClient } from "@/lib/auth-client";
 import { useForm } from "react-hook-form";
 
 const titleFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
 const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 
 export default function ProfileTab() {
-  const { data: session } = useSession();
+  const session = authClient.useSession();
   const [saved, setSaved] = useState(false);
-console.log(session)
   const { register, handleSubmit, reset, watch, formState: { errors } } = useForm({
     defaultValues: {
       name: "",
@@ -25,14 +24,14 @@ console.log(session)
   const watchPhone = watch("phone");
 
   useEffect(() => {
-    if (session?.user) {
+    if (session.data?.user) {
       reset({
-        name: session.user.name || "",
-        email: session.user.email || "",
-        phone: (session.user as any).phone || "",
+        name: session.data.user.name || "",
+        email: session.data.user.email || "",
+        phone: (session.data.user as any).phone || "",
       });
     }
-  }, [session, reset]);
+  }, [session.data, reset]);
 
   const onSubmit = (data: any) => {
     console.log("Saving profile data:", data);

@@ -12,11 +12,15 @@ export function generateOTP(): string {
   return Math.floor(100000 + Math.random() * 900000).toString();
 }
 
-export async function sendOTPEmail(email: string, otp: string, name: string) {
+export async function sendOTPEmail(
+  email: string,
+  otp: string,
+  purpose: string = "Verification"
+) {
   const mailOptions = {
     from: `"Orake Energy" <${process.env.EMAIL_USER}>`,
     to: email,
-    subject: "Verify Your Orake Account — OTP Inside 🔥",
+    subject: `Your Orake ${purpose} Code — OTP Inside 🔥`,
     html: `
       <div style="font-family: 'Helvetica Neue', Arial, sans-serif; max-width: 500px; margin: 0 auto; background: #15161b; border-radius: 20px; overflow: hidden;">
         <div style="padding: 40px 30px; text-align: center;">
@@ -28,9 +32,9 @@ export async function sendOTPEmail(email: string, otp: string, name: string) {
           </p>
         </div>
         <div style="background: #ffffff; padding: 40px 30px; text-align: center;">
-          <p style="color: #6b7280; font-size: 14px; margin: 0 0 8px;">Hey ${name},</p>
+          <p style="color: #6b7280; font-size: 14px; margin: 0 0 8px;">Hey there,</p>
           <h2 style="color: #15161b; font-size: 20px; margin: 0 0 24px; text-transform: uppercase; letter-spacing: 1px;">
-            Your Verification Code
+            Your ${purpose} Code
           </h2>
           <div style="background: #f4f4f5; border-radius: 16px; padding: 24px; margin: 0 0 24px;">
             <span style="font-size: 36px; font-weight: 800; letter-spacing: 12px; color: #c25b5e;">

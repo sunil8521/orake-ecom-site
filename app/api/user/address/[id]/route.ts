@@ -1,13 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/lib/auth";
+import { getSession } from "@/lib/session";
 import { connectDB } from "@/lib/db";
 import { Address } from "@/models/Address";
 
 export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
-    const session = await getServerSession(authOptions);
+    const session = await getSession();
     if (!session || !session.user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -15,14 +14,14 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
     const { fullName, phone, street, city, state, postalCode, country, isDefault } = await req.json();
 
     await connectDB();
-    const address = await Address.findOne({ _id: id, userId: (session.user as any).id });
+    const address = await Address.findOne({ _id: id, userId: session.user.id });
 
     if (!address) {
       return NextResponse.json({ error: "Address not found" }, { status: 404 });
     }
 
     if (isDefault) {
-      await Address.updateMany({ userId: (session.user as any).id }, { $set: { isDefault: false } });
+      await Address.updateMany({ userId: session.user.id }, { $set: { isDefault: false } });
     }
 
     address.fullName = fullName || address.fullName;
@@ -45,13 +44,13 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
 export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
-    const session = await getServerSession(authOptions);
+    const session = await getSession();
     if (!session || !session.user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     await connectDB();
-    const address = await Address.findOneAndDelete({ _id: id, userId: (session.user as any).id });
+    const address = await Address.findOneAndDelete({ _id: id, userId: session.user.id });
 
     if (!address) {
       return NextResponse.json({ error: "Address not found" }, { status: 404 });

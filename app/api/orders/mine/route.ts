@@ -1,12 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/lib/auth";
+import { getSession } from "@/lib/session";
 import { connectDB } from "@/lib/db";
 import { Order } from "@/models/Order";
 
 export async function GET(req: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await getSession();
     if (!session || !session.user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -17,7 +16,7 @@ export async function GET(req: NextRequest) {
     const skip = (page - 1) * limit;
 
     await connectDB();
-    const userId = (session.user as any).id;
+    const userId = session.user.id;
 
     const [orders, total] = await Promise.all([
       Order.find({ userId }).sort({ createdAt: -1 }).skip(skip).limit(limit),
