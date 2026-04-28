@@ -3,7 +3,7 @@ import { emailOTPClient, inferAdditionalFields } from "better-auth/client/plugin
 import type { auth } from "@/lib/auth";
 
 export const authClient = createAuthClient({
-  baseURL: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
+  baseURL: process.env.NEXT_PUBLIC_APP_URL ,
   plugins: [
     emailOTPClient(),
     inferAdditionalFields<typeof auth>(),
