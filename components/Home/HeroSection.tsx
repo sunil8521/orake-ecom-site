@@ -14,13 +14,13 @@ export default function HeroSection() {
   // Background color changes with image
   const bgColors = ["#ce777b", "#d7b452"];
 
-    // Auto-slide between can images
-    useEffect(() => {
-      const interval = setInterval(() => {
-        setCanIdx((prev) => (prev + 1) % canImages.length);
-      }, 2000); // 3 seconds
-      return () => clearInterval(interval);
-    }, []);
+  // Auto-slide between can images
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCanIdx((prev) => (prev + 1) % canImages.length);
+    }, 2000); // 3 seconds
+    return () => clearInterval(interval);
+  }, []);
   // Coffee bean or lemon
   const beanImgs = ["/food1.png", "/lemon.png"];
   const beanImg = beanImgs[canIdx];
@@ -33,37 +33,54 @@ export default function HeroSection() {
     "/can1.png",
     "/can2.png",
   ];
- 
-  
+
+
 
   return (
     <section
-      className="relative min-h-[100vh] flex flex-col justify-between overflow-hidden transition-colors duration-700"
+      className="relative min-h-screen flex flex-col justify-between overflow-hidden transition-colors duration-700"
       style={{ backgroundColor: bgColors[canIdx] }}
     >
       {/* Removed top fog effect for solid background */}
 
       {/* Large faded background text, animated */}
-      <div className="absolute inset-0 flex items-center justify-center z-0 select-none">
-        <span className={`text-[min(16vw,180px)] font-extrabold tracking-widest uppercase transition-colors duration-700`} style={{
-          letterSpacing: '0.4em',
-          color: canIdx === 0 ? '#ae5d61' : '#b89c3a',
-        }}>
+      <div className="absolute inset-0 flex items-center justify-center z-0 select-none overflow-hidden">
+        <span 
+          className="text-[15vw] md:text-[min(16vw,180px)] font-extrabold uppercase transition-colors duration-700 tracking-[0.2em] md:tracking-[0.4em] pl-[0.2em] md:pl-[0.4em] text-center" 
+          style={{ color: canIdx === 0 ? '#ae5d61' : '#b89c3a' }}
+        >
           {canIdx === 0 ? 'VANILLA' : 'LEMON'}
         </span>
       </div>
 
       {/* Modern 3D rotating coffee beans or lemons */}
-      <Image src={beanImg} alt={canIdx === 0 ? "bean" : "lemon"} width={158} height={48} className="absolute top-54 z-20 animate-rot3d-1" style={{ left: 0, transformStyle: 'preserve-3d' }} />
-      <Image src={beanImg} alt={canIdx === 0 ? "bean" : "lemon"} width={196} height={76} className="absolute top-32 z-20 animate-rot3d-2" style={{ right: 0, transformStyle: 'preserve-3d' }} />
-      <Image src={beanImg} alt={canIdx === 0 ? "bean" : "lemon"} width={112} height={32} className="absolute bottom-92 z-20 animate-rot3d-3" style={{ left: '25%', transformStyle: 'preserve-3d' }} />
-      <Image src={beanImg} alt={canIdx === 0 ? "bean" : "lemon"} width={124} height={40} className="absolute bottom-74 z-20 animate-rot3d-4" style={{ right: '33%', transformStyle: 'preserve-3d' }} />
+      <div className="absolute top-[20%] md:top-54 -left-4 md:left-0 z-20 animate-rot3d-1 scale-[0.6] md:scale-100 drop-shadow-2xl" style={{ width: 158, height: 48, transformStyle: 'preserve-3d' }}>
+        {beanImgs.map((src, idx) => (
+          <Image key={src} src={src} alt="fruit" width={158} height={48} className={`absolute inset-0 object-contain transition-opacity duration-700 ${canIdx === idx ? 'opacity-100 z-10' : 'opacity-0 z-0'}`} />
+        ))}
+      </div>
+      <div className="absolute top-[12%] md:top-32 -right-4 md:right-0 z-20 animate-rot3d-2 scale-[0.5] md:scale-100 drop-shadow-2xl" style={{ width: 196, height: 76, transformStyle: 'preserve-3d' }}>
+        {beanImgs.map((src, idx) => (
+          <Image key={src} src={src} alt="fruit" width={196} height={76} className={`absolute inset-0 object-contain transition-opacity duration-700 ${canIdx === idx ? 'opacity-100 z-10' : 'opacity-0 z-0'}`} />
+        ))}
+      </div>
+      <div className="absolute bottom-[35%] md:bottom-92 -left-2 md:left-[25%] z-20 animate-rot3d-3 scale-75 md:scale-100 drop-shadow-xl" style={{ width: 112, height: 32, transformStyle: 'preserve-3d' }}>
+        {beanImgs.map((src, idx) => (
+          <Image key={src} src={src} alt="fruit" width={112} height={32} className={`absolute inset-0 object-contain transition-opacity duration-700 ${canIdx === idx ? 'opacity-100 z-10' : 'opacity-0 z-0'}`} />
+        ))}
+      </div>
+      <div className="absolute top-[45%] md:bottom-74 -right-2 md:right-[33%] z-20 animate-rot3d-4 scale-[0.7] md:scale-100 drop-shadow-xl" style={{ width: 124, height: 40, transformStyle: 'preserve-3d' }}>
+        {beanImgs.map((src, idx) => (
+          <Image key={src} src={src} alt="fruit" width={124} height={40} className={`absolute inset-0 object-contain transition-opacity duration-700 ${canIdx === idx ? 'opacity-100 z-10' : 'opacity-0 z-0'}`} />
+        ))}
+      </div>
+
 
       {/* Center can and caramel splash */}
       <div className="relative flex flex-col items-center justify-center pt-37 pb-16 z-30">
-        <div className="relative flex items-center justify-center" style={{minHeight: 340}}>
+        <div className="relative flex items-center justify-center" style={{ minHeight: 340 }}>
           {/* Caramel splash behind can */}
-          <Image src={caramelSplash} alt="caramel splash" width={380} height={320} className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 pointer-events-none" style={{filter: 'drop-shadow(0 8px 32px #b97a3c88)'}} />
+          <Image src={caramelSplash} alt="caramel splash" width={380} height={320} className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 pointer-events-none" style={{ filter: 'drop-shadow(0 8px 32px #b97a3c88)', width: 'auto', height: 'auto' }} />
           {/* Animated central can */}
           <div className="relative z-20 w-[700px] h-[560px] flex items-center justify-center overflow-hidden">
             {canImages.map((src, idx) => (
@@ -80,20 +97,20 @@ export default function HeroSection() {
             ))}
           </div>
           {/* Lactose Free badge */}
-          <div className="absolute left-0 bottom-8 z-30">
+          {/* <div className="absolute left-0 bottom-8 z-30">
             <div className="bg-green-500 text-white font-bold rounded-full px-4 py-2 text-xs shadow-lg border-4 border-white">LACTOSE FREE</div>
-          </div>
+          </div> */}
         </div>
         {/* Buy now button */}
-        <div className="absolute right-0 top-1/2 -translate-y-1/2 z-30">
+        {/* <div className="absolute right-0 top-1/2 -translate-y-1/2 z-30 hidden md:block">
           <button className="flex items-center justify-center w-32 h-32 rounded-full border-2 border-white/70 bg-white/10 text-white text-lg font-semibold shadow-lg backdrop-blur-md transition hover:bg-white/30">
-            Kup teraz <span className="ml-2">→</span>
+            Buy Now <span className="ml-2">→</span>
           </button>
-        </div>
+        </div> */}
       </div>
 
       {/* Product cans row - curved layout at bottom */}
-      <div className="absolute left-0 bottom-0 w-full z-30 flex justify-center pointer-events-none" style={{height: -12}}>
+      <div className="absolute left-0 bottom-0 w-full z-30 flex justify-center pointer-events-none max-md:translate-y-8" style={{ height: 0 }}>
         {productCans.map((src, i) => {
           const total = productCans.length - 1;
           const arc = Math.PI / 1.8; // arc in radians
@@ -106,7 +123,7 @@ export default function HeroSection() {
           return (
             <div
               key={i}
-              className="absolute left-1/2"
+              className={`absolute left-1/2 ${i === 2 || i === 3 ? 'block' : 'hidden md:block'}`}
               style={{
                 transform: `translate(-50%, 0) translateX(${x}px) translateY(${y}px)`,
                 zIndex: 10 + i,
@@ -128,11 +145,11 @@ export default function HeroSection() {
               )}
               <Image
                 src={src}
-                alt={`can${i+1}`}
+                alt={`can${i + 1}`}
                 width={194}
                 height={300}
-                className={`object-contain transition-all duration-500 ${isActive ? 'opacity-100' : 'opacity-60'} ${isActive ? 'z-20' : ''}`}
-                style={{ position: 'relative', zIndex: 2 }}
+                className={`object-contain transition-all duration-500 max-md:scale-90 ${isActive ? 'opacity-100' : 'opacity-60'} ${isActive ? 'z-20' : ''}`}
+                style={{ position: 'relative', zIndex: 2, width: 'auto', height: 'auto' }}
               />
             </div>
           );
@@ -140,8 +157,8 @@ export default function HeroSection() {
       </div>
 
       {/* White curved background behind product cans row (z-10, visually behind cans) */}
-      <div className="absolute left-1/2 bottom-0 z-10 pointer-events-none" style={{height: 120, width: '60vw', transform: 'translateX(-50%)'}}>
-        <svg viewBox="0 0 900 120" width="100%" height="120" preserveAspectRatio="none" style={{display: 'block'}}>
+      <div className="absolute left-1/2 bottom-0 z-10 pointer-events-none w-[100vw] min-w-[900px] md:min-w-0 md:w-[60vw]" style={{ height: 120, transform: 'translateX(-50%)' }}>
+        <svg viewBox="0 0 900 120" width="100%" height="120" preserveAspectRatio="none" style={{ display: 'block' }}>
           <path d="M0,120 Q450,-60 900,120 L900,120 L0,120 Z" fill="#fff" />
         </svg>
       </div>
@@ -178,3 +195,4 @@ export default function HeroSection() {
     </section>
   );
 }
+

@@ -1,138 +1,263 @@
-import Image from "next/image";
-import { Anton, Oswald } from "next/font/google";
+'use client';
 
-const headingFont = Anton({ subsets: ["latin"], weight: "400" });
-const bodyFont = Oswald({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
+import Image from "next/image";
+import { Sansita, DM_Sans } from "next/font/google";
+import { motion } from "framer-motion";
+import { ShoppingCart, Heart } from "lucide-react";
+import { useState } from "react";
+const headingFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
+const bodyFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
+
+function StarRating({ rating, reviews }: { rating: number; reviews: number }) {
+  return (
+    <div className="flex justify-center md:justify-start items-center gap-2 mb-3">
+      <div className="flex gap-0.5">
+        {[1, 2, 3, 4, 5].map((star) => {
+          const filled = rating >= star;
+          const half = !filled && rating >= star - 0.5;
+          return (
+            <span key={star} className="relative text-xl w-5 h-5 inline-block">
+              {/* Empty star (always rendered) */}
+              <span className="absolute inset-0 text-gray-300">★</span>
+              {/* Filled or half star */}
+              {filled && <span className="absolute inset-0 text-black">★</span>}
+              {half && (
+                <span className="absolute inset-0 text-black overflow-hidden w-[50%]">★</span>
+              )}
+            </span>
+          );
+        })}
+      </div>
+      {reviews > 0 && (
+        <span className={`${bodyFont.className} text-sm font-bold text-gray-400 tracking-widest uppercase ml-1`}>
+          {reviews} {reviews === 1 ? 'review' : 'reviews'}
+        </span>
+      )}
+    </div>
+  );
+}
 
 export default function CollectionsSection() {
+  const [liked1, setLiked1] = useState(false);
+  const [liked2, setLiked2] = useState(false);
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.2, delayChildren: 0.1 }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 60, scale: 0.9 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: { type: "spring", stiffness: 150, damping: 15 } as any
+    }
+  };
+
+  const badgeVariants = {
+    initial: { rotate: -15, scale: 0, opacity: 0 },
+    animate: {
+      rotate: 0,
+      scale: 1,
+      opacity: 1,
+      transition: { type: "spring", stiffness: 400, delay: 0.2 } as any
+    }
+  };
+
   return (
-    <section className="bg-white py-20 px-6 sm:px-12 lg:px-20">
-      <div className="max-w-7xl mx-auto">
-        {/* Title */}
-        <h2 className={`${headingFont.className} mb-12 text-center text-4xl font-black uppercase tracking-[0.02em] text-black sm:text-5xl`}>
-          OUR COLLECTIONS
-        </h2>
-
-        {/* Category Tabs */}
-        <div className={`${bodyFont.className} mb-12 flex flex-wrap justify-center gap-3 text-sm font-medium sm:gap-6 sm:text-base`}>
-          <button className="transition hover:text-black text-gray-700">Curated box</button>
-          <button className="transition hover:text-black text-gray-700">Non - Alcoholic Beer</button>
-          <button className="transition hover:text-black text-gray-700">Indie sodas</button>
-          <button className="transition hover:text-black text-gray-700">Aruba - Mocktails & Mixers</button>
-          <button className="transition hover:text-black text-gray-700">Super Cola</button>
-          <button className="transition hover:text-black text-gray-700">Jerk - Energy Drink</button>
-        </div>
-
-        {/* Products Carousel */}
-        <div className="relative">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {/* Product Card 1 */}
-            <div className="group">
-              <div className="relative bg-gray-100 rounded-lg overflow-hidden h-96 mb-4 flex items-center justify-center">
-                <Image
-                  src="/can1.png"
-                  alt="3 Sisters Fan Favorites Beer Box"
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                  className="object-cover"
-                />
-                <div className={`${bodyFont.className} absolute top-4 left-4 z-10 rounded bg-red-600 px-3 py-1 text-xs font-bold text-white`}>FEATURED</div>
-              </div>
-              <h3 className={`${bodyFont.className} mb-2 text-sm font-semibold text-gray-900`}>My Drink Fan Favorites Beer Box</h3>
-              <div className="flex gap-1 mb-2">
-                <span className="text-gray-300 text-sm">☆☆☆☆☆</span>
-              </div>
-              <div className={`${bodyFont.className} flex items-center gap-2`}>
-                <span className="text-lg font-semibold text-gray-900">Rs. 10.00</span>
-                <span className="text-sm text-gray-500 line-through">Rs. 668.00</span>
-              </div>
-            </div>
-
-            {/* Product Card 2 */}
-            <div className="group">
-              <div className="relative bg-gray-100 rounded-lg overflow-hidden h-96 mb-4 flex items-center justify-center">
-                <Image
-                  src="/can2.png"
-                  alt="Crack Open the Chaos Ultimate Party Gift Box"
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                  className="object-cover"
-                />
-                <div className={`${bodyFont.className} absolute top-4 left-4 z-10 rounded bg-red-600 px-3 py-1 text-xs font-bold text-white`}>FEATURED</div>
-              </div>
-              <h3 className={`${bodyFont.className} mb-2 text-sm font-semibold text-gray-900`}>Crack Open the Chaos - Ultimate Party Gift Box</h3>
-              <div className="flex gap-1 mb-2">
-                <span className="text-yellow-400">★★★★</span>
-                <span className="text-gray-300">☆</span>
-                <span className={`${bodyFont.className} ml-2 text-xs text-gray-500`}>1 review</span>
-              </div>
-              <div className={`${bodyFont.className} flex items-center gap-2`}>
-                <span className="text-lg font-semibold text-gray-900">Rs. 20.00</span>
-                <span className="text-sm text-gray-500 line-through">Rs. 1,499.00</span>
-              </div>
-            </div>
-
-            {/* Product Card 3 */}
-            <div className="group">
-              <div className="relative bg-gray-100 rounded-lg overflow-hidden h-96 mb-4 flex items-center justify-center">
-                <Image
-                  src="/can1.png"
-                  alt="3Sisters Weird Cocktail Combo"
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                  className="object-cover"
-                />
-                <div className={`${bodyFont.className} absolute top-4 left-4 z-10 rounded bg-red-600 px-3 py-1 text-xs font-bold text-white`}>FEATURED</div>
-              </div>
-              <h3 className={`${bodyFont.className} mb-2 text-sm font-semibold text-gray-900`}>My Drink  Weird Cocktail Combo (Mad Mix)</h3>
-              <div className="flex gap-1 mb-2">
-                <span className="text-gray-300 text-sm">☆☆☆☆☆</span>
-              </div>
-              <div className={`${bodyFont.className} flex items-center gap-2`}>
-                <span className="text-lg font-semibold text-gray-900">Rs. 850.00</span>
-                <span className="text-sm text-gray-500 line-through">Rs. 936.00</span>
-              </div>
-            </div>
-
-            {/* Product Card 4 */}
-            <div className="group">
-              <div className="relative bg-gray-100 rounded-lg overflow-hidden h-96 mb-4 flex items-center justify-center">
-                <Image
-                  src="/can2.png"
-                  alt="3 Sisters Ultimate Chill Can Box"
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                  className="object-cover"
-                />
-                <div className={`${bodyFont.className} absolute top-4 left-4 z-10 rounded bg-red-600 px-3 py-1 text-xs font-bold text-white`}>FEATURED</div>
-              </div>
-              <h3 className={`${bodyFont.className} mb-2 text-sm font-semibold text-gray-900`}>My Drink  Ultimate Chill Can Box</h3>
-              <div className="flex gap-1 mb-2">
-                <span className="text-gray-300 text-sm">☆☆☆☆☆</span>
-              </div>
-              <div className={`${bodyFont.className} flex items-center gap-2`}>
-                <span className="text-lg font-semibold text-gray-900">Rs. 770.00</span>
-                <span className="text-sm text-gray-500 line-through">Rs. 840.00</span>
-              </div>
-            </div>
+    <section className="bg-white py-24 px-4 sm:px-8 lg:px-12 overflow-hidden">
+      <div className="max-w-[1400px] mx-auto">
+        {/* Gen Z Title Style */}
+        <motion.div
+          initial={{ opacity: 0, y: -30, filter: "blur(10px)" }}
+          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="mb-14 text-center flex flex-col items-center"
+        >
+          <div className="bg-black text-white px-4 py-1 rounded-full text-xs font-bold tracking-[0.3em] uppercase mb-4 shadow-[0_0_15px_rgba(0,0,0,0.5)]">
+            Fresh Drops
           </div>
+          <h2 className={`${headingFont.className} text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-tight text-transparent bg-clip-text bg-gradient-to-br from-black via-gray-800 to-gray-500`}>
+            OUR COLLECTIONS
+          </h2>
+        </motion.div>
 
+        {/* Category Tabs / Pills */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          className={`${bodyFont.className} mb-26 flex flex-wrap justify-center gap-3 md:gap-4 text-xs md:text-sm font-bold uppercase tracking-wider`}
+        >
+          {['Strawberry Vanilla', 'Ginger Lemon'].map((tab, i) => (
+            <motion.button
+              key={tab}
+              whileHover={{ scale: 1.1, y: -4, rotate: (i % 2 === 0 ? 2 : -2) }}
+              whileTap={{ scale: 0.95 }}
+              className="transition-all px-5 py-2.5 rounded-full border-2 border-gray-200 hover:border-black hover:bg-black hover:text-white text-gray-500 bg-transparent shadow-sm hover:shadow-xl"
+            >
+              {tab}
+            </motion.button>
+          ))}
+        </motion.div>
 
+        {/* 2 Cans Grid */}
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20 pt-8"
+        >
+          {/* Product Card 1 — Strawberry Vanilla */}
+          <motion.div variants={itemVariants} className="group relative mt-36 sm:mt-40 md:mt-32 lg:mt-36 xl:mt-40">
+            <motion.div
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
+              className="relative rounded-[2rem] sm:rounded-[2.5rem] h-[200px] sm:h-[220px] md:h-[200px] lg:h-[240px] xl:h-[270px] mb-6 shadow-lg group-hover:shadow-[0_30px_60px_rgba(194,91,94,0.25)] border border-transparent transition-all duration-500"
+            >
+              {/* Background with illustration watermark */}
+              <div className="absolute inset-0 rounded-[2.5rem] overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-tr from-[#c25b5e]/10 via-[#f5e0e1] to-[#faf5f5]" />
+                <Image
+                  src="/pinkcanbg.png"
+                  alt=""
+                  fill
+                  sizes="100vw"
+                  className="object-cover opacity-[0.35] group-hover:opacity-[0.45] transition-opacity duration-700 scale-110"
+                />
+                <div className="absolute w-[150%] h-[150%] bg-gradient-to-br from-[#c25b5e]/20 to-transparent rounded-full -top-[50%] -right-[50%] blur-[80px] group-hover:opacity-100 opacity-0 transition-opacity duration-700 pointer-events-none" />
+              </div>
 
-          {/* Navigation Arrows */}
-          <button className="absolute -left-4 top-1/2 -translate-y-1/2 bg-[#c25b5e] rounded-full p-2 shadow-lg hover:bg-[#ef8b8e] z-10">
-            ←
-          </button>
-          <button className="absolute -right-4 top-1/2 -translate-y-1/2 bg-[#c25b5e] rounded-full p-2 shadow-lg hover:bg-[#ef8b8e] z-10">
-            →
-          </button>
-        </div>
+              {/* Badges */}
+              <motion.div
+                variants={badgeVariants}
+                className={`${bodyFont.className} absolute top-4 left-4 sm:top-5 sm:left-5 md:top-4 md:left-4 lg:top-5 lg:left-5 z-20 rounded-xl sm:rounded-2xl bg-[#c25b5e] px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-black tracking-widest text-white shadow-xl -rotate-6 group-hover:-rotate-2 transition-transform duration-300`}
+              >
+                HYPE DROP
+              </motion.div>
 
-        {/* Pagination Dots */}
-        <div className="flex justify-center gap-2 mt-8">
-          <div className="w-2 h-2 bg-black rounded-full"></div>
-          <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
-        </div>
+              {/* Heart Icon Top-Right */}
+              <button
+                onClick={() => setLiked1(!liked1)}
+                className={`absolute top-4 right-4 sm:top-5 sm:right-5 md:top-4 md:right-4 lg:top-5 lg:right-5 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-all active:scale-90 ${
+                  liked1
+                    ? "bg-[#c25b5e] text-white shadow-md"
+                    : "bg-white/80 text-gray-400 hover:text-[#c25b5e] hover:bg-white shadow-sm"
+                }`}
+              >
+                <Heart size={20} strokeWidth={2} fill={liked1 ? "currentColor" : "none"} />
+              </button>
+
+              {/* The Massive Pop-out Image — 20% bigger */}
+              <div className="absolute inset-x-0 bottom-0 flex justify-center pointer-events-none z-10 w-full">
+                <div className="relative h-[380px] sm:h-[420px] md:h-[380px] lg:h-[480px] xl:h-[560px]">
+                  <Image
+                    src="/can1.png"
+                    alt="Strawberry Vanilla"
+                    width={500}
+                    height={1000}
+                    priority
+                    className="h-full w-auto object-contain drop-shadow-[0_25px_40px_rgba(194,91,94,0.45)] group-hover:scale-105 group-hover:-translate-y-4 transition-all duration-500 pointer-events-auto"
+                  />
+                </div>
+              </div>
+            </motion.div>
+
+            <div className="px-2 text-center md:text-left mt-8">
+              <h3 className={`${bodyFont.className} mb-3 text-2xl md:text-3xl font-black text-gray-900 group-hover:text-[#c25b5e] transition-colors leading-tight uppercase`}>
+                Strawberry Vanilla
+              </h3>
+              <StarRating rating={5} reviews={24} />
+              <div className={`${bodyFont.className} flex justify-between md:justify-start items-center md:gap-6 mt-2`}>
+                <div className="flex items-center gap-3">
+                  <span className="text-3xl md:text-4xl font-black text-black">Rs. 10.00</span>
+                  <span className="text-xl text-gray-400 line-through decoration-2">Rs. 668.00</span>
+                </div>
+                <button className="bg-[#15161b] hover:bg-[#c25b5e] text-white w-12 h-12 md:w-14 md:h-14 rounded-[12px] md:rounded-[14px] flex items-center justify-center shadow-md hover:shadow-lg transition-all active:scale-95 group/btn">
+                  <ShoppingCart size={20} strokeWidth={2} className="group-hover/btn:-rotate-6 transition-transform" />
+                </button>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Product Card 2 — Ginger Lemon */}
+          <motion.div variants={itemVariants} className="group relative mt-36 sm:mt-40 md:mt-32 lg:mt-36 xl:mt-40">
+            <motion.div
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
+              className="relative rounded-[2rem] sm:rounded-[2.5rem] h-[200px] sm:h-[220px] md:h-[200px] lg:h-[240px] xl:h-[270px] mb-6 shadow-lg group-hover:shadow-[0_30px_60px_rgba(219,186,83,0.3)] border border-transparent transition-all duration-500"
+            >
+              {/* Background with illustration watermark */}
+              <div className="absolute inset-0 rounded-[2.5rem] overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-tl from-[#dbba53]/10 via-[#f5f0dc] to-[#faf8f0]" />
+                <Image
+                  src="/yellowcanbg.png"
+                  alt=""
+                  fill
+                  sizes="100vw"
+                  className="object-cover opacity-[0.35] group-hover:opacity-[0.45] transition-opacity duration-700 scale-110"
+                />
+                <div className="absolute w-[150%] h-[150%] bg-gradient-to-bl from-[#dbba53]/20 to-transparent rounded-full -bottom-[50%] -left-[50%] blur-[80px] group-hover:opacity-100 opacity-0 transition-opacity duration-700 pointer-events-none" />
+              </div>
+
+              {/* Badges */}
+              <motion.div
+                variants={badgeVariants}
+                className={`${bodyFont.className} absolute top-4 left-4 sm:top-5 sm:left-5 md:top-4 md:left-4 lg:top-5 lg:left-5 z-20 rounded-xl sm:rounded-2xl bg-[#dbba53] px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-black tracking-widest text-white shadow-xl rotate-6 group-hover:rotate-2 transition-transform duration-300`}
+              >
+                RESTOCKED
+              </motion.div>
+
+              {/* Heart Icon Top-Right */}
+              <button
+                onClick={() => setLiked2(!liked2)}
+                className={`absolute top-4 right-4 sm:top-5 sm:right-5 md:top-4 md:right-4 lg:top-5 lg:right-5 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-all active:scale-90 ${
+                  liked2
+                    ? "bg-[#dbba53] text-white shadow-md"
+                    : "bg-white/80 text-gray-400 hover:text-[#dbba53] hover:bg-white shadow-sm"
+                }`}
+              >
+                <Heart size={20} strokeWidth={2} fill={liked2 ? "currentColor" : "none"} />
+              </button>
+
+              {/* The Massive Pop-out Image — 20% bigger */}
+              <div className="absolute inset-x-0 bottom-0 flex justify-center pointer-events-none z-10 w-full">
+                <div className="relative h-[380px] sm:h-[420px] md:h-[380px] lg:h-[480px] xl:h-[560px]">
+                  <Image
+                    src="/can2.png"
+                    alt="Ginger Lemon"
+                    width={500}
+                    height={1000}
+                    priority
+                    className="h-full w-auto object-contain drop-shadow-[0_25px_40px_rgba(219,186,83,0.45)] group-hover:scale-105 group-hover:-translate-y-4 transition-all duration-500 pointer-events-auto"
+                  />
+                </div>
+              </div>
+            </motion.div>
+
+            <div className="px-2 text-center md:text-left mt-8">
+              <h3 className={`${bodyFont.className} mb-3 text-2xl md:text-3xl font-black text-gray-900 group-hover:text-[#dbba53] transition-colors leading-tight uppercase`}>
+                Ginger Lemon
+              </h3>
+              <StarRating rating={4} reviews={12} />
+              <div className={`${bodyFont.className} flex justify-between md:justify-start items-center md:gap-6 mt-2`}>
+                <div className="flex items-center gap-3">
+                  <span className="text-3xl md:text-4xl font-black text-black">Rs. 20.00</span>
+                  <span className="text-xl text-gray-400 line-through decoration-2">Rs. 1499.00</span>
+                </div>
+                <button className="bg-[#15161b] hover:bg-[#dbba53] text-white w-12 h-12 md:w-14 md:h-14 rounded-[12px] md:rounded-[14px] flex items-center justify-center shadow-md hover:shadow-lg transition-all active:scale-95 group/btn">
+                  <ShoppingCart size={20} strokeWidth={2} className="group-hover/btn:-rotate-6 transition-transform" />
+                </button>
+              </div>
+            </div>
+          </motion.div>
+
+        </motion.div>
       </div>
     </section>
   );

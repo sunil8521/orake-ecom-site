@@ -1,132 +1,183 @@
-"use client";
-import { FaStar } from "react-icons/fa";
-import { motion } from "framer-motion";
+import { Sansita, DM_Sans } from "next/font/google";
+
+const titleFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
+const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 
 const testimonials = [
   {
-    rating: 5.0,
-    title: "Exceptional Dining Experience!",
-    text: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.",
-    author: "Theresa Webb",
-    role: "Happy Guest",
-    image: "https://placehold.co/100x100/e0e0e0/333333.jpg?text=TW",
+    text: "I've never tasted a drink so fresh and natural. The mango flavor is my absolute favorite—it's like a burst of fruit!",
+    author: "Emily R.",
+    role: "Fitness Enthusiast",
+    rating: 5,
   },
   {
-    rating: 5.0,
-    title: "Delicious & Memorable!",
-    text: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.",
-    author: "Leslie Alexander",
-    role: "Happy Guest",
-    image: "https://placehold.co/100x100/e0e0e0/333333.jpg?text=LA",
+    text: "It's my daily pick-me-up. I love that it's delicious and made with real ingredients. The perfect alternative to soda.",
+    author: "Jordan M.",
+    role: "Health Coach",
+    rating: 5,
   },
+  {
+    text: "The perfect balance of natural sweetness. I've cut out artificial ingredients, and this has been a total game-changer!",
+    author: "Carlos T.",
+    role: "Wellness Blogger",
+    rating: 5,
+  },
+
 ];
 
-export default function Testimonials() {
-  const tearPoints = Array.from({ length: 300 }).map((_, i) => {
-    const x = 100 - (i * (100 / 299));
-    const wave1 = Math.sin(i * 0.1) * 8;
-    const wave2 = Math.sin(i * 0.4) * 4;
-    const wave3 = Math.sin(i * 1.0) * 2;
-    const pseudoRandom = ((i * i * 37) % 12) - 6; 
-    let y = 35 + wave1 + wave2 + wave3 + pseudoRandom;
-    y = Math.max(0, Math.min(100, y)); 
-    return `${x.toFixed(2)}% ${y.toFixed(2)}%`;
-  }).join(', ');
+const decorations = [
+  "/svgs/starwbery-svg.png",
+  "/svgs/ginger-svg.png",
+  "/svgs/leaf-svg.png",
+  "/svgs/lemon-svg.png",
+  "/svgs/flower-sb.png",
+  "/svgs/leaf-2.png",
+  "/svgs/lemon-2-svg.png",
   
-  const topTearPath = `polygon(0 0, 100% 0, 100% 10%, ${tearPoints}, 0 10%)`;
-  const bottomTearPath = `polygon(0 100%, 100% 100%, 100% 90%, ${tearPoints}, 0 90%)`;
+
+];
+
+const Stars = ({ count }: { count: number }) => (
+  <div className="flex gap-1 mb-4">
+    {[...Array(5)].map((_, i) => (
+      <svg
+        key={i}
+        className={`w-5 h-5 ${i < count ? "text-[#f4d169]" : "text-gray-200"}`}
+        fill="currentColor"
+        viewBox="0 0 20 20"
+      >
+        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+      </svg>
+    ))}
+  </div>
+);const TestimonialCard = ({ t, idx }: { t: typeof testimonials[0], idx: number }) => {
+  const Decoration = decorations[idx % decorations.length];
 
   return (
-    <section id="testimonials" className="relative w-full py-24 md:py-32 -mt-[2px] z-20">
-      {/* ── Background Image ── */}
-      <div className="absolute inset-0 z-0 overflow-hidden">
-        <img
-          src="https://images.unsplash.com/photo-1719941257432-972e62c890d0?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          alt="Testimonials background"
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-black/30 to-black/20" />
+    <div
+      className="flex-shrink-0 w-[260px] sm:w-[300px] md:w-[350px] lg:w-[400px] min-h-[320px] sm:min-h-[auto] bg-gradient-to-br from-white via-pink-50/40 to-yellow-50/40 rounded-[24px] p-6 sm:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] relative transform transition-transform duration-300 hover:-translate-y-2 cursor-pointer flex flex-col h-full border border-gray-100 overflow-hidden group"
+    >
+      {/* Decorative Background Image */}
+      <div className="absolute -bottom-6 -right-6 w-32 h-32 sm:w-40 sm:h-40 opacity-20 group-hover:opacity-40 transition-opacity duration-500 pointer-events-none transform -rotate-12">
+        <img src={Decoration} alt="decoration" className="w-full h-full object-contain" />
       </div>
 
-      {/* ── Torn Paper Top ── */}
+      {/* Accent top bar */}
       <div
-        className="absolute -top-[2px] left-0 w-full h-10 sm:h-14 bg-white z-20 pointer-events-none"
-        style={{
-          clipPath: topTearPath,
-        }}
+        className="absolute top-0 left-0 right-0 h-[4px] bg-[#de3e4f] opacity-80 transition-opacity group-hover:opacity-100"
       />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
-        {/* Header */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+      <div className="relative z-10 flex flex-col h-full mt-2">
+        <Stars count={t.rating} />
+
+        <p className="text-lg font-medium leading-[1.6] text-[#292a31] italic flex-grow">
+          "{t.text}"
+        </p>
+
+        <div className="mt-8 flex items-center justify-between gap-4">
+          <p className="font-bold text-[#15161b] text-base leading-tight uppercase tracking-wider">{t.author}</p>
+          
+          {/* Subtle dash to finish the minimalist layout */}
+          <div className="w-6 h-[2px] bg-[#de3e4f]/30 rounded-full" />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default function Testimonials() {
+  // Ensure we have enough items so the track is always wider than the 1500px container,
+  // allowing a seamless endless loop even if the database only returns 2 or 3 reviews.
+  const minItems = 8;
+  const displayTestimonials = [...testimonials];
+  if (displayTestimonials.length > 0) {
+    while (displayTestimonials.length < minItems) {
+      displayTestimonials.push(...testimonials);
+    }
+  }
+
+  return (
+    <section 
+      id="testimonials" 
+      className={`relative w-full py-16 sm:py-24 overflow-hidden bg-[#faf9f6] ${textFont.className}`}
+    >
+      <style>{`
+        @keyframes scroll-marquee {
+          from { transform: translateX(0); }
+          to { transform: translateX(calc(-100% - 2rem)); } /* 2rem is gap-8 on desktop */
+        }
+        .animate-marquee {
+          animation: scroll-marquee 80s linear infinite; /* very slow */
+        }
+        
+        /* Pause on hover only on devices that support hover */
+        @media (hover: hover) {
+          .marquee-wrapper:hover .animate-marquee {
+            animation-play-state: paused;
+          }
+        }
+        
+        /* Pause on active (touch and hold) for all devices, specifically mobile */
+        .marquee-wrapper:active .animate-marquee {
+          animation-play-state: paused;
+        }
+
+        @media (max-width: 640px) {
+          .animate-marquee {
+            animation-duration: 60s; /* Slower on mobile */
+            to { transform: translateX(calc(-100% - 1.5rem)); } /* 1.5rem is gap-6 on mobile */
+          }
+        }
+      `}</style>
+
+      {/* Decorative background elements */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-[20%] left-[10%] w-[400px] h-[400px] bg-[#dbba53]/8 rounded-full blur-[120px]" />
+        <div className="absolute bottom-[10%] right-[5%] w-[350px] h-[350px] bg-[#cf797e]/8 rounded-full blur-[120px]" />
+        <div className="absolute top-[15%] left-[5%] sm:left-[10%] text-[12rem] sm:text-[18rem] font-serif text-black/[0.02] leading-none select-none">"</div>
+        <div className="absolute bottom-[10%] right-[5%] sm:right-[10%] text-[12rem] sm:text-[18rem] font-serif text-black/[0.02] leading-none select-none rotate-180">"</div>
+      </div>
+
+      {/* Center the whole content to a max width of 1500px as requested */}
+      <div className="relative z-10 w-full max-w-[1500px] mx-auto">
+        <div className="px-4 sm:px-6 md:px-8 mb-12 sm:mb-20">
+          <div className="text-center">
+            <span className="inline-block px-4 py-1.5 rounded-full bg-[#8a9b87]/10 text-[#8a9b87] text-xs sm:text-sm font-semibold tracking-widest uppercase mb-4 shadow-sm border border-[#8a9b87]/20">
+              What People Say
+            </span>
+            <h2 className={`${titleFont.className} text-[clamp(2.2rem,5.5vw,4.5rem)] uppercase leading-[1] text-[#15161b] tracking-tight`}>
+              Stories from <span className="text-[#de3e4f]">The Source</span>
+            </h2>
+            <p className="text-gray-500 mt-4 text-sm sm:text-base font-medium tracking-[0.2em] uppercase">
+              Real reviews from real sippers
+            </p>
+          </div>
+        </div>
+
+        <div
+          className="relative w-full overflow-hidden"
+          style={{
+            WebkitMaskImage: "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
+            maskImage: "linear-gradient(to right, transparent, black 10%, black 90%, transparent)"
+          }}
         >
-          <span className="text-red-500 text-sm flex justify-center gap-0.5">♦♦♦</span>
-          <p className="text-red-500 text-[11px] font-bold uppercase tracking-[4px] mt-2 mb-3">
-            TESTIMONIALS
-          </p>
-          <h2 className="font-playfair font-bold text-white text-3xl sm:text-4xl md:text-5xl leading-tight">
-            Testimonials from Our <br className="hidden sm:block" />
-            <span className="text-red-500 italic">Valued Guests</span>
-          </h2>
-        </motion.div>
-
-        {/* Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-10">
-          {testimonials.map((t, idx) => (
-             <motion.div 
-               key={idx} 
-               initial={{ opacity: 0, scale: 0.95 }}
-               whileInView={{ opacity: 1, scale: 1 }}
-               viewport={{ once: true }}
-               transition={{ duration: 0.6, delay: 0.2 + (idx * 0.2), ease: "easeOut" }}
-               className="bg-white/10 backdrop-blur-md rounded-2xl p-8 sm:p-10 border border-white/5 shadow-2xl text-left bg-gradient-to-br from-white/10 to-transparent"
-             >
-                 <div className="flex items-center gap-2 mb-6 text-orange-400">
-                     <FaStar size={18} />
-                     <FaStar size={18} />
-                     <FaStar size={18} />
-                     <FaStar size={18} />
-                     <FaStar size={18} />
-                     <span className="text-white ml-2 font-medium">{t.rating.toFixed(1)}</span>
-                 </div>
-                 <h3 className="font-playfair text-xl md:text-[22px] font-bold text-white mb-4">
-                     {t.title}
-                 </h3>
-                 <p className="text-gray-300 text-[13px] md:text-sm leading-relaxed mb-8 font-light">
-                     {t.text}
-                 </p>
-                 <div className="flex items-center gap-4">
-                     <img src={t.image} alt={t.author} className="w-12 h-12 rounded-full border-2 border-white/20 object-cover shadow-sm" />
-                     <div>
-                         <p className="font-playfair text-white text-[17px] leading-tight">{t.author}</p>
-                         <p className="text-gray-400 text-[12px]">{t.role}</p>
-                     </div>
-                 </div>
-             </motion.div>
-          ))}
-        </div>
-
-        {/* Carousel Indicators */}
-        <div className="flex justify-center items-center gap-2 mt-14">
-            <div className="w-10 h-[3px] bg-red-600 rounded-full"></div>
-            <div className="w-6 h-[3px] bg-white/30 rounded-full cursor-pointer hover:bg-white/50 transition-colors"></div>
-            <div className="w-6 h-[3px] bg-white/30 rounded-full cursor-pointer hover:bg-white/50 transition-colors"></div>
-            <div className="w-6 h-[3px] bg-white/30 rounded-full cursor-pointer hover:bg-white/50 transition-colors"></div>
+          {/* Marquee Container without horizontal padding to allow edge-to-edge scrolling inside the 1500px wrapper */}
+          <div className="marquee-wrapper flex gap-6 sm:gap-8 py-8 items-stretch">
+            {/* First Track */}
+            <div className="flex shrink-0 gap-6 sm:gap-8 animate-marquee items-stretch">
+              {displayTestimonials.map((t, idx) => (
+                <TestimonialCard key={`t1-${idx}`} t={t} idx={idx} />
+              ))}
+            </div>
+            {/* Second Track for seamless loop */}
+            <div className="flex shrink-0 gap-6 sm:gap-8 animate-marquee items-stretch" aria-hidden="true">
+              {displayTestimonials.map((t, idx) => (
+                <TestimonialCard key={`t2-${idx}`} t={t} idx={idx} />
+              ))}
+            </div>
+          </div>
         </div>
       </div>
-
-      {/* ── Torn Paper Bottom ── */}
-      <div
-        className="absolute -bottom-[2px] left-0 w-full h-10 sm:h-14 bg-white z-20 pointer-events-none"
-        style={{
-          clipPath: bottomTearPath,
-        }}
-      />
     </section>
   );
 }

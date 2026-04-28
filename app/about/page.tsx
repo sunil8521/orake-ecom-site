@@ -1,30 +1,23 @@
-  import WhyChooseUs from "@/components/About/WhyChooseUs";
-import Navbar from "@/components/Navbar";
-import AboutUs from "@/components/About/AboutUs";
+import type { Metadata } from "next";
 import Hero from "@/components/About/Hero";
-import FoodMenu from "@/components/About/FoodMenu";
- import VideoSection from "@/components/About/VideoSection";
- import MeetTheChef from "@/components/About/MeetTheChef";
-import Testimonials from "@/components/About/Testimonials";
-  import FollowUs from "@/components/About/FollowUs";
- 
-export default function AboutPage() {
-       return (
-	        <>
-      <Navbar />
-      <main>
-        <Hero />
-        <AboutUs />
-        <FoodMenu />
-       
-        <VideoSection />
-        <WhyChooseUs />
-        <MeetTheChef />
+import AboutUs from "@/components/About/AboutUs";
+import VideoSection from "@/components/About/VideoSection";
+import FooterBanner from "@/components/Product/FooterBanner";
 
-          <FollowUs />
-        <Testimonials />
-      </main>
-      
-    </>	
-       );
+export const metadata: Metadata = {
+  title: "About Orake — Our Story & Mission",
+  description: "Discover the story behind Orake premium prebiotic energy drinks. Real ingredients, zero sugar, and a mission to fuel your everyday grind naturally.",
+};
+
+export default function AboutPage() {
+	return (
+		<div className="min-h-screen bg-[#15161b] overflow-hidden">
+			<main>
+				<Hero />
+				<AboutUs />
+				{/* <VideoSection /> */}
+			</main>
+			<FooterBanner />
+		</div>
+	);
 }
