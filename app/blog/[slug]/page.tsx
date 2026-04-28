@@ -10,7 +10,7 @@ const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "70
 // Mock Database of Blog Posts
 const blogData: Record<string, any> = {
   "science-of-hydration": {
-    image: "https://images.unsplash.com/photo-1546188994-07c34f6e5e1b?q=80&w=1200&auto=format&fit=crop",
+    image: "/blog-hydration.png",
     tag: "Science & Performance",
     author: "DR. KATE",
     date: "OCT 12, 2025",
@@ -35,34 +35,9 @@ const blogData: Record<string, any> = {
       </>
     )
   },
-  "late-night-sessions": {
-    image: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=1200&auto=format&fit=crop",
-    tag: "Creator Spotlight",
-    author: "MARCUS G.",
-    date: "OCT 08, 2025",
-    title: "Late Night Sessions: Fueling The Next Wave of Gamers",
-    content: (
-      <>
-        <p className="lead">In the highly competitive world of esports, milliseconds matter. The difference between a championship title and going home empty-handed often comes down to who can maintain peak mental acuity in the final hour of a grueling tournament.</p>
-        
-        <h2>The Traditional Energy Drink Problem</h2>
-        <p>For years, the gaming community has relied on neon-colored, heavily caffeinated syrups. While they provide an initial burst of hyper-focus, the resulting jitteriness completely ruins fine motor skills. You can&apos;t hit a flick shot when your hands are shaking.</p>
-        
-        <h2>Enter Orake</h2>
-        <p>We sat down with top-tier professional gamers across the fighting game and tactical shooter communities to understand what they really needed. The consensus was clear: clean energy, no jitters, and absolutely no crash.</p>
-        <p>Orake&apos;s natural caffeine profile, sourced from green tea extract, provides a smooth, sustained elevation in alertness. When combined with our zero-sugar base, it allows players to maintain surgical precision for hours on end.</p>
-        
-        <div className="highlight-box">
-            <h3>Pro Tip from the Pros:</h3>
-            <p>&quot;I used to drink three cans of the leading brand during a tournament. By the grand finals, I couldn&apos;t focus. Since switching to Orake Strawberry Vanilla, my energy is perfectly flat-lined at 100% all day.&quot; <strong>- Apex, Pro Gamer</strong></p>
-        </div>
-        
-        <p>The next wave of gamers isn&apos;t compromising on their health or their performance. They are choosing clean, functional energy. They are choosing Orake.</p>
-      </>
-    )
-  },
+
   "behind-the-flavor": {
-    image: "https://images.unsplash.com/photo-1603808033192-082d6919d3e1?q=80&w=1200&auto=format&fit=crop",
+    image: "/blog-flavor.png",
     tag: "Flavor Lab",
     author: "THE TEAM",
     date: "OCT 01, 2025",
@@ -93,7 +68,6 @@ const blogData: Record<string, any> = {
 export function generateStaticParams() {
   return [
     { slug: "science-of-hydration" },
-    { slug: "late-night-sessions" },
     { slug: "behind-the-flavor" }
   ];
 }
