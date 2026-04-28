@@ -34,22 +34,29 @@ export default function SettingsTab() {
 
     setChangingPassword(true);
     try {
-      const res = await fetch("/api/user/profile", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ currentPassword, newPassword }),
+      const { data, error } = await authClient.changePassword({
+        newPassword: newPassword,
+        currentPassword: currentPassword,
+        revokeOtherSessions: true
       });
 
-      if (res.ok) {
-        toast.success("Password changed! Please log in again.");
-        setTimeout(async () => {
-          await authClient.signOut();
-          window.location.href = "/login";
-        }, 1500);
-      } else {
-        const data = await res.json();
-        toast.error(data.error || "Failed to change password");
+      if (error) {
+        if (error.code === "INVALID_PASSWORD" || error.status === 400 || error.message?.toLowerCase().includes("password")) {
+          // If the password is wrong, the user requested it to say "user not found" or similar
+          toast.error("User not found or incorrect password");
+        } else if (error.code === "NO_PASSWORD" || error.message?.toLowerCase().includes("oauth") || error.message?.toLowerCase().includes("provider")) {
+          toast.error("Google users cannot update password");
+        } else {
+          toast.error("Google users cannot update password"); 
+        }
+        return;
       }
+
+      toast.success("Password changed! Please log in again.");
+      setTimeout(async () => {
+        await authClient.signOut();
+        window.location.href = "/login";
+      }, 1500);
     } catch {
       toast.error("Something went wrong");
     } finally {
@@ -60,17 +67,16 @@ export default function SettingsTab() {
   const handleDeleteAccount = async () => {
     setDeleting(true);
     try {
-      const res = await fetch("/api/user/profile", { method: "DELETE" });
+      const { error } = await authClient.deleteUser();
 
-      if (res.ok) {
+      if (error) {
+        toast.error(error.message || "Failed to delete account");
+      } else {
         toast.success("Account deleted. Goodbye!");
         setTimeout(async () => {
           await authClient.signOut();
           window.location.href = "/";
         }, 1500);
-      } else {
-        const data = await res.json();
-        toast.error(data.error || "Failed to delete account");
       }
     } catch {
       toast.error("Something went wrong");
