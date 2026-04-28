@@ -14,7 +14,7 @@ function VerifyOTPContent() {
   const router = useRouter();
   const email = searchParams.get("email") || "";
 
-  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+  const [otp, setOtp] = useState(["", "", "", ""]);
   const [loading, setLoading] = useState(false);
   const [resendCooldown, setResendCooldown] = useState(60);
   const [resendLoading, setResendLoading] = useState(false);
@@ -39,7 +39,7 @@ function VerifyOTPContent() {
     setOtp(newOtp);
 
     // Auto-advance
-    if (value && index < 5) {
+    if (value && index < 3) {
       inputsRef.current[index + 1]?.focus();
     }
   };
@@ -52,19 +52,19 @@ function VerifyOTPContent() {
 
   const handlePaste = (e: React.ClipboardEvent) => {
     e.preventDefault();
-    const pasted = e.clipboardData.getData("text").replace(/\D/g, "").slice(0, 6);
+    const pasted = e.clipboardData.getData("text").replace(/\D/g, "").slice(0, 4);
     const newOtp = [...otp];
     pasted.split("").forEach((char, i) => {
       newOtp[i] = char;
     });
     setOtp(newOtp);
-    inputsRef.current[Math.min(pasted.length, 5)]?.focus();
+    inputsRef.current[Math.min(pasted.length, 3)]?.focus();
   };
 
   const handleVerify = async () => {
     const otpString = otp.join("");
-    if (otpString.length !== 6) {
-      toast.error("Please enter the complete 6-digit OTP");
+    if (otpString.length !== 4) {
+      toast.error("Please enter the complete 4-digit OTP");
       return;
     }
 
@@ -104,7 +104,7 @@ function VerifyOTPContent() {
       } else {
         toast.success("New OTP sent to your email!");
         setResendCooldown(60);
-        setOtp(["", "", "", "", "", ""]);
+        setOtp(["", "", "", ""]);
         inputsRef.current[0]?.focus();
       }
     } catch (error) {
@@ -131,7 +131,7 @@ function VerifyOTPContent() {
             CHECK EMAIL
           </h1>
           <p className={`${textFont.className} text-gray-400 text-sm md:text-base tracking-[0.2em] uppercase max-w-md mx-auto mt-3`}>
-            Enter the 6-digit code sent to your inbox
+            Enter the 4-digit code sent to your inbox
           </p>
         </div>
       </div>
@@ -170,7 +170,7 @@ function VerifyOTPContent() {
             {/* Verify Button */}
             <button
               onClick={handleVerify}
-              disabled={loading || resendLoading || otp.join("").length !== 6}
+              disabled={loading || resendLoading || otp.join("").length !== 4}
               className={`${textFont.className} w-full bg-[#15161b] hover:bg-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed text-white py-4 rounded-full text-xl font-bold uppercase tracking-wider transition-all duration-300 hover:shadow-[0_10px_30px_rgba(52,211,153,0.3)] active:scale-[0.98] flex items-center justify-center gap-3`}
             >
               {loading ? (

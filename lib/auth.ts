@@ -21,7 +21,7 @@ export const auth = betterAuth({
 	hooks: {
 		before: createAuthMiddleware(async (ctx) => {
 			// Check if user already exists during sign-up
-			if (ctx.path === "/sign-up") {
+			if (ctx.path === "/sign-up/email") {
 				const existingUser = await ctx.context.internalAdapter.findUserByEmail(
 					ctx.body.email
 				);
@@ -35,6 +35,7 @@ export const auth = betterAuth({
 	},
   plugins: [
     emailOTP({
+      otpLength: 4,
       sendVerificationOnSignUp: true,
       overrideDefaultEmailVerification: true,
       async sendVerificationOTP({ email, otp, type }) {
