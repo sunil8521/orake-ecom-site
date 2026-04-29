@@ -174,31 +174,33 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
                     </div>
 
                     {/* Actions */}
-                    <div className="flex flex-wrap items-center gap-4 mb-8">
-                        {/* Quantity */}
-                        <div className="flex items-center border-2 border-gray-200 rounded-xl bg-white h-14">
-                            <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="w-12 h-full flex items-center justify-center text-gray-500 hover:text-[#15161b] transition-colors">
-                                <Minus size={16} />
-                            </button>
-                            <span className={`${bodyFont.className} w-10 text-center font-bold text-lg`}>{quantity}</span>
-                            <button onClick={() => setQuantity(quantity + 1)} className="w-12 h-full flex items-center justify-center text-gray-500 hover:text-[#15161b] transition-colors">
-                                <Plus size={16} />
+                    <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 mb-8">
+                        <div className="flex items-center gap-3 w-full sm:w-auto">
+                            {/* Quantity */}
+                            <div className="flex-1 sm:flex-none flex items-center justify-between sm:justify-center border-2 border-gray-200 rounded-xl bg-white h-14 px-2 sm:px-0">
+                                <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="w-10 sm:w-12 h-full flex items-center justify-center text-gray-500 hover:text-[#15161b] transition-colors">
+                                    <Minus size={16} />
+                                </button>
+                                <span className={`${bodyFont.className} w-8 sm:w-10 text-center font-bold text-lg`}>{quantity}</span>
+                                <button onClick={() => setQuantity(quantity + 1)} className="w-10 sm:w-12 h-full flex items-center justify-center text-gray-500 hover:text-[#15161b] transition-colors">
+                                    <Plus size={16} />
+                                </button>
+                            </div>
+
+                            {/* Wishlist */}
+                            <button 
+                                onClick={() => setLiked(!liked)}
+                                className={`h-14 w-14 shrink-0 rounded-xl border-2 flex items-center justify-center transition-all ${
+                                    liked ? 'border-[#de3e4f] text-[#de3e4f] bg-red-50' : 'border-gray-200 text-gray-400 hover:border-[#15161b] hover:text-[#15161b]'
+                                }`}
+                            >
+                                <Heart size={20} fill={liked ? "currentColor" : "none"} />
                             </button>
                         </div>
 
                         {/* Add to Cart */}
-                        <button className={`${bodyFont.className} flex-1 h-14 bg-[#15161b] hover:bg-[#de3e4f] text-white font-bold uppercase tracking-widest rounded-xl transition-all shadow-lg hover:shadow-xl hover:-translate-y-1`}>
+                        <button className={`${bodyFont.className} w-full sm:flex-1 h-14 bg-[#15161b] hover:bg-[#de3e4f] text-white font-bold uppercase tracking-widest whitespace-nowrap rounded-xl transition-all shadow-lg hover:shadow-xl hover:-translate-y-1`}>
                             Add To Cart
-                        </button>
-                        
-                        {/* Wishlist */}
-                        <button 
-                            onClick={() => setLiked(!liked)}
-                            className={`h-14 w-14 rounded-xl border-2 flex items-center justify-center transition-all ${
-                                liked ? 'border-[#de3e4f] text-[#de3e4f] bg-red-50' : 'border-gray-200 text-gray-400 hover:border-[#15161b] hover:text-[#15161b]'
-                            }`}
-                        >
-                            <Heart size={20} fill={liked ? "currentColor" : "none"} />
                         </button>
                     </div>
 
