@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { Sansita, DM_Sans } from "next/font/google";
 import { MoveUpRight } from "lucide-react";
-import { FaInstagram, FaTwitter, FaFacebookF, FaYoutube, FaLinkedinIn, FaApple, FaGooglePlay, FaCcVisa, FaCcMastercard, FaCcPaypal } from "react-icons/fa";
+import { FaInstagram, FaTwitter, FaFacebookF, FaApple, FaGooglePlay, FaCcVisa, FaCcMastercard, FaCcPaypal } from "react-icons/fa";
 
 const titleFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
 const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
@@ -13,8 +13,6 @@ const socials = [
   { Icon: FaInstagram, label: "Instagram", href: "#" },
   { Icon: FaTwitter, label: "Twitter", href: "#" },
   { Icon: FaFacebookF, label: "Facebook", href: "#" },
-  { Icon: FaYoutube, label: "YouTube", href: "#" },
-  { Icon: FaLinkedinIn, label: "LinkedIn", href: "#" },
 ];
 
 export default function Footer() {
