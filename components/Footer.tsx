@@ -51,13 +51,14 @@ export default function Footer() {
             </a>
 
             <div className="flex items-center gap-3 ml-2">
-              {socials.map(({ Icon, label, href }) => (
-                <a key={label} href={href} aria-label={label}
-                  className="w-8 h-8 rounded-full bg-white/15 hover:bg-white hover:text-[#c25b5e] flex items-center justify-center transition-all duration-300 text-white hover:scale-110 hover:shadow-lg">
-                  <Icon size={14} />
-                </a>
-              ))}
+                {socials.map(({ Icon, label, href }) => (
+                  <a key={label} href={href} aria-label={label}
+                    className="w-10 h-10 rounded-full bg-white/15 hover:bg-white hover:text-[#c25b5e] flex items-center justify-center transition-all duration-300 text-white hover:scale-110 hover:shadow-lg">
+                    <Icon size={16} />
+                  </a>
+                ))}
             </div>
+
           </div>
 
         </div>
@@ -87,15 +88,15 @@ export default function Footer() {
 
         </div>
       </div>
+ 
 
       {/* Bottom Copyright */}
-      <div className="w-full max-w-[1400px] mx-auto px-12 sm:px-16 lg:px-28 pt-4 pb-6 border-t border-white/20 flex flex-col md:flex-row justify-between items-center gap-4 z-20">
-        <p className={`${textFont.className} text-md text-white/80 font-medium tracking-wide`}>
-          © 2026 <a href="https://swiftrise.in" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors underline underline-offset-4 decoration-white/30 hover:decoration-white">Swiftrise Solution Pvt Ltd</a>. ALL RIGHTS RESERVED.
-        </p>
+        <div className="w-full max-w-[1400px] mx-auto px-12 sm:px-16 lg:px-28 pt-6 pb-6 border-t border-white/20 flex flex-col md:flex-row justify-between items-center gap-4 z-20">
+          <p className={`${textFont.className} text-md text-white/80 font-medium tracking-wide`}>
+            © 2026 <a href="https://swiftrise.in" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors underline underline-offset-4 decoration-white/30 hover:decoration-white">Swiftrise Solution Pvt Ltd</a>. ALL RIGHTS RESERVED.
+          </p>
 
-        
-      </div>
+        </div>
 
     </footer>
   );
