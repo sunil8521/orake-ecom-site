@@ -4,7 +4,7 @@ import { Sansita, DM_Sans } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import { useState, use } from "react";
-import { ShoppingCart, Heart, Share2, Plus, Minus, ChevronDown, Check } from "lucide-react";
+import { ShoppingCart, Heart, Share2, Plus, Minus, ChevronDown, Check, ChevronLeft, ChevronRight, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 const headingFont = Sansita({ subsets: ["latin"], weight: ["400", "700", "800", "900"] });
 const bodyFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
@@ -40,11 +40,23 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
     const productId = parseInt(resolvedParams.id) || 1;
     const product = PRODUCTS.find(p => p.id === productId) || PRODUCTS[0];
     const isStrawberry = product.image.includes("can1");
-    
+
     const [quantity, setQuantity] = useState(1);
     const [liked, setLiked] = useState(false);
     const [activeTab, setActiveTab] = useState("description");
     const [shippingOpen, setShippingOpen] = useState(false);
+    const [selectedImage, setSelectedImage] = useState(0);
+    const [isZoomed, setIsZoomed] = useState(false);
+
+    const galleryImages = isStrawberry ? [
+        "/orake-strawberry-clean.png",
+        "/orake-strawberry-ingredients.png",
+        "/orake-strawberry-pour.png",
+    ] : [
+        "/orake-ginger-lemon-clean.png",
+        "/orake-ginger-lemon-ingredients.png",
+        "/orake-ginger-lemon-pour.png",
+    ];
 
     // Get related products (just filter out current)
     const relatedProducts = PRODUCTS.filter(p => p.id !== product.id);
@@ -66,37 +78,41 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
 
             {/* Product Top Section */}
             <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-20 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 mb-20">
-                
+
                 {/* LEFT: Image Gallery */}
                 <div className="flex flex-col gap-6">
                     {/* Main Image Container */}
-                    <div className="relative w-full aspect-square md:aspect-[4/5] bg-[#f4f4f5] rounded-3xl flex items-center justify-center p-12 border border-black/5 overflow-hidden group">
-                        {/* Background Watermark */}
-                        <div className="absolute inset-0 pointer-events-none">
-                            <Image
-                                src={isStrawberry ? "/pinkcanbg.png" : "/yellowcanbg.png"}
-                                alt=""
-                                fill
-                                className="object-cover opacity-[0.05] group-hover:opacity-[0.08] transition-opacity duration-700"
-                            />
-                        </div>
-                        {/* Shadow */}
-                        <div className="absolute bottom-[10%] left-1/2 -translate-x-1/2 w-[60%] h-[20px] rounded-[50%] bg-[radial-gradient(ellipse,rgba(0,0,0,0.15)_0%,transparent_70%)] pointer-events-none" />
-                        
-                        <motion.img 
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                            src={product.image} 
+                    <div className="relative w-full aspect-square rounded-3xl overflow-hidden group border border-black/5 shadow-sm">
+                        <img
+                            onClick={() => setIsZoomed(true)}
+                            src={galleryImages[selectedImage]}
                             alt={product.name}
-                            className="relative z-10 w-auto h-full max-h-[80%] object-contain drop-shadow-[0_20px_30px_rgba(0,0,0,0.15)] group-hover:scale-105 transition-transform duration-700"
+                            className="w-full h-full object-cover cursor-zoom-in"
                         />
+
+                        {/* Navigation Arrows */}
+                        <button
+                            onClick={(e) => { e.stopPropagation(); setSelectedImage(prev => prev === 0 ? galleryImages.length - 1 : prev - 1); }}
+                            className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-black opacity-0 group-hover:opacity-100 transition-all hover:bg-white"
+                        >
+                            <ChevronLeft className="w-5 h-5" />
+                        </button>
+                        <button
+                            onClick={(e) => { e.stopPropagation(); setSelectedImage(prev => prev === galleryImages.length - 1 ? 0 : prev + 1); }}
+                            className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center text-black opacity-0 group-hover:opacity-100 transition-all hover:bg-white"
+                        >
+                            <ChevronRight className="w-5 h-5" />
+                        </button>
                     </div>
                     {/* Thumbnails */}
                     <div className="flex gap-4">
-                        {[1, 2, 3, 4].map((i) => (
-                            <div key={i} className={`w-20 h-20 bg-[#f4f4f5] rounded-xl flex items-center justify-center border-2 cursor-pointer ${i === 1 ? 'border-[#15161b]' : 'border-transparent hover:border-black/10'} transition-all`}>
-                                <img src={product.image} className="h-[70%] w-auto object-contain drop-shadow-sm" />
+                        {galleryImages.map((img, index) => (
+                            <div
+                                key={index}
+                                onClick={() => setSelectedImage(index)}
+                                className={`w-20 h-20 bg-gray-100 rounded-xl flex items-center justify-center border-2 cursor-pointer overflow-hidden transition-all ${selectedImage === index ? 'border-[#15161b]' : 'border-transparent hover:border-black/10'}`}
+                            >
+                                <img src={img} className="w-full h-full object-cover" />
                             </div>
                         ))}
                     </div>
@@ -158,31 +174,32 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
                     </div>
 
                     {/* Actions */}
-                    <div className="flex flex-wrap items-center gap-4 mb-8">
-                        {/* Quantity */}
-                        <div className="flex items-center border-2 border-gray-200 rounded-xl bg-white h-14">
-                            <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="w-12 h-full flex items-center justify-center text-gray-500 hover:text-[#15161b] transition-colors">
-                                <Minus size={16} />
-                            </button>
-                            <span className={`${bodyFont.className} w-10 text-center font-bold text-lg`}>{quantity}</span>
-                            <button onClick={() => setQuantity(quantity + 1)} className="w-12 h-full flex items-center justify-center text-gray-500 hover:text-[#15161b] transition-colors">
-                                <Plus size={16} />
+                    <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 mb-8">
+                        <div className="flex items-center gap-3 w-full sm:w-auto">
+                            {/* Quantity */}
+                            <div className="flex-1 sm:flex-none flex items-center justify-between sm:justify-center border-2 border-gray-200 rounded-xl bg-white h-14 px-2 sm:px-0">
+                                <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="w-10 sm:w-12 h-full flex items-center justify-center text-gray-500 hover:text-[#15161b] transition-colors">
+                                    <Minus size={16} />
+                                </button>
+                                <span className={`${bodyFont.className} w-8 sm:w-10 text-center font-bold text-lg`}>{quantity}</span>
+                                <button onClick={() => setQuantity(quantity + 1)} className="w-10 sm:w-12 h-full flex items-center justify-center text-gray-500 hover:text-[#15161b] transition-colors">
+                                    <Plus size={16} />
+                                </button>
+                            </div>
+
+                            {/* Wishlist */}
+                            <button
+                                onClick={() => setLiked(!liked)}
+                                className={`h-14 w-14 shrink-0 rounded-xl border-2 flex items-center justify-center transition-all ${liked ? 'border-[#de3e4f] text-[#de3e4f] bg-red-50' : 'border-gray-200 text-gray-400 hover:border-[#15161b] hover:text-[#15161b]'
+                                    }`}
+                            >
+                                <Heart size={20} fill={liked ? "currentColor" : "none"} />
                             </button>
                         </div>
 
                         {/* Add to Cart */}
-                        <button className={`${bodyFont.className} flex-1 h-14 bg-[#15161b] hover:bg-[#de3e4f] text-white font-bold uppercase tracking-widest rounded-xl transition-all shadow-lg hover:shadow-xl hover:-translate-y-1`}>
+                        <button className={`${bodyFont.className} w-full sm:flex-1 h-14 bg-[#15161b] hover:bg-[#de3e4f] text-white font-bold uppercase tracking-widest whitespace-nowrap rounded-xl transition-all shadow-lg hover:shadow-xl hover:-translate-y-1`}>
                             Add To Cart
-                        </button>
-                        
-                        {/* Wishlist */}
-                        <button 
-                            onClick={() => setLiked(!liked)}
-                            className={`h-14 w-14 rounded-xl border-2 flex items-center justify-center transition-all ${
-                                liked ? 'border-[#de3e4f] text-[#de3e4f] bg-red-50' : 'border-gray-200 text-gray-400 hover:border-[#15161b] hover:text-[#15161b]'
-                            }`}
-                        >
-                            <Heart size={20} fill={liked ? "currentColor" : "none"} />
                         </button>
                     </div>
 
@@ -208,7 +225,7 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
 
                     {/* Shipping Accordion */}
                     <div className="border-t border-b border-gray-200 py-4 mb-6">
-                        <button 
+                        <button
                             onClick={() => setShippingOpen(!shippingOpen)}
                             className="w-full flex items-center justify-between group"
                         >
@@ -219,7 +236,7 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
                         </button>
                         <AnimatePresence>
                             {shippingOpen && (
-                                <motion.div 
+                                <motion.div
                                     initial={{ height: 0, opacity: 0 }}
                                     animate={{ height: "auto", opacity: 1 }}
                                     exit={{ height: 0, opacity: 0 }}
@@ -246,7 +263,7 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
             {/* Bottom Info Tabs */}
             <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-20 mb-24">
                 <div className="flex items-center gap-8 border-b border-gray-200 mb-8">
-                    <button 
+                    <button
                         onClick={() => setActiveTab("description")}
                         className={`${headingFont.className} text-xl sm:text-2xl uppercase tracking-wider pb-4 transition-colors relative ${activeTab === "description" ? "text-[#15161b]" : "text-gray-400 hover:text-[#15161b]"}`}
                     >
@@ -255,7 +272,7 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
                             <motion.div layoutId="tab-indicator" className="absolute bottom-[-1px] left-0 w-full h-[3px] bg-[#de3e4f]" />
                         )}
                     </button>
-                    <button 
+                    <button
                         onClick={() => setActiveTab("reviews")}
                         className={`${headingFont.className} text-xl sm:text-2xl uppercase tracking-wider pb-4 transition-colors relative ${activeTab === "reviews" ? "text-[#15161b]" : "text-gray-400 hover:text-[#15161b]"}`}
                     >
@@ -269,7 +286,7 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
                 <div className="min-h-[200px]">
                     <AnimatePresence mode="wait">
                         {activeTab === "description" && (
-                            <motion.div 
+                            <motion.div
                                 key="desc"
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
@@ -283,7 +300,7 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
                         )}
 
                         {activeTab === "reviews" && (
-                            <motion.div 
+                            <motion.div
                                 key="reviews"
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
@@ -297,9 +314,9 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
                                         <span className={`${headingFont.className} text-3xl text-[#15161b]`}>5.00</span>
                                     </div>
                                     <p className={`${bodyFont.className} text-sm text-gray-500 mb-6 uppercase tracking-widest font-bold`}>Based on {product.numReviews} reviews</p>
-                                    
+
                                     <div className="space-y-2 mb-8">
-                                        {[5,4,3,2,1].map((star) => (
+                                        {[5, 4, 3, 2, 1].map((star) => (
                                             <div key={star} className="flex items-center gap-3">
                                                 <div className="flex text-[#dbba53] text-sm">
                                                     {[...Array(5)].map((_, i) => (
@@ -347,7 +364,46 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
             </div>
 
             {/* You May Also Like */}
-     
+
+            {/* Fullscreen Zoom Lightbox */}
+            <AnimatePresence>
+                {isZoomed && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-sm"
+                        onClick={() => setIsZoomed(false)}
+                    >
+                        <button
+                            onClick={(e) => { e.stopPropagation(); setIsZoomed(false); }}
+                            className="absolute top-6 right-6 w-12 h-12 bg-white/10 rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-colors z-50"
+                        >
+                            <X className="w-6 h-6" />
+                        </button>
+
+                        <img
+                            src={galleryImages[selectedImage]}
+                            alt={product.name}
+                            className="max-w-[95vw] max-h-[95vh] object-contain cursor-zoom-out"
+                        />
+
+                        {/* Navigation Arrows in Lightbox */}
+                        <button
+                            onClick={(e) => { e.stopPropagation(); setSelectedImage(prev => prev === 0 ? galleryImages.length - 1 : prev - 1); }}
+                            className="absolute left-6 top-1/2 -translate-y-1/2 w-14 h-14 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-colors z-50"
+                        >
+                            <ChevronLeft className="w-8 h-8" />
+                        </button>
+                        <button
+                            onClick={(e) => { e.stopPropagation(); setSelectedImage(prev => prev === galleryImages.length - 1 ? 0 : prev + 1); }}
+                            className="absolute right-6 top-1/2 -translate-y-1/2 w-14 h-14 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-colors z-50"
+                        >
+                            <ChevronRight className="w-8 h-8" />
+                        </button>
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
         </main>
     );

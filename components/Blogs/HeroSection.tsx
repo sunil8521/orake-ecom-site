@@ -11,7 +11,8 @@ export default function HeroSection() {
         <img 
           src="/orake-blog-banner.png" 
           alt="The Culture Blog Banner" 
-          className="w-full h-full object-cover object-center opacity-100" 
+          className="w-full h-full object-cover object-center lg:object-[center_45%] opacity-100" 
+
         />
         {/* Responsive Gradients for blending and text readability */}
         <div className="absolute inset-0 bg-gradient-to-r from-[#15161b]/90 md:from-[#15161b] via-[#15161b]/40 md:via-[#15161b]/80 to-transparent w-[85%] md:w-1/2" />
