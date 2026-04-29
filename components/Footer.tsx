@@ -32,8 +32,8 @@ export default function Footer() {
   return (
     <footer className="relative bg-[#c25b5e] text-white pt-10 overflow-hidden flex flex-col justify-between">
       {/* Decorative SVG background ( wave) */}
-      <div className="absolute inset-0 pointer-events-none z-10 opacity-90">
-        <svg viewBox="0 0 1200 600" preserveAspectRatio="none" className="w-full h-full">
+      <div className="absolute left-0 right-0 bottom-0 pointer-events-none z-10 opacity-90 h-[80rem] sm:inset-0 sm:h-auto">
+        <svg viewBox="0 0 1200 600" preserveAspectRatio="xMidYMax slice" className="w-full h-full min-h-[720px] sm:min-h-0">
           <defs>
             <linearGradient id="fg" x1="0" x2="1">
               <stop offset="0%" stopColor="#c5c2c2" stopOpacity="0.19" />
