@@ -70,7 +70,7 @@ export default function CollectionsSection() {
   };
 
   return (
-    <section className="bg-white pt-48 pb-24 px-4 sm:px-8 lg:px-12 overflow-hidden">
+    <section className="bg-white pt-48 pb-24 px-12 sm:px-16 lg:px-28 overflow-hidden">
       <div className="max-w-[1400px] mx-auto">
         {/* Gen Z Title Style */}
         <motion.div

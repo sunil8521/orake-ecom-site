@@ -33,7 +33,7 @@ export default function VideoShowcaseSection() {
   }, []);
 
   return (
-    <section className="relative overflow-hidden bg-white px-4 sm:px-6 md:px-8 pt-4 pb-12 sm:pt-8 sm:pb-16 md:pt-12 md:pb-24">
+    <section className="relative overflow-hidden bg-white px-12 sm:px-16 lg:px-28 pt-0 pb-4 sm:pt-2 sm:pb-6 md:pt-3 md:pb-8">
       
       {/* Background Gradient */}
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_80%,rgba(222,62,79,0.05)_0%,rgba(244,238,207,0.2)_30%,rgba(255,255,255,0)_70%)]" />
@@ -42,7 +42,7 @@ export default function VideoShowcaseSection() {
         {/* Video Container */}
         <div 
           ref={containerRef}
-          className="group relative w-full overflow-hidden rounded-[1.5rem] sm:rounded-[2rem] md:rounded-[2.5rem] bg-[#15161b] shadow-[0_30px_60px_rgba(0,0,0,0.2)] transition-shadow duration-700 hover:shadow-[0_45px_80px_rgba(0,0,0,0.35)] flex items-end aspect-[3/4] sm:aspect-[4/3] md:aspect-auto md:min-h-[80vh]"
+          className="group relative w-full overflow-hidden rounded-[1.5rem] sm:rounded-[2rem] md:rounded-[2.5rem] bg-[#15161b] shadow-[0_30px_60px_rgba(0,0,0,0.2)] transition-shadow duration-700 hover:shadow-[0_45px_80px_rgba(0,0,0,0.35)] flex items-end aspect-[3/4] sm:aspect-[4/3] md:aspect-auto md:min-h-[40vh]"
         >
           
           {/* Video Background */}
@@ -61,17 +61,10 @@ export default function VideoShowcaseSection() {
             Your browser does not support the video tag.
           </video>
 
-          {/* Poster / Fallback for mobile (shown until video loads) */}
-          <div className={`absolute inset-0 z-0 bg-[#15161b] transition-opacity duration-700 ${isLoaded ? 'opacity-0' : 'opacity-100'}`}>
-            <div className="absolute inset-0 bg-gradient-to-br from-[#1a1b22] via-[#15161b] to-[#0d0e12]" />
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="h-10 w-10 animate-spin rounded-full border-4 border-white/10 border-t-white/60"></div>
-            </div>
-          </div>
+            
 
           {/* Dark Overlay Gradients */}
-          <div className="absolute inset-0 z-[1] bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-90 transition-opacity duration-700 group-hover:opacity-100" />
-          <div className="absolute inset-0 z-[1] bg-gradient-to-r from-black/70 via-black/20 to-transparent opacity-90" />
+           <div className="absolute inset-0 z-[1] bg-gradient-to-r from-black/60 via-black/7 to-transparent opacity-50" />
 
           {/* Content */}
           <div 

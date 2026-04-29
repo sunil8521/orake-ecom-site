@@ -12,7 +12,7 @@ import ClosebyAlwaysSection from "@/components/Home/ClosebyAlwaysSection";
 import ValuesAndBeliefsSection from "@/components/Home/ValuesAndBeliefsSection";
 import FollowUsSection from "@/components/Home/FollowUsSection";
 import SpecialOffers from "@/components/Home/SpecialOffers";
-import Testimonials from "@/components/About/Testimonials";
+import Testimonials from "@/components/Home/Testimonials";
 // import Navbar from "@/components/Navbar";
 // import PrivacyPolicySection from "@/components/Home/PrivacyPolicySection";
 // import Footer from "@/components/Footer";

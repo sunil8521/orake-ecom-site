@@ -58,7 +58,7 @@ const Stars = ({ count }: { count: number }) => (
       className="flex-shrink-0 w-[260px] sm:w-[300px] md:w-[350px] lg:w-[400px] min-h-[320px] sm:min-h-[auto] bg-gradient-to-br from-white via-pink-50/40 to-yellow-50/40 rounded-[24px] p-6 sm:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] relative transform transition-transform duration-300 hover:-translate-y-2 cursor-pointer flex flex-col h-full border border-gray-100 overflow-hidden group"
     >
       {/* Decorative Background Image */}
-      <div className="absolute -bottom-6 -right-6 w-32 h-32 sm:w-40 sm:h-40 opacity-20 group-hover:opacity-40 transition-opacity duration-500 pointer-events-none transform -rotate-12">
+      <div className="absolute -bottom-6 -right-6 w-32 h-32 sm:w-40 sm:h-40 opacity-70 group-hover:opacity-90 transition-opacity duration-500 pointer-events-none transform -rotate-12">
         <img src={Decoration} alt="decoration" className="w-full h-full object-contain" />
       </div>
 
@@ -99,7 +99,7 @@ export default function Testimonials() {
   return (
     <section 
       id="testimonials" 
-      className={`relative w-full py-16 sm:py-24 overflow-hidden bg-[#faf9f6] ${textFont.className}`}
+      className={`relative w-full py-16 sm:py-24 overflow-hidden bg-[#faf9f6] px-12 sm:px-16 lg:px-28 ${textFont.className}`}
     >
       <style>{`
         @keyframes scroll-marquee {
@@ -139,8 +139,8 @@ export default function Testimonials() {
       </div>
 
       {/* Center the whole content to a max width of 1500px as requested */}
-      <div className="relative z-10 w-full max-w-[1500px] mx-auto">
-        <div className="px-4 sm:px-6 md:px-8 mb-12 sm:mb-20">
+      <div className="relative z-10 w-full max-w-[1400px] mx-auto">
+        <div className="mb-12 sm:mb-20">
           <div className="text-center">
             <span className="inline-block px-4 py-1.5 rounded-full bg-[#8a9b87]/10 text-[#8a9b87] text-xs sm:text-sm font-semibold tracking-widest uppercase mb-4 shadow-sm border border-[#8a9b87]/20">
               What People Say

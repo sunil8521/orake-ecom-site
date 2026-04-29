@@ -40,7 +40,7 @@ export default function Navbar() {
       }`}
     >
       {/* ✅ FIXED CONTAINER */}
-      <div className="w-full max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-12">
+      <div className="w-full max-w-[1400px] mx-auto px-12 sm:px-16 lg:px-28">
         <div className="flex h-16 items-center justify-between lg:h-20">
 
           {/* Logo */}
