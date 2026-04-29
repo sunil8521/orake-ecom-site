@@ -28,7 +28,7 @@ export default function ContactSection() {
           <div className="absolute w-72 h-72 bg-[#c25b5e]/5 rounded-full blur-[100px] bottom-0 left-1/4" />
         </div>
 
-      
+
 
         <div className="relative z-10 max-w-6xl mx-auto text-center">
           <div className="inline-flex items-center justify-center gap-3 mb-6">
@@ -121,27 +121,6 @@ export default function ContactSection() {
                   </button>
                 </div>
               </form>
-
-              {/* ── Map View Card (Moved from Sidebar) ── */}
-              <div className="rounded-3xl overflow-hidden border border-gray-100 shadow-sm w-full h-[400px]">
-                <div className="relative h-full">
-                  <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3502.5!2d77.2!3d28.6!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cfd5b347eb62d%3A0x37205b715389640!2sNew%20Delhi%2C%20Delhi!5e0!3m2!1sen!2sin!4v1714400000000!5m2!1sen!2sin"
-                    width="100%"
-                    height="100%"
-                    style={{ border: 0 }}
-                    allowFullScreen
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    className="transition-all duration-500"
-                  />
-                  {/* Overlay label */}
-                  <div className="absolute bottom-4 left-4 bg-[#15161b]/90 backdrop-blur-sm rounded-xl px-4 py-2.5 flex items-center gap-2">
-                    <MapPin size={15} className="text-[#3b82f6]" />
-                    <span className={`${textFont.className} text-white text-sm font-semibold tracking-wide`}>Swiftrise HQ — New Delhi</span>
-                  </div>
-                </div>
-              </div>
             </div>
 
             {/* ── Info Sidebar ── */}
@@ -202,6 +181,22 @@ export default function ContactSection() {
                 </div>
               </div>
 
+            </div>
+          </div>
+
+          {/* ── Map View Card (Full Width) ── */}
+          <div className="mt-10 lg:mt-16 rounded-3xl overflow-hidden border border-gray-100 shadow-sm w-full h-[400px] sm:h-[500px]">
+            <div className="relative h-full w-full bg-gray-100">
+              <iframe
+                src="https://maps.google.com/maps?q=28.631451,77.206331&z=15&output=embed"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="transition-all duration-500"
+              />
             </div>
           </div>
         </div>
