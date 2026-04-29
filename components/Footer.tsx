@@ -1,7 +1,10 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
 import { Sansita, DM_Sans } from "next/font/google";
 import { MoveUpRight } from "lucide-react";
-import { FaInstagram, FaTwitter } from "react-icons/fa";
+import { FaInstagram, FaTwitter, FaFacebookF, FaYoutube, FaLinkedinIn, FaApple, FaGooglePlay, FaCcVisa, FaCcMastercard, FaCcPaypal } from "react-icons/fa";
 
 const titleFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
 const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
@@ -9,14 +12,28 @@ const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "70
 const socials = [
   { Icon: FaInstagram, label: "Instagram", href: "#" },
   { Icon: FaTwitter, label: "Twitter", href: "#" },
+  { Icon: FaFacebookF, label: "Facebook", href: "#" },
+  { Icon: FaYoutube, label: "YouTube", href: "#" },
+  { Icon: FaLinkedinIn, label: "LinkedIn", href: "#" },
 ];
 
 export default function Footer() {
+  const [email, setEmail] = useState("");
+  const [subscribed, setSubscribed] = useState(false);
+
+  const handleSubscribe = (e: any) => {
+    e.preventDefault();
+    if (!email) return;
+    setSubscribed(true);
+    setEmail("");
+    setTimeout(() => setSubscribed(false), 3000);
+  };
+
   return (
     <footer className="relative bg-[#c25b5e] text-white pt-10 overflow-hidden flex flex-col justify-between">
 
       {/* Top Main Container */}
-      <div className="w-full max-w-[1400px] mx-auto px-12 sm:px-16 lg:px-28 flex flex-col lg:flex-row justify-between gap-16 lg:gap-8 pb-6">
+      <div className="w-full max-w-[1400px] mx-auto px-12 sm:px-16 lg:px-28 flex flex-col lg:flex-row justify-between items-center lg:items-start gap-16 lg:gap-8 pb-6">
 
         {/* CTA Block + Logo */}
         <div className="flex flex-col gap-6 w-full lg:w-1/2 z-20">
@@ -40,63 +57,87 @@ export default function Footer() {
           <p className={`${textFont.className} text-lg lg:text-xl font-medium tracking-wide text-white/80 max-w-sm`}>
             Reach out to our team for partnerships, orders, or just to talk flavors!
           </p>
-          <div className="flex items-center gap-4 mt-2">
-            <a href="mailto:hello@orake.com" className="group flex items-center gap-4 w-fit">
-              <span className={`${titleFont.className} text-2xl lg:text-3xl tracking-widest uppercase pb-1 border-b-2 border-white/40 group-hover:border-white transition-colors`}>
-                hello@orake.com
-              </span>
-              <div className="w-10 h-10 rounded-full bg-white text-[#c25b5e] flex items-center justify-center transform group-hover:scale-110 group-hover:rotate-12 transition-transform shadow-md">
-                <MoveUpRight size={20} className="stroke-[3px]" />
-              </div>
-            </a>
 
-            <div className="flex items-center gap-3 ml-2">
-                {socials.map(({ Icon, label, href }) => (
-                  <a key={label} href={href} aria-label={label}
-                    className="w-10 h-10 rounded-full bg-white/15 hover:bg-white hover:text-[#c25b5e] flex items-center justify-center transition-all duration-300 text-white hover:scale-110 hover:shadow-lg">
-                    <Icon size={16} />
-                  </a>
-                ))}
-            </div>
-
-          </div>
-
+          
         </div>
 
         {/* Links Grid */}
-        <div className="w-full lg:w-1/2 grid grid-cols-2 md:grid-cols-3 gap-8 lg:gap-6 z-20">
+        <div className="w-full lg:w-1/2 z-20 flex flex-col">
+        
 
-          <div className="flex flex-col gap-4">
-            <p className={`${titleFont.className} text-xl tracking-widest text-[#15161b] uppercase mb-2`}>Product</p>
-            <a href="/products" className={`${textFont.className} text-lg hover:translate-x-2 transition-transform`}>Our Drinks</a>
-            <a href="/about" className={`${textFont.className} text-lg hover:translate-x-2 transition-transform`}>Testimonials</a>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-8 lg:gap-6">
+
+            <div className="flex flex-col gap-3">
+              <p className={`${titleFont.className} text-lg tracking-widest text-[#15161b] uppercase mb-2`}>Product</p>
+              <a href="/products" className={`${textFont.className} text-base hover:translate-x-2 transition-transform`}>Our Drinks</a>
+              <a href="/about" className={`${textFont.className} text-base hover:translate-x-2 transition-transform`}>Testimonials</a>
+            </div>
+
+            <div className="flex flex-col gap-3">
+              <p className={`${titleFont.className} text-lg tracking-widest text-[#15161b] uppercase mb-2`}>Company</p>
+              <a href="/blog" className={`${textFont.className} text-base hover:translate-x-2 transition-transform`}>Blog</a>
+              <a href="/contact" className={`${textFont.className} text-base hover:translate-x-2 transition-transform`}>Contact</a>
+            </div>
+
+            <div className="flex flex-col gap-3 col-span-2 md:col-span-1">
+              <p className={`${titleFont.className} text-lg tracking-widest text-[#15161b] uppercase mb-2`}>Legal</p>
+              <a href="/policies#terms" className={`${textFont.className} text-base hover:translate-x-2 transition-transform`}>Terms of Service</a>
+              <a href="/policies#refund" className={`${textFont.className} text-base hover:translate-x-2 transition-transform`}>Refund Policy</a>
+              <a href="/policies#shipping" className={`${textFont.className} text-base hover:translate-x-2 transition-transform`}>Shipping</a>
+              <a href="/policies#cancellation" className={`${textFont.className} text-base hover:translate-x-2 transition-transform`}>Cancellation</a>
+            </div>
+
           </div>
-
-          <div className="flex flex-col gap-4">
-            <p className={`${titleFont.className} text-xl tracking-widest text-[#15161b] uppercase mb-2`}>Company</p>
-            <a href="/blog" className={`${textFont.className} text-lg hover:translate-x-2 transition-transform`}>Blog</a>
-            <a href="/contact" className={`${textFont.className} text-lg hover:translate-x-2 transition-transform`}>Contact</a>
-          </div>
-
-          <div className="flex flex-col gap-4 col-span-2 md:col-span-1">
-            <p className={`${titleFont.className} text-xl tracking-widest text-[#15161b] uppercase mb-2`}>Legal</p>
-            <a href="/policies#terms" className={`${textFont.className} text-lg hover:translate-x-2 transition-transform`}>Terms of Service</a>
-            <a href="/policies#refund" className={`${textFont.className} text-lg hover:translate-x-2 transition-transform`}>Refund Policy</a>
-            <a href="/policies#shipping" className={`${textFont.className} text-lg hover:translate-x-2 transition-transform`}>Shipping</a>
-            <a href="/policies#cancellation" className={`${textFont.className} text-lg hover:translate-x-2 transition-transform`}>Cancellation</a>
-          </div>
-
         </div>
       </div>
  
+ 
+      {/* Divider row: email left, socials right */}
+      <div className="w-full max-w-[1400px] mx-auto px-12 sm:px-16 lg:px-28 flex justify-between items-center z-20">
+        <div>
+          <a href="mailto:hello@orake.com" className="group flex items-center gap-4 w-fit">
+            <span className={`${titleFont.className} text-xl lg:text-2xl tracking-widest uppercase pb-1 border-b-2 border-white/40 group-hover:border-white transition-colors`}>
+              hello@orake.com
+            </span>
+            <div className="w-10 h-10 rounded-full bg-white text-[#c25b5e] flex items-center justify-center transform group-hover:scale-110 group-hover:rotate-12 transition-transform shadow-md">
+              <MoveUpRight size={20} className="stroke-[3px]" />
+            </div>
+          </a>
+        </div>
+
+        <div className="flex items-center gap-3">
+          {socials.map(({ Icon, label, href }) => (
+            <a key={label} href={href} aria-label={label}
+              className="w-10 h-10 rounded-full bg-white/15 hover:bg-white hover:text-[#c25b5e] flex items-center justify-center transition-all duration-300 text-white hover:scale-110 hover:shadow-lg">
+              <Icon size={16} />
+            </a>
+          ))}
+
+          <div className="h-6 w-px bg-white/10 mx-2" />
+
+          <a href="#" className="flex items-center gap-2 px-3 py-2 rounded-md bg-white/10 hover:bg-white/20">
+            <FaApple size={16} />
+            <span className="text-sm">App Store</span>
+          </a>
+          <a href="#" className="flex items-center gap-2 px-3 py-2 rounded-md bg-white/10 hover:bg-white/20">
+            <FaGooglePlay size={16} />
+            <span className="text-sm">Google Play</span>
+          </a>
+        </div>
+      </div>
 
       {/* Bottom Copyright */}
-        <div className="w-full max-w-[1400px] mx-auto px-12 sm:px-16 lg:px-28 pt-6 pb-6 border-t border-white/20 flex flex-col md:flex-row justify-between items-center gap-4 z-20">
-          <p className={`${textFont.className} text-md text-white/80 font-medium tracking-wide`}>
-            © 2026 <a href="https://swiftrise.in" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors underline underline-offset-4 decoration-white/30 hover:decoration-white">Swiftrise Solution Pvt Ltd</a>. ALL RIGHTS RESERVED.
-          </p>
+        <div className="w-full max-w-[1400px] mx-auto px-12 sm:px-16 lg:px-28 pt-6 pb-6 flex flex-col md:flex-row justify-between items-center gap-4 z-20">
+        <p className={`${textFont.className} text-sm text-white/80 font-medium tracking-wide`}>
+          © 2026 <a href="https://swiftrise.in" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors underline underline-offset-4 decoration-white/30 hover:decoration-white">Swiftrise Solution Pvt Ltd</a>. ALL RIGHTS RESERVED.
+        </p>
 
+        <div className="flex items-center gap-4">
+          <FaCcVisa size={28} />
+          <FaCcMastercard size={28} />
+          <FaCcPaypal size={28} />
         </div>
+      </div>
 
     </footer>
   );
