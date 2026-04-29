@@ -79,15 +79,12 @@ export default function HeroSection() {
               />
             ))}
           </div>
-          {/* Lactose Free badge */}
-          <div className="absolute left-0 bottom-8 z-30">
-            <div className="bg-green-500 text-white font-bold rounded-full px-4 py-2 text-xs shadow-lg border-4 border-white">LACTOSE FREE</div>
-          </div>
+          
         </div>
         {/* Buy now button */}
         <div className="absolute right-0 top-1/2 -translate-y-1/2 z-30">
-          <button className="flex items-center justify-center w-32 h-32 rounded-full border-2 border-white/70 bg-white/10 text-white text-lg font-semibold shadow-lg backdrop-blur-md transition hover:bg-white/30">
-            Kup teraz <span className="ml-2">→</span>
+          <button className="flex items-center justify-center w-32 h-32 rounded-full border-2 border-white/70 bg-white/10 text-white text-md font-semibold shadow-lg backdrop-blur-md transition hover:bg-white/30">
+            Buy Now <span className="ml-2">→</span>
           </button>
         </div>
       </div>
