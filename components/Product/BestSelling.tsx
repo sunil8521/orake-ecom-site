@@ -15,22 +15,20 @@ const products: ProductType[] = [
 		name: "FAN FAVORITES BOX",
 		price: 627.00,
 		oldPrice: 660.00,
-		badge: "HYPE DROP",
-		badgeStyle: "red",
+		discount: 5, // 5% discount
 		image: "/can1.png",
-		rating: 5,
-		reviews: 48
+		numReviews: 48,
+		size: "12x 250ML"
 	},
 	{
 		id: 2,
 		name: "CHAOS EDITION BOX",
 		price: 750.00,
 		oldPrice: 783.00,
-		badge: "RESTOCKED",
-		badgeStyle: "black",
+		discount: 4, // 4% discount
 		image: "/can2.png",
-		rating: 4,
-		reviews: 12
+		numReviews: 12,
+		size: "12x 250ML"
 	},
 	
 ];
@@ -87,7 +85,7 @@ export default function BestSelling() {
 					</motion.div>
 				</div>
 			</section>
-
+		
 			{/* ━━━ Category Tabs + Products ━━━ */}
 			<section className="bg-white py-10 md:py-16 px-4 sm:px-8 lg:px-20">
 				<div className="max-w-7xl mx-auto">
@@ -121,9 +119,9 @@ export default function BestSelling() {
 						whileInView="visible"
 						viewport={{ once: true, margin: "-50px" }}
 					>
-						<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 md:gap-x-8 gap-y-24 md:gap-y-28 pt-6 md:pt-10">
+						<div className="grid grid-cols-1 sm:grid-cols-2 max-w-4xl mx-auto gap-x-10 md:gap-x-16 gap-y-24 md:gap-y-28 pt-6 md:pt-10 justify-items-center">
 							{products.map((product) => (
-								<motion.div key={product.id} variants={itemVariants}>
+								<motion.div key={product.id} variants={itemVariants} className="w-full max-w-[340px]">
 									<ProductCard product={product} />
 								</motion.div>
 							))}
@@ -132,6 +130,48 @@ export default function BestSelling() {
 
 				</div>
 			</section>
+
+			{/* ━━━ Advertising Section ━━━ */}
+			<section className="bg-white pb-20 px-4 sm:px-8 lg:px-20">
+				<div className="max-w-[1400px] mx-auto relative rounded-[2rem] sm:rounded-[3rem] overflow-hidden shadow-2xl h-[400px] md:h-[500px] lg:h-[600px] group border-4 border-[#15161b]/5">
+					<div className="absolute inset-0 bg-black/40 z-10 transition-colors duration-700" />
+					<img 
+						src="/orake-ad-banner.png" 
+						alt="Orake Advertisement" 
+						className="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-1000" 
+					/>
+					<div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center p-8">
+						<motion.h3 
+							initial={{ opacity: 0, y: 20 }}
+							whileInView={{ opacity: 1, y: 0 }}
+							viewport={{ once: true }}
+							transition={{ duration: 0.6 }}
+							className={`${titleFont.className} text-5xl md:text-6xl lg:text-8xl text-white uppercase tracking-wider leading-[0.9] mb-4 drop-shadow-2xl`}
+						>
+							Unleash the <br className="md:hidden"/><span className="text-[#c25b5e]">Chaos</span>
+						</motion.h3>
+						<motion.p 
+							initial={{ opacity: 0, y: 20 }}
+							whileInView={{ opacity: 1, y: 0 }}
+							viewport={{ once: true }}
+							transition={{ duration: 0.6, delay: 0.2 }}
+							className={`${textFont.className} text-white/90 text-sm md:text-base lg:text-xl font-medium tracking-wide mb-8 max-w-2xl drop-shadow-md`}
+						>
+							The ultimate fusion of taste and prebiotic energy. Refresh differently.
+						</motion.p>
+						<motion.button
+							initial={{ opacity: 0, y: 20 }}
+							whileInView={{ opacity: 1, y: 0 }}
+							viewport={{ once: true }}
+							transition={{ duration: 0.6, delay: 0.4 }}
+							className={`${textFont.className} px-8 py-4 bg-[#c25b5e] text-white rounded-full font-bold uppercase tracking-widest text-sm hover:bg-white hover:text-[#15161b] transition-colors shadow-2xl hover:scale-105 duration-300`}
+						>
+							Discover More
+						</motion.button>
+					</div>
+				</div>
+			</section>
+
 		</div>
 	);
 }

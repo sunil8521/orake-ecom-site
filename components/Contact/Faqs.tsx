@@ -34,10 +34,7 @@ export default function Faqs() {
 
   return (
     <section id="faqs" className="py-20 md:py-32 relative overflow-hidden bg-white">
-      {/* Massive watermark */}
-      <div className={`absolute top-10 left-0 right-0 text-center ${titleFont.className} uppercase text-[#15161b] opacity-[0.03] leading-none pointer-events-none select-none whitespace-nowrap text-[6rem] sm:text-[9rem] md:text-[12rem] lg:text-[16rem]`}>
-        QUESTIONS
-      </div>
+      
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-12 lg:px-20">
 

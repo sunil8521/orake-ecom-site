@@ -1,15 +1,13 @@
 import Image from "next/image";
 import { Sansita, DM_Sans } from "next/font/google";
 import { MoveUpRight } from "lucide-react";
-import { FaInstagram, FaTwitter, FaYoutube, FaTiktok } from "react-icons/fa";
+import { FaInstagram, FaTwitter } from "react-icons/fa";
 
 const titleFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
 const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 
 const socials = [
   { Icon: FaInstagram, label: "Instagram", href: "#" },
-  { Icon: FaTiktok, label: "TikTok", href: "#" },
-  { Icon: FaYoutube, label: "YouTube", href: "#" },
   { Icon: FaTwitter, label: "Twitter", href: "#" },
 ];
 
@@ -42,15 +40,6 @@ export default function Footer() {
             </div>
           </a>
 
-          {/* Social Icons */}
-          <div className="flex gap-3 mt-4">
-            {socials.map(({ Icon, label, href }) => (
-              <a key={label} href={href} aria-label={label}
-                className="w-11 h-11 rounded-full bg-white/15 hover:bg-white hover:text-[#c25b5e] flex items-center justify-center transition-all duration-300 text-white hover:scale-110 hover:shadow-lg">
-                <Icon size={18} />
-              </a>
-            ))}
-          </div>
         </div>
 
         {/* Links Grid */}
@@ -79,26 +68,20 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Bottom Bar */}
-      <div className="w-full bg-[#15161b] text-white py-6 mt-auto">
-        <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-20 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className={`${textFont.className} text-md text-gray-400 font-medium tracking-wide`}>
-            © 2026 SWIFTRISE. ALL RIGHTS RESERVED.
-          </p>
+      {/* Bottom Copyright */}
+      <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-20 w-full pt-8 pb-8 border-t border-white/20 flex flex-col md:flex-row justify-between items-center gap-4 z-20">
+        <p className={`${textFont.className} text-md text-white/80 font-medium tracking-wide`}>
+          © 2026 <a href="https://swiftrise.in" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors underline underline-offset-4 decoration-white/30 hover:decoration-white">Swiftrise Solution Pvt Ltd</a>. ALL RIGHTS RESERVED.
+        </p>
 
-          <a href="https://swiftrise.in" target="_blank" rel="noopener noreferrer"
-            className={`${textFont.className} text-sm text-gray-500 hover:text-white transition-colors font-medium tracking-wide`}>
-            Built by <span className="font-bold text-gray-300">SwiftRise</span>
-          </a>
-
-          <div className="flex gap-4 sm:gap-6">
-            {socials.map(({ label, href }) => (
-              <a key={label} href={href}
-                className={`${titleFont.className} text-lg uppercase tracking-wide hover:text-[#c25b5e] transition-colors`}>
-                {label}
-              </a>
-            ))}
-          </div>
+        {/* Social Icons */}
+        <div className="flex gap-3">
+          {socials.map(({ Icon, label, href }) => (
+            <a key={label} href={href} aria-label={label}
+              className="w-8 h-8 rounded-full bg-white/15 hover:bg-white hover:text-[#c25b5e] flex items-center justify-center transition-all duration-300 text-white hover:scale-110 hover:shadow-lg">
+              <Icon size={14} />
+            </a>
+          ))}
         </div>
       </div>
 

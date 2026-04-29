@@ -28,11 +28,7 @@ export default function ContactSection() {
           <div className="absolute w-72 h-72 bg-[#c25b5e]/5 rounded-full blur-[100px] bottom-0 left-1/4" />
         </div>
 
-        <div className="absolute top-20 md:top-24 left-1/2 -translate-x-1/2 w-full text-center pointer-events-none select-none z-0">
-          <h1 className={`${titleFont.className} text-[clamp(5rem,14vw,16rem)] uppercase leading-none tracking-tight text-white/[0.03]`}>
-            CONNECT
-          </h1>
-        </div>
+      
 
         <div className="relative z-10 max-w-6xl mx-auto text-center">
           <div className="inline-flex items-center justify-center gap-3 mb-6">
@@ -61,70 +57,92 @@ export default function ContactSection() {
         <div className="relative z-10 max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-10 lg:gap-16 items-start">
 
-            {/* ── Contact Form Card ── */}
-            <form onSubmit={handleSubmit} className="bg-[#fafafa] border border-gray-100 rounded-3xl p-8 sm:p-10 shadow-sm">
-              <h3 className={`${titleFont.className} text-3xl sm:text-4xl uppercase tracking-wide text-[#15161b] mb-2`}>
-                Send a Message
-              </h3>
-              <p className={`${textFont.className} text-gray-400 text-sm mb-8`}>
-                Fill in the form and our team will respond within 24 hours.
-              </p>
+            <div className="flex flex-col gap-8">
+              <form onSubmit={handleSubmit} className="bg-[#fafafa] border border-gray-100 rounded-3xl p-8 sm:p-10 shadow-sm">
+                <h3 className={`${titleFont.className} text-3xl sm:text-4xl uppercase tracking-wide text-[#15161b] mb-2`}>
+                  Send a Message
+                </h3>
+                <p className={`${textFont.className} text-gray-400 text-sm mb-8`}>
+                  Fill in the form and our team will respond within 24 hours.
+                </p>
 
-              <div className="space-y-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  <div>
-                    <label className={`${textFont.className} block text-sm font-semibold uppercase tracking-wider text-gray-500 mb-2`}>
-                      Name <span className="text-[#de3e4f]">*</span>
-                    </label>
-                    <input type="text" name="name" value={form.name} onChange={handle} placeholder="Your name" required
-                      className={`${textFont.className} w-full bg-white border border-gray-200 px-4 py-3.5 text-base font-medium text-[#15161b] placeholder-gray-300 rounded-xl focus:border-[#de3e4f] focus:ring-2 focus:ring-[#de3e4f]/10 focus:outline-none transition-all`} />
-                  </div>
-                  <div>
-                    <label className={`${textFont.className} block text-sm font-semibold uppercase tracking-wider text-gray-500 mb-2`}>
-                      Email <span className="text-[#de3e4f]">*</span>
-                    </label>
-                    <input type="email" name="email" value={form.email} onChange={handle} placeholder="you@energy.com" required
-                      className={`${textFont.className} w-full bg-white border border-gray-200 px-4 py-3.5 text-base font-medium text-[#15161b] placeholder-gray-300 rounded-xl focus:border-[#de3e4f] focus:ring-2 focus:ring-[#de3e4f]/10 focus:outline-none transition-all`} />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  <div>
-                    <label className={`${textFont.className} block text-sm font-semibold uppercase tracking-wider text-gray-500 mb-2`}>Phone Number</label>
-                    <input type="tel" name="phone" value={form.phone} onChange={handle} placeholder="Optional"
-                      className={`${textFont.className} w-full bg-white border border-gray-200 px-4 py-3.5 text-base font-medium text-[#15161b] placeholder-gray-300 rounded-xl focus:border-[#de3e4f] focus:ring-2 focus:ring-[#de3e4f]/10 focus:outline-none transition-all`} />
-                  </div>
-                  <div>
-                    <label className={`${textFont.className} block text-sm font-semibold uppercase tracking-wider text-gray-500 mb-2`}>Subject</label>
-                    <div className="relative">
-                      <select name="subject" value={form.subject} onChange={handle}
-                        className={`${textFont.className} w-full bg-white border border-gray-200 px-4 py-3.5 text-base font-medium text-[#15161b] appearance-none rounded-xl focus:border-[#de3e4f] focus:ring-2 focus:ring-[#de3e4f]/10 focus:outline-none transition-all pr-10`}>
-                        <option value="" disabled>Select inquiry type</option>
-                        <option value="wholesale">Wholesale / Distribution</option>
-                        <option value="press">Press / Media</option>
-                        <option value="support">Order Support</option>
-                        <option value="general">Just saying hi 👋</option>
-                      </select>
-                      <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400 text-xs">▼</div>
+                <div className="space-y-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div>
+                      <label className={`${textFont.className} block text-sm font-semibold uppercase tracking-wider text-gray-500 mb-2`}>
+                        Name <span className="text-[#de3e4f]">*</span>
+                      </label>
+                      <input type="text" name="name" value={form.name} onChange={handle} placeholder="Your name" required
+                        className={`${textFont.className} w-full bg-white border border-gray-200 px-4 py-3.5 text-base font-medium text-[#15161b] placeholder-gray-300 rounded-xl focus:border-[#de3e4f] focus:ring-2 focus:ring-[#de3e4f]/10 focus:outline-none transition-all`} />
+                    </div>
+                    <div>
+                      <label className={`${textFont.className} block text-sm font-semibold uppercase tracking-wider text-gray-500 mb-2`}>
+                        Email <span className="text-[#de3e4f]">*</span>
+                      </label>
+                      <input type="email" name="email" value={form.email} onChange={handle} placeholder="you@energy.com" required
+                        className={`${textFont.className} w-full bg-white border border-gray-200 px-4 py-3.5 text-base font-medium text-[#15161b] placeholder-gray-300 rounded-xl focus:border-[#de3e4f] focus:ring-2 focus:ring-[#de3e4f]/10 focus:outline-none transition-all`} />
                     </div>
                   </div>
-                </div>
 
-                <div>
-                  <label className={`${textFont.className} block text-sm font-semibold uppercase tracking-wider text-gray-500 mb-2`}>
-                    Message <span className="text-[#de3e4f]">*</span>
-                  </label>
-                  <textarea name="message" value={form.message} onChange={handle} placeholder="Drop the details here..." required rows={5}
-                    className={`${textFont.className} w-full bg-white border border-gray-200 px-4 py-3.5 text-base font-medium text-[#15161b] placeholder-gray-300 rounded-xl focus:border-[#de3e4f] focus:ring-2 focus:ring-[#de3e4f]/10 focus:outline-none transition-all resize-none`} />
-                </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div>
+                      <label className={`${textFont.className} block text-sm font-semibold uppercase tracking-wider text-gray-500 mb-2`}>Phone Number</label>
+                      <input type="tel" name="phone" value={form.phone} onChange={handle} placeholder="Optional"
+                        className={`${textFont.className} w-full bg-white border border-gray-200 px-4 py-3.5 text-base font-medium text-[#15161b] placeholder-gray-300 rounded-xl focus:border-[#de3e4f] focus:ring-2 focus:ring-[#de3e4f]/10 focus:outline-none transition-all`} />
+                    </div>
+                    <div>
+                      <label className={`${textFont.className} block text-sm font-semibold uppercase tracking-wider text-gray-500 mb-2`}>Subject</label>
+                      <div className="relative">
+                        <select name="subject" value={form.subject} onChange={handle}
+                          className={`${textFont.className} w-full bg-white border border-gray-200 px-4 py-3.5 text-base font-medium text-[#15161b] appearance-none rounded-xl focus:border-[#de3e4f] focus:ring-2 focus:ring-[#de3e4f]/10 focus:outline-none transition-all pr-10`}>
+                          <option value="" disabled>Select inquiry type</option>
+                          <option value="wholesale">Wholesale / Distribution</option>
+                          <option value="press">Press / Media</option>
+                          <option value="support">Order Support</option>
+                          <option value="general">Just saying hi 👋</option>
+                        </select>
+                        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400 text-xs">▼</div>
+                      </div>
+                    </div>
+                  </div>
 
-                <button type="submit"
-                  className={`${textFont.className} group inline-flex items-center gap-3 bg-[#15161b] hover:bg-[#de3e4f] text-white px-8 py-4 rounded-full text-base font-bold uppercase tracking-wider transition-all duration-300 hover:shadow-[0_10px_30px_rgba(222,62,79,0.3)] active:scale-95`}>
-                  Send Message
-                  <Send size={16} className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-                </button>
+                  <div>
+                    <label className={`${textFont.className} block text-sm font-semibold uppercase tracking-wider text-gray-500 mb-2`}>
+                      Message <span className="text-[#de3e4f]">*</span>
+                    </label>
+                    <textarea name="message" value={form.message} onChange={handle} placeholder="Drop the details here..." required rows={5}
+                      className={`${textFont.className} w-full bg-white border border-gray-200 px-4 py-3.5 text-base font-medium text-[#15161b] placeholder-gray-300 rounded-xl focus:border-[#de3e4f] focus:ring-2 focus:ring-[#de3e4f]/10 focus:outline-none transition-all resize-none`} />
+                  </div>
+
+                  <button type="submit"
+                    className={`${textFont.className} group inline-flex items-center gap-3 bg-[#15161b] hover:bg-[#de3e4f] text-white px-8 py-4 rounded-full text-base font-bold uppercase tracking-wider transition-all duration-300 hover:shadow-[0_10px_30px_rgba(222,62,79,0.3)] active:scale-95`}>
+                    Send Message
+                    <Send size={16} className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+                  </button>
+                </div>
+              </form>
+
+              {/* ── Map View Card (Moved from Sidebar) ── */}
+              <div className="rounded-3xl overflow-hidden border border-gray-100 shadow-sm w-full h-[400px]">
+                <div className="relative h-full">
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3502.5!2d77.2!3d28.6!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cfd5b347eb62d%3A0x37205b715389640!2sNew%20Delhi%2C%20Delhi!5e0!3m2!1sen!2sin!4v1714400000000!5m2!1sen!2sin"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    className="transition-all duration-500"
+                  />
+                  {/* Overlay label */}
+                  <div className="absolute bottom-4 left-4 bg-[#15161b]/90 backdrop-blur-sm rounded-xl px-4 py-2.5 flex items-center gap-2">
+                    <MapPin size={15} className="text-[#3b82f6]" />
+                    <span className={`${textFont.className} text-white text-sm font-semibold tracking-wide`}>Swiftrise HQ — New Delhi</span>
+                  </div>
+                </div>
               </div>
-            </form>
+            </div>
 
             {/* ── Info Sidebar ── */}
             <div className="space-y-6">
@@ -147,7 +165,7 @@ export default function ContactSection() {
                     <h4 className={`${textFont.className} font-bold text-base uppercase tracking-wider`}>HQ</h4>
                   </div>
                   <p className={`${textFont.className} text-white/60 text-sm pl-[3.25rem] leading-relaxed`}>
-                    123 Vibe Street, Suite 404<br />Los Angeles, CA 90012
+                    Swiftrise Solution Pvt. Ltd.<br />New Delhi, India
                   </p>
                 </div>
 
@@ -180,27 +198,6 @@ export default function ContactSection() {
                   <div className="pl-[3.25rem] space-y-0.5">
                     <p className={`${textFont.className} text-sm text-white/60`}>Mon – Fri: 9AM – 7PM IST</p>
                     <p className={`${textFont.className} text-sm text-white/60`}>Sat – Sun: 10AM – 4PM IST</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Map View Card */}
-              <div className="rounded-3xl overflow-hidden border border-gray-100 shadow-sm">
-                <div className="relative">
-                  <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3769.7!2d-118.2437!3d34.0522!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2c75ddc27da13%3A0xe22fdf6f254608f4!2sLos%20Angeles%2C%20CA!5e0!3m2!1sen!2sus!4v1"
-                    width="100%"
-                    height="220"
-                    style={{ border: 0 }}
-                    allowFullScreen
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    className="grayscale hover:grayscale-0 transition-all duration-500"
-                  />
-                  {/* Overlay label */}
-                  <div className="absolute bottom-3 left-3 bg-[#15161b]/90 backdrop-blur-sm rounded-xl px-3.5 py-2 flex items-center gap-2">
-                    <MapPin size={13} className="text-[#de3e4f]" />
-                    <span className={`${textFont.className} text-white text-xs font-semibold tracking-wide`}>Orake HQ — Los Angeles</span>
                   </div>
                 </div>
               </div>

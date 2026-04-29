@@ -28,10 +28,7 @@ const posts = [
 export default function NewsBlogs() {
   return (
     <section id="blogs" className="py-20 md:py-32 bg-white relative overflow-hidden">
-      {/* Dynamic Watermark */}
-      <div className={`absolute top-10 left-0 right-0 text-center ${titleFont.className} uppercase text-[#15161b] opacity-[0.03] leading-none pointer-events-none select-none whitespace-nowrap text-[6rem] sm:text-[9rem] md:text-[12rem] lg:text-[16rem]`}>
-        ARTICLES
-      </div>
+
 
       <div className="relative z-10 max-w-[1400px] mx-auto px-6 sm:px-12 lg:px-20">
         
@@ -39,9 +36,8 @@ export default function NewsBlogs() {
         <div className="text-center mb-16 md:mb-24 py-4">
           <div className="inline-flex items-center justify-center gap-3 mb-6">
             <span className="h-[2px] w-8 bg-[#de3e4f]"></span>
-            <span className={`${textFont.className} text-[#de3e4f] text-sm font-bold uppercase tracking-[0.2em] relative`}>
+            <span className={`${textFont.className} text-[#de3e4f] text-sm font-bold uppercase tracking-[0.2em]`}>
               THE GRID
-              <span className="absolute -right-3 -top-2 w-2 h-2 bg-[#dbba53] rounded-full animate-ping"></span>
             </span>
             <span className="h-[2px] w-8 bg-[#de3e4f]"></span>
           </div>
@@ -51,16 +47,16 @@ export default function NewsBlogs() {
         </div>
 
         {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-14 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20 w-full mx-auto">
           {posts.map((post, idx) => (
              <Link href={`/blog/${post.slug}`} key={idx} className="block group">
                <article className="cursor-pointer flex flex-col items-start text-left relative h-full">
                    {/* Image Container */}
-                   <div className="relative w-full aspect-[4/5] sm:aspect-[3/4] overflow-hidden rounded-[2rem] mb-8 bg-[#15161b]">
+                   <div className="relative w-full aspect-[4/5] md:aspect-square lg:aspect-[4/3] xl:aspect-[16/10] overflow-hidden rounded-[2rem] lg:rounded-[3rem] mb-8 bg-[#15161b]">
                        <img 
                          src={post.image} 
                          alt={post.title} 
-                         className="w-full h-full object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-110 group-hover:opacity-80" 
+                         className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" 
                        />
                        {/* Gradient overlay to pop text if needed, or just style */}
                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />

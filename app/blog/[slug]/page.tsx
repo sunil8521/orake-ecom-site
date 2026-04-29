@@ -97,17 +97,20 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   return (
     <div className="bg-[#fafafa] min-h-screen pb-24">
       {/* Hero Section */}
-      <div className="relative w-full h-[50vh] md:h-[70vh] bg-[#15161b]">
-        <Image 
-          src={post.image} 
-          alt={post.title} 
-          fill 
-          className="object-cover opacity-60"
-          priority
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#15161b] via-[#15161b]/40 to-transparent" />
+      <div className="relative w-full min-h-[65vh] md:min-h-[70vh] bg-[#15161b] pt-32 pb-12 md:pt-40 md:pb-20 flex flex-col justify-end">
+        <div className="absolute inset-0 z-0">
+          <Image 
+            src={post.image} 
+            alt={post.title} 
+            fill 
+            className="object-cover opacity-100"
+            priority
+          />
+          {/* Responsive gradients to keep text readable while showing the image */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#15161b] via-[#15161b]/70 md:via-[#15161b]/40 to-[#15161b]/30 md:to-transparent" />
+        </div>
         
-        <div className="absolute bottom-0 left-0 w-full px-6 md:px-12 lg:px-24 pb-12 md:pb-20">
+        <div className="relative z-10 w-full px-6 md:px-12 lg:px-24">
           <div className="max-w-4xl mx-auto">
             <Link href="/blog" className={`${textFont.className} inline-flex items-center gap-2 text-white/80 hover:text-white text-sm font-bold uppercase tracking-widest mb-8 transition-colors`}>
               <ArrowLeft size={16} />
@@ -123,11 +126,11 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               </span>
             </div>
             
-            <h1 className={`${titleFont.className} text-4xl md:text-6xl lg:text-7xl text-white uppercase leading-[1.05] tracking-wide`}>
+            <h1 className={`${titleFont.className} text-4xl md:text-6xl lg:text-7xl text-white uppercase leading-[1.05] tracking-wide mb-8`}>
               {post.title}
             </h1>
             
-            <div className={`${textFont.className} flex items-center gap-3 mt-8 text-white/90 text-sm font-bold uppercase tracking-[0.2em]`}>
+            <div className={`${textFont.className} flex items-center gap-3 text-white/90 text-sm font-bold uppercase tracking-[0.2em]`}>
               <div className="w-8 h-[2px] bg-[#de3e4f]"></div>
               <span>Written by {post.author}</span>
             </div>
