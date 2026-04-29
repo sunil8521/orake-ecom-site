@@ -13,16 +13,25 @@ const socials = [
 
 export default function Footer() {
   return (
-    <footer className="relative bg-[#c25b5e] text-white pt-20 overflow-hidden flex flex-col justify-between">
+    <footer className="relative bg-[#c25b5e] text-white pt-10 overflow-hidden flex flex-col justify-between">
 
       {/* Top Main Container */}
-      <div className="w-full max-w-[1400px] mx-auto px-12 sm:px-16 lg:px-28 flex flex-col lg:flex-row justify-between gap-16 lg:gap-8 pb-10">
+      <div className="w-full max-w-[1400px] mx-auto px-12 sm:px-16 lg:px-28 flex flex-col lg:flex-row justify-between gap-16 lg:gap-8 pb-6">
 
         {/* CTA Block + Logo */}
         <div className="flex flex-col gap-6 w-full lg:w-1/2 z-20">
           {/* Logo */}
           <div className="mb-2">
             <Image src="/orake-white-logo.svg" alt="Orake" width={140} height={50} className="opacity-90" />
+          </div>
+
+          {/* Quick nav buttons */}
+          <div className="flex items-center gap-3 mt-2">
+            <a href="/" className="px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 text-sm">Home</a>
+            <a href="/about" className="px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 text-sm">About</a>
+            <a href="/products" className="px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 text-sm">Products</a>
+            <a href="/contact" className="px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 text-sm">Contact</a>
+            <a href="/blog" className="px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 text-sm">Blogs</a>
           </div>
 
           <h3 className={`${titleFont.className} text-[clamp(2.5rem,5vw,4rem)] uppercase leading-[0.9] tracking-wider`}>
@@ -69,7 +78,7 @@ export default function Footer() {
       </div>
 
       {/* Bottom Copyright */}
-      <div className="w-full max-w-[1400px] mx-auto px-12 sm:px-16 lg:px-28 pt-8 pb-8 border-t border-white/20 flex flex-col md:flex-row justify-between items-center gap-4 z-20">
+      <div className="w-full max-w-[1400px] mx-auto px-12 sm:px-16 lg:px-28 pt-4 pb-6 border-t border-white/20 flex flex-col md:flex-row justify-between items-center gap-4 z-20">
         <p className={`${textFont.className} text-md text-white/80 font-medium tracking-wide`}>
           © 2026 <a href="https://swiftrise.in" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors underline underline-offset-4 decoration-white/30 hover:decoration-white">Swiftrise Solution Pvt Ltd</a>. ALL RIGHTS RESERVED.
         </p>
