@@ -130,19 +130,13 @@ export default function Testimonials() {
         }
       `}</style>
 
-      {/* Decorative background elements */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-[20%] left-[10%] w-[400px] h-[400px] bg-[#dbba53]/8 rounded-full blur-[120px]" />
-        <div className="absolute bottom-[10%] right-[5%] w-[350px] h-[350px] bg-[#cf797e]/8 rounded-full blur-[120px]" />
-        <div className="absolute top-[15%] left-[5%] sm:left-[10%] text-[12rem] sm:text-[18rem] font-serif text-black/[0.02] leading-none select-none">"</div>
-        <div className="absolute bottom-[10%] right-[5%] sm:right-[10%] text-[12rem] sm:text-[18rem] font-serif text-black/[0.02] leading-none select-none rotate-180">"</div>
-      </div>
+       
 
       {/* Center the whole content to a max width of 1500px as requested */}
       <div className="relative z-10 w-full max-w-[1400px] mx-auto">
         <div className="mb-12 sm:mb-20">
           <div className="text-center">
-            <span className="inline-block px-4 py-1.5 rounded-full bg-[#8a9b87]/10 text-[#8a9b87] text-xs sm:text-sm font-semibold tracking-widest uppercase mb-4 shadow-sm border border-[#8a9b87]/20">
+            <span className="inline-block px-4 py-1.5 rounded-full bg-[#c25b5e] text-[#ffffff] text-xs sm:text-sm font-semibold tracking-widest uppercase mb-4 shadow-sm border border-[#8a9b87]/20">
               What People Say
             </span>
             <h2 className={`${titleFont.className} text-[clamp(2.2rem,5.5vw,4.5rem)] uppercase leading-[1] text-[#15161b] tracking-tight`}>
@@ -151,6 +145,14 @@ export default function Testimonials() {
             <p className="text-gray-500 mt-4 text-sm sm:text-base font-medium tracking-[0.2em] uppercase">
               Real reviews from real sippers
             </p>
+            <div className="mt-6 max-w-xl mx-auto text-center text-gray-900">
+              <p className="text-base sm:text-lg font-medium">
+                Thousands of sippers trust our small-batch flavors — handcrafted, naturally delicious, and ready for your next adventure.
+              </p>
+              <p className="text-sm text-gray-500 mt-2">
+                Want to share your experience? Send it to hello@orake.com and we might feature it here.
+              </p>
+            </div>
           </div>
         </div>
 

@@ -11,10 +11,10 @@ export default function SmoothieShowcaseSection() {
       <div className="hidden md:block relative h-[200vh] xl:h-[210vh] w-full overflow-clip">
 
         {/* Layer 1: Vanilla left + Placeholder right */}
-        <div className="sticky top-[6vh] xl:top-[8vh] w-full h-[88vh] overflow-hidden flex z-10 bg-[#f4f4f4]">
+        <div className="sticky top-[6vh] xl:top-[8vh] w-full h-[88vh] overflow-hidden grid grid-cols-2 z-10 bg-[#f4f4f4]">
 
           {/* Left — Strawberry Vanilla */}
-          <div className="flex-1 bg-[#cf797e] flex flex-col items-center justify-center pt-10 p-6 relative overflow-hidden group">
+          <div className="col-span-1 bg-[#cf797e] flex flex-col items-center justify-center pt-10 p-6 relative overflow-hidden group">
 
             <div className="relative z-10 w-full h-[65%] max-w-[400px] lg:max-w-[450px] xl:max-w-[500px] flex items-center justify-center">
               <Image
@@ -36,7 +36,7 @@ export default function SmoothieShowcaseSection() {
           </div>
 
           {/* Right — Blurred placeholder */}
-          <div className="flex-1 bg-[#f4f4f4] flex flex-col items-center justify-center p-8 relative overflow-hidden border-l border-black/5">
+          <div className="col-span-1 bg-[#f4f4f4] flex flex-col items-center justify-center p-8 relative overflow-hidden border-l border-black/5">
             <div className="relative w-full h-[65%] max-w-[450px] flex items-center justify-center opacity-10 blur-[3px]">
               <Image src="/can2.png" alt="preview" fill sizes="(max-width: 768px) 100vw, 50vw" className="object-contain scale-[1.2]" />
             </div>
@@ -48,13 +48,13 @@ export default function SmoothieShowcaseSection() {
         </div>
 
         {/* Layer 2: Transparent left + Ginger Lemon right */}
-        <div className="sticky top-[6vh] xl:top-[8vh] w-full h-[88vh] overflow-hidden flex z-20 pointer-events-none">
+        <div className="sticky top-[6vh] xl:top-[8vh] w-full h-[88vh] overflow-hidden grid grid-cols-2 z-20 pointer-events-none">
 
           {/* Left — Transparent (Vanilla shows through) */}
-          <div className="flex-1 bg-transparent pointer-events-none" />
+          <div className="col-span-1 bg-transparent pointer-events-none" />
 
           {/* Right — Ginger Lemon */}
-          <div className="flex-1 bg-[#dbba53] flex flex-col items-center justify-center pt-10 p-6 relative overflow-hidden group pointer-events-auto">
+          <div className="col-span-1 bg-[#dbba53] flex flex-col items-center justify-center pt-10 p-6 relative overflow-hidden group pointer-events-auto">
 
             <div className="relative z-10 w-full h-[65%] max-w-[400px] lg:max-w-[450px] xl:max-w-[500px] flex items-center justify-center">
               <Image

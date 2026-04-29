@@ -37,6 +37,32 @@ function StarRating({ rating, reviews }: { rating: number; reviews: number }) {
   );
 }
 
+function NewsletterForm() {
+  const [email, setEmail] = useState("");
+  const [subscribed, setSubscribed] = useState(false);
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    if (!email) return;
+    setSubscribed(true);
+    setEmail("");
+    setTimeout(() => setSubscribed(false), 3000);
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="flex w-full items-center gap-3">
+      <input
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder="you@domain.com"
+        className="flex-1 px-4 py-3 rounded-md border border-gray-200 focus:outline-none"
+      />
+      <button type="submit" className="bg-black text-white px-4 py-3 rounded-md font-bold">Subscribe</button>
+      {subscribed && <span className="text-sm text-green-600 ml-3">Thanks for joining!</span>}
+    </form>
+  );
+}
+
 export default function CollectionsSection() {
   const [liked1, setLiked1] = useState(false);
   const [liked2, setLiked2] = useState(false);
@@ -83,9 +109,18 @@ export default function CollectionsSection() {
           <div className="bg-black text-white px-4 py-1 rounded-full text-xs font-bold tracking-[0.3em] uppercase mb-4 shadow-[0_0_15px_rgba(0,0,0,0.5)]">
             Fresh Drops
           </div>
-          <h2 className={`${headingFont.className} text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-tight text-transparent bg-clip-text bg-gradient-to-br from-black via-gray-800 to-gray-500`}>
+          <h2 className={`${headingFont.className} text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-tight text-transparent bg-clip-text bg-black`}>
             OUR COLLECTIONS
           </h2>
+          <motion.p
+            initial={{ opacity: 0, y: 8 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className={`${bodyFont.className} mt-4 text-sm md:text-base text-gray-900 max-w-2xl`}
+          >
+            Curated small-batch flavors and limited drops — crafted for bold taste seekers. Discover what's new and shop limited releases before they sell out.
+          </motion.p>
         </motion.div>
 
         {/* Category Tabs / Pills */}
@@ -256,7 +291,49 @@ export default function CollectionsSection() {
           </motion.div>
 
         </motion.div>
-      </div>
-    </section>
+
+      {/* Trusted logos, testimonial, and newsletter signup */}
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="mt-12"
+      >
+        <div className="flex flex-wrap items-center justify-center gap-6 mb-8">
+          <div className="px-4 py-2 rounded-lg bg-gray-50 text-sm font-bold text-gray-600">Small Batch</div>
+          <div className="px-4 py-2 rounded-lg bg-gray-50 text-sm font-bold text-gray-600">Crafted Locally</div>
+          <div className="px-4 py-2 rounded-lg bg-gray-50 text-sm font-bold text-gray-600">Sustainably Sourced</div>
+          <div className="px-4 py-2 rounded-lg bg-gray-50 text-sm font-bold text-gray-600">Limited Drops</div>
+        </div>
+
+        <div className="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+          <div className="bg-white p-6 rounded-2xl shadow-sm">
+            <p className={`${bodyFont.className} text-gray-700 italic`}>
+              “Absolutely obsessed — the Strawberry Vanilla is perfectly balanced and the can art is fire. Shipping was fast and the restock alerts actually worked.”
+            </p>
+            <div className="mt-4 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center font-bold text-sm">AP</div>
+                <div>
+                  <div className="font-bold">Alex P</div>
+                  <div className="text-xs text-gray-400">Verified buyer</div>
+                </div>
+              </div>
+              <div>
+                <StarRating rating={5} reviews={0} />
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white p-6 rounded-2xl shadow-sm">
+            <h5 className={`${headingFont.className} text-xl font-black mb-3`}>Join the Drop List</h5>
+            <p className={`${bodyFont.className} text-gray-600 mb-4`}>Get early access to limited drops and members-only promos — no spam.</p>
+            <NewsletterForm />
+          </div>
+        </div>
+      </motion.div>
+    </div>
+  </section>
   );
 }
