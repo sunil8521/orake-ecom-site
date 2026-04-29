@@ -45,6 +45,19 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
     const [liked, setLiked] = useState(false);
     const [activeTab, setActiveTab] = useState("description");
     const [shippingOpen, setShippingOpen] = useState(false);
+    const [selectedImage, setSelectedImage] = useState(0);
+
+    const galleryImages = isStrawberry ? [
+        "/can1.png",
+        "/orake-strawberry-ingredients.png",
+        "/orake-strawberry-pour.png",
+        "/orake-strawberry-clean.png"
+    ] : [
+        "/can2.png",
+        "/orake-ginger-lemon-ingredients.png",
+        "/orake-ginger-lemon-pour.png",
+        "/orake-ginger-lemon-clean.png"
+    ];
 
     // Get related products (just filter out current)
     const relatedProducts = PRODUCTS.filter(p => p.id !== product.id);
@@ -77,26 +90,36 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
                                 src={isStrawberry ? "/pinkcanbg.png" : "/yellowcanbg.png"}
                                 alt=""
                                 fill
-                                className="object-cover opacity-[0.05] group-hover:opacity-[0.08] transition-opacity duration-700"
+                                sizes="(max-width: 768px) 100vw, 50vw"
+                                className={`object-cover transition-opacity duration-700 ${selectedImage === 0 ? "opacity-[0.05] group-hover:opacity-[0.08]" : "opacity-0"}`}
                             />
                         </div>
-                        {/* Shadow */}
-                        <div className="absolute bottom-[10%] left-1/2 -translate-x-1/2 w-[60%] h-[20px] rounded-[50%] bg-[radial-gradient(ellipse,rgba(0,0,0,0.15)_0%,transparent_70%)] pointer-events-none" />
+                        {selectedImage === 0 && (
+                            <div className="absolute bottom-[10%] left-1/2 -translate-x-1/2 w-[60%] h-[20px] rounded-[50%] bg-[radial-gradient(ellipse,rgba(0,0,0,0.15)_0%,transparent_70%)] pointer-events-none" />
+                        )}
                         
-                        <motion.img 
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                            src={product.image} 
-                            alt={product.name}
-                            className="relative z-10 w-auto h-full max-h-[80%] object-contain drop-shadow-[0_20px_30px_rgba(0,0,0,0.15)] group-hover:scale-105 transition-transform duration-700"
-                        />
+                        <AnimatePresence mode="wait">
+                            <motion.img 
+                                key={selectedImage}
+                                initial={{ opacity: 0, y: 15 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -15 }}
+                                transition={{ duration: 0.3 }}
+                                src={galleryImages[selectedImage]} 
+                                alt={product.name}
+                                className={`relative z-10 transition-transform duration-700 ${selectedImage === 0 ? 'w-auto h-full max-h-[80%] object-contain drop-shadow-[0_20px_30px_rgba(0,0,0,0.15)] group-hover:scale-105' : 'w-full h-full object-cover rounded-3xl'}`}
+                            />
+                        </AnimatePresence>
                     </div>
                     {/* Thumbnails */}
                     <div className="flex gap-4">
-                        {[1, 2, 3, 4].map((i) => (
-                            <div key={i} className={`w-20 h-20 bg-[#f4f4f5] rounded-xl flex items-center justify-center border-2 cursor-pointer ${i === 1 ? 'border-[#15161b]' : 'border-transparent hover:border-black/10'} transition-all`}>
-                                <img src={product.image} className="h-[70%] w-auto object-contain drop-shadow-sm" />
+                        {galleryImages.map((img, index) => (
+                            <div 
+                                key={index} 
+                                onClick={() => setSelectedImage(index)}
+                                className={`w-20 h-20 bg-[#f4f4f5] rounded-xl flex items-center justify-center border-2 cursor-pointer overflow-hidden transition-all ${selectedImage === index ? 'border-[#15161b]' : 'border-transparent hover:border-black/10'}`}
+                            >
+                                <img src={img} className={index === 0 ? "h-[70%] w-auto object-contain drop-shadow-sm" : "w-full h-full object-cover"} />
                             </div>
                         ))}
                     </div>
