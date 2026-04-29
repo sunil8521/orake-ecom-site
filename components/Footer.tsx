@@ -31,7 +31,7 @@ export default function Footer() {
 
   return (
     <footer className="relative bg-[#c25b5e] text-white pt-10 overflow-hidden flex flex-col justify-between">
-      {/* Decorative SVG background (subtle blobs & wave) */}
+      {/* Decorative SVG background ( wave) */}
       <div className="absolute inset-0 pointer-events-none z-10 opacity-90">
         <svg viewBox="0 0 1200 600" preserveAspectRatio="none" className="w-full h-full">
           <defs>
@@ -39,12 +39,7 @@ export default function Footer() {
               <stop offset="0%" stopColor="#ffffff" stopOpacity="0.17" />
               <stop offset="100%" stopColor="#ffffff" stopOpacity="0.09" />
             </linearGradient>
-            
           </defs>
-
-          {/* top-left soft blob */}
-          <circle cx="120" cy="80" r="120" fill="url(#fg2)" />
-
           {/* subtle wave */}
           <path d="M0,320 C220,220 440,420 720,350 C940,300 1100,360 1200,330 L1200,600 L0,600 Z" fill="url(#fg)" />
  
