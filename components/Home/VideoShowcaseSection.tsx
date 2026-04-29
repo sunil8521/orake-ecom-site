@@ -35,7 +35,7 @@ export default function VideoShowcaseSection() {
   return (
     <section className="relative overflow-hidden bg-white px-12 sm:px-16 lg:px-28 pt-0 pb-4 sm:pt-2 sm:pb-6 md:pt-3 md:pb-8">
       
-      {/* Background Gradient */}
+      {/* Background  */}
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_80%,rgba(222,62,79,0.05)_0%,rgba(244,238,207,0.2)_30%,rgba(255,255,255,0)_70%)]" />
 
       <div className="relative mx-auto w-full max-w-[1400px] xl:max-w-[1500px]">
