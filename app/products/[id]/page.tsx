@@ -48,15 +48,13 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
     const [selectedImage, setSelectedImage] = useState(0);
 
     const galleryImages = isStrawberry ? [
-        "/can1.png",
+        "/orake-strawberry-clean.png",
         "/orake-strawberry-ingredients.png",
         "/orake-strawberry-pour.png",
-        "/orake-strawberry-clean.png"
     ] : [
-        "/can2.png",
+        "/orake-ginger-lemon-clean.png",
         "/orake-ginger-lemon-ingredients.png",
         "/orake-ginger-lemon-pour.png",
-        "/orake-ginger-lemon-clean.png"
     ];
 
     // Get related products (just filter out current)
@@ -83,31 +81,17 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
                 {/* LEFT: Image Gallery */}
                 <div className="flex flex-col gap-6">
                     {/* Main Image Container */}
-                    <div className="relative w-full aspect-square md:aspect-[4/5] bg-[#f4f4f5] rounded-3xl flex items-center justify-center p-12 border border-black/5 overflow-hidden group">
-                        {/* Background Watermark */}
-                        <div className="absolute inset-0 pointer-events-none">
-                            <Image
-                                src={isStrawberry ? "/pinkcanbg.png" : "/yellowcanbg.png"}
-                                alt=""
-                                fill
-                                sizes="(max-width: 768px) 100vw, 50vw"
-                                className={`object-cover transition-opacity duration-700 ${selectedImage === 0 ? "opacity-[0.05] group-hover:opacity-[0.08]" : "opacity-0"}`}
-                            />
-                        </div>
-                        {selectedImage === 0 && (
-                            <div className="absolute bottom-[10%] left-1/2 -translate-x-1/2 w-[60%] h-[20px] rounded-[50%] bg-[radial-gradient(ellipse,rgba(0,0,0,0.15)_0%,transparent_70%)] pointer-events-none" />
-                        )}
-                        
+                    <div className="relative w-full aspect-square rounded-3xl overflow-hidden group border border-black/5 shadow-sm">
                         <AnimatePresence mode="wait">
                             <motion.img 
                                 key={selectedImage}
-                                initial={{ opacity: 0, y: 15 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -15 }}
-                                transition={{ duration: 0.3 }}
+                                initial={{ opacity: 0, scale: 0.98 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 1.02 }}
+                                transition={{ duration: 0.4 }}
                                 src={galleryImages[selectedImage]} 
                                 alt={product.name}
-                                className={`relative z-10 transition-transform duration-700 ${selectedImage === 0 ? 'w-auto h-full max-h-[80%] object-contain drop-shadow-[0_20px_30px_rgba(0,0,0,0.15)] group-hover:scale-105' : 'w-full h-full object-cover rounded-3xl'}`}
+                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                             />
                         </AnimatePresence>
                     </div>
@@ -117,9 +101,9 @@ export default function ProductDetailsPage({ params }: { params: Promise<{ id: s
                             <div 
                                 key={index} 
                                 onClick={() => setSelectedImage(index)}
-                                className={`w-20 h-20 bg-[#f4f4f5] rounded-xl flex items-center justify-center border-2 cursor-pointer overflow-hidden transition-all ${selectedImage === index ? 'border-[#15161b]' : 'border-transparent hover:border-black/10'}`}
+                                className={`w-20 h-20 bg-gray-100 rounded-xl flex items-center justify-center border-2 cursor-pointer overflow-hidden transition-all ${selectedImage === index ? 'border-[#15161b]' : 'border-transparent hover:border-black/10'}`}
                             >
-                                <img src={img} className={index === 0 ? "h-[70%] w-auto object-contain drop-shadow-sm" : "w-full h-full object-cover"} />
+                                <img src={img} className="w-full h-full object-cover" />
                             </div>
                         ))}
                     </div>
