@@ -40,14 +40,25 @@ export default function Footer() {
           <p className={`${textFont.className} text-lg lg:text-xl font-medium tracking-wide text-white/80 max-w-sm`}>
             Reach out to our team for partnerships, orders, or just to talk flavors!
           </p>
-          <a href="mailto:hello@orake.com" className="group flex items-center gap-4 mt-2 w-fit">
-            <span className={`${titleFont.className} text-2xl lg:text-3xl tracking-widest uppercase pb-1 border-b-2 border-white/40 group-hover:border-white transition-colors`}>
-              hello@orake.com
-            </span>
-            <div className="w-10 h-10 rounded-full bg-white text-[#c25b5e] flex items-center justify-center transform group-hover:scale-110 group-hover:rotate-12 transition-transform shadow-md">
-              <MoveUpRight size={20} className="stroke-[3px]" />
+          <div className="flex items-center gap-4 mt-2">
+            <a href="mailto:hello@orake.com" className="group flex items-center gap-4 w-fit">
+              <span className={`${titleFont.className} text-2xl lg:text-3xl tracking-widest uppercase pb-1 border-b-2 border-white/40 group-hover:border-white transition-colors`}>
+                hello@orake.com
+              </span>
+              <div className="w-10 h-10 rounded-full bg-white text-[#c25b5e] flex items-center justify-center transform group-hover:scale-110 group-hover:rotate-12 transition-transform shadow-md">
+                <MoveUpRight size={20} className="stroke-[3px]" />
+              </div>
+            </a>
+
+            <div className="flex items-center gap-3 ml-2">
+              {socials.map(({ Icon, label, href }) => (
+                <a key={label} href={href} aria-label={label}
+                  className="w-8 h-8 rounded-full bg-white/15 hover:bg-white hover:text-[#c25b5e] flex items-center justify-center transition-all duration-300 text-white hover:scale-110 hover:shadow-lg">
+                  <Icon size={14} />
+                </a>
+              ))}
             </div>
-          </a>
+          </div>
 
         </div>
 
@@ -83,15 +94,7 @@ export default function Footer() {
           © 2026 <a href="https://swiftrise.in" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors underline underline-offset-4 decoration-white/30 hover:decoration-white">Swiftrise Solution Pvt Ltd</a>. ALL RIGHTS RESERVED.
         </p>
 
-        {/* Social Icons */}
-        <div className="flex gap-3">
-          {socials.map(({ Icon, label, href }) => (
-            <a key={label} href={href} aria-label={label}
-              className="w-8 h-8 rounded-full bg-white/15 hover:bg-white hover:text-[#c25b5e] flex items-center justify-center transition-all duration-300 text-white hover:scale-110 hover:shadow-lg">
-              <Icon size={14} />
-            </a>
-          ))}
-        </div>
+        
       </div>
 
     </footer>
