@@ -36,7 +36,7 @@ export default function Navbar() {
   return (
     <nav
       className={`fixed left-0 top-0 z-50 w-full transition-all duration-500 ${
-        scrolled ? "bg-[#c25b5e] shadow-md" : "bg-transparent py-2"
+        scrolled || (pathname.startsWith("/products/") && pathname.split('/').length > 2) ? "bg-[#c25b5e] shadow-md" : "bg-transparent py-2"
       }`}
     >
       {/* ✅ FIXED CONTAINER */}

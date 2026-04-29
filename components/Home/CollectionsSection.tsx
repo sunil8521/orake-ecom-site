@@ -70,7 +70,7 @@ export default function CollectionsSection() {
   };
 
   return (
-    <section className="bg-white py-24 px-4 sm:px-8 lg:px-12 overflow-hidden">
+    <section className="bg-white pt-48 pb-24 px-4 sm:px-8 lg:px-12 overflow-hidden">
       <div className="max-w-[1400px] mx-auto">
         {/* Gen Z Title Style */}
         <motion.div
@@ -129,7 +129,7 @@ export default function CollectionsSection() {
                   alt=""
                   fill
                   sizes="100vw"
-                  className="object-cover opacity-[0.35] group-hover:opacity-[0.45] transition-opacity duration-700 scale-110"
+                  className="object-cover opacity-100 transition-opacity duration-700"
                 />
                 <div className="absolute w-[150%] h-[150%] bg-gradient-to-br from-[#c25b5e]/20 to-transparent rounded-full -top-[50%] -right-[50%] blur-[80px] group-hover:opacity-100 opacity-0 transition-opacity duration-700 pointer-events-none" />
               </div>
@@ -145,11 +145,10 @@ export default function CollectionsSection() {
               {/* Heart Icon Top-Right */}
               <button
                 onClick={() => setLiked1(!liked1)}
-                className={`absolute top-4 right-4 sm:top-5 sm:right-5 md:top-4 md:right-4 lg:top-5 lg:right-5 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-all active:scale-90 ${
-                  liked1
+                className={`absolute top-4 right-4 sm:top-5 sm:right-5 md:top-4 md:right-4 lg:top-5 lg:right-5 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-all active:scale-90 ${liked1
                     ? "bg-[#c25b5e] text-white shadow-md"
                     : "bg-white/80 text-gray-400 hover:text-[#c25b5e] hover:bg-white shadow-sm"
-                }`}
+                  }`}
               >
                 <Heart size={20} strokeWidth={2} fill={liked1 ? "currentColor" : "none"} />
               </button>
@@ -200,7 +199,7 @@ export default function CollectionsSection() {
                   alt=""
                   fill
                   sizes="100vw"
-                  className="object-cover opacity-[0.35] group-hover:opacity-[0.45] transition-opacity duration-700 scale-110"
+                  className="object-cover opacity-100 transition-opacity duration-700"
                 />
                 <div className="absolute w-[150%] h-[150%] bg-gradient-to-bl from-[#dbba53]/20 to-transparent rounded-full -bottom-[50%] -left-[50%] blur-[80px] group-hover:opacity-100 opacity-0 transition-opacity duration-700 pointer-events-none" />
               </div>
@@ -216,11 +215,10 @@ export default function CollectionsSection() {
               {/* Heart Icon Top-Right */}
               <button
                 onClick={() => setLiked2(!liked2)}
-                className={`absolute top-4 right-4 sm:top-5 sm:right-5 md:top-4 md:right-4 lg:top-5 lg:right-5 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-all active:scale-90 ${
-                  liked2
+                className={`absolute top-4 right-4 sm:top-5 sm:right-5 md:top-4 md:right-4 lg:top-5 lg:right-5 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-all active:scale-90 ${liked2
                     ? "bg-[#dbba53] text-white shadow-md"
                     : "bg-white/80 text-gray-400 hover:text-[#dbba53] hover:bg-white shadow-sm"
-                }`}
+                  }`}
               >
                 <Heart size={20} strokeWidth={2} fill={liked2 ? "currentColor" : "none"} />
               </button>

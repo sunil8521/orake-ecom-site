@@ -38,15 +38,15 @@ export default function HeroSection() {
 
   return (
     <section
-      className="relative min-h-screen flex flex-col justify-between overflow-hidden transition-colors duration-700"
+      className="relative min-h-screen flex flex-col justify-between overflow-x-clip z-10 transition-colors duration-700"
       style={{ backgroundColor: bgColors[canIdx] }}
     >
       {/* Removed top fog effect for solid background */}
 
       {/* Large faded background text, animated */}
       <div className="absolute inset-0 flex items-center justify-center z-0 select-none overflow-hidden">
-        <span 
-          className="text-[15vw] md:text-[min(16vw,180px)] font-extrabold uppercase transition-colors duration-700 tracking-[0.2em] md:tracking-[0.4em] pl-[0.2em] md:pl-[0.4em] text-center" 
+        <span
+          className="text-[15vw] md:text-[min(16vw,180px)] font-extrabold uppercase transition-colors duration-700 tracking-[0.2em] md:tracking-[0.4em] pl-[0.2em] md:pl-[0.4em] text-center"
           style={{ color: canIdx === 0 ? '#ae5d61' : '#b89c3a' }}
         >
           {canIdx === 0 ? 'VANILLA' : 'LEMON'}
@@ -131,14 +131,13 @@ export default function HeroSection() {
             >
               {isActive && (
                 <div
-                  className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
+                  className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full w-[110px] h-[110px] md:w-[160px] md:h-[160px]"
                   style={{
-                    width: 80,
-                    height: 80,
                     background: canIdx === 0
-                      ? 'radial-gradient(circle, #fbeee6 60%, #ae5d61 100%)'
-                      : 'radial-gradient(circle, #fffbe6 60%, #b89c3a 100%)',
-                    opacity: 0.45,
+                      ? 'radial-gradient(circle, rgba(251,238,230,0.8) 20%, rgba(174,93,97,0.4) 60%, transparent 100%)'
+                      : 'radial-gradient(circle, rgba(255,251,230,0.8) 20%, rgba(184,156,58,0.4) 60%, transparent 100%)',
+                    opacity: 0.8,
+                    filter: 'blur(10px)',
                     zIndex: 1,
                   }}
                 />
@@ -156,8 +155,11 @@ export default function HeroSection() {
         })}
       </div>
 
+      {/* Extend pink background to lower the boundary line */}
+      <div className="absolute left-0 top-full w-full h-[40px] z-0 transition-colors duration-700" style={{ backgroundColor: bgColors[canIdx] }}></div>
+
       {/* White curved background behind product cans row (z-10, visually behind cans) */}
-      <div className="absolute left-1/2 bottom-0 z-10 pointer-events-none w-[100vw] min-w-[900px] md:min-w-0 md:w-[60vw]" style={{ height: 120, transform: 'translateX(-50%)' }}>
+      <div className="absolute left-1/2 bottom-[-40px] z-10 pointer-events-none w-[100vw] min-w-[900px] md:min-w-0 md:w-[60vw]" style={{ height: 120, transform: 'translateX(-50%)' }}>
         <svg viewBox="0 0 900 120" width="100%" height="120" preserveAspectRatio="none" style={{ display: 'block' }}>
           <path d="M0,120 Q450,-60 900,120 L900,120 L0,120 Z" fill="#fff" />
         </svg>

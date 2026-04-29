@@ -8,12 +8,14 @@ export interface IProduct {
     slug: string,
     description: string,
     price: number,
+    oldPrice: number,
+    discount: number,
+    size: string,
     image: string,
     stock: number,
     numReviews: number,
     isFeatured: boolean
 }
-
 
 const ProcutSchema = new mongoose.Schema<IProduct>({
     name: {
@@ -32,8 +34,19 @@ const ProcutSchema = new mongoose.Schema<IProduct>({
     price: {
         type: Number,
         required: true
-    }
-    ,
+    },
+    oldPrice: {
+        type: Number,
+        default: 0
+    },
+    discount: {
+        type: Number,
+        default: 0
+    },
+    size: { 
+        type: String,
+        default: "250ML"
+    },
     image: {
         type: String,
         required: true
@@ -42,7 +55,6 @@ const ProcutSchema = new mongoose.Schema<IProduct>({
         type: Number,
         default: 0
     },
-
     numReviews: {
         type: Number,
         default: 0
@@ -50,7 +62,6 @@ const ProcutSchema = new mongoose.Schema<IProduct>({
     isFeatured: {
         type: Boolean,
         default: false
-
     }
 })
 
@@ -58,7 +69,5 @@ ProcutSchema.pre("save", function () {
     if (!this.isModified("slug")) return;
     this.slug = slugify(this.slug, { lower: true, strict: true })
 })
-
-
 
 export const Product = mongoose.models.Product || mongoose.model<IProduct>("product", ProcutSchema)
