@@ -99,14 +99,14 @@ export default function Navbar() {
             {/* ✅ ICONS FIXED */}
             <div className="flex items-center gap-3 lg:gap-5 text-[#f6efe2]">
               <Link href="/wishlist" className="hover:scale-110 transition-all">
-                <Heart className="h-6 w-6 lg:h-7 lg:w-7" strokeWidth={2.2} />
+                <Heart className="h-3 w-3 lg:h-6 lg:w-6" strokeWidth={2} />
               </Link>
               <Link href="/cart" className="hover:scale-110 transition-all">
-                <ShoppingCart className="h-6 w-6 lg:h-7 lg:w-7" strokeWidth={2.2} />
+                <ShoppingCart className="h-3 w-3 lg:h-6 lg:w-6" strokeWidth={2} />
               </Link>
               {isAuthenticated ? (
                 <Link href="/account" className="hover:scale-110 transition-all">
-                  <User className="h-6 w-6 lg:h-7 lg:w-7" strokeWidth={2.2} />
+                  <User className="h-5 w-5 lg:h-6 lg:w-6" strokeWidth={2} />
                 </Link>
               ) : (
                 <Link
@@ -114,7 +114,7 @@ export default function Navbar() {
                   className="group flex items-center transition-all duration-300"
                 >
                   {/* Mobile: Just Icon */}
-                  <LogIn className="h-6 w-6 sm:hidden hover:scale-110 transition-transform" strokeWidth={2.2} />
+                  <LogIn className="h-5 w-5 sm:hidden hover:scale-110 transition-transform" strokeWidth={2} />
                   
                   {/* Desktop: Full Button */}
                   <div className={`hidden sm:flex items-center gap-2 px-4 py-1.5 rounded-full border-2 border-[#f2c56f] text-[12px] lg:text-[13px] font-bold uppercase tracking-wider transition-all duration-300 ${
@@ -122,7 +122,7 @@ export default function Navbar() {
                       ? "text-[#f6efe2] hover:bg-[#f2c56f] hover:text-[#15161b]"
                       : "text-[#f6efe2] hover:bg-[#f2c56f] hover:text-[#15161b]"
                   }`}>
-                    <LogIn className="h-4 w-4" strokeWidth={2.5} />
+                    <LogIn className="h-3 w-3" strokeWidth={2.5} />
                     Sign In
                   </div>
                 </Link>

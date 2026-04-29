@@ -10,13 +10,13 @@ const bodyFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "70
 
 function StarRating({ rating, reviews }: { rating: number; reviews: number }) {
   return (
-    <div className="flex justify-center md:justify-start items-center gap-2 mb-3">
+    <div className="flex justify-center md:justify-start items-center gap-2 mb-2">
       <div className="flex gap-0.5">
         {[1, 2, 3, 4, 5].map((star) => {
           const filled = rating >= star;
           const half = !filled && rating >= star - 0.5;
           return (
-            <span key={star} className="relative text-xl w-5 h-5 inline-block">
+            <span key={star} className="relative text-lg w-4 h-4 inline-block">
               {/* Empty star (always rendered) */}
               <span className="absolute inset-0 text-gray-300">★</span>
               {/* Filled or half star */}
@@ -29,7 +29,7 @@ function StarRating({ rating, reviews }: { rating: number; reviews: number }) {
         })}
       </div>
       {reviews > 0 && (
-        <span className={`${bodyFont.className} text-sm font-bold text-gray-400 tracking-widest uppercase ml-1`}>
+        <span className={`${bodyFont.className} text-xs font-bold text-gray-400 tracking-widest uppercase ml-1`}>
           {reviews} {reviews === 1 ? 'review' : 'reviews'}
         </span>
       )}
@@ -66,6 +66,13 @@ function NewsletterForm() {
 export default function CollectionsSection() {
   const [liked1, setLiked1] = useState(false);
   const [liked2, setLiked2] = useState(false);
+  const [stock1, setStock1] = useState(24);
+  const [qty1, setQty1] = useState(1);
+  const [added1, setAdded1] = useState(false);
+
+  const [stock2, setStock2] = useState(3);
+  const [qty2, setQty2] = useState(1);
+  const [added2, setAdded2] = useState(false);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -96,8 +103,8 @@ export default function CollectionsSection() {
   };
 
   return (
-    <section className="bg-white pt-19 pb-24 px-12 sm:px-16 lg:px-28 overflow-hidden">
-      <div className="max-w-[1400px] mx-auto">
+    <section className="bg-white pt-19 pb-24 px-6 sm:px-12 lg:px-20 overflow-hidden">
+      <div className="max-w-[1200px] mx-auto">
         {/* Gen Z Title Style */}
         <motion.div
           initial={{ opacity: 0, y: -30, filter: "blur(10px)" }}
@@ -204,18 +211,41 @@ export default function CollectionsSection() {
             </motion.div>
 
             <div className="px-2 text-center md:text-left mt-8">
-              <h3 className={`${bodyFont.className} mb-3 text-2xl md:text-3xl font-black text-gray-900 group-hover:text-[#c25b5e] transition-colors leading-tight uppercase`}>
+              <h3 className={`${bodyFont.className} mb-2 text-xl md:text-2xl font-black text-gray-900 group-hover:text-[#c25b5e] transition-colors leading-tight uppercase`}>
                 Strawberry Vanilla
               </h3>
               <StarRating rating={5} reviews={24} />
-              <div className={`${bodyFont.className} flex justify-between md:justify-start items-center md:gap-6 mt-2`}>
-                <div className="flex items-center gap-3">
-                  <span className="text-3xl md:text-4xl font-black text-black">Rs. 10.00</span>
-                  <span className="text-xl text-gray-400 line-through decoration-2">Rs. 668.00</span>
+              <div className={`${bodyFont.className} flex flex-col md:flex-row justify-between md:justify-start items-center md:gap-6 mt-2`}>
+                <div className="flex flex-col items-center md:items-start gap-1">
+                  <div>
+                    <span className="text-2xl md:text-3xl font-black text-black">Rs. 10.00</span>
+                    <span className="ml-3 text-lg text-gray-400 line-through decoration-2">Rs. 668.00</span>
+                  </div>
+                  <div className="text-xs text-gray-500">
+                    {stock1 > 5 ? `${stock1} in stock` : (stock1 > 0 ? `Only ${stock1} left` : 'Out of stock')}
+                  </div>
                 </div>
-                <button className="bg-[#15161b] hover:bg-[#c25b5e] text-white w-12 h-12 md:w-14 md:h-14 rounded-[12px] md:rounded-[14px] flex items-center justify-center shadow-md hover:shadow-lg transition-all active:scale-95 group/btn">
-                  <ShoppingCart size={20} strokeWidth={2} className="group-hover/btn:-rotate-6 transition-transform" />
-                </button>
+
+                <div className="flex items-center gap-3 mt-3 md:mt-0">
+                  <div className="flex items-center border rounded-full overflow-hidden">
+                    <button aria-label="decrease" onClick={() => setQty1(q => Math.max(1, q - 1))} className="px-3 py-1 text-sm">-</button>
+                    <div className="px-4 py-1 text-sm font-bold">{qty1}</div>
+                    <button aria-label="increase" onClick={() => setQty1(q => Math.min(stock1, q + 1))} className="px-3 py-1 text-sm">+</button>
+                  </div>
+
+                  <button onClick={() => {
+                    if (stock1 <= 0) return;
+                    const take = Math.min(qty1, stock1);
+                    setStock1(s => s - take);
+                    setQty1(1);
+                    setAdded1(true);
+                    console.log('Add to cart', { product: 'Strawberry Vanilla', qty: take });
+                    setTimeout(() => setAdded1(false), 2000);
+                  }} disabled={stock1 <= 0} className="bg-[#15161b] disabled:opacity-50 hover:bg-[#c25b5e] text-white w-10 h-10 md:w-12 md:h-12 rounded-[10px] md:rounded-[12px] flex items-center justify-center shadow-md hover:shadow-lg transition-all active:scale-95 group/btn">
+                    <ShoppingCart size={18} strokeWidth={2} className="group-hover/btn:-rotate-6 transition-transform" />
+                  </button>
+                  {added1 && <span className="text-sm text-green-600 font-bold">Added</span>}
+                </div>
               </div>
             </div>
           </motion.div>
@@ -274,18 +304,41 @@ export default function CollectionsSection() {
             </motion.div>
 
             <div className="px-2 text-center md:text-left mt-8">
-              <h3 className={`${bodyFont.className} mb-3 text-2xl md:text-3xl font-black text-gray-900 group-hover:text-[#dbba53] transition-colors leading-tight uppercase`}>
+              <h3 className={`${bodyFont.className} mb-2 text-xl md:text-2xl font-black text-gray-900 group-hover:text-[#dbba53] transition-colors leading-tight uppercase`}>
                 Ginger Lemon
               </h3>
               <StarRating rating={4} reviews={12} />
-              <div className={`${bodyFont.className} flex justify-between md:justify-start items-center md:gap-6 mt-2`}>
-                <div className="flex items-center gap-3">
-                  <span className="text-3xl md:text-4xl font-black text-black">Rs. 20.00</span>
-                  <span className="text-xl text-gray-400 line-through decoration-2">Rs. 1499.00</span>
+              <div className={`${bodyFont.className} flex flex-col md:flex-row justify-between md:justify-start items-center md:gap-6 mt-2`}>
+                <div className="flex flex-col items-center md:items-start gap-1">
+                  <div>
+                    <span className="text-2xl md:text-3xl font-black text-black">Rs. 20.00</span>
+                    <span className="ml-3 text-lg text-gray-400 line-through decoration-2">Rs. 1499.00</span>
+                  </div>
+                  <div className="text-xs text-gray-500">
+                    {stock2 > 5 ? `${stock2} in stock` : (stock2 > 0 ? `Only ${stock2} left` : 'Out of stock')}
+                  </div>
                 </div>
-                <button className="bg-[#15161b] hover:bg-[#dbba53] text-white w-12 h-12 md:w-14 md:h-14 rounded-[12px] md:rounded-[14px] flex items-center justify-center shadow-md hover:shadow-lg transition-all active:scale-95 group/btn">
-                  <ShoppingCart size={20} strokeWidth={2} className="group-hover/btn:-rotate-6 transition-transform" />
-                </button>
+
+                <div className="flex items-center gap-3 mt-3 md:mt-0">
+                  <div className="flex items-center border rounded-full overflow-hidden">
+                    <button aria-label="decrease" onClick={() => setQty2(q => Math.max(1, q - 1))} className="px-3 py-1 text-sm">-</button>
+                    <div className="px-4 py-1 text-sm font-bold">{qty2}</div>
+                    <button aria-label="increase" onClick={() => setQty2(q => Math.min(stock2, q + 1))} className="px-3 py-1 text-sm">+</button>
+                  </div>
+
+                  <button onClick={() => {
+                    if (stock2 <= 0) return;
+                    const take = Math.min(qty2, stock2);
+                    setStock2(s => s - take);
+                    setQty2(1);
+                    setAdded2(true);
+                    console.log('Add to cart', { product: 'Ginger Lemon', qty: take });
+                    setTimeout(() => setAdded2(false), 2000);
+                  }} disabled={stock2 <= 0} className="bg-[#15161b] disabled:opacity-50 hover:bg-[#dbba53] text-white w-10 h-10 md:w-12 md:h-12 rounded-[10px] md:rounded-[12px] flex items-center justify-center shadow-md hover:shadow-lg transition-all active:scale-95 group/btn">
+                    <ShoppingCart size={18} strokeWidth={2} className="group-hover/btn:-rotate-6 transition-transform" />
+                  </button>
+                  {added2 && <span className="text-sm text-green-600 font-bold">Added</span>}
+                </div>
               </div>
             </div>
           </motion.div>
