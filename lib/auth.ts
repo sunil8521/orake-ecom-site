@@ -1,12 +1,13 @@
 import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { db } from "./db";
+import type { Db } from "mongodb";
 import { emailOTP } from "better-auth/plugins";
 import { sendOTPEmail } from "./mailer";
 import { createAuthMiddleware, APIError } from "better-auth/api";
 
 export const auth = betterAuth({
-  database: mongodbAdapter(db),
+  database: mongodbAdapter(db as unknown as Db),
 
   emailAndPassword: {
     enabled: true,
