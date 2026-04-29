@@ -16,7 +16,7 @@ export default function Footer() {
     <footer className="relative bg-[#c25b5e] text-white pt-20 overflow-hidden flex flex-col justify-between">
 
       {/* Top Main Container */}
-      <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-20 w-full flex flex-col lg:flex-row justify-between gap-16 lg:gap-8 pb-10">
+      <div className="w-full max-w-[1400px] mx-auto px-12 sm:px-16 lg:px-28 flex flex-col lg:flex-row justify-between gap-16 lg:gap-8 pb-10">
 
         {/* CTA Block + Logo */}
         <div className="flex flex-col gap-6 w-full lg:w-1/2 z-20">
@@ -43,7 +43,7 @@ export default function Footer() {
         </div>
 
         {/* Links Grid */}
-        <div className="w-full lg:w-1/2 grid grid-cols-2 md:grid-cols-3 gap-10 lg:gap-6 z-20">
+        <div className="w-full lg:w-1/2 grid grid-cols-2 md:grid-cols-3 gap-8 lg:gap-6 z-20">
 
           <div className="flex flex-col gap-4">
             <p className={`${titleFont.className} text-xl tracking-widest text-[#15161b] uppercase mb-2`}>Product</p>
@@ -69,7 +69,7 @@ export default function Footer() {
       </div>
 
       {/* Bottom Copyright */}
-      <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-20 w-full pt-8 pb-8 border-t border-white/20 flex flex-col md:flex-row justify-between items-center gap-4 z-20">
+      <div className="w-full max-w-[1400px] mx-auto px-12 sm:px-16 lg:px-28 pt-8 pb-8 border-t border-white/20 flex flex-col md:flex-row justify-between items-center gap-4 z-20">
         <p className={`${textFont.className} text-md text-white/80 font-medium tracking-wide`}>
           © 2026 <a href="https://swiftrise.in" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors underline underline-offset-4 decoration-white/30 hover:decoration-white">Swiftrise Solution Pvt Ltd</a>. ALL RIGHTS RESERVED.
         </p>
