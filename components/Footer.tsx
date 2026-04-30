@@ -56,7 +56,7 @@ export default function Footer() {
       </div>
 
       {/* Top Main Container */}
-      <div className="w-full max-w-[1400px] mx-auto px-12 sm:px-16 lg:px-28 flex flex-col lg:flex-row justify-between items-center lg:items-start gap-16 lg:gap-8 pb-6">
+      <div className="w-full max-w-[1400px] mx-auto px-6 sm:px-12 lg:px-28 flex flex-col lg:flex-row justify-between items-start gap-12 lg:gap-8 pb-6">
 
         {/* CTA Block + Logo */}
         <div className="flex flex-col gap-6 w-full lg:w-1/2 z-20">
@@ -66,7 +66,7 @@ export default function Footer() {
           </div>
 
           {/* Quick nav buttons */}
-          <div className="flex items-center gap-3 mt-2">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3 mt-2">
             <a href="/" className="px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 text-sm">Home</a>
             <a href="/about" className="px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 text-sm">About</a>
             <a href="/products" className="px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 text-sm">Products</a>
@@ -77,7 +77,7 @@ export default function Footer() {
           <h3 className={`${titleFont.className} text-[clamp(2.5rem,5vw,4rem)] uppercase leading-[0.9] tracking-wider`}>
             Thirsty for <br /> <span className="text-[#15161b]">more details?</span>
           </h3>
-          <p className={`${textFont.className} text-lg lg:text-xl font-medium tracking-wide text-white/80 max-w-sm`}>
+          <p className={`${textFont.className} text-base sm:text-lg lg:text-xl font-medium tracking-wide text-white/80 max-w-sm`}>
             Reach out to our team for partnerships, orders, or just to talk flavors!
           </p>
 
@@ -88,7 +88,7 @@ export default function Footer() {
         <div className="w-full lg:w-1/2 z-20 flex flex-col">
         
 
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-8 lg:gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-8 lg:gap-6 mt-4 lg:mt-0">
 
             <div className="flex flex-col gap-3">
               <p className={`${titleFont.className} text-lg tracking-widest text-[#15161b] uppercase mb-2`}>Product</p>
@@ -116,49 +116,53 @@ export default function Footer() {
  
  
       {/* Divider row: email left, socials right */}
-      <div className="w-full max-w-[1400px] mx-auto px-12 sm:px-16 lg:px-28 flex justify-between items-center z-20">
+      <div className="w-full max-w-[1400px] mx-auto px-6 sm:px-12 lg:px-28 flex flex-col xl:flex-row justify-between items-start xl:items-center gap-8 xl:gap-0 z-20 mt-6 lg:mt-0">
         <div>
-          <a href="mailto:hello@orake.com" className="group flex items-center gap-4 w-fit">
-            <span className={`${titleFont.className} text-xl lg:text-2xl tracking-widest uppercase pb-1 border-b-2 border-white/40 group-hover:border-white transition-colors`}>
+          <a href="mailto:hello@orake.com" className="group flex items-center gap-3 sm:gap-4 w-fit">
+            <span className={`${titleFont.className} text-lg sm:text-xl lg:text-2xl tracking-widest uppercase pb-1 border-b-2 border-white/40 group-hover:border-white transition-colors`}>
               hello@orake.com
             </span>
-            <div className="w-10 h-10 rounded-full bg-white text-[#c25b5e] flex items-center justify-center transform group-hover:scale-110 group-hover:rotate-12 transition-transform shadow-md">
-              <MoveUpRight size={20} className="stroke-[3px]" />
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white text-[#c25b5e] flex items-center justify-center transform group-hover:scale-110 group-hover:rotate-12 transition-transform shadow-md shrink-0">
+              <MoveUpRight size={18} className="stroke-[3px] sm:w-5 sm:h-5" />
             </div>
           </a>
         </div>
 
-        <div className="flex items-center gap-3">
-          {socials.map(({ Icon, label, href }) => (
-            <a key={label} href={href} aria-label={label}
-              className="w-10 h-10 rounded-full bg-white/15 hover:bg-white hover:text-[#c25b5e] flex items-center justify-center transition-all duration-300 text-white hover:scale-110 hover:shadow-lg">
-              <Icon size={16} />
+        <div className="flex flex-wrap items-center gap-3 sm:gap-4">
+          <div className="flex items-center gap-3">
+            {socials.map(({ Icon, label, href }) => (
+              <a key={label} href={href} aria-label={label}
+                className="w-10 h-10 rounded-full bg-white/15 hover:bg-white hover:text-[#c25b5e] flex items-center justify-center transition-all duration-300 text-white hover:scale-110 hover:shadow-lg">
+                <Icon size={16} />
+              </a>
+            ))}
+          </div>
+
+          <div className="hidden sm:block h-6 w-px bg-white/10 mx-1" />
+
+          <div className="flex items-center gap-3 mt-2 sm:mt-0">
+            <a href="#" className="flex items-center gap-2 px-3 py-2 rounded-md bg-white/10 hover:bg-white/20">
+              <FaApple size={16} />
+              <span className="text-sm whitespace-nowrap">App Store</span>
             </a>
-          ))}
-
-          <div className="h-6 w-px bg-white/10 mx-2" />
-
-          <a href="#" className="flex items-center gap-2 px-3 py-2 rounded-md bg-white/10 hover:bg-white/20">
-            <FaApple size={16} />
-            <span className="text-sm">App Store</span>
-          </a>
-          <a href="#" className="flex items-center gap-2 px-3 py-2 rounded-md bg-white/10 hover:bg-white/20">
-            <FaGooglePlay size={16} />
-            <span className="text-sm">Google Play</span>
-          </a>
+            <a href="#" className="flex items-center gap-2 px-3 py-2 rounded-md bg-white/10 hover:bg-white/20">
+              <FaGooglePlay size={16} />
+              <span className="text-sm whitespace-nowrap">Google Play</span>
+            </a>
+          </div>
         </div>
       </div>
 
       {/* Bottom Copyright */}
-        <div className="w-full max-w-[1400px] mx-auto px-12 sm:px-16 lg:px-28 pt-6 pb-6 flex flex-col md:flex-row justify-between items-center gap-4 z-20">
-        <p className={`${textFont.className} text-sm text-white/80 font-medium tracking-wide`}>
+        <div className="w-full max-w-[1400px] mx-auto px-6 sm:px-12 lg:px-28 pt-8 pb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 z-20 pb-24 md:pb-8">
+        <p className={`${textFont.className} text-xs sm:text-sm text-white/80 font-medium tracking-wide max-w-md lg:max-w-none`}>
           © 2026 <a href="https://swiftrise.in" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors underline underline-offset-4 decoration-white/30 hover:decoration-white">Swiftrise Solution Pvt Ltd</a>. ALL RIGHTS RESERVED.
         </p>
 
         <div className="flex items-center gap-4">
-          <FaCcVisa size={28} />
-          <FaCcMastercard size={28} />
-          <FaCcPaypal size={28} />
+          <FaCcVisa size={28} className="opacity-90" />
+          <FaCcMastercard size={28} className="opacity-90" />
+          <FaCcPaypal size={28} className="opacity-90" />
         </div>
       </div>
 
