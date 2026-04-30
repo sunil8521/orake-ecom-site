@@ -4,7 +4,7 @@ const headingFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] 
 
 export default function TaglineBanner() {
   return (
-    <section className="relative w-full max-w-[100vw] overflow-hidden bg-linear-to-b from-white via-white to-gray-50 py-6 md:py-10">
+    <section className="relative w-full max-w-[100vw] overflow-hidden bg-white py-6 md:py-10">
       <div className="w-full relative flex justify-center items-center">
         {/* Wavy Banner */}
         {/* Using pure aspect-ratio scaling (w-[300%] on mobile, w-full on desktop) instead of forced dimensions so the text doesn't maliciously distort! */}
@@ -16,9 +16,9 @@ export default function TaglineBanner() {
           {/* Golden wavy background */}
           <defs>
             <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" style={{ stopColor: '#F4D35E', stopOpacity: 1 }} />
-              <stop offset="50%" style={{ stopColor: '#EBB839', stopOpacity: 1 }} />
-              <stop offset="100%" style={{ stopColor: '#F4D35E', stopOpacity: 1 }} />
+              <stop offset="0%" style={{ stopColor: '#c25b5e', stopOpacity: 1 }} />
+              <stop offset="50%" style={{ stopColor: '#c25b5e', stopOpacity: 1 }} />
+              <stop offset="100%" style={{ stopColor: '#c25b5e', stopOpacity: 1 }} />
             </linearGradient>
           </defs>
 
@@ -32,7 +32,7 @@ export default function TaglineBanner() {
           <path
             id="taglineFlowPath"
             d="M 0 74 Q 125 56, 250 74 T 500 74 T 750 74 T 1000 74"
-            stroke="#E8C547"
+            stroke="#c25b5e"
             strokeWidth="2"
             fill="none"
             opacity="0.45"
@@ -42,7 +42,7 @@ export default function TaglineBanner() {
           <text
             dominantBaseline="central"
             alignmentBaseline="middle"
-            className={`${headingFont.className} fill-[#111111] text-[30px] uppercase tracking-normal`}
+            className={`${headingFont.className} fill-[#ffffff] text-[30px] uppercase tracking-normal`}
           >
             <textPath href="#taglineFlowPath" startOffset="100%">
               WHEREVER YOU ARE  •  ENJOY SOLO  •  SHARE WITH FRIENDS  •  WHEREVER YOU ARE  •  ENJOY SOLO  •  SHARE WITH FRIENDS  •
@@ -50,7 +50,7 @@ export default function TaglineBanner() {
                 attributeName="startOffset"
                 from="100%"
                 to="-100%"
-                dur="40s"
+                dur="20s"
                 repeatCount="indefinite"
               />
             </textPath>

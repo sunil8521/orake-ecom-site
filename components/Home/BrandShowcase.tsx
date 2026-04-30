@@ -24,7 +24,7 @@ export default function BrandShowcase() {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: false }}
           transition={{ duration: 0.8 }}
           className="text-center mb-14 md:mb-20"
         >
@@ -90,7 +90,7 @@ export default function BrandShowcase() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: false }}
           transition={{ duration: 0.6, delay: 0.3 }}
           className="flex flex-wrap justify-center gap-8 md:gap-16 mt-14 md:mt-20"
         >

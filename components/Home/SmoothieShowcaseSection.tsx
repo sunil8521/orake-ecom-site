@@ -40,7 +40,7 @@ export default function SmoothieShowcaseSection() {
 
           {/* Left — Strawberry Vanilla */}
           <div className="col-span-1 bg-[#cf797e] flex flex-col items-center justify-center pt-10 p-6 relative overflow-hidden group">
- 
+
 
             <div className="relative z-10 w-full h-[65%] max-w-[400px] lg:max-w-[450px] xl:max-w-[500px] flex items-center justify-center">
               <Image
@@ -61,7 +61,7 @@ export default function SmoothieShowcaseSection() {
             </div>
           </div>
 
-           
+
         </div>
 
         {/* Layer 2: Transparent left + Ginger Lemon right */}
@@ -73,7 +73,7 @@ export default function SmoothieShowcaseSection() {
           {/* Right — Ginger Lemon */}
           <div className="col-span-1 bg-[#dbba53] flex flex-col items-center justify-center pt-10 p-6 relative overflow-hidden group pointer-events-auto">
 
-            
+
 
             <div className="relative z-10 w-full h-[65%] max-w-[400px] lg:max-w-[450px] xl:max-w-[500px] flex items-center justify-center">
               <Image

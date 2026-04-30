@@ -30,7 +30,7 @@ const products: ProductType[] = [
 		numReviews: 12,
 		size: "12x 250ML"
 	},
-	
+
 ];
 
 const categoryTabs = ['All', 'New Drops', 'Sale'];
@@ -59,33 +59,8 @@ export default function BestSelling() {
 	return (
 		<div className="min-h-screen bg-white">
 
-			{/* ━━━ Hero Banner ━━━ */}
-			<section className="relative pt-28 pb-16 md:pt-36 md:pb-20 px-6 sm:px-12 lg:px-20 bg-gradient-to-b from-[#15161b] via-[#1a1b22] to-[#15161b] overflow-hidden">
-				{/* Decorative bg elements */}
-				<div className="absolute inset-0 pointer-events-none">
-					<div className="absolute w-96 h-96 bg-[#c25b5e]/10 rounded-full blur-[120px] -top-20 -right-20" />
-					<div className="absolute w-72 h-72 bg-[#c25b5e]/5 rounded-full blur-[100px] bottom-0 left-1/4" />
-				</div>
 
-				<div className="relative max-w-6xl mx-auto text-center">
-					<motion.div
-						initial={{ opacity: 0, y: 20 }}
-						animate={{ opacity: 1, y: 0 }}
-						transition={{ duration: 0.6 }}
-					>
-						<div className={`${textFont.className} inline-block bg-[#c25b5e] text-white px-5 py-1.5 rounded-full text-xs font-bold tracking-[0.3em] uppercase mb-6 shadow-[0_0_20px_rgba(194,91,94,0.4)]`}>
-							Official Store
-						</div>
-						<h1 className={`${titleFont.className} text-6xl md:text-8xl lg:text-9xl text-white tracking-tight uppercase leading-none mb-4`}>
-							THE GEAR
-						</h1>
-						<p className={`${textFont.className} text-gray-400 text-sm md:text-base tracking-[0.2em] uppercase max-w-md mx-auto`}>
-							Fuel your grind. Every can engineered for performance.
-						</p>
-					</motion.div>
-				</div>
-			</section>
-		
+
 			{/* ━━━ Category Tabs + Products ━━━ */}
 			<section className="bg-white py-10 md:py-16 px-4 sm:px-8 lg:px-20">
 				<div className="max-w-7xl mx-auto">
@@ -117,7 +92,7 @@ export default function BestSelling() {
 						variants={containerVariants}
 						initial="hidden"
 						whileInView="visible"
-						viewport={{ once: true, margin: "-50px" }}
+						viewport={{ once: false, margin: "-50px" }}
 					>
 						<div className="grid grid-cols-1 sm:grid-cols-2 max-w-4xl mx-auto gap-x-10 md:gap-x-16 gap-y-24 md:gap-y-28 pt-6 md:pt-10 justify-items-center">
 							{products.map((product) => (
@@ -135,25 +110,25 @@ export default function BestSelling() {
 			<section className="bg-white pb-20 px-4 sm:px-8 lg:px-20">
 				<div className="max-w-[1400px] mx-auto relative rounded-[2rem] sm:rounded-[3rem] overflow-hidden shadow-2xl h-[400px] md:h-[500px] lg:h-[600px] group border-4 border-[#15161b]/5">
 					<div className="absolute inset-0 bg-black/40 z-10 transition-colors duration-700" />
-					<img 
-						src="/orake-ad-banner.png" 
-						alt="Orake Advertisement" 
-						className="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-1000" 
+					<img
+						src="/orake-ad-banner.png"
+						alt="Orake Advertisement"
+						className="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-1000"
 					/>
 					<div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center p-8">
-						<motion.h3 
+						<motion.h3
 							initial={{ opacity: 0, y: 20 }}
 							whileInView={{ opacity: 1, y: 0 }}
-							viewport={{ once: true }}
+							viewport={{ once: false }}
 							transition={{ duration: 0.6 }}
 							className={`${titleFont.className} text-5xl md:text-6xl lg:text-8xl text-white uppercase tracking-wider leading-[0.9] mb-4 drop-shadow-2xl`}
 						>
-							Unleash the <br className="md:hidden"/><span className="text-[#c25b5e]">Chaos</span>
+							Unleash the <br className="md:hidden" /><span className="text-[#c25b5e]">Chaos</span>
 						</motion.h3>
-						<motion.p 
+						<motion.p
 							initial={{ opacity: 0, y: 20 }}
 							whileInView={{ opacity: 1, y: 0 }}
-							viewport={{ once: true }}
+							viewport={{ once: false }}
 							transition={{ duration: 0.6, delay: 0.2 }}
 							className={`${textFont.className} text-white/90 text-sm md:text-base lg:text-xl font-medium tracking-wide mb-8 max-w-2xl drop-shadow-md`}
 						>
@@ -162,7 +137,7 @@ export default function BestSelling() {
 						<motion.button
 							initial={{ opacity: 0, y: 20 }}
 							whileInView={{ opacity: 1, y: 0 }}
-							viewport={{ once: true }}
+							viewport={{ once: false }}
 							transition={{ duration: 0.6, delay: 0.4 }}
 							className={`${textFont.className} px-8 py-4 bg-[#c25b5e] text-white rounded-full font-bold uppercase tracking-widest text-sm hover:bg-white hover:text-[#15161b] transition-colors shadow-2xl hover:scale-105 duration-300`}
 						>

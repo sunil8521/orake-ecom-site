@@ -35,7 +35,7 @@ export default function MeetTheChef() {
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: false }}
           transition={{ duration: 0.7 }}
           className="text-center mb-16 py-4"
         >
@@ -55,7 +55,7 @@ export default function MeetTheChef() {
                key={idx} 
                initial={{ opacity: 0, y: 50 }}
                whileInView={{ opacity: 1, y: 0 }}
-               viewport={{ once: true, margin: "-50px" }}
+               viewport={{ once: false, margin: "-50px" }}
                transition={{ duration: 0.7, delay: idx * 0.2, type: "spring", bounce: 0.3 }}
                className="group flex flex-col items-center"
              >

@@ -1,5 +1,8 @@
+"use client";
+
 import { Sansita, DM_Sans } from "next/font/google";
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 const titleFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
 const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
@@ -31,9 +34,15 @@ export default function NewsBlogs() {
 
 
       <div className="relative z-10 max-w-[1400px] mx-auto px-6 sm:px-12 lg:px-20">
-        
+
         {/* Header */}
-        <div className="text-center mb-16 md:mb-24 py-4">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, amount: 0.3 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="text-center mb-16 md:mb-24 py-4"
+        >
           <div className="inline-flex items-center justify-center gap-3 mb-6">
             <span className="h-[2px] w-8 bg-[#de3e4f]"></span>
             <span className={`${textFont.className} text-[#de3e4f] text-sm font-bold uppercase tracking-[0.2em]`}>
@@ -44,53 +53,64 @@ export default function NewsBlogs() {
           <h2 className={`${titleFont.className} text-[clamp(3.5rem,6vw,5.5rem)] uppercase leading-[0.95] tracking-wide text-[#15161b]`}>
             Latest <span className="text-[#de3e4f] block sm:inline">Intel.</span>
           </h2>
-        </div>
+          <p className={`${textFont.className} text-gray-400 text-sm md:text-base tracking-[0.15em] uppercase max-w-lg mx-auto mt-5`}>
+            Raw stories, bold ideas, and the science behind every sip. This is where the Orake culture lives.
+          </p>
+        </motion.div>
 
         {/* Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20 w-full mx-auto">
           {posts.map((post, idx) => (
-             <Link href={`/blog/${post.slug}`} key={idx} className="block group">
-               <article className="cursor-pointer flex flex-col items-start text-left relative h-full">
-                   {/* Image Container */}
-                   <div className="relative w-full aspect-[4/5] md:aspect-square lg:aspect-[4/3] xl:aspect-[16/10] overflow-hidden rounded-[2rem] lg:rounded-[3rem] mb-8 bg-[#15161b]">
-                       <img 
-                         src={post.image} 
-                         alt={post.title} 
-                         className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" 
-                       />
-                       {/* Gradient overlay to pop text if needed, or just style */}
-                       <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                       
-                       {/* Floating Tag */}
-                       <div className={`${textFont.className} absolute top-6 left-6 bg-white/90 backdrop-blur-md text-[#15161b] text-xs font-bold px-4 py-2 rounded-full uppercase tracking-wider shadow-lg transform -translate-y-2 group-hover:translate-y-0 transition-transform duration-500`}>
-                           {post.tag}
-                       </div>
-                   </div>
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: false, amount: 0.2 }}
+              transition={{ duration: 0.8, delay: idx * 0.1, ease: "easeOut" }}
+            >
+              <Link href={`/blog/${post.slug}`} className="block group">
+                <article className="cursor-pointer flex flex-col items-start text-left relative h-full">
+                  {/* Image Container */}
+                  <div className="relative w-full aspect-[4/5] md:aspect-square lg:aspect-[4/3] xl:aspect-[16/10] overflow-hidden rounded-[2rem] lg:rounded-[3rem] mb-8 bg-[#15161b]">
+                    <img
+                      src={post.image}
+                      alt={post.title}
+                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                    />
+                    {/* Gradient overlay to pop text if needed, or just style */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-                   {/* Meta */}
-                   <div className={`${textFont.className} flex items-center gap-2.5 text-[12px] font-bold text-gray-400 uppercase tracking-[0.15em] mb-4`}>
-                       <span>BY {post.author}</span>
-                       <span className="text-[#de3e4f] text-[16px] leading-none">•</span>
-                       <span>{post.date}</span>
-                   </div>
+                    {/* Floating Tag */}
+                    <div className={`${textFont.className} absolute top-6 left-6 bg-white/90 backdrop-blur-md text-[#15161b] text-xs font-bold px-4 py-2 rounded-full uppercase tracking-wider shadow-lg transform -translate-y-2 group-hover:translate-y-0 transition-transform duration-500`}>
+                      {post.tag}
+                    </div>
+                  </div>
 
-                   {/* Title */}
-                   <h3 className={`${titleFont.className} text-3xl uppercase tracking-wide text-[#15161b] leading-[1.1] mb-4 group-hover:text-[#de3e4f] transition-colors duration-300 line-clamp-3`}>
-                       {post.title}
-                   </h3>
+                  {/* Meta */}
+                  <div className={`${textFont.className} flex items-center gap-2.5 text-[12px] font-bold text-gray-400 uppercase tracking-[0.15em] mb-4`}>
+                    <span>BY {post.author}</span>
+                    <span className="text-[#de3e4f] text-[16px] leading-none">•</span>
+                    <span>{post.date}</span>
+                  </div>
 
-                   {/* Excerpt */}
-                   <p className={`${textFont.className} text-gray-500 text-lg leading-relaxed mb-8 line-clamp-3 font-light flex-grow`}>
-                       {post.excerpt}
-                   </p>
+                  {/* Title */}
+                  <h3 className={`${titleFont.className} text-3xl uppercase tracking-wide text-[#15161b] leading-[1.1] mb-4 group-hover:text-[#de3e4f] transition-colors duration-300 line-clamp-3`}>
+                    {post.title}
+                  </h3>
 
-                   {/* Action Button */}
-                   <div className={`${textFont.className} mt-auto flex items-center text-[#15161b] font-bold text-lg uppercase tracking-wider group-hover:text-[#de3e4f] transition-colors duration-300`}>
-                       Read Article 
-                       <span className="ml-2 w-8 h-[2px] bg-[#15161b] block group-hover:bg-[#de3e4f] group-hover:w-12 transition-all duration-300"></span>
-                   </div>
-               </article>
-             </Link>
+                  {/* Excerpt */}
+                  <p className={`${textFont.className} text-gray-500 text-lg leading-relaxed mb-8 line-clamp-3 font-light flex-grow`}>
+                    {post.excerpt}
+                  </p>
+
+                  {/* Action Button */}
+                  <div className={`${textFont.className} mt-auto flex items-center text-[#15161b] font-bold text-lg uppercase tracking-wider group-hover:text-[#de3e4f] transition-colors duration-300`}>
+                    Read Article
+                    <span className="ml-2 w-8 h-[2px] bg-[#15161b] block group-hover:bg-[#de3e4f] group-hover:w-12 transition-all duration-300"></span>
+                  </div>
+                </article>
+              </Link>
+            </motion.div>
           ))}
         </div>
       </div>

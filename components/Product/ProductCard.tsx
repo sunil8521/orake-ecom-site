@@ -33,11 +33,18 @@ export default function ProductCard({ product }: ProductCardProps) {
 
     return (
         <motion.div
-            className="group relative w-full max-w-[340px] mx-auto pt-[100px] sm:pt-[110px]"
-            whileHover={{ y: -6 }}
-            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false, amount: 0.2 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="w-full max-w-[340px] mx-auto pt-[100px] sm:pt-[110px]"
         >
-            <Link href={`/products/${product.id}`} className="block">
+            <motion.div
+                className="group relative w-full h-full"
+                whileHover={{ y: -6 }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            >
+                <Link href={`/products/${product.id}`} className="block">
                 {/* ── Background Card ── */}
                 <div className={`relative ${cardBgColor} rounded-[1.5rem] sm:rounded-[2rem] px-4 sm:px-6 pb-5 sm:pb-6 pt-[100px] sm:pt-[120px] shadow-[0_10px_30px_rgba(0,0,0,0.05)] group-hover:shadow-[0_20px_40px_rgba(0,0,0,0.1)] transition-all duration-500 border border-black/5`}>
 
@@ -127,7 +134,8 @@ export default function ProductCard({ product }: ProductCardProps) {
                     </div>
 
                 </div>
-            </Link>
+                </Link>
+            </motion.div>
         </motion.div>
     );
 }

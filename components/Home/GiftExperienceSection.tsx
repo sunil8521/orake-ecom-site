@@ -18,7 +18,7 @@ export default function GiftExperienceSection() {
         <motion.div
           initial={{ opacity: 0, x: -30 }}
           whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
+          viewport={{ once: false, amount: 0.3 }}
           transition={{ duration: 0.7, ease: "easeOut" }}
           className="pt-2 relative z-10 text-center lg:text-left flex flex-col items-center lg:items-start"
         >
@@ -45,7 +45,7 @@ export default function GiftExperienceSection() {
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
+            viewport={{ once: false }}
             transition={{ duration: 1, delay: 0.5 }}
             className="absolute bottom-[2%] sm:bottom-[8%] lg:bottom-[4%] left-1/2 lg:left-[50%] -translate-x-1/2 w-[60%] sm:w-[50%] lg:w-[65%] h-[40px] sm:h-[60px] bg-black/25 rounded-[50%] blur-[12px] pointer-events-none z-0"
           />
@@ -54,7 +54,7 @@ export default function GiftExperienceSection() {
           <motion.div
             initial={{ opacity: 0, y: -40 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
+            viewport={{ once: false, amount: 0.3 }}
             transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
             className="relative w-full max-w-[420px] sm:max-w-[550px] lg:max-w-[600px] xl:max-w-[650px] aspect-square z-10 lg:origin-right hover:-translate-y-2 transition-transform duration-500"
           >
@@ -105,7 +105,7 @@ export default function GiftExperienceSection() {
 //       <motion.section
 //         initial={{ opacity: 0, y: 60 }}
 //         whileInView={{ opacity: 1, y: 0 }}
-//         viewport={{ once: true, amount: 0.15 }}
+//         viewport={{ once: false, amount: 0.15 }}
 //         transition={{ duration: 0.8, ease: [0.25, 0.8, 0.25, 1] }}
 //         className="relative w-full bg-[#8a9b87] rounded-[32px] sm:rounded-[40px] md:rounded-[60px] flex flex-col md:flex-row items-center justify-between p-5 pb-0 sm:p-6 sm:pb-0 md:p-16 lg:p-20 xl:p-24 shadow-[0_30px_60px_rgba(138,155,135,0.4)] overflow-visible min-h-[380px] sm:min-h-[420px] md:min-h-[450px]"
 //       >
@@ -135,7 +135,7 @@ export default function GiftExperienceSection() {
 //         <motion.div
 //           initial={{ opacity: 0, x: -40 }}
 //           whileInView={{ opacity: 1, x: 0 }}
-//           viewport={{ once: true, amount: 0.3 }}
+//           viewport={{ once: false, amount: 0.3 }}
 //           transition={{ duration: 0.7, delay: 0.2, ease: [0.25, 0.8, 0.25, 1] }}
 //           className="flex flex-col justify-center w-full max-w-[650px] z-10 relative md:pr-10"
 //         >
@@ -167,7 +167,7 @@ export default function GiftExperienceSection() {
 //           <motion.div
 //             initial={{ opacity: 0, y: 80 }}
 //             whileInView={{ opacity: 1, y: 0 }}
-//             viewport={{ once: true, amount: 0.2 }}
+//             viewport={{ once: false, amount: 0.2 }}
 //             transition={{ duration: 0.9, delay: 0.4, ease: [0.25, 0.8, 0.25, 1] }}
 //             className="absolute top-1/2 left-1/2 md:left-auto md:right-[10%] lg:right-[15%] xl:right-[20%] -translate-x-[65%] md:translate-x-0 -translate-y-[45%] rotate-[15deg] w-[460px] sm:w-[520px] md:w-[500px] lg:w-[620px] xl:w-[700px] h-[940px] sm:h-[1060px] md:h-[1000px] lg:h-[1200px] xl:h-[1350px] drop-shadow-[0_20px_20px_rgba(0,0,0,0.3)] z-10"
 //           >
@@ -178,7 +178,7 @@ export default function GiftExperienceSection() {
 //           <motion.div
 //             initial={{ opacity: 0, y: 100 }}
 //             whileInView={{ opacity: 1, y: 0 }}
-//             viewport={{ once: true, amount: 0.2 }}
+//             viewport={{ once: false, amount: 0.2 }}
 //             transition={{ duration: 0.9, delay: 0.6, ease: [0.25, 0.8, 0.25, 1] }}
 //             className="absolute top-1/2 left-1/2 md:left-auto md:right-[-15%] lg:right-[-20%] xl:right-[-25%] -translate-x-[35%] md:translate-x-0 -translate-y-[50%] md:-translate-y-[55%] -rotate-[10deg] w-[550px] sm:w-[650px] md:w-[620px] lg:w-[760px] xl:w-[850px] h-[1100px] sm:h-[1300px] md:h-[1200px] lg:h-[1450px] xl:h-[1600px] drop-shadow-[0_30px_35px_rgba(0,0,0,0.4)] z-20"
 //           >
