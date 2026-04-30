@@ -30,12 +30,12 @@ export default function Footer() {
   return (
     <footer className="relative bg-[#c25b5e] text-white pt-10 overflow-hidden flex flex-col justify-between">
       {/* Decorative SVG background ( wave) */}
-      <div className="absolute left-0 right-0 bottom-0 pointer-events-none z-10 opacity-90 h-[80rem] sm:inset-0 sm:h-auto">
+      <div className="absolute left-0 right-0 bottom-0 pointer-events-none z-10 opacity-99 h-[80rem] sm:inset-0 sm:h-auto">
         <svg viewBox="0 0 1200 600" preserveAspectRatio="xMidYMax slice" className="w-full h-full min-h-[720px] sm:min-h-0">
           <defs>
             <linearGradient id="fg" x1="0" x2="1">
-              <stop offset="0%" stopColor="#c5c2c2" stopOpacity="0.19" />
-              <stop offset="100%" stopColor="#c5c2c2" stopOpacity="0.18" />
+              <stop offset="0%" stopColor="#b93d41" stopOpacity="0.68" />
+              <stop offset="100%" stopColor="#b93d41" stopOpacity="0.68" />
             </linearGradient>
           </defs>
           {/* continuous looping waves - duplicated side-by-side and translated for seamless flow */}
@@ -48,7 +48,7 @@ export default function Footer() {
               <g transform="translate(1200,0)">
                 <path d="M0,340 C200,240 480,410 720,360 C980,310 1100,340 1200,340 L1200,600 L0,600 Z" fill="url(#fg)" />
               </g>
-              <animateTransform attributeName="transform" type="translate" from="0 0" to="-1180 0" dur="7s" repeatCount="indefinite" />
+              <animateTransform attributeName="transform" type="translate" from="0 0" to="-1180 0" dur="4s" repeatCount="indefinite" />
             </g>
           </g>
 
