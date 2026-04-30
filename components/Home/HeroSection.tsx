@@ -14,13 +14,13 @@ export default function HeroSection() {
   // Background color changes with image
   const bgColors = ["#ce777b", "#d7b452"];
 
-    // Auto-slide between can images
-    useEffect(() => {
-      const interval = setInterval(() => {
-        setCanIdx((prev) => (prev + 1) % canImages.length);
-      }, 2000); // 3 seconds
-      return () => clearInterval(interval);
-    }, []);
+  // Auto-slide between can images
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCanIdx((prev) => (prev + 1) % canImages.length);
+    }, 2000); // 3 seconds
+    return () => clearInterval(interval);
+  }, []);
   // Coffee bean or lemon
   const beanImgs = ["/food1.png", "/lemon.png"];
   const beanImg = beanImgs[canIdx];
@@ -33,8 +33,8 @@ export default function HeroSection() {
     "/can1.png",
     "/can2.png",
   ];
- 
-  
+
+
 
   return (
     <section
@@ -61,9 +61,9 @@ export default function HeroSection() {
 
       {/* Center can and caramel splash */}
       <div className="relative flex flex-col items-center justify-center pt-37 pb-16 z-30">
-        <div className="relative flex items-center justify-center" style={{minHeight: 340}}>
+        <div className="relative flex items-center justify-center" style={{ minHeight: 340 }}>
           {/* Caramel splash behind can */}
-          <Image src={caramelSplash} alt="caramel splash" width={380} height={320} className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 pointer-events-none" style={{filter: 'drop-shadow(0 8px 32px #b97a3c88)'}} />
+          <Image src={caramelSplash} alt="caramel splash" width={380} height={320} className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 pointer-events-none" style={{ filter: 'drop-shadow(0 8px 32px #b97a3c88)' }} />
           {/* Animated central can */}
           <div className="relative z-20 w-[700px] h-[560px] flex items-center justify-center overflow-hidden">
             {canImages.map((src, idx) => (
@@ -79,13 +79,13 @@ export default function HeroSection() {
               />
             ))}
           </div>
-          
+
         </div>
          
       </div>
 
       {/* Product cans row - curved layout at bottom */}
-      <div className="absolute left-0 bottom-0 w-full z-30 flex justify-center pointer-events-none" style={{height: -12}}>
+      <div className="absolute left-0 bottom-0 w-full z-30 flex justify-center pointer-events-none" style={{ height: -12 }}>
         {productCans.map((src, i) => {
           const total = productCans.length - 1;
           const arc = Math.PI / 1.8; // arc in radians
@@ -120,7 +120,7 @@ export default function HeroSection() {
               )}
               <Image
                 src={src}
-                alt={`can${i+1}`}
+                alt={`can${i + 1}`}
                 width={170}
                 height={300}
                 className={`object-contain transition-all duration-500 ${isActive ? 'opacity-100' : 'opacity-60'} ${isActive ? 'z-20' : ''}`}
@@ -132,8 +132,8 @@ export default function HeroSection() {
       </div>
 
       {/* White curved background behind product cans row (z-10, visually behind cans) */}
-      <div className="absolute left-1/2 bottom-0 z-10 pointer-events-none" style={{height: 120, width: '60vw', transform: 'translateX(-50%)'}}>
-        <svg viewBox="0 0 900 120" width="100%" height="120" preserveAspectRatio="none" style={{display: 'block'}}>
+      <div className="absolute left-1/2 bottom-0 z-10 pointer-events-none" style={{ height: 120, width: '60vw', transform: 'translateX(-50%)' }}>
+        <svg viewBox="0 0 900 120" width="100%" height="120" preserveAspectRatio="none" style={{ display: 'block' }}>
           <path d="M0,120 Q450,-60 900,120 L900,120 L0,120 Z" fill="#fff" />
         </svg>
       </div>

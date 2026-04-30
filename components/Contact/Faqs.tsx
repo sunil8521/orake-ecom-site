@@ -34,7 +34,7 @@ export default function Faqs() {
 
   return (
     <section id="faqs" className="py-20 md:py-32 relative overflow-hidden bg-white">
-      
+
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-12 lg:px-20">
 

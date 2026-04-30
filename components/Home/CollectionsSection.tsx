@@ -109,7 +109,7 @@ export default function CollectionsSection() {
         <motion.div
           initial={{ opacity: 0, y: -30, filter: "blur(10px)" }}
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: false, margin: "-100px" }}
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="mb-14 text-center flex flex-col items-center"
         >
@@ -122,7 +122,7 @@ export default function CollectionsSection() {
           <motion.p
             initial={{ opacity: 0, y: 8 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: false }}
             transition={{ duration: 0.6 }}
             className={`${bodyFont.className} mt-4 text-sm md:text-base text-gray-900 max-w-2xl`}
           >
@@ -134,7 +134,7 @@ export default function CollectionsSection() {
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
+          viewport={{ once: false }}
           className={`${bodyFont.className} mb-26 flex flex-wrap justify-center gap-3 md:gap-4 text-xs md:text-sm font-bold uppercase tracking-wider`}
         >
           {['Strawberry Vanilla', 'Ginger Lemon'].map((tab, i) => (
@@ -154,7 +154,7 @@ export default function CollectionsSection() {
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: false, margin: "-100px" }}
           className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20 pt-8"
         >
           {/* Product Card 1 — Strawberry Vanilla */}

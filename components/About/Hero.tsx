@@ -7,29 +7,28 @@ const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "70
 
 export default function Hero() {
 	return (
-		<section className="relative w-full min-h-[50vh] md:min-h-[60vh] lg:min-h-[80vh] flex flex-col justify-end pb-16 md:pb-20 lg:pb-24 pt-28 md:pt-32 px-4 md:px-8 bg-[#15161b] z-20">
+		<section className="relative w-full min-h-[50vh] lg:min-h-[65vh] flex flex-col justify-center pt-28 pb-16 md:pt-36 md:pb-20 px-6 sm:px-12 lg:px-20 bg-gradient-to-b from-[#15161b] via-[#1a1b22] to-[#15161b] overflow-hidden">
 			{/* Aggressive Graphic Background */}
-			<div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
-				<div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#de3e4f] rounded-full opacity-[0.03] blur-[150px] -translate-y-1/2 translate-x-1/4"></div>
-				<div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-white rounded-full opacity-[0.02] blur-[120px] translate-y-1/3 -translate-x-1/3"></div>
+			<div className="absolute inset-0 pointer-events-none z-0 overflow-hidden bg-black">
+				<motion.img
+					src="/about_hero_bg.png"
+					alt="About Us"
+					initial={{ scale: 1.1 }}
+					animate={{ scale: 1 }}
+					transition={{ duration: 5, ease: "easeOut" }}
+					className="w-full h-full object-cover object-center opacity-100"
+				/>
+				<div className="absolute inset-0 bg-gradient-to-r from-[#15161b]/90 md:from-[#15161b] via-[#15161b]/40 md:via-[#15161b]/80 to-transparent w-[85%] md:w-1/2" />
+				<div className="absolute inset-0 bg-gradient-to-t from-[#15161b]/60 md:from-[#15161b] via-transparent md:via-[#15161b]/10 to-transparent" />
 			</div>
 
 			<div className="max-w-7xl mx-auto w-full relative z-10 flex flex-col items-center text-center">
-				<motion.div
-					initial={{ opacity: 0, y: 20 }}
-					animate={{ opacity: 1, y: 0 }}
-					transition={{ duration: 0.8, ease: "easeOut" }}
-				>
-					<p className={`${textFont.className} text-[#de3e4f] font-bold tracking-[0.4em] uppercase text-sm mb-6 drop-shadow-md`}>
-						Our Origin
-					</p>
-				</motion.div>
 
 				<motion.h1
 					initial={{ opacity: 0, y: 30 }}
 					animate={{ opacity: 1, y: 0 }}
 					transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
-					className={`${titleFont.className} text-[clamp(4.5rem,14vw,16rem)] leading-[0.85] tracking-widest text-white uppercase mix-blend-overlay drop-shadow-2xl mb-8`}
+					className={`${titleFont.className} text-5xl sm:text-6xl md:text-8xl lg:text-9xl uppercase leading-[0.95] tracking-wide text-white`}
 				>
 					THE <span className="text-[#de3e4f]">CULT.</span>
 				</motion.h1>
@@ -38,8 +37,9 @@ export default function Hero() {
 					initial={{ opacity: 0, y: 30 }}
 					animate={{ opacity: 1, y: 0 }}
 					transition={{ duration: 1, ease: "easeOut", delay: 0.4 }}
-					className={`${textFont.className} text-xl md:text-2xl text-gray-400 font-light max-w-2xl mx-auto leading-relaxed`}
+					className={`${textFont.className} text-gray-300 text-sm md:text-base tracking-[0.15em] uppercase max-w-lg mx-auto mt-6`}
 				>
+
 					We didn't just build a drink. We engineered a frequency. No sugar. No crash. Pure raw performance.
 				</motion.p>
 			</div>

@@ -14,7 +14,7 @@ export default function EnergyDrinksDealBanner() {
       <motion.section
         initial={{ opacity: 0, y: 60 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.15 }}
+        viewport={{ once: false, amount: 0.15 }}
         transition={{ duration: 0.8, ease: [0.25, 0.8, 0.25, 1] }}
         className="relative w-full bg-[#8a9b87] rounded-[32px] sm:rounded-[40px] lg:rounded-[60px] flex flex-col lg:flex-row items-center justify-between p-6 pt-12 pb-0 sm:p-10 sm:pb-0 lg:p-16 lg:pb-16 xl:p-20 shadow-[0_30px_60px_rgba(138,155,135,0.4)] overflow-visible min-h-[500px] sm:min-h-[550px] lg:min-h-[480px]"
       >
@@ -51,7 +51,7 @@ export default function EnergyDrinksDealBanner() {
         <motion.div
           initial={{ opacity: 0, x: -40 }}
           whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
+          viewport={{ once: false, amount: 0.3 }}
           transition={{ duration: 0.7, delay: 0.2, ease: [0.25, 0.8, 0.25, 1] }}
           className="flex flex-col justify-center items-center lg:items-start text-center lg:text-left w-full lg:max-w-[500px] xl:max-w-[650px] z-10 relative lg:pr-10 mt-4 lg:mt-0"
         >
@@ -83,7 +83,7 @@ export default function EnergyDrinksDealBanner() {
           <motion.div
             initial={{ opacity: 0, y: 80 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
+            viewport={{ once: false, amount: 0.2 }}
             transition={{ duration: 0.9, delay: 0.4, ease: [0.25, 0.8, 0.25, 1] }}
             className="absolute top-1/2 left-1/2 lg:left-auto lg:right-[10%] xl:right-[10%] -translate-x-[60%] lg:translate-x-0 -translate-y-[60%] lg:-translate-y-[55%] rotate-[15deg] w-[420px] sm:w-[500px] lg:w-[650px] xl:w-[750px] h-[860px] sm:h-[1020px] lg:h-[1300px] xl:h-[1500px] drop-shadow-[0_20px_30px_rgba(0,0,0,0.4)] z-10"
           >
@@ -94,7 +94,7 @@ export default function EnergyDrinksDealBanner() {
           <motion.div
             initial={{ opacity: 0, y: 100 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
+            viewport={{ once: false, amount: 0.2 }}
             transition={{ duration: 0.9, delay: 0.6, ease: [0.25, 0.8, 0.25, 1] }}
             className="absolute top-1/2 left-1/2 lg:left-auto lg:right-[-15%] xl:right-[-40%] -translate-x-[40%] lg:translate-x-0 -translate-y-[55%] lg:-translate-y-[50%] -rotate-[10deg] w-[480px] sm:w-[600px] lg:w-[780px] xl:w-[900px] h-[980px] sm:h-[1220px] lg:h-[1550px] xl:h-[1800px] drop-shadow-[0_30px_40px_rgba(0,0,0,0.5)] z-20"
           >

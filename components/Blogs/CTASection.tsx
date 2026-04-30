@@ -12,7 +12,7 @@ export default function CTASection() {
         <h2
           className={`${titleFont.className} text-[clamp(3.5rem,6vw,5.5rem)] text-[#15161b] max-w-4xl leading-[0.9] tracking-wide mb-8 sm:mb-12 uppercase`}
         >
-          Ready to set the pace? <br/>
+          Ready to set the pace? <br />
           <span className="text-[#de3e4f]">Join the movement.</span>
         </h2>
 
@@ -25,12 +25,12 @@ export default function CTASection() {
               Follow The Culture
             </button>
           </div>
-          
+
           <p className={`${textFont.className} text-gray-500 text-lg font-medium tracking-wide`}>
-             Sign up to our list for <span className="text-[#de3e4f] font-bold">15% off</span> your first case.
+            Sign up to our list for <span className="text-[#de3e4f] font-bold">15% off</span> your first case.
           </p>
         </div>
-        
+
         <div className="w-full h-[2px] bg-gradient-to-r from-[#15161b]/10 via-transparent to-transparent mt-16 sm:mt-24" />
       </div>
 

@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function ProductPage() {
 	return (
 		<div className="min-h-screen bg-white overflow-hidden">
-			{/* <Hero /> */}
+			<Hero />
 			<BestSelling />
 			{/* <CraftingMoments /> */}
 			{/* <FooterBanner /> */}

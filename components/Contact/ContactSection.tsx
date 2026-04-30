@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { MapPin, Phone, Send, Clock } from "lucide-react";
 import { Sansita, DM_Sans } from "next/font/google";
+import { motion } from "framer-motion";
 
 const titleFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
 const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
@@ -22,30 +23,38 @@ export default function ContactSection() {
   return (
     <>
       {/* ━━━ Dark Hero Banner ━━━ */}
-      <section className="relative pt-28 pb-16 md:pt-36 md:pb-20 px-6 sm:px-12 lg:px-20 bg-gradient-to-b from-[#15161b] via-[#1a1b22] to-[#15161b] overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute w-96 h-96 bg-[#c25b5e]/10 rounded-full blur-[120px] -top-20 -right-20" />
-          <div className="absolute w-72 h-72 bg-[#c25b5e]/5 rounded-full blur-[100px] bottom-0 left-1/4" />
+      <section className="relative w-full min-h-[50vh] lg:min-h-[65vh] flex flex-col justify-center pt-28 pb-16 md:pt-36 md:pb-20 px-6 sm:px-12 lg:px-20 bg-gradient-to-b from-[#15161b] via-[#1a1b22] to-[#15161b] overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden bg-black">
+          <motion.img
+            src="/contact_hero_bg.png"
+            alt="Contact Us"
+            initial={{ scale: 1.1 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 5, ease: "easeOut" }}
+            className="w-full h-full object-cover object-center opacity-100"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#15161b]/90 md:from-[#15161b] via-[#15161b]/40 md:via-[#15161b]/80 to-transparent w-[85%] md:w-1/2" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#15161b]/60 md:from-[#15161b] via-transparent md:via-[#15161b]/10 to-transparent" />
         </div>
 
 
 
-        <div className="relative z-10 max-w-6xl mx-auto text-center">
-          <div className="inline-flex items-center justify-center gap-3 mb-6">
-            <span className="h-[2px] w-8 bg-[#de3e4f]" />
-            <span className={`${textFont.className} text-[#de3e4f] text-sm font-bold uppercase tracking-[0.25em]`}>
-              Hit Us Up
-            </span>
-            <span className="h-[2px] w-8 bg-[#de3e4f]" />
-          </div>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, amount: 0.3 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="relative z-10 max-w-6xl mx-auto text-center"
+        >
+
           <h2 className={`${titleFont.className} text-5xl sm:text-6xl md:text-8xl lg:text-9xl uppercase leading-[0.95] tracking-wide text-white`}>
             Got Questions?<br />
             <span className="text-[#de3e4f]">Let&apos;s Talk.</span>
           </h2>
-          <p className={`${textFont.className} text-gray-400 text-sm md:text-base tracking-[0.15em] uppercase max-w-lg mx-auto mt-6`}>
+          <p className={`${textFont.className} text-gray-300 text-sm md:text-base tracking-[0.15em] uppercase max-w-lg mx-auto mt-6`}>
             We&apos;re always here. Drop us a message and we&apos;ll get back faster than you can crack a can.
           </p>
-        </div>
+        </motion.div>
       </section>
 
       {/* ━━━ Contact Form + Info ━━━ */}
@@ -57,7 +66,13 @@ export default function ContactSection() {
         <div className="relative z-10 max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-10 lg:gap-16 items-start">
 
-            <div className="flex flex-col gap-8">
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: false, amount: 0.1 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="flex flex-col gap-8"
+            >
               <form onSubmit={handleSubmit} className="bg-[#fafafa] border border-gray-100 rounded-3xl p-8 sm:p-10 shadow-sm">
                 <h3 className={`${titleFont.className} text-3xl sm:text-4xl uppercase tracking-wide text-[#15161b] mb-2`}>
                   Send a Message
@@ -121,10 +136,16 @@ export default function ContactSection() {
                   </button>
                 </div>
               </form>
-            </div>
+            </motion.div>
 
             {/* ── Info Sidebar ── */}
-            <div className="space-y-6">
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: false, amount: 0.1 }}
+              transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+              className="space-y-6"
+            >
 
               {/* Details Card */}
               <div className="bg-[#15161b] rounded-3xl p-8 sm:p-10 text-white relative overflow-hidden">
@@ -181,11 +202,17 @@ export default function ContactSection() {
                 </div>
               </div>
 
-            </div>
+            </motion.div>
           </div>
 
           {/* ── Map View Card (Full Width) ── */}
-          <div className="mt-10 lg:mt-16 rounded-3xl overflow-hidden border border-gray-100 shadow-sm w-full h-[400px] sm:h-[500px]">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false, amount: 0.2 }}
+            transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }}
+            className="mt-10 lg:mt-16 rounded-3xl overflow-hidden border border-gray-100 shadow-sm w-full h-[400px] sm:h-[500px]"
+          >
             <div className="relative h-full w-full bg-gray-100">
               <iframe
                 src="https://maps.google.com/maps?q=28.631451,77.206331&z=15&output=embed"
@@ -198,7 +225,7 @@ export default function ContactSection() {
                 className="transition-all duration-500"
               />
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
     </>

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import LayoutShell from "@/components/LayoutShell";
+import AuthModal from "@/components/Auth/AuthModal";
 
 export const metadata: Metadata = {
   title: "Orake — Energy That Hits Different",
@@ -23,6 +24,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen flex flex-col">
         <LayoutShell>{children}</LayoutShell>
+        <AuthModal />
       </body>
     </html>
   );

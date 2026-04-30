@@ -18,7 +18,7 @@ export default function AboutUs() {
 					<motion.div 
 						initial={{ opacity: 0, x: -50 }}
 						whileInView={{ opacity: 1, x: 0 }}
-						viewport={{ once: true, margin: "-100px" }}
+						viewport={{ once: false, margin: "-100px" }}
 						transition={{ duration: 0.8, ease: "easeOut" }}
 						className="relative flex flex-row items-center justify-center w-full lg:w-[45%] shrink-0 gap-4 md:gap-6"
 					>
@@ -31,7 +31,7 @@ export default function AboutUs() {
 						<motion.div
 							initial={{ opacity: 0, x: -30 }}
 							whileInView={{ opacity: 1, x: 0 }}
-							viewport={{ once: true }}
+							viewport={{ once: false }}
 							transition={{ duration: 0.7, ease: "easeOut" }}
 							className="relative w-1/2 max-w-[220px] md:max-w-[260px] xl:max-w-[360px]"
 						>
@@ -44,7 +44,7 @@ export default function AboutUs() {
 							<motion.div
 								initial={{ scale: 0 }}
 								whileInView={{ scale: 1 }}
-								viewport={{ once: true }}
+								viewport={{ once: false }}
 								transition={{ duration: 0.6, delay: 0.5, type: "spring", bounce: 0.5 }}
 								className="absolute -bottom-2 -left-2 md:left-0 w-16 h-16 md:w-[76px] md:h-[76px] xl:w-[96px] xl:h-[96px] bg-[#15161b] rounded-full flex flex-col items-center justify-center text-white border-[3px] border-[#e8e8e9] shadow-2xl z-20"
 							>
@@ -57,7 +57,7 @@ export default function AboutUs() {
 						<motion.div
 							initial={{ opacity: 0, x: 30 }}
 							whileInView={{ opacity: 1, x: 0 }}
-							viewport={{ once: true }}
+							viewport={{ once: false }}
 							transition={{ duration: 0.7, ease: "easeOut", delay: 0.15 }}
 							className="relative w-1/2 max-w-[220px] md:max-w-[260px] xl:max-w-[360px]"
 						>
@@ -70,7 +70,7 @@ export default function AboutUs() {
 							<motion.div
 								initial={{ scale: 0 }}
 								whileInView={{ scale: 1 }}
-								viewport={{ once: true }}
+								viewport={{ once: false }}
 								transition={{ duration: 0.6, delay: 0.65, type: "spring", bounce: 0.5 }}
 								className="absolute -bottom-2 -right-2 md:right-0 w-16 h-16 md:w-[76px] md:h-[76px] xl:w-[88px] xl:h-[88px] bg-[#15161b] rounded-full flex flex-col items-center justify-center text-white border-[3px] border-[#e8e8e9] shadow-2xl z-20"
 							>
@@ -85,7 +85,7 @@ export default function AboutUs() {
 					<motion.div 
 						initial={{ opacity: 0, x: 50 }}
 						whileInView={{ opacity: 1, x: 0 }}
-						viewport={{ once: true, margin: "-100px" }}
+						viewport={{ once: false, margin: "-100px" }}
 						transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
 						className="w-full lg:w-[55%] text-center lg:text-left pt-12 md:pt-0"
 					>

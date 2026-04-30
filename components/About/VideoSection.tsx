@@ -10,12 +10,12 @@ const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "70
 export default function VideoSection() {
   const [playing, setPlaying] = useState(true);
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  
+
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
     if (playing) {
-      v.play().catch(() => {});
+      v.play().catch(() => { });
     } else {
       v.pause();
       v.currentTime = 0;
@@ -43,30 +43,30 @@ export default function VideoSection() {
           loop
           className="w-full h-full object-cover filter contrast-125 saturate-110"
         />
-        
+
         {/* Dark overlay & vignette */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30" />
 
         {/* ── Content ── */}
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
+            viewport={{ once: false }}
             transition={{ duration: 0.8 }}
             className="flex flex-col items-center gap-6"
           >
             {/* Play button */}
             <button
-                onClick={() => setPlaying((s) => !s)}
-                className="group w-20 h-20 md:w-24 md:h-24 rounded-full bg-[#de3e4f]/90 backdrop-blur flex items-center justify-center hover:bg-white hover:-translate-y-2 transition-all duration-300 shadow-[0_10px_40px_rgba(222,62,79,0.5)] active:scale-95"
-                aria-label="Play video"
+              onClick={() => setPlaying((s) => !s)}
+              className="group w-20 h-20 md:w-24 md:h-24 rounded-full bg-[#de3e4f]/90 backdrop-blur flex items-center justify-center hover:bg-white hover:-translate-y-2 transition-all duration-300 shadow-[0_10px_40px_rgba(222,62,79,0.5)] active:scale-95"
+              aria-label="Play video"
             >
-                {playing ? (
+              {playing ? (
                 <Pause size={32} className="text-white group-hover:text-[#15161b] transition-colors duration-300" />
-                ) : (
+              ) : (
                 <Play size={32} className="text-white group-hover:text-[#15161b] transition-colors duration-300 ml-1" />
-                )}
+              )}
             </button>
             <p className={`${textFont.className} text-white font-bold uppercase tracking-[0.3em] text-sm md:text-base`}>
               {playing ? "PAUSE ACTION" : "PLAY ACTION"}
