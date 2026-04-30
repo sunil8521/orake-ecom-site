@@ -42,7 +42,7 @@ export default function VideoShowcaseSection() {
         {/* Video Container */}
         <div 
           ref={containerRef}
-          className="group relative w-full overflow-hidden rounded-[1.5rem] sm:rounded-[2rem] md:rounded-[2.5rem] bg-[#15161b] shadow-[0_30px_60px_rgba(0,0,0,0.2)] transition-shadow duration-700 hover:shadow-[0_45px_80px_rgba(0,0,0,0.35)] flex items-end aspect-[3/4] sm:aspect-[4/3] md:aspect-auto md:min-h-[40vh]"
+          className="group relative w-full overflow-hidden rounded-[1.2rem] sm:rounded-[2rem] md:rounded-[2.5rem] bg-[#000000]   transition-shadow duration-700  flex items-end aspect-[3/4] sm:aspect-[4/3] md:aspect-auto md:min-h-[40vh]"
         >
           
           {/* Video Background */}
@@ -64,7 +64,7 @@ export default function VideoShowcaseSection() {
             
 
           {/* Dark Overlay Gradients */}
-           <div className="absolute inset-0 z-[1] bg-gradient-to-r from-black/60 via-black/7 to-transparent opacity-50" />
+           <div className="absolute inset-0 z-[1] bg-gradient-to-r from-black/40 via-black/7 to-transparent opacity-50" />
 
           {/* Content */}
           <div 

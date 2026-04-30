@@ -8,10 +8,9 @@ const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "70
 
 export default function GiftExperienceSection() {
   return (
-    <section className="relative overflow-hidden bg-[#e8e8e9] px-6 py-16 sm:px-12 md:py-24 lg:px-20">
-      {/* Background Gradient */}
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_65%_55%,#f4eecf_0%,rgba(244,238,207,0.7)_20%,rgba(232,232,233,0)_52%)]" />
-
+    <section className="relative overflow-hidden bg-[#ffffff] px-6 py-16 sm:px-12 md:py-24 lg:px-20">
+       
+ 
       <div className="relative mx-auto grid w-full max-w-7xl items-center gap-4 sm:gap-10 lg:grid-cols-2 lg:gap-14">
 
         {/* ━━━ Left Typography & CTA ━━━ */}
