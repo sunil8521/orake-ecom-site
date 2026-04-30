@@ -81,12 +81,7 @@ export default function HeroSection() {
           </div>
           
         </div>
-        {/* Buy now button */}
-        <div className="absolute right-0 top-1/2 -translate-y-1/2 z-30">
-          <button className="flex items-center justify-center w-32 h-32 rounded-full border-2 border-white/70 bg-white/10 text-white text-md font-semibold shadow-lg backdrop-blur-md transition hover:bg-white/30">
-            Buy Now <span className="ml-2">→</span>
-          </button>
-        </div>
+         
       </div>
 
       {/* Product cans row - curved layout at bottom */}
