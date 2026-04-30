@@ -138,18 +138,16 @@ export default function Footer() {
             ))}
           </div>
 
-          <div className="hidden sm:block h-6 w-px bg-white/10 mx-1" />
+          <div className="h-6 w-px bg-white/10 mx-2" />
 
-          <div className="flex items-center gap-3 mt-2 sm:mt-0">
-            <a href="#" className="flex items-center gap-2 px-3 py-2 rounded-md bg-white/10 hover:bg-white/20">
-              <FaApple size={16} />
-              <span className="text-sm whitespace-nowrap">App Store</span>
-            </a>
-            <a href="#" className="flex items-center gap-2 px-3 py-2 rounded-md bg-white/10 hover:bg-white/20">
-              <FaGooglePlay size={16} />
-              <span className="text-sm whitespace-nowrap">Google Play</span>
-            </a>
-          </div>
+          <a href="#" className="flex items-center gap-2 px-3 py-2 rounded-md bg-white/10 hover:bg-white/20">
+            <FaApple size={16} />
+            <span className="text-sm">App Store</span>
+          </a>
+          <a href="#" className="flex items-center gap-2 px-3 py-2 rounded-md bg-white/10 hover:bg-white/20">
+            <FaGooglePlay size={16} />
+            <span className="text-sm">Google Play</span>
+          </a>
         </div>
       </div>
 

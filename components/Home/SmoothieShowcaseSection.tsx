@@ -19,6 +19,17 @@ export default function SmoothieShowcaseSection() {
         <p className={`${bodyFont.className} mt-4 text-sm md:text-base text-gray-600 max-w-2xl mx-auto`}>
           Our limited small-batch flavors — crafted with care and ready to refresh your day.
         </p>
+        <p className={`${bodyFont.className} mt-3 text-sm md:text-base text-gray-600 max-w-2xl mx-auto`}>
+          Each drop is small-batch and prebiotic-forward — bright fruit notes, subtle botanicals, and a clean finish. We source ingredients sustainably and craft each flavor in limited runs to preserve quality.
+        </p>
+        <div className="mt-6 flex items-center justify-center gap-4">
+          <a href="/products" className="inline-block bg-black text-white px-5 py-3 rounded-full text-sm font-semibold hover:opacity-90 transition">
+            See full lineup
+          </a>
+          <a href="/about" className="inline-block text-gray-700 underline text-sm">
+            Learn about our process
+          </a>
+        </div>
       </div>
 
       {/* ========== DESKTOP ========== */}
