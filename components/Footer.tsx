@@ -136,16 +136,8 @@ export default function Footer() {
             </a>
           ))}
 
-          <div className="h-6 w-px bg-white/10 mx-2" />
-
-          <a href="#" className="flex items-center gap-2 px-3 py-2 rounded-md bg-white/10 hover:bg-white/20">
-            <FaApple size={16} />
-            <span className="text-sm">App Store</span>
-          </a>
-          <a href="#" className="flex items-center gap-2 px-3 py-2 rounded-md bg-white/10 hover:bg-white/20">
-            <FaGooglePlay size={16} />
-            <span className="text-sm">Google Play</span>
-          </a>
+ 
+           
         </div>
       </div>
 
