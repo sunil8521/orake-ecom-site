@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { ShoppingCart, User, Heart, Menu, X, LogIn } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
+import { useAuthStore } from "@/store/useAuthStore";
 
 const navLinks = [
   { path: "/", label: "Home" },
@@ -21,6 +22,7 @@ export default function Navbar() {
   const isAuthenticated = !!session.data?.user;
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { openAuthModal } = useAuthStore();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -109,8 +111,8 @@ export default function Navbar() {
                   <User className="h-5 w-5 lg:h-6 lg:w-6" strokeWidth={2} />
                 </Link>
               ) : (
-                <Link
-                  href="/login"
+                <button
+                  onClick={() => openAuthModal("login")}
                   className="group flex items-center transition-all duration-300"
                 >
                   {/* Mobile: Just Icon */}
@@ -125,7 +127,7 @@ export default function Navbar() {
                     <LogIn className="h-3 w-3" strokeWidth={2.5} />
                     Sign In
                   </div>
-                </Link>
+                </button>
               )}
             </div>
 
