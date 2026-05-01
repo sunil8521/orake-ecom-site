@@ -1,7 +1,7 @@
 'use client';
 
 import { Sansita, DM_Sans } from "next/font/google";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 
 import ProductCard, { ProductType } from "@/components/Product/ProductCard";
@@ -38,7 +38,13 @@ const categoryTabs = ['All', 'New Drops', 'Sale'];
 // 
 export default function BestSelling() {
 	const [activeTab, setActiveTab] = useState('All');
+	const videoRef = useRef<HTMLVideoElement>(null);
 
+	useEffect(() => {
+		if (videoRef.current) {
+			videoRef.current.playbackRate = 0.5; // Slow down video to 50%
+		}
+	}, []);
 	const containerVariants = {
 		hidden: { opacity: 0 },
 		visible: {
@@ -108,12 +114,16 @@ export default function BestSelling() {
 
 			{/* ━━━ Advertising Section ━━━ */}
 			<section className="bg-white pb-20 px-4 sm:px-8 lg:px-20">
-				<div className="max-w-[1400px] mx-auto relative rounded-[2rem] sm:rounded-[3rem] overflow-hidden shadow-2xl h-[400px] md:h-[500px] lg:h-[600px] group border-4 border-[#15161b]/5">
-					<div className="absolute inset-0 bg-black/40 z-10 transition-colors duration-700" />
-					<img
-						src="/orake-ad-banner.png"
-						alt="Orake Advertisement"
-						className="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-1000"
+				<div className="max-w-[1400px] mx-auto relative rounded-3xl sm:rounded-[2rem] overflow-hidden shadow-2xl h-[400px] md:h-[500px] lg:h-[600px] group">
+					<div className="absolute inset-0 bg-black/30 z-10 transition-colors duration-700 group-hover:bg-black/50" />
+					<video
+						ref={videoRef}
+						src="/advertise.mp4"
+						autoPlay
+						loop
+						muted
+						playsInline
+						className="absolute inset-0 w-full h-full object-cover object-center filter saturate-110 scale-[1.15] group-hover:scale-[1.2] transition-transform duration-1000"
 					/>
 					<div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center p-8">
 						<motion.h3
