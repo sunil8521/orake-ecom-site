@@ -15,7 +15,6 @@ export default function AboutPage() {
 			<main>
 				<Hero />
 				<AboutUs />
-				{/* <VideoSection /> */}
 			</main>
 			<FooterBanner />
 		</div>

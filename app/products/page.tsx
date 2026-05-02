@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Hero from "@/components/Product/Hero";
 import BestSelling from "@/components/Product/BestSelling";
-      
+
 export const metadata: Metadata = {
   title: "Orake Products — Premium Prebiotic Energy Drinks",
   description: "Shop Orake's lineup of zero-sugar prebiotic energy drinks. Strawberry Vanilla and Ginger Lemon — real fruit juice, natural caffeine, no crash.",
