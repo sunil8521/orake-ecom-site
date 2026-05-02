@@ -1,10 +1,7 @@
-"use client";
-
-import { useState } from "react";
 import Image from "next/image";
 import { Sansita, DM_Sans } from "next/font/google";
 import { MoveUpRight } from "lucide-react";
-import { FaInstagram, FaTwitter, FaFacebookF, FaApple, FaGooglePlay, FaCcVisa, FaCcMastercard, FaCcPaypal } from "react-icons/fa";
+import { FaInstagram, FaTwitter, FaFacebookF, FaCcVisa, FaCcMastercard, FaCcPaypal } from "react-icons/fa";
 
 const titleFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
 const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
@@ -16,17 +13,6 @@ const socials = [
 ];
 
 export default function Footer() {
-  const [email, setEmail] = useState("");
-  const [subscribed, setSubscribed] = useState(false);
-
-  const handleSubscribe = (e: any) => {
-    e.preventDefault();
-    if (!email) return;
-    setSubscribed(true);
-    setEmail("");
-    setTimeout(() => setSubscribed(false), 3000);
-  };
-
   return (
     <footer className="relative bg-[#c25b5e] text-white pt-10 overflow-hidden flex flex-col justify-between">
       {/* Decorative SVG background ( wave) */}
@@ -40,7 +26,7 @@ export default function Footer() {
           </defs>
           {/* continuous looping waves - duplicated side-by-side and translated for seamless flow */}
           <g>
-            
+
             <g opacity="0.9">
               <g>
                 <path d="M0,338 C200,240 480,410 720,360 C980,310 1100,340 1200,340 L1200,600 L0,600 Z" fill="url(#fg)" />
@@ -52,11 +38,11 @@ export default function Footer() {
             </g>
           </g>
 
-         </svg>
+        </svg>
       </div>
 
       {/* Top Main Container */}
-      <div className="w-full max-w-[1400px] mx-auto px-12 sm:px-16 lg:px-28 flex flex-col lg:flex-row justify-between items-center lg:items-start gap-16 lg:gap-8 pb-6">
+      <div className="w-full max-w-[1400px] mx-auto px-6 sm:px-16 lg:px-28 flex flex-col lg:flex-row justify-between items-center lg:items-start gap-12 lg:gap-8 pb-6">
 
         {/* CTA Block + Logo */}
         <div className="flex flex-col gap-6 w-full lg:w-1/2 z-20">
@@ -66,7 +52,7 @@ export default function Footer() {
           </div>
 
           {/* Quick nav buttons */}
-          <div className="flex items-center gap-3 mt-2">
+          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 sm:gap-3 mt-2">
             <a href="/" className="px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 text-sm">Home</a>
             <a href="/about" className="px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 text-sm">About</a>
             <a href="/products" className="px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 text-sm">Products</a>
@@ -74,21 +60,21 @@ export default function Footer() {
             <a href="/blog" className="px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 text-sm">Blogs</a>
           </div>
 
-          <h3 className={`${titleFont.className} text-[clamp(2.5rem,5vw,4rem)] uppercase leading-[0.9] tracking-wider`}>
+          <h3 className={`${titleFont.className} text-[clamp(2.5rem,5vw,4rem)] uppercase leading-[0.9] tracking-wider text-center lg:text-left`}>
             Thirsty for <br /> <span className="text-[#15161b]">more details?</span>
           </h3>
-          <p className={`${textFont.className} text-lg lg:text-xl font-medium tracking-wide text-white/80 max-w-sm`}>
+          <p className={`${textFont.className} text-lg lg:text-xl font-medium tracking-wide text-white/80 max-w-sm text-center lg:text-left mx-auto lg:mx-0`}>
             Reach out to our team for partnerships, orders, or just to talk flavors!
           </p>
 
-          
+
         </div>
 
         {/* Links Grid */}
         <div className="w-full lg:w-1/2 z-20 flex flex-col">
-        
 
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-8 lg:gap-6">
+
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-8 lg:gap-6">
 
             <div className="flex flex-col gap-3">
               <p className={`${titleFont.className} text-lg tracking-widest text-[#15161b] uppercase mb-2`}>Product</p>
@@ -113,10 +99,10 @@ export default function Footer() {
           </div>
         </div>
       </div>
- 
- 
+
+
       {/* Divider row: email left, socials right */}
-      <div className="w-full max-w-[1400px] mx-auto px-12 sm:px-16 lg:px-28 flex justify-between items-center z-20">
+      <div className="w-full max-w-[1400px] mx-auto px-6 sm:px-16 lg:px-28 flex flex-col sm:flex-row justify-between items-center gap-6 sm:gap-4 z-20 py-4">
         <div>
           <a href="mailto:hello@orake.com" className="group flex items-center gap-4 w-fit">
             <span className={`${titleFont.className} text-xl lg:text-2xl tracking-widest uppercase pb-1 border-b-2 border-white/40 group-hover:border-white transition-colors`}>
@@ -136,13 +122,13 @@ export default function Footer() {
             </a>
           ))}
 
- 
-           
+
+
         </div>
       </div>
 
       {/* Bottom Copyright */}
-        <div className="w-full max-w-[1400px] mx-auto px-12 sm:px-16 lg:px-28 pt-6 pb-6 flex flex-col md:flex-row justify-between items-center gap-4 z-20">
+      <div className="w-full max-w-[1400px] mx-auto px-6 sm:px-16 lg:px-28 pt-6 pb-8 flex flex-col md:flex-row justify-between items-center gap-6 md:gap-4 z-20 text-center md:text-left">
         <p className={`${textFont.className} text-sm text-white/80 font-medium tracking-wide`}>
           © 2026 <a href="https://swiftrise.in" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors underline underline-offset-4 decoration-white/30 hover:decoration-white">Swiftrise Solution Pvt Ltd</a>. ALL RIGHTS RESERVED.
         </p>

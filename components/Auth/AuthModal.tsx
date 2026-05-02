@@ -5,6 +5,8 @@ import { X } from "lucide-react";
 import { useAuthStore } from "@/store/useAuthStore";
 import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
+import ForgotPasswordForm from "./ForgotPasswordForm";
+import VerifyOTPForm from "./VerifyOTPForm";
 import { AnimatePresence, motion } from "framer-motion";
 
 export default function AuthModal() {
@@ -20,6 +22,21 @@ export default function AuthModal() {
       document.body.style.overflow = "";
     };
   }, [isAuthModalOpen]);
+
+  const renderView = () => {
+    switch (authModalView) {
+      case "login":
+        return <LoginForm />;
+      case "signup":
+        return <SignupForm />;
+      case "forgot-password":
+        return <ForgotPasswordForm />;
+      case "verify-otp":
+        return <VerifyOTPForm />;
+      default:
+        return <LoginForm />;
+    }
+  };
 
   return (
     <AnimatePresence>
@@ -40,7 +57,7 @@ export default function AuthModal() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="relative z-10 w-full max-w-[520px] max-h-[88vh] bg-white rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden flex flex-col"
+            className="relative z-10 w-full max-w-[600px] max-h-[88vh] bg-white rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden flex flex-col"
           >
             {/* Close button */}
             <div className="absolute top-3 right-3 z-50">
@@ -60,7 +77,7 @@ export default function AuthModal() {
 
             {/* Scrollable content with inner padding */}
             <div className="overflow-y-auto flex-1 overscroll-contain modal-scroll py-4 sm:py-5">
-              {authModalView === "login" ? <LoginForm /> : <SignupForm />}
+              {renderView()}
             </div>
           </motion.div>
         </div>

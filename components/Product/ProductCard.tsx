@@ -1,10 +1,15 @@
 "use client";
 
-import { ShoppingCart, Heart } from "lucide-react";
+import { ShoppingCart, Heart, Loader2 } from "lucide-react";
 import { Sansita, DM_Sans } from "next/font/google";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { addToCart } from "@/actions/cart";
+import { toggleWishlist, checkWishlistStatus } from "@/actions/wishlist";
+import { toast } from "sonner";
+import { useAuthStore } from "@/store/useAuthStore";
+import { useSession } from "@/lib/auth-client";
 
 const headingFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
 const bodyFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
@@ -30,6 +35,64 @@ export default function ProductCard({ product }: ProductCardProps) {
     const isStrawberry = product.image.includes("can1");
     const cardBgColor = "bg-[#f4f4f5]";
     const [liked, setLiked] = useState(false);
+    const [isAddingToCart, setIsAddingToCart] = useState(false);
+    const [isLiking, setIsLiking] = useState(false);
+    
+    const { openAuthModal } = useAuthStore();
+    const { data: session } = useSession();
+
+    useEffect(() => {
+        if (session?.user && product.id) {
+            checkWishlistStatus(product.id.toString()).then(setLiked);
+        }
+    }, [session?.user, product.id]);
+
+    const handleAddToCart = async (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (!session?.user) {
+            toast.error("Please login to add items to your cart");
+            openAuthModal("login");
+            return;
+        }
+
+        setIsAddingToCart(true);
+        const res = await addToCart(product.id.toString(), 1);
+        setIsAddingToCart(false);
+
+        if (res.success) {
+            toast.success(`${product.name} added to cart`);
+        } else {
+            toast.error(res.error || "Failed to add to cart");
+        }
+    };
+
+    const handleToggleWishlist = async (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (!session?.user) {
+            toast.error("Please login to manage your wishlist");
+            openAuthModal("login");
+            return;
+        }
+
+        setIsLiking(true);
+        // Optimistic update
+        setLiked(!liked);
+        
+        const res = await toggleWishlist(product.id.toString());
+        setIsLiking(false);
+
+        if (!res.success) {
+            // Revert on failure
+            setLiked(liked);
+            toast.error(res.error || "Failed to update wishlist");
+        } else {
+            toast.success(res.added ? "Added to wishlist" : "Removed from wishlist");
+        }
+    };
 
     return (
         <motion.div
@@ -60,10 +123,8 @@ export default function ProductCard({ product }: ProductCardProps) {
 
                     {/* Heart Icon Top-Right */}
                     <button
-                        onClick={(e) => {
-                            e.preventDefault();
-                            setLiked(!liked);
-                        }}
+                        onClick={handleToggleWishlist}
+                        disabled={isLiking}
                         className={`absolute top-4 right-4 sm:top-6 sm:right-6 z-30 w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center transition-all active:scale-90 ${liked
                                 ? "bg-[#c25b5e] text-white shadow-md"
                                 : "bg-white/80 text-gray-400 hover:text-[#c25b5e] hover:bg-white shadow-sm"
@@ -123,13 +184,15 @@ export default function ProductCard({ product }: ProductCardProps) {
                         </div>
 
                         <button 
-                            onClick={(e) => {
-                                e.preventDefault();
-                                // Add to cart logic here later
-                            }}
-                            className="bg-[#15161b] hover:bg-[#c25b5e] text-white w-10 h-10 sm:w-11 sm:h-11 rounded-[10px] sm:rounded-[12px] flex items-center justify-center shadow-md hover:shadow-lg transition-all active:scale-95 group/btn"
+                            onClick={handleAddToCart}
+                            disabled={isAddingToCart}
+                            className="bg-[#15161b] hover:bg-[#c25b5e] disabled:bg-gray-400 text-white w-10 h-10 sm:w-11 sm:h-11 rounded-[10px] sm:rounded-[12px] flex items-center justify-center shadow-md hover:shadow-lg transition-all active:scale-95 group/btn"
                         >
-                            <ShoppingCart size={16} strokeWidth={2} className="group-hover/btn:-rotate-6 transition-transform" />
+                            {isAddingToCart ? (
+                                <Loader2 size={16} strokeWidth={2} className="animate-spin" />
+                            ) : (
+                                <ShoppingCart size={16} strokeWidth={2} className="group-hover/btn:-rotate-6 transition-transform" />
+                            )}
                         </button>
                     </div>
 

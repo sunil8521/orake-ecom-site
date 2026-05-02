@@ -37,13 +37,12 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed left-0 top-0 z-50 w-full transition-all duration-500 ${
-        scrolled || (pathname.startsWith("/products/") && pathname.split('/').length > 2) ? "bg-[#c25b5e] shadow-md" : "bg-transparent py-2"
-      }`}
+      className={`fixed left-0 top-0 z-50 w-full transition-all duration-500 ${scrolled || (pathname.startsWith("/products/") && pathname.split('/').length > 2) ? "bg-[#c25b5e] shadow-md" : "bg-transparent py-2"
+        }`}
     >
       {/* ✅ FIXED CONTAINER */}
-      <div className="w-full max-w-[1400px] mx-auto px-12 sm:px-16 lg:px-28">
-        <div className="flex h-16 items-center justify-between lg:h-20">
+      <div className="w-full max-w-[1400px] mx-auto px-6 sm:px-16 lg:px-28">
+                <div className="flex h-16 items-center justify-between lg:h-20">
 
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3">
@@ -53,11 +52,10 @@ export default function Navbar() {
                 alt="Logo"
                 width={120}
                 height={40}
-                className={`h-full w-auto object-contain transition-all duration-500 ${
-                  scrolled
+                className={`h-full w-auto object-contain transition-all duration-500 ${scrolled
                     ? "[filter:brightness(0)_saturate(100%)_invert(78%)_sepia(60%)_saturate(500%)_hue-rotate(5deg)_brightness(105%)]"
                     : ""
-                }`}
+                  }`}
                 priority
               />
             </div>
@@ -76,19 +74,17 @@ export default function Navbar() {
                   href={link.path}
                   onClick={handleNavClick}
                   className={`group relative px-2 py-2 text-[13px] lg:text-[15px] font-bold uppercase tracking-[0.16em] transition-colors duration-300
-                    ${
-                      scrolled
-                        ? "text-[#f6efe2] hover:text-[#d4a64a]"
-                        : "text-[#f6efe2] hover:text-[#f2c56f]"
+                    ${scrolled
+                      ? "text-[#f6efe2] hover:text-[#d4a64a]"
+                      : "text-[#f6efe2] hover:text-[#f2c56f]"
                     }`}
                 >
                   {link.label}
                   <span
                     className={`absolute bottom-0 left-2 right-2 h-[2px] rounded transition-all duration-300
-                      ${
-                        isActive
-                          ? "w-[calc(100%-1rem)] opacity-100 bg-[#f2c56f]"
-                          : "w-0 opacity-0 group-hover:w-[calc(100%-1rem)] group-hover:opacity-70 bg-[#f2c56f]"
+                      ${isActive
+                        ? "w-[calc(100%-1rem)] opacity-100 bg-[#f2c56f]"
+                        : "w-0 opacity-0 group-hover:w-[calc(100%-1rem)] group-hover:opacity-70 bg-[#f2c56f]"
                       }`}
                   />
                 </Link>
@@ -101,10 +97,10 @@ export default function Navbar() {
             {/* ✅ ICONS FIXED */}
             <div className="flex items-center gap-3 lg:gap-5 text-[#f6efe2]">
               <Link href="/wishlist" className="hover:scale-110 transition-all">
-                <Heart className="h-3 w-3 lg:h-6 lg:w-6" strokeWidth={2} />
+                <Heart className="h-5 w-5 lg:h-6 lg:w-6" strokeWidth={2} />
               </Link>
               <Link href="/cart" className="hover:scale-110 transition-all">
-                <ShoppingCart className="h-3 w-3 lg:h-6 lg:w-6" strokeWidth={2} />
+                <ShoppingCart className="h-5 w-5 lg:h-6 lg:w-6" strokeWidth={2} />
               </Link>
               {isAuthenticated ? (
                 <Link href="/account" className="hover:scale-110 transition-all">
@@ -117,13 +113,12 @@ export default function Navbar() {
                 >
                   {/* Mobile: Just Icon */}
                   <LogIn className="h-5 w-5 sm:hidden hover:scale-110 transition-transform" strokeWidth={2} />
-                  
+
                   {/* Desktop: Full Button */}
-                  <div className={`hidden sm:flex items-center gap-2 px-4 py-1.5 rounded-full border-2 border-[#f2c56f] text-[12px] lg:text-[13px] font-bold uppercase tracking-wider transition-all duration-300 ${
-                    scrolled
+                  <div className={`hidden sm:flex items-center gap-2 px-4 py-1.5 rounded-full border-2 border-[#f2c56f] text-[12px] lg:text-[13px] font-bold uppercase tracking-wider transition-all duration-300 ${scrolled
                       ? "text-[#f6efe2] hover:bg-[#f2c56f] hover:text-[#15161b]"
                       : "text-[#f6efe2] hover:bg-[#f2c56f] hover:text-[#15161b]"
-                  }`}>
+                    }`}>
                     <LogIn className="h-3 w-3" strokeWidth={2.5} />
                     Sign In
                   </div>
@@ -137,7 +132,7 @@ export default function Navbar() {
               className="flex items-center justify-center rounded-lg text-white bg-white/10 p-2 backdrop-blur-md hover:bg-[#de3e4f] transition-all duration-300 lg:hidden"
             >
               {menuOpen ? (
-                <X className="h-8 w-8 " strokeWidth={2.2} />  
+                <X className="h-8 w-8 " strokeWidth={2.2} />
               ) : (
                 <Menu className="h-8 w-8 " strokeWidth={2.2} />
               )}
@@ -156,9 +151,8 @@ export default function Navbar() {
 
       {/* ✅ MOBILE SIDEBAR FIXED */}
       <div
-        className={`fixed right-0 top-0 z-50 h-full w-[85%] max-w-sm bg-[#15161b] border-l border-white/10 transition-all duration-300 ${
-          menuOpen ? "translate-x-0" : "translate-x-full"
-        }`}
+        className={`fixed right-0 top-0 z-50 h-full w-[85%] max-w-sm bg-[#15161b] border-l border-white/10 transition-all duration-300 ${menuOpen ? "translate-x-0" : "translate-x-full"
+          }`}
       >
         <div className="flex h-full flex-col p-6">
 
@@ -194,10 +188,9 @@ export default function Navbar() {
                   href={link.path}
                   onClick={handleNavClick}
                   className={`px-4 py-5 text-sm font-bold uppercase tracking-[0.2em] transition-all border-b border-white/5
-                    ${
-                      isActive
-                        ? "text-[#de3e4f]"
-                        : "text-white/80 hover:bg-[#de3e4f] hover:text-white"
+                    ${isActive
+                      ? "text-[#de3e4f]"
+                      : "text-white/80 hover:bg-[#de3e4f] hover:text-white"
                     }`}
                 >
                   {link.label}
