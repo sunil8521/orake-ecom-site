@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 const protectedRoutes = ["/account", "/orders", "/checkout"];
-const authRoutes = ["/login", "/signup", "/verify-otp"];
 
 export default function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
@@ -13,22 +12,16 @@ export default function middleware(req: NextRequest) {
 
   const isAuth = !!sessionToken;
 
-  if (authRoutes.some((route) => pathname.startsWith(route))) {
-    if (isAuth) {
-      return NextResponse.redirect(new URL("/", req.url));
-    }
-  }
-
+  // Protected route + not logged in → redirect to home with modal trigger
   if (protectedRoutes.some((route) => pathname.startsWith(route))) {
     if (!isAuth) {
       let from = pathname;
-      if (req.nextUrl.search) {
-        from += req.nextUrl.search;
-      }
+      if (req.nextUrl.search) from += req.nextUrl.search;
 
-      return NextResponse.redirect(
-        new URL(`/login?callbackUrl=${encodeURIComponent(from)}`, req.url)
-      );
+      const url = new URL("/", req.url);
+      url.searchParams.set("auth", "login");
+      url.searchParams.set("redirect", from);
+      return NextResponse.redirect(url);
     }
   }
 

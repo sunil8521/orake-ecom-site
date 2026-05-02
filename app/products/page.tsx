@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Hero from "@/components/Product/Hero";
 import BestSelling from "@/components/Product/BestSelling";
+import Advertising from "@/components/Product/Advertisement";
       
 export const metadata: Metadata = {
   title: "Orake Products — Premium Prebiotic Energy Drinks",
@@ -12,6 +13,7 @@ export default function ProductPage() {
 		<div className="min-h-screen bg-white overflow-hidden">
 			<Hero />
 			<BestSelling />
+			<Advertising/>
  		 		 
 		</div>
 	);
