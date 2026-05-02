@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import LayoutShell from "@/components/LayoutShell";
+import { Toaster } from "sonner";
+import MainLayout from "@/components/MainLayout";
 import AuthModal from "@/components/Auth/AuthModal";
 
 export const metadata: Metadata = {
@@ -23,7 +24,18 @@ export default function RootLayout({
         <link rel="manifest" href="/fav-icon/site.webmanifest" />
       </head>
       <body className="min-h-screen flex flex-col">
-        <LayoutShell>{children}</LayoutShell>
+        <Toaster
+          position="top-right"
+          richColors
+          closeButton
+          toastOptions={{
+            style: {
+              fontFamily: "'DM Sans', sans-serif",
+              letterSpacing: "0.02em",
+            },
+          }}
+        />
+        <MainLayout>{children}</MainLayout>
         <AuthModal />
       </body>
     </html>
