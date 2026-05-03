@@ -5,42 +5,13 @@ import { Cart } from "@/models/Cart";
 import { Product } from "@/models/Product";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
+import { revalidateTag, updateTag } from "next/cache";
 
 async function getSession() {
   const reqHeaders = await headers();
   return auth.api.getSession({ headers: reqHeaders });
 }
 
-export async function getCart() {
-  try {
-    const session = await getSession();
-    if (!session?.user) return null;
-
-    await connectDB();
-    const cart = await Cart.findOne({ userId: session.user.id }).populate('items.productId').lean();
-    
-    if (!cart) return { items: [] };
-
-    // Map to the shape expected by the frontend
-    const mappedItems = cart.items.map((item: any) => {
-       const product = item.productId;
-       return {
-         id: product._id.toString(),
-         name: product.name,
-         flavor: product.slug, // using slug as flavor for now based on mockup
-         price: product.price,
-         oldPrice: product.oldPrice,
-         qty: item.quantity,
-         image: product.image,
-       };
-    });
-
-    return { items: mappedItems };
-  } catch (error) {
-    console.error("Failed to fetch cart:", error);
-    return { items: [] };
-  }
-}
 
 export async function addToCart(productId: string, quantity: number = 1) {
   try {
@@ -64,6 +35,7 @@ export async function addToCart(productId: string, quantity: number = 1) {
     }
 
     await cart.save();
+    updateTag("cart");
     return { success: true };
   } catch (error: any) {
     console.error("Add to cart error:", error);
@@ -88,6 +60,7 @@ export async function updateCartItemQty(productId: string, quantity: number) {
         cart.items[existingItemIndex].quantity = quantity;
       }
       await cart.save();
+      updateTag("cart");
     }
     return { success: true };
   } catch (error: any) {
@@ -106,6 +79,7 @@ export async function removeFromCart(productId: string) {
 
     cart.items = cart.items.filter((item: any) => item.productId.toString() !== productId);
     await cart.save();
+    updateTag("cart");
     return { success: true };
   } catch (error: any) {
     return { success: false, error: error.message };
@@ -118,6 +92,7 @@ export async function clearCart() {
     if (!session?.user) throw new Error("Unauthorized");
     await connectDB();
     await Cart.findOneAndUpdate({ userId: session.user.id }, { items: [] });
+    updateTag("cart");
     return { success: true };
   } catch (error: any) {
     return { success: false, error: error.message };

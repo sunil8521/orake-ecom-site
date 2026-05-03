@@ -11,39 +11,7 @@ async function getSession() {
   return auth.api.getSession({ headers: reqHeaders });
 }
 
-export async function getWishlist() {
-  try {
-    const session = await getSession();
-    if (!session?.user) return { items: [] };
-
-    await connectDB();
-    const wishlistItems = await Wishlist.find({ userId: session.user.id })
-        .populate('productId')
-        .lean();
-    
-    // Map to the shape expected by the frontend
-    const mappedItems = wishlistItems.map((item: any) => {
-       const product = item.productId;
-       // Handle cases where the product was deleted from DB but remains in wishlist
-       if (!product) return null; 
-       
-       return {
-         id: product._id.toString(),
-         name: product.name,
-         flavor: product.slug, // using slug as flavor for now
-         price: product.price,
-         oldPrice: product.oldPrice,
-         image: product.image,
-         inStock: product.stock > 0
-       };
-    }).filter(Boolean); // remove nulls
-
-    return { items: mappedItems };
-  } catch (error) {
-    console.error("Failed to fetch wishlist:", error);
-    return { items: [] };
-  }
-}
+import { revalidateTag, unstable_noStore } from "next/cache";
 
 export async function toggleWishlist(productId: string) {
   try {
@@ -60,6 +28,7 @@ export async function toggleWishlist(productId: string) {
     if (existing) {
         // Remove it
         await Wishlist.deleteOne({ _id: existing._id });
+        revalidateTag("wishlist");
         return { success: true, added: false };
     } else {
         // Add it
@@ -67,6 +36,7 @@ export async function toggleWishlist(productId: string) {
             userId: session.user.id,
             productId: productId
         });
+        revalidateTag("wishlist");
         return { success: true, added: true };
     }
   } catch (error: any) {
@@ -76,6 +46,7 @@ export async function toggleWishlist(productId: string) {
 }
 
 export async function checkWishlistStatus(productId: string) {
+  unstable_noStore();
   try {
     const session = await getSession();
     if (!session?.user) return false;
@@ -91,3 +62,4 @@ export async function checkWishlistStatus(productId: string) {
     return false;
   }
 }
+

@@ -4,24 +4,29 @@ import { useState, useEffect } from "react";
 import { useSession } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { titleFont, textFont } from "@/lib/fonts";
-import { getCart, clearCart } from "@/actions/cart";
+import { clearCart } from "@/actions/cart";
 import { placeOrder } from "@/actions/order";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import OrderSuccessModal from "../Cart/OrderSuccessModal";
 
-export default function CheckoutForm() {
+export default function CheckoutForm({ initialCartItems, user }: { initialCartItems: any[], user: any }) {
   const router = useRouter();
-  const { data: session } = useSession();
-  const [loading, setLoading] = useState(true);
   const [processing, setProcessing] = useState(false);
-  const [cartItems, setCartItems] = useState<any[]>([]);
+  const [cartItems] = useState<any[]>(initialCartItems);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const [successOrderId, setSuccessOrderId] = useState<string>();
 
+  // Redirect if not logged in
+  useEffect(() => {
+    if (!user) {
+      router.push("/?auth=login&redirect=/checkout");
+    }
+  }, [user, router]);
+
   // Form state
   const [formData, setFormData] = useState({
-    fullName: "",
+    fullName: user?.name || "",
     phone: "",
     street: "",
     city: "",
@@ -31,31 +36,6 @@ export default function CheckoutForm() {
   });
 
   const [paymentMethod, setPaymentMethod] = useState("COD"); // 'COD' or 'Razorpay'
-
-  useEffect(() => {
-    async function init() {
-      if (!session?.user) {
-        router.push("/?auth=login&redirect=/checkout");
-        return;
-      }
-      try {
-        const res = await getCart();
-        setCartItems(res?.items || []);
-        
-        // Auto-fill some details if possible
-        setFormData(prev => ({
-          ...prev,
-          fullName: session.user.name || "",
-        }));
-
-      } catch (error) {
-        console.error("Failed to load cart", error);
-      } finally {
-        setLoading(false);
-      }
-    }
-    init();
-  }, [session, router]);
 
   const loadRazorpayScript = () => {
     return new Promise((resolve) => {
@@ -116,14 +96,14 @@ export default function CheckoutForm() {
           order_id: res.razorpayOrderId, // MUST pass the Razorpay Order ID from backend
           handler: async function (response: any) {
             // Payment Success
-            await clearCart(); // Clear cart only on successful payment
+            await clearCart();
             setSuccessOrderId(res.orderId); // Show our DB order ID
             setIsSuccessModalOpen(true);
             setProcessing(false);
           },
           prefill: {
             name: formData.fullName,
-            email: session?.user?.email,
+            email: user?.email,
             contact: formData.phone
           },
           theme: {
@@ -154,7 +134,7 @@ export default function CheckoutForm() {
     }
   };
 
-  if (loading) {
+  if (!user) {
     return <div className="flex justify-center items-center py-40 min-h-screen"><Loader2 className="animate-spin text-[#c25b5e]" size={40} /></div>;
   }
 

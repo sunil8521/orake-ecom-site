@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Hero from "@/components/Product/Hero";
 import BestSelling from "@/components/Product/BestSelling";
 import Advertising from "@/components/Product/Advertisement";
+import ProductSkeleton from "@/components/Product/ProductSkeleton";
+import { Suspense } from "react";
       
 export const metadata: Metadata = {
   title: "Orake Products — Premium Prebiotic Energy Drinks",
@@ -12,7 +14,9 @@ export default function ProductPage() {
 	return (
 		<div className="min-h-screen bg-white overflow-hidden">
 			<Hero />
-			<BestSelling />
+			<Suspense fallback={<ProductSkeleton />}>
+				<BestSelling />
+			</Suspense>
 			<Advertising/>
  		 		 
 		</div>

@@ -1,4 +1,3 @@
-"use client";
 import AccountHero from "@/components/Account/AccountHero";
 import AccountTabs from "@/components/Account/AccountTabs";
 

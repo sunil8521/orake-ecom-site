@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
+import { getUserAddresses, addAddress, updateAddress, deleteAddress, setDefaultAddress } from "@/actions/address";
 
 const titleFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
 const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
@@ -42,10 +43,11 @@ export default function AddressesTab() {
   // Fetch addresses from DB
   const fetchAddresses = async () => {
     try {
-      const res = await fetch("/api/user/address");
-      if (res.ok) {
-        const data = await res.json();
-        setAddresses(data);
+      const res = await getUserAddresses();
+      if (res.success) {
+        setAddresses(res.addresses);
+      } else {
+        toast.error(res.error || "Failed to load addresses from server");
       }
     } catch {
       toast.error("Failed to load addresses");
@@ -58,12 +60,8 @@ export default function AddressesTab() {
 
   const handleSetDefault = async (id: string) => {
     try {
-      const res = await fetch(`/api/user/address/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ isDefault: true }),
-      });
-      if (res.ok) {
+      const res = await setDefaultAddress(id);
+      if (res.success) {
         setAddresses(prev => prev.map(addr => ({ ...addr, isDefault: addr._id === id })));
         toast.success("Default address updated");
       }
@@ -74,8 +72,8 @@ export default function AddressesTab() {
 
   const handleRemove = async (id: string) => {
     try {
-      const res = await fetch(`/api/user/address/${id}`, { method: "DELETE" });
-      if (res.ok) {
+      const res = await deleteAddress(id);
+      if (res.success) {
         setAddresses(prev => prev.filter(addr => addr._id !== id));
         toast.success("Address removed");
       }
@@ -108,32 +106,20 @@ export default function AddressesTab() {
     setSubmitting(true);
     try {
       if (editingId) {
-        const res = await fetch(`/api/user/address/${editingId}`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data),
-        });
-        if (res.ok) {
-          const updated = await res.json();
-          setAddresses(prev => prev.map(addr => addr._id === editingId ? updated : addr));
+        const res = await updateAddress(editingId, data);
+        if (res.success) {
+          setAddresses(prev => prev.map(addr => addr._id === editingId ? res.address : addr));
           toast.success("Address updated");
         } else {
-          const err = await res.json();
-          toast.error(err.error || "Failed to update");
+          toast.error(res.error || "Failed to update");
         }
       } else {
-        const res = await fetch("/api/user/address", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ...data, isDefault: addresses.length === 0 }),
-        });
-        if (res.ok) {
-          const newAddr = await res.json();
-          setAddresses(prev => [...prev, newAddr]);
+        const res = await addAddress({ ...data, isDefault: addresses.length === 0 });
+        if (res.success) {
+          setAddresses(prev => [...prev, res.address]);
           toast.success("Address added");
         } else {
-          const err = await res.json();
-          toast.error(err.error || "Failed to add");
+          toast.error(res.error || "Failed to add");
         }
       }
       setIsModalOpen(false);

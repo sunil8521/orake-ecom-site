@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ShoppingBag, ChevronDown, ChevronLeft, ChevronRight, MapPin, CreditCard, Truck, Package, XCircle, Loader2 } from "lucide-react";
 import { Sansita, DM_Sans } from "next/font/google";
 import { toast } from "sonner";
+import { getUserOrders, cancelOrder } from "@/actions/order";
 
 const titleFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
 const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
@@ -79,14 +80,13 @@ export default function OrdersTab() {
   const fetchOrders = useCallback(async (p: number) => {
     setLoading(true);
     try {
-      const res = await fetch(`/api/orders/mine?page=${p}&limit=${ORDERS_PER_PAGE}`);
-      if (res.ok) {
-        const data = await res.json();
-        setOrders(data.orders);
-        setTotalPages(data.totalPages);
-        setTotalOrders(data.total);
+      const res = await getUserOrders(p, ORDERS_PER_PAGE);
+      if (res.success) {
+        setOrders(res.orders);
+        setTotalPages(res.totalPages);
+        setTotalOrders(res.total);
       } else {
-        toast.error("Failed to load orders");
+        toast.error(res.error || "Failed to load orders");
       }
     } catch {
       toast.error("Something went wrong");
@@ -105,18 +105,13 @@ export default function OrdersTab() {
   const handleCancel = async (id: string) => {
     setCancellingId(id);
     try {
-      const res = await fetch(`/api/orders/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status: "Cancelled" }),
-      });
-      if (res.ok) {
+      const res = await cancelOrder(id);
+      if (res.success) {
         setOrders(prev => prev.map(o => o._id === id ? { ...o, status: "Cancelled" } : o));
         setExpandedId(null);
         toast.success("Order cancelled");
       } else {
-        const data = await res.json();
-        toast.error(data.error || "Failed to cancel");
+        toast.error(res.error || "Failed to cancel");
       }
     } catch {
       toast.error("Something went wrong");
