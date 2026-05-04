@@ -11,10 +11,11 @@ export const metadata: Metadata = {
 export default function AboutPage() {
 	return (
 		<div className="min-h-screen bg-[#15161b] overflow-hidden">
-
-			<Hero />
-			<AboutUs />
-
+			<main>
+				<Hero />
+				<AboutUs />
+				{/* <VideoSection /> */}
+			</main>
 			<FooterBanner />
 		</div>
 	);

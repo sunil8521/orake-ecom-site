@@ -4,9 +4,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 
 export default function HeroSection() {
-  // Placeholder assets (replace with your own for perfect match)
-  // Unsplash image URLs for demo purposes
-  // Unsplash images for demo
+ 
   const canImages = ["/can1.png", "/can2.png"];
   const [canIdx, setCanIdx] = useState(0);
   const caramelSplash = "/can2.png"; // Place can2.png in public/
