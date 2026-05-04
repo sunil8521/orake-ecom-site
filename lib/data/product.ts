@@ -1,15 +1,17 @@
-'use server';
-
 import { connectDB } from "@/lib/db";
 import { Product } from "@/models/Product";
+import { cacheLife, cacheTag } from "next/cache";
 
 export async function getFeaturedProducts() {
+  'use cache'
+  cacheLife('hours')
+  cacheTag('products')
+
   try {
     await connectDB();
-    const products = await Product.find({ isFeatured: true }).lean();
+    const products = await Product.find({}).lean();
     
-    // Convert MongoDB _id to string id for frontend
-    return products.map(product => ({
+    return products.map((product: any) => ({
       ...product,
       _id: product._id?.toString(),
       id: product._id?.toString(),

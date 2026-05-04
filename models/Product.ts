@@ -70,4 +70,4 @@ ProcutSchema.pre("save", function () {
     this.slug = slugify(this.slug, { lower: true, strict: true })
 })
 
-export const Product = mongoose.models.Product || mongoose.model<IProduct>("product", ProcutSchema)
+export const Product = mongoose.models.Product || mongoose.model<IProduct>("Product", ProcutSchema)

@@ -65,7 +65,6 @@ export default function OrderSummary({ subtotal, shipping, total, onPaymentSucce
         description: "Water Bottle Order",
         order_id: result.orderId,
         handler: function (response) {
-          // Success callback
           if (onPaymentSuccess) {
             onPaymentSuccess(response.razorpay_payment_id);
           } else {
@@ -141,7 +140,6 @@ export default function OrderSummary({ subtotal, shipping, total, onPaymentSucce
           )}
         </button>
 
-        {/* Trust */}
         <div className="grid grid-cols-3 gap-3 mt-8">
           {[
             { icon: Truck, label: "Free Ship 999+" },

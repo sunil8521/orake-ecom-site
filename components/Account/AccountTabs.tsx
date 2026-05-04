@@ -27,7 +27,19 @@ const tabs = [
   { id: "settings", label: "Settings", icon: Settings },
 ];
 
-export default function AccountTabs() {
+interface AccountTabsProps {
+  initialAddresses: any[];
+  initialOrders: any[];
+  initialOrdersTotal: number;
+  initialOrdersTotalPages: number;
+}
+
+export default function AccountTabs({
+  initialAddresses,
+  initialOrders,
+  initialOrdersTotal,
+  initialOrdersTotalPages,
+}: AccountTabsProps) {
   const [activeTab, setActiveTab] = useState("profile");
 
   return (
@@ -50,15 +62,19 @@ export default function AccountTabs() {
           ))}
         </div>
 
-        {/* Dynamic Tab Content */}
         <Suspense fallback={<TabSkeleton />}>
           {activeTab === "profile" && <ProfileTab />}
-          {activeTab === "addresses" && <AddressesTab />}
-          {activeTab === "orders" && <OrdersTab />}
+          {activeTab === "addresses" && <AddressesTab initialAddresses={initialAddresses} />}
+          {activeTab === "orders" && (
+            <OrdersTab
+              initialOrders={initialOrders}
+              initialTotal={initialOrdersTotal}
+              initialTotalPages={initialOrdersTotalPages}
+            />
+          )}
           {activeTab === "settings" && <SettingsTab />}
         </Suspense>
 
-        {/* Logout */}
         <div className="mt-10 mb-8 max-w-xs mx-auto">
           <button onClick={async () => { await authClient.signOut(); window.location.href = "/"; }} className={`${textFont.className} w-full flex items-center justify-center gap-2 text-sm text-[#de3e4f] bg-red-50 hover:bg-[#de3e4f] hover:text-white border border-red-100 py-3.5 rounded-2xl font-bold uppercase tracking-widest transition-all shadow-sm`}>
             <LogOut size={16} /> Sign Out

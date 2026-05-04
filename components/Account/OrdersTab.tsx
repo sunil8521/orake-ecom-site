@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ShoppingBag, ChevronDown, ChevronLeft, ChevronRight, MapPin, CreditCard, Truck, Package, XCircle, Loader2 } from "lucide-react";
 import { Sansita, DM_Sans } from "next/font/google";
 import { toast } from "sonner";
+import { getUserOrders, cancelOrder } from "@/actions/order";
 
 const titleFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
 const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
@@ -66,27 +67,33 @@ function ProductImage({ src, alt }: { src: string; alt: string }) {
   return <img src={src} alt={alt} className="h-full object-contain" onError={() => setError(true)} />;
 }
 
-export default function OrdersTab() {
-  const [orders, setOrders] = useState<Order[]>([]);
-  const [loading, setLoading] = useState(true);
+interface OrdersTabProps {
+  initialOrders?: Order[];
+  initialTotal?: number;
+  initialTotalPages?: number;
+}
+
+export default function OrdersTab({ initialOrders = [], initialTotal = 0, initialTotalPages = 1 }: OrdersTabProps) {
+  // ✅ Page 1 comes from server — instant render, no loading spinner
+  const [orders, setOrders] = useState<Order[]>(initialOrders);
+  const [loading, setLoading] = useState(false);
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [totalOrders, setTotalOrders] = useState(0);
+  const [totalPages, setTotalPages] = useState(initialTotalPages);
+  const [totalOrders, setTotalOrders] = useState(initialTotal);
   const [cancellingId, setCancellingId] = useState<string | null>(null);
   const [showCancelConfirm, setShowCancelConfirm] = useState<string | null>(null);
 
   const fetchOrders = useCallback(async (p: number) => {
     setLoading(true);
     try {
-      const res = await fetch(`/api/orders/mine?page=${p}&limit=${ORDERS_PER_PAGE}`);
-      if (res.ok) {
-        const data = await res.json();
-        setOrders(data.orders);
-        setTotalPages(data.totalPages);
-        setTotalOrders(data.total);
+      const res = await getUserOrders(p, ORDERS_PER_PAGE);
+      if (res.success) {
+        setOrders(res.orders ?? []);
+        setTotalPages(res.totalPages ?? 1);
+        setTotalOrders(res.total ?? 0);
       } else {
-        toast.error("Failed to load orders");
+        toast.error(res.error || "Failed to load orders");
       }
     } catch {
       toast.error("Something went wrong");
@@ -95,7 +102,8 @@ export default function OrdersTab() {
     }
   }, []);
 
-  useEffect(() => { fetchOrders(page); }, [page, fetchOrders]);
+  // Only fetch when navigating to page 2+ (page 1 is pre-loaded)
+  useEffect(() => { if (page > 1) fetchOrders(page); }, [page, fetchOrders]);
 
   const toggleExpand = (id: string) => setExpandedId(p => p === id ? null : id);
   const formatDate = (d: string) => new Date(d).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
@@ -105,18 +113,13 @@ export default function OrdersTab() {
   const handleCancel = async (id: string) => {
     setCancellingId(id);
     try {
-      const res = await fetch(`/api/orders/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status: "Cancelled" }),
-      });
-      if (res.ok) {
+      const res = await cancelOrder(id);
+      if (res.success) {
         setOrders(prev => prev.map(o => o._id === id ? { ...o, status: "Cancelled" } : o));
         setExpandedId(null);
         toast.success("Order cancelled");
       } else {
-        const data = await res.json();
-        toast.error(data.error || "Failed to cancel");
+        toast.error(res.error || "Failed to cancel");
       }
     } catch {
       toast.error("Something went wrong");
