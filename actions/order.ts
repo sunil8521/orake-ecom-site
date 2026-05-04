@@ -6,7 +6,7 @@ import { clearCart } from "@/actions/cart";
 import { getCart } from "@/lib/data/cart";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import { revalidateTag, unstable_noStore } from "next/cache";
+import { updateTag } from "next/cache";
 import { razorpay } from "@/lib/razorpay";
 
 async function getSession() {
@@ -106,7 +106,7 @@ export async function placeOrder(shippingAddress: ShippingAddress, paymentMethod
 }
 
 export async function getUserOrders(page: number = 1, limit: number = 3) {
-  unstable_noStore();
+  // Dynamic via getSession() -> headers() — no opt-out needed
   try {
     const session = await getSession();
     if (!session?.user) return { success: false, error: "Unauthorized" };
@@ -153,7 +153,7 @@ export async function cancelOrder(id: string) {
     order.status = "Cancelled";
     await order.save();
     
-    revalidateTag("orders");
+    updateTag("orders");
     
     return { success: true, order: JSON.parse(JSON.stringify(order)) };
   } catch (error: any) {

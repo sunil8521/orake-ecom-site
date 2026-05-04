@@ -3,7 +3,6 @@ import { Cart } from "@/models/Cart";
 import "@/models/Product";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import { unstable_noStore } from "next/cache";
 
 async function getSession() {
   const reqHeaders = await headers();
@@ -11,7 +10,7 @@ async function getSession() {
 }
 
 export async function getCart() {
-  unstable_noStore();
+  // No 'use cache' — per-user data must always be fresh
   try {
     const session = await getSession();
     if (!session?.user) return null;

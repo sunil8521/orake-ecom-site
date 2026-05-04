@@ -5,7 +5,7 @@ import { Cart } from "@/models/Cart";
 import { Product } from "@/models/Product";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import { revalidateTag, updateTag } from "next/cache";
+import { updateTag } from "next/cache";
 
 async function getSession() {
   const reqHeaders = await headers();

@@ -4,7 +4,7 @@ import { connectDB } from "@/lib/db";
 import { Address } from "@/models/Address";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import { revalidateTag, unstable_noStore } from "next/cache";
+import { updateTag } from "next/cache";
 
 async function getSession() {
   const reqHeaders = await headers();
@@ -12,7 +12,7 @@ async function getSession() {
 }
 
 export async function getUserAddresses() {
-  unstable_noStore();
+  // Dynamic via getSession() -> headers() — no opt-out needed
   try {
     const session = await getSession();
     if (!session?.user) return { success: false, error: "Unauthorized" };
@@ -43,7 +43,7 @@ export async function addAddress(data: any) {
     }
 
     await newAddress.save();
-    revalidateTag("addresses");
+    updateTag("addresses");
     
     return { success: true, address: JSON.parse(JSON.stringify(newAddress)) };
   } catch (error: any) {
@@ -63,7 +63,7 @@ export async function updateAddress(id: string, data: any) {
 
     Object.assign(address, data);
     await address.save();
-    revalidateTag("addresses");
+    updateTag("addresses");
     
     return { success: true, address: JSON.parse(JSON.stringify(address)) };
   } catch (error: any) {
@@ -78,7 +78,7 @@ export async function deleteAddress(id: string) {
 
     await connectDB();
     await Address.findOneAndDelete({ _id: id, userId: session.user.id });
-    revalidateTag("addresses");
+    updateTag("addresses");
     
     return { success: true };
   } catch (error: any) {
@@ -99,7 +99,7 @@ export async function setDefaultAddress(id: string) {
     // Set new default
     await Address.findOneAndUpdate({ _id: id, userId: session.user.id }, { isDefault: true });
     
-    revalidateTag("addresses");
+    updateTag("addresses");
     
     return { success: true };
   } catch (error: any) {

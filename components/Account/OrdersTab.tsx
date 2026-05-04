@@ -67,13 +67,20 @@ function ProductImage({ src, alt }: { src: string; alt: string }) {
   return <img src={src} alt={alt} className="h-full object-contain" onError={() => setError(true)} />;
 }
 
-export default function OrdersTab() {
-  const [orders, setOrders] = useState<Order[]>([]);
-  const [loading, setLoading] = useState(true);
+interface OrdersTabProps {
+  initialOrders?: Order[];
+  initialTotal?: number;
+  initialTotalPages?: number;
+}
+
+export default function OrdersTab({ initialOrders = [], initialTotal = 0, initialTotalPages = 1 }: OrdersTabProps) {
+  // ✅ Page 1 comes from server — instant render, no loading spinner
+  const [orders, setOrders] = useState<Order[]>(initialOrders);
+  const [loading, setLoading] = useState(false);
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [totalOrders, setTotalOrders] = useState(0);
+  const [totalPages, setTotalPages] = useState(initialTotalPages);
+  const [totalOrders, setTotalOrders] = useState(initialTotal);
   const [cancellingId, setCancellingId] = useState<string | null>(null);
   const [showCancelConfirm, setShowCancelConfirm] = useState<string | null>(null);
 
@@ -82,9 +89,9 @@ export default function OrdersTab() {
     try {
       const res = await getUserOrders(p, ORDERS_PER_PAGE);
       if (res.success) {
-        setOrders(res.orders);
-        setTotalPages(res.totalPages);
-        setTotalOrders(res.total);
+        setOrders(res.orders ?? []);
+        setTotalPages(res.totalPages ?? 1);
+        setTotalOrders(res.total ?? 0);
       } else {
         toast.error(res.error || "Failed to load orders");
       }
@@ -95,7 +102,8 @@ export default function OrdersTab() {
     }
   }, []);
 
-  useEffect(() => { fetchOrders(page); }, [page, fetchOrders]);
+  // Only fetch when navigating to page 2+ (page 1 is pre-loaded)
+  useEffect(() => { if (page > 1) fetchOrders(page); }, [page, fetchOrders]);
 
   const toggleExpand = (id: string) => setExpandedId(p => p === id ? null : id);
   const formatDate = (d: string) => new Date(d).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });

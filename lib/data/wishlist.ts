@@ -3,7 +3,6 @@ import { Wishlist } from "@/models/Wishlist";
 import "@/models/Product";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import { unstable_noStore } from "next/cache";
 
 async function getSession() {
   const reqHeaders = await headers();
@@ -11,7 +10,7 @@ async function getSession() {
 }
 
 export async function getWishlist() {
-  unstable_noStore();
+  // No 'use cache' — per-user data must always be fresh
   try {
     const session = await getSession();
     if (!session?.user) return { items: [] };
@@ -46,7 +45,7 @@ export async function getWishlist() {
 }
 
 export async function checkWishlistStatus(productId: string) {
-  unstable_noStore();
+  // No 'use cache' — per-user data must always be fresh
   try {
     const session = await getSession();
     if (!session?.user) return false;

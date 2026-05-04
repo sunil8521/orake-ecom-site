@@ -5,13 +5,12 @@ import { Wishlist } from "@/models/Wishlist";
 import { Product } from "@/models/Product";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
+import { updateTag } from "next/cache";
 
 async function getSession() {
   const reqHeaders = await headers();
   return auth.api.getSession({ headers: reqHeaders });
 }
-
-import { revalidateTag, unstable_noStore } from "next/cache";
 
 export async function toggleWishlist(productId: string) {
   try {
@@ -28,7 +27,7 @@ export async function toggleWishlist(productId: string) {
     if (existing) {
         // Remove it
         await Wishlist.deleteOne({ _id: existing._id });
-        revalidateTag("wishlist");
+        updateTag("wishlist");
         return { success: true, added: false };
     } else {
         // Add it
@@ -36,7 +35,7 @@ export async function toggleWishlist(productId: string) {
             userId: session.user.id,
             productId: productId
         });
-        revalidateTag("wishlist");
+        updateTag("wishlist");
         return { success: true, added: true };
     }
   } catch (error: any) {
@@ -46,7 +45,7 @@ export async function toggleWishlist(productId: string) {
 }
 
 export async function checkWishlistStatus(productId: string) {
-  unstable_noStore();
+  // No caching — per-user, session-dependent check
   try {
     const session = await getSession();
     if (!session?.user) return false;
@@ -62,4 +61,3 @@ export async function checkWishlistStatus(productId: string) {
     return false;
   }
 }
-

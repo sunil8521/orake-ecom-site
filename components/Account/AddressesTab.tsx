@@ -1,12 +1,12 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { MapPin, X, Loader2 } from "lucide-react";
 import { Sansita, DM_Sans } from "next/font/google";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { getUserAddresses, addAddress, updateAddress, deleteAddress, setDefaultAddress } from "@/actions/address";
+import { addAddress, updateAddress, deleteAddress, setDefaultAddress } from "@/actions/address";
 
 const titleFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
 const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
@@ -28,9 +28,9 @@ interface Address extends AddressFormValues {
   isDefault: boolean;
 }
 
-export default function AddressesTab() {
-  const [addresses, setAddresses] = useState<Address[]>([]);
-  const [loading, setLoading] = useState(true);
+export default function AddressesTab({ initialAddresses = [] }: { initialAddresses?: Address[] }) {
+  // ✅ initialAddresses comes from server — no loading state, instant render
+  const [addresses, setAddresses] = useState<Address[]>(initialAddresses);
   const [submitting, setSubmitting] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -40,23 +40,6 @@ export default function AddressesTab() {
     defaultValues: { fullName: "", phone: "", street: "", city: "", state: "", postalCode: "", country: "India" }
   });
 
-  // Fetch addresses from DB
-  const fetchAddresses = async () => {
-    try {
-      const res = await getUserAddresses();
-      if (res.success) {
-        setAddresses(res.addresses);
-      } else {
-        toast.error(res.error || "Failed to load addresses from server");
-      }
-    } catch {
-      toast.error("Failed to load addresses");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => { fetchAddresses(); }, []);
 
   const handleSetDefault = async (id: string) => {
     try {
@@ -130,13 +113,7 @@ export default function AddressesTab() {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="bg-white border border-gray-200 rounded-[2rem] p-8 sm:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.06)] flex items-center justify-center py-20">
-        <Loader2 size={24} className="animate-spin text-[#c25b5e]" />
-      </div>
-    );
-  }
+
 
   return (
     <>
