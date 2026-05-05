@@ -7,6 +7,7 @@ import { addToCart } from "@/actions/cart";
 import { toast } from "sonner";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
+import { useCartWishlistStore } from "@/store/useCartWishlistStore";
 
 interface WishlistCardProps {
   item: {
@@ -24,13 +25,15 @@ interface WishlistCardProps {
 export default function WishlistCard({ item, onRemove }: WishlistCardProps) {
   const [isAdding, setIsAdding] = useState(false);
 
+  const { incrementCart } = useCartWishlistStore();
+
   const handleAddToCart = async () => {
     setIsAdding(true);
     const res = await addToCart(item.id, 1);
     setIsAdding(false);
     
     if (res.success) {
-      toast.success(`${item.name} added to cart!`);
+      incrementCart(1);
     } else {
       toast.error(res.error || "Failed to add to cart");
     }

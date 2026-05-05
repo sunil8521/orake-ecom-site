@@ -59,3 +59,36 @@ export async function sendOTPEmail(
 
   await transporter.sendMail(mailOptions);
 }
+
+export async function sendContactEmail(data: {
+  name: string;
+  email: string;
+  phone?: string;
+  subject?: string;
+  message: string;
+}) {
+  const mailOptions = {
+    from: `"Orake Contact Form" <${process.env.EMAIL_USER}>`,
+    to: process.env.EMAIL_USER, // Send to the admin
+    replyTo: data.email,
+    subject: `New Contact Form Submission: ${data.subject || 'General Inquiry'}`,
+    html: `
+      <div style="font-family: 'Helvetica Neue', Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #f4f4f5; padding: 30px; border-radius: 12px;">
+        <h2 style="color: #15161b; text-transform: uppercase; border-bottom: 2px solid #c25b5e; padding-bottom: 10px; margin-bottom: 20px;">
+          New Message from Orake Contact Form
+        </h2>
+        <div style="background: #ffffff; padding: 20px; border-radius: 8px;">
+          <p><strong>Name:</strong> ${data.name}</p>
+          <p><strong>Email:</strong> ${data.email}</p>
+          <p><strong>Phone:</strong> ${data.phone || 'N/A'}</p>
+          <p><strong>Subject:</strong> ${data.subject || 'General'}</p>
+          <hr style="border: 0; border-top: 1px solid #e5e7eb; margin: 20px 0;" />
+          <p><strong>Message:</strong></p>
+          <p style="white-space: pre-wrap; color: #4b5563;">${data.message}</p>
+        </div>
+      </div>
+    `,
+  };
+
+  await transporter.sendMail(mailOptions);
+}

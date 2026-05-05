@@ -1,8 +1,7 @@
 "use client";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { Oswald, DM_Sans } from "next/font/google";
+import { textFont } from "@/lib/fonts";
 
-const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 
 interface Props {
   currentPage: number;

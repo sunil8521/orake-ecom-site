@@ -8,6 +8,7 @@ import EmptyWishlist from "./EmptyWishlist";
 import { toggleWishlist } from "@/actions/wishlist";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { useCartWishlistStore } from "@/store/useCartWishlistStore";
 
 export interface WishItem {
   id: string;
@@ -23,6 +24,8 @@ export default function WishlistList({ initialItems }: { initialItems: WishItem[
   const [items, setItems] = useState<WishItem[]>(initialItems);
   const router = useRouter();
 
+  const { decrementWishlist } = useCartWishlistStore();
+
   const removeItem = async (id: string) => {
     const previousItems = [...items];
     setItems(prev => prev.filter(item => item.id !== id));
@@ -32,7 +35,7 @@ export default function WishlistList({ initialItems }: { initialItems: WishItem[
       toast.error("Failed to remove item");
       setItems(previousItems);
     } else {
-      toast.success("Item removed from wishlist");
+      decrementWishlist();
       router.refresh();
     }
   };

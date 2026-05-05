@@ -13,7 +13,6 @@ export default function ContactInfoSidebar() {
           The Details
         </h3>
 
-        {/* Address */}
         <div className="relative z-10 mb-6">
           <div className="flex items-center gap-3 mb-2">
             <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center shrink-0">
@@ -22,7 +21,10 @@ export default function ContactInfoSidebar() {
             <h4 className={`${textFont.className} font-bold text-base uppercase tracking-wider`}>HQ</h4>
           </div>
           <p className={`${textFont.className} text-white/60 text-sm pl-[3.25rem] leading-relaxed`}>
-            Swiftrise Solution Pvt. Ltd.<br />New Delhi, India
+            Building No./Flat No.: E House No. 011, EWS 20<br />
+            KRUPANILAYAM SRIT PLOT, Near Railway Station Road<br />
+            Bargarh Industrial Estate<br />
+            Bargarh, Odisha 768028
           </p>
         </div>
 

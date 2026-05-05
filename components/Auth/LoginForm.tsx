@@ -3,7 +3,6 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Eye, EyeOff, Mail, Lock, Loader2 } from "lucide-react";
-import { Sansita, DM_Sans } from "next/font/google";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form"
 import type { loginFormType } from "@/types/loginFormType"
@@ -13,9 +12,8 @@ import Image from "next/image";
 import { authClient } from "@/lib/auth-client";
 import SlideToGoogle from "@/components/SlideToGoogle";
 import { useAuthStore } from "@/store/useAuthStore";
+import { titleFont, textFont } from "@/lib/fonts";
 
-const titleFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
-const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 
 export default function LoginForm() {
   const router = useRouter();

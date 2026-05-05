@@ -2,16 +2,20 @@
 
 import { connectDB } from "@/lib/db";
 import { Cart } from "@/models/Cart";
-import { Product } from "@/models/Product";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { updateTag } from "next/cache";
+import { getCartCount as _getCartCount } from "@/lib/data/cart";
+
+// GET wrapper — called from Navbar on auth change, not on every keystroke.
+export async function getCartCount(): Promise<number> {
+  return _getCartCount();
+}
 
 async function getSession() {
   const reqHeaders = await headers();
   return auth.api.getSession({ headers: reqHeaders });
 }
-
 
 export async function addToCart(productId: string, quantity: number = 1) {
   try {

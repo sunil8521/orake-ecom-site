@@ -1,3 +1,4 @@
+import "server-only";
 import { connectDB } from "@/lib/db";
 import { Cart } from "@/models/Cart";
 import "@/models/Product";
@@ -38,5 +39,18 @@ export async function getCart() {
   } catch (error) {
     console.error("Failed to fetch cart:", error);
     return { items: [] };
+  }
+}
+
+export async function getCartCount(): Promise<number> {
+  try {
+    const session = await getSession();
+    if (!session?.user) return 0;
+    await connectDB();
+    const cart = await Cart.findOne({ userId: session.user.id });
+    if (!cart) return 0;
+    return cart.items.reduce((acc: number, item: any) => acc + item.quantity, 0);
+  } catch {
+    return 0;
   }
 }

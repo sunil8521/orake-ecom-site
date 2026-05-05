@@ -2,14 +2,12 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { titleFont, textFont } from "@/lib/fonts";
 import {
   LayoutDashboard, Package, ShoppingCart, Users, Settings, LogOut,
   Menu, X, ChevronDown, Bell
 } from "lucide-react";
-import { Sansita, DM_Sans } from "next/font/google";
 
-const titleFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
-const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 
 const navItems = [
   { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
@@ -20,18 +18,13 @@ const navItems = [
 ];
 
 export default function AdminClientLayout({ 
-  children, 
-  session 
+  children 
 }: { 
-  children: React.ReactNode, 
-  session?: any 
+  children: React.ReactNode
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const pathname = usePathname();
 
-  if (pathname === "/admin/login") {
-    return <>{children}</>;
-  }
 
   return (
     <div className="h-screen overflow-hidden bg-[#f5f5f7] flex">
@@ -40,14 +33,11 @@ export default function AdminClientLayout({
         <div className="fixed inset-0 bg-black/50 z-40 lg:hidden" onClick={() => setSidebarOpen(false)} />
       )}
 
-      {/* Sidebar — fixed, full height */}
       <aside className={`fixed lg:relative top-0 left-0 h-screen w-[260px] bg-[#15161b] flex flex-col z-50 shrink-0 transition-transform duration-300 ${sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}>
         {/* Logo */}
         <div className="px-6 py-6 flex items-center justify-between border-b border-white/5 shrink-0">
           <Link href="/admin" className="flex items-center gap-3">
-            {/* <div className="w-9 h-9 rounded-xl bg-[#c25b5e] flex items-center justify-center">
-              <span className={`${titleFont.className} text-white text-lg`}>O</span>
-            </div> */}
+
             <div>
               <span className={`${titleFont.className} text-white text-xl tracking-wider uppercase`}>ORAKE</span>
               <span className={`${textFont.className} block text-gray-500 text-[10px] uppercase tracking-[0.3em] -mt-0.5`}>Admin Panel</span>
@@ -85,10 +75,10 @@ export default function AdminClientLayout({
           <Link href="/" target="_blank" className={`${textFont.className} flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold uppercase tracking-wider text-gray-500 hover:text-white hover:bg-white/5 transition-all`}>
             <span className="text-xs">🌐</span> View Store
           </Link>
-          <Link href="/admin/login" className={`${textFont.className} flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold uppercase tracking-wider text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-all`}>
+          <button onClick={() => window.location.reload()} className={`${textFont.className} flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold uppercase tracking-wider text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-all w-full`}>
             <LogOut size={18} strokeWidth={1.5} />
-            Logout
-          </Link>
+            Lock Panel
+          </button>
         </div>
       </aside>
 
@@ -112,11 +102,11 @@ export default function AdminClientLayout({
             </button> */}
             <div className="flex items-center gap-2 bg-gray-100 rounded-xl px-3 py-2 cursor-pointer hover:bg-gray-200 transition-colors">
               <div className="w-8 h-8 rounded-lg bg-[#c25b5e] flex items-center justify-center text-white text-sm font-bold uppercase">
-                {session?.user?.name?.[0] || "A"}
+                A
               </div>
               <div className="hidden sm:block">
                 <p className={`${textFont.className} text-sm font-bold text-[#15161b] leading-tight`}>
-                  {session?.user?.name || "Admin"}
+                  Admin
                 </p>
                 <p className={`${textFont.className} text-[10px] text-gray-400 uppercase tracking-wider`}>Admin</p>
               </div>

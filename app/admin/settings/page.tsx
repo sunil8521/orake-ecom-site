@@ -1,10 +1,8 @@
 "use client";
 import { useState } from "react";
 import { Save, Store, Truck, CreditCard, Bell, Shield } from "lucide-react";
-import { Sansita, DM_Sans } from "next/font/google";
+import { titleFont, textFont } from "@/lib/fonts";
 
-const titleFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
-const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 
 export default function AdminSettingsPage() {
   const [activeTab, setActiveTab] = useState("store");

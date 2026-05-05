@@ -7,6 +7,9 @@ import Image from "next/image";
 import { ShoppingCart, User, Heart, Menu, X, LogIn } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import { useAuthStore } from "@/store/useAuthStore";
+import { useCartWishlistStore } from "@/store/useCartWishlistStore";
+import { getCartCount } from "@/actions/cart";
+import { getWishlistCount } from "@/actions/wishlist";
 
 const navLinks = [
   { path: "/", label: "Home" },
@@ -23,6 +26,17 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { openAuthModal } = useAuthStore();
+  const { cartCount, wishlistCount, setCartCount, setWishlistCount } = useCartWishlistStore();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      getCartCount().then(setCartCount);
+      getWishlistCount().then(setWishlistCount);
+    } else {
+      setCartCount(0);
+      setWishlistCount(0);
+    }
+  }, [isAuthenticated, setCartCount, setWishlistCount]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -95,12 +109,22 @@ export default function Navbar() {
           {/* Icons + Hamburger */}
           <div className="flex items-center gap-4 lg:gap-6">
             {/* ✅ ICONS FIXED */}
-            <div className="flex items-center gap-3 lg:gap-5 text-[#f6efe2]">
-              <Link href="/wishlist" className="hover:scale-110 transition-all">
+            <div className="flex items-center gap-4 lg:gap-5 text-[#f6efe2]">
+              <Link href="/wishlist" className="relative hover:scale-110 transition-all group">
                 <Heart className="h-5 w-5 lg:h-6 lg:w-6" strokeWidth={2} />
+                {wishlistCount > 0 && (
+                  <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-[#f2c56f] text-[10px] font-bold text-[#15161b] shadow-sm ring-2 ring-[#c25b5e] group-hover:ring-white transition-all">
+                    {wishlistCount}
+                  </span>
+                )}
               </Link>
-              <Link href="/cart" className="hover:scale-110 transition-all">
+              <Link href="/cart" className="relative hover:scale-110 transition-all group">
                 <ShoppingCart className="h-5 w-5 lg:h-6 lg:w-6" strokeWidth={2} />
+                {cartCount > 0 && (
+                  <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-[#f2c56f] text-[10px] font-bold text-[#15161b] shadow-sm ring-2 ring-[#c25b5e] group-hover:ring-white transition-all">
+                    {cartCount}
+                  </span>
+                )}
               </Link>
               {isAuthenticated ? (
                 <Link href="/account" className="hover:scale-110 transition-all">

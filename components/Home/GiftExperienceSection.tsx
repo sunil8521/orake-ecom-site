@@ -1,10 +1,8 @@
 "use client";
 import Image from "next/image";
-import { Sansita, DM_Sans } from "next/font/google";
 import { motion } from "framer-motion";
+import { titleFont, textFont, bodyFont } from "@/lib/fonts";
 
-const titleFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
-const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 
 export default function GiftExperienceSection() {
   return (
@@ -91,10 +89,8 @@ export default function GiftExperienceSection() {
 // "use client";
 // import React from "react";
 // import Image from "next/image";
-// import { DM_Sans } from "next/font/google";
-// import { motion } from "framer-motion";
+// // import { motion } from "framer-motion";
 
-// const bodyFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 
 // export default function EnergyDrinksDealBanner() {
 //   return (

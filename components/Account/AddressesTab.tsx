@@ -1,15 +1,13 @@
 "use client";
 import { useState } from "react";
 import { MapPin, X, Loader2 } from "lucide-react";
-import { Sansita, DM_Sans } from "next/font/google";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { addAddress, updateAddress, deleteAddress, setDefaultAddress } from "@/actions/address";
+import { titleFont, textFont } from "@/lib/fonts";
 
-const titleFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
-const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 
 const addressSchema = z.object({
   fullName: z.string().min(2, "Name is required"),
@@ -167,7 +165,6 @@ export default function AddressesTab({ initialAddresses = [] }: { initialAddress
         )}
       </div>
 
-      {/* Address Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onClick={() => setIsModalOpen(false)}>
           <div className="bg-white rounded-2xl w-full max-w-xl max-h-[90vh] overflow-y-auto shadow-2xl p-6 sm:p-8" onClick={e => e.stopPropagation()}>

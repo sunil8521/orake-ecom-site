@@ -1,10 +1,8 @@
 import Image from "next/image";
-import { Sansita, DM_Sans } from "next/font/google";
 import { MoveUpRight } from "lucide-react";
 import { FaInstagram, FaTwitter, FaFacebookF, FaCcVisa, FaCcMastercard, FaCcPaypal } from "react-icons/fa";
+import { titleFont, textFont } from "@/lib/fonts";
 
-const titleFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
-const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 
 const socials = [
   { Icon: FaInstagram, label: "Instagram", href: "#" },

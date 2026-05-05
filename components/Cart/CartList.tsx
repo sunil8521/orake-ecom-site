@@ -6,6 +6,7 @@ import EmptyCart from "./EmptyCart";
 import CartItem from "./CartItem";
 import { updateCartItemQty, removeFromCart } from "@/actions/cart";
 import { toast } from "sonner";
+import { useCartWishlistStore } from "@/store/useCartWishlistStore";
 
 interface CartItemType {
   id: number;
@@ -36,8 +37,11 @@ export default function CartList({ initialItems }: { initialItems: CartItemType[
     }
   };
 
+  const { decrementCart } = useCartWishlistStore();
+
   const removeItem = async (id: number | string) => {
     const snapshot = [...items];
+    const removedItem = items.find(i => i.id === id);
     setItems(prev => prev.filter(i => i.id !== id)); // ✅ instant removal
 
     const res = await removeFromCart(id.toString());
@@ -45,7 +49,7 @@ export default function CartList({ initialItems }: { initialItems: CartItemType[
       toast.error("Failed to remove item");
       setItems(snapshot); // revert
     } else {
-      toast.success("Item removed");
+      if (removedItem) decrementCart(removedItem.qty);
       router.refresh(); // ✅ re-syncs server state (updates hero count too)
     }
   };

@@ -1,11 +1,9 @@
 "use client";
 
-import { Sansita, DM_Sans } from "next/font/google";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { titleFont, textFont } from "@/lib/fonts";
 
-const titleFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
-const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 
 const posts = [
   {

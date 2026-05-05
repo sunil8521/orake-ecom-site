@@ -3,7 +3,6 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Eye, EyeOff, Mail, Lock, User, Phone, Loader2 } from "lucide-react";
-import { Sansita, DM_Sans } from "next/font/google";
 import Image from "next/image";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
@@ -13,9 +12,8 @@ import type { signupFormType } from "@/types/signupFormType";
 import { authClient } from "@/lib/auth-client";
 import SlideToGoogle from "@/components/SlideToGoogle";
 import { useAuthStore } from "@/store/useAuthStore";
+import { titleFont, textFont } from "@/lib/fonts";
 
-const titleFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
-const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 
 export default function SignupForm() {
   const router = useRouter();

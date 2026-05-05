@@ -1,6 +1,4 @@
-import { Sansita } from "next/font/google";
-
-const headingFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
+import { headingFont } from "@/lib/fonts";
 
 export default function TaglineBanner() {
   return (

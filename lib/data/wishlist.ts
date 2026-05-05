@@ -1,3 +1,4 @@
+import "server-only";
 import { connectDB } from "@/lib/db";
 import { Wishlist } from "@/models/Wishlist";
 import "@/models/Product";
@@ -41,6 +42,17 @@ export async function getWishlist() {
   } catch (error) {
     console.error("Failed to fetch wishlist:", error);
     return { items: [] };
+  }
+}
+
+export async function getWishlistCount(): Promise<number> {
+  try {
+    const session = await getSession();
+    if (!session?.user) return 0;
+    await connectDB();
+    return await Wishlist.countDocuments({ userId: session.user.id });
+  } catch {
+    return 0;
   }
 }
 

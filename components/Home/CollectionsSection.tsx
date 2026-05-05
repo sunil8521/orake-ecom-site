@@ -1,13 +1,10 @@
 'use client';
 
 import Image from "next/image";
-import { Sansita, DM_Sans } from "next/font/google";
 import { motion } from "framer-motion";
 import { ShoppingCart, Heart } from "lucide-react";
 import { useState } from "react";
-const headingFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
-const bodyFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
-
+import { headingFont, bodyFont } from "@/lib/fonts";
 function StarRating({ rating, reviews }: { rating: number; reviews: number }) {
   return (
     <div className="flex justify-center md:justify-start items-center gap-2 mb-2">

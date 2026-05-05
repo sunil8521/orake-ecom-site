@@ -1,10 +1,8 @@
 "use client"
 import { motion } from "framer-motion";
-import { Sansita, DM_Sans } from "next/font/google";
 import { useState, useRef, useEffect } from "react";
+import { titleFont, textFont } from "@/lib/fonts";
 
-const titleFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
-const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 
 export default function Advertising() {
     const videoRef = useRef<HTMLVideoElement>(null);
@@ -25,7 +23,7 @@ export default function Advertising() {
                     loop
                     muted
                     playsInline
-                    className="absolute inset-0 w-full h-full object-cover object-center filter saturate-110 scale-[1.15] group-hover:scale-[1.2] transition-transform duration-1000"
+                    className="absolute inset-0 w-full h-full object-cover object-center filter saturate-110 transition-transform duration-1000 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center p-8">
                     <motion.h3

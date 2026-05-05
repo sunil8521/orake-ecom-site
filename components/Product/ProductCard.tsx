@@ -1,7 +1,6 @@
 "use client";
 
 import { ShoppingCart, Heart, Loader2 } from "lucide-react";
-import { Sansita, DM_Sans } from "next/font/google";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useState, useEffect } from "react";
@@ -10,10 +9,7 @@ import { toggleWishlist, checkWishlistStatus } from "@/actions/wishlist";
 import { toast } from "sonner";
 import { useAuthStore } from "@/store/useAuthStore";
 import { useSession } from "@/lib/auth-client";
-
-const headingFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
-const bodyFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
-
+import { useCartWishlistStore } from "@/store/useCartWishlistStore";
 export interface ProductType {
     id: number | string;
     name: string;
@@ -30,6 +26,7 @@ interface ProductCardProps {
 }
 
 import Link from "next/link";
+import { headingFont, bodyFont } from "@/lib/fonts";
 
 export default function ProductCard({ product }: ProductCardProps) {
     const isStrawberry = product.image.includes("can1");
@@ -40,6 +37,8 @@ export default function ProductCard({ product }: ProductCardProps) {
     
     const { openAuthModal } = useAuthStore();
     const { data: session } = useSession();
+
+    const { incrementCart, incrementWishlist, decrementWishlist } = useCartWishlistStore();
 
     useEffect(() => {
         if (session?.user && product.id) {
@@ -62,7 +61,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         setIsAddingToCart(false);
 
         if (res.success) {
-            toast.success(`${product.name} added to cart`);
+            incrementCart(1);
         } else {
             toast.error(res.error || "Failed to add to cart");
         }
@@ -90,7 +89,11 @@ export default function ProductCard({ product }: ProductCardProps) {
             setLiked(liked);
             toast.error(res.error || "Failed to update wishlist");
         } else {
-            toast.success(res.added ? "Added to wishlist" : "Removed from wishlist");
+            if (res.added) {
+                incrementWishlist();
+            } else {
+                decrementWishlist();
+            }
         }
     };
 

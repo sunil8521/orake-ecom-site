@@ -6,7 +6,6 @@ import { textFont } from "@/lib/fonts";
 import { authClient } from "@/lib/auth-client";
 import TabSkeleton from "./TabSkeleton";
 
-// Lazy-load each tab — only the active tab's JS is downloaded
 const ProfileTab = dynamic(() => import("@/components/Account/ProfileTab"), {
   loading: () => <TabSkeleton />,
 });

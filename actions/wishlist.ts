@@ -2,10 +2,23 @@
 
 import { connectDB } from "@/lib/db";
 import { Wishlist } from "@/models/Wishlist";
-import { Product } from "@/models/Product";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { updateTag } from "next/cache";
+import {
+  getWishlistCount as _getWishlistCount,
+  checkWishlistStatus as _checkWishlistStatus,
+} from "@/lib/data/wishlist";
+
+// These are GET wrappers — called from client components on auth/mount events,
+// NOT in tight loops or on every keystroke. Acceptable use of Server Actions.
+export async function getWishlistCount(): Promise<number> {
+  return _getWishlistCount();
+}
+
+export async function checkWishlistStatus(productId: string): Promise<boolean> {
+  return _checkWishlistStatus(productId);
+}
 
 async function getSession() {
   const reqHeaders = await headers();
@@ -25,12 +38,10 @@ export async function toggleWishlist(productId: string) {
     });
     
     if (existing) {
-        // Remove it
         await Wishlist.deleteOne({ _id: existing._id });
         updateTag("wishlist");
         return { success: true, added: false };
     } else {
-        // Add it
         await Wishlist.create({
             userId: session.user.id,
             productId: productId
@@ -41,23 +52,5 @@ export async function toggleWishlist(productId: string) {
   } catch (error: any) {
     console.error("Toggle wishlist error:", error);
     return { success: false, error: error.message };
-  }
-}
-
-export async function checkWishlistStatus(productId: string) {
-  // No caching — per-user, session-dependent check
-  try {
-    const session = await getSession();
-    if (!session?.user) return false;
-
-    await connectDB();
-    const existing = await Wishlist.findOne({ 
-        userId: session.user.id, 
-        productId: productId 
-    });
-    
-    return !!existing;
-  } catch (error) {
-    return false;
   }
 }

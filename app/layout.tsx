@@ -3,6 +3,7 @@ import "./globals.css";
 import { Toaster } from "sonner";
 import MainLayout from "@/components/MainLayout";
 import AuthModal from "@/components/Auth/AuthModal";
+import SignupPopup from "@/components/SignupPopup";
 
 export const metadata: Metadata = {
   title: "Orake — Energy That Hits Different",
@@ -31,12 +32,19 @@ export default function RootLayout({
           toastOptions={{
             style: {
               fontFamily: "'DM Sans', sans-serif",
-              letterSpacing: "0.02em",
+              letterSpacing: "0.05em",
+              fontWeight: "bold",
+              background: "#15161b",
+              color: "#f6efe2",
+              border: "1px solid rgba(194,91,94,0.3)",
+              borderRadius: "16px",
             },
+            className: "shadow-[0_10px_40px_rgba(0,0,0,0.2)] uppercase text-[12px]",
           }}
         />
         <MainLayout>{children}</MainLayout>
         <AuthModal />
+        <SignupPopup />
       </body>
     </html>
   );

@@ -1,12 +1,11 @@
 'use client';
 
-import { Sansita, DM_Sans } from "next/font/google";
 import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 
 import ProductCard, { ProductType } from "@/components/Product/ProductCard";
+import { textFont } from "@/lib/fonts";
 
-const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 
 
 const categoryTabs = ['All', 'New Drops', 'Sale'];
