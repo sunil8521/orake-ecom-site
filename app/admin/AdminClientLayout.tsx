@@ -14,7 +14,7 @@ const navItems = [
   { label: "Products", href: "/admin/products", icon: Package },
   { label: "Orders", href: "/admin/orders", icon: ShoppingCart },
   { label: "Users", href: "/admin/users", icon: Users },
-  { label: "Settings", href: "/admin/settings", icon: Settings },
+  // { label: "Settings", href: "/admin/settings", icon: Settings },
 ];
 
 export default function AdminClientLayout({ 
@@ -95,24 +95,7 @@ export default function AdminClientLayout({
             </h2>
           </div>
 
-          <div className="flex items-center gap-4">
-            {/* <button className="relative w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-200 hover:text-[#15161b] transition-colors">
-              <Bell size={18} />
-              <span className="absolute -top-1 -right-1 w-5 h-5 bg-[#c25b5e] rounded-full flex items-center justify-center text-[10px] text-white font-bold">3</span>
-            </button> */}
-            <div className="flex items-center gap-2 bg-gray-100 rounded-xl px-3 py-2 cursor-pointer hover:bg-gray-200 transition-colors">
-              <div className="w-8 h-8 rounded-lg bg-[#c25b5e] flex items-center justify-center text-white text-sm font-bold uppercase">
-                A
-              </div>
-              <div className="hidden sm:block">
-                <p className={`${textFont.className} text-sm font-bold text-[#15161b] leading-tight`}>
-                  Admin
-                </p>
-                <p className={`${textFont.className} text-[10px] text-gray-400 uppercase tracking-wider`}>Admin</p>
-              </div>
-              <ChevronDown size={14} className="text-gray-400 hidden sm:block" />
-            </div>
-          </div>
+        
         </header>
 
         {/* Content — ONLY this scrolls */}

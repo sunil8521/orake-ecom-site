@@ -2,34 +2,28 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { ShoppingCart, Heart } from "lucide-react";
+import { ShoppingCart, Heart, Star, StarHalf } from "lucide-react";
 import { useState } from "react";
 import { headingFont, bodyFont } from "@/lib/fonts";
 function StarRating({ rating, reviews }: { rating: number; reviews: number }) {
   return (
-    <div className="flex justify-center md:justify-start items-center gap-2 mb-2">
-      <div className="flex gap-0.5">
+    <div className="flex justify-center md:justify-start items-center gap-1.5 mb-2 w-full">
+      <div className="flex gap-0.5 text-[#dbba53]">
         {[1, 2, 3, 4, 5].map((star) => {
           const filled = rating >= star;
           const half = !filled && rating >= star - 0.5;
           return (
-            <span key={star} className="relative text-lg w-4 h-4 inline-block">
-              {/* Empty star (always rendered) */}
-              <span className="absolute inset-0 text-gray-300">★</span>
-              {/* Filled or half star */}
-              {filled && <span className="absolute inset-0 text-black">★</span>}
-              {half && (
-                <span className="absolute inset-0 text-black overflow-hidden w-[50%]">★</span>
-              )}
-            </span>
+            <div key={star} className="relative w-4 h-4 sm:w-4 sm:h-4">
+              <Star size={16} className="absolute inset-0 text-gray-200" fill="currentColor" strokeWidth={1} />
+              {filled && <Star size={16} className="absolute inset-0 text-[#dbba53]" fill="currentColor" strokeWidth={1} />}
+              {half && <StarHalf size={16} className="absolute inset-0 text-[#dbba53]" fill="currentColor" strokeWidth={1} />}
+            </div>
           );
         })}
       </div>
-      {reviews > 0 && (
-        <span className={`${bodyFont.className} text-xs font-bold text-gray-400 tracking-widest uppercase ml-1`}>
-          {reviews} {reviews === 1 ? 'review' : 'reviews'}
-        </span>
-      )}
+      <span className={`${bodyFont.className} text-[10px] sm:text-[11px] font-bold text-gray-500 tracking-wider uppercase ml-1`}>
+        ({reviews > 0 ? reviews : 0} REVIEWS)
+      </span>
     </div>
   );
 }
@@ -185,8 +179,8 @@ export default function CollectionsSection() {
               <button
                 onClick={() => setLiked1(!liked1)}
                 className={`absolute top-4 right-4 sm:top-5 sm:right-5 md:top-4 md:right-4 lg:top-5 lg:right-5 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-all active:scale-90 ${liked1
-                    ? "bg-[#c25b5e] text-white shadow-md"
-                    : "bg-white/80 text-gray-400 hover:text-[#c25b5e] hover:bg-white shadow-sm"
+                  ? "bg-[#c25b5e] text-white shadow-md"
+                  : "bg-white/80 text-gray-400 hover:text-[#c25b5e] hover:bg-white shadow-sm"
                   }`}
               >
                 <Heart size={20} strokeWidth={2} fill={liked1 ? "currentColor" : "none"} />
@@ -278,8 +272,8 @@ export default function CollectionsSection() {
               <button
                 onClick={() => setLiked2(!liked2)}
                 className={`absolute top-4 right-4 sm:top-5 sm:right-5 md:top-4 md:right-4 lg:top-5 lg:right-5 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-all active:scale-90 ${liked2
-                    ? "bg-[#dbba53] text-white shadow-md"
-                    : "bg-white/80 text-gray-400 hover:text-[#dbba53] hover:bg-white shadow-sm"
+                  ? "bg-[#dbba53] text-white shadow-md"
+                  : "bg-white/80 text-gray-400 hover:text-[#dbba53] hover:bg-white shadow-sm"
                   }`}
               >
                 <Heart size={20} strokeWidth={2} fill={liked2 ? "currentColor" : "none"} />
@@ -341,8 +335,8 @@ export default function CollectionsSection() {
           </motion.div>
 
         </motion.div>
- 
-    </div>
-  </section>
+
+      </div>
+    </section>
   );
 }

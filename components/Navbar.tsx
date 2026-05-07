@@ -113,7 +113,7 @@ export default function Navbar() {
               <Link href="/wishlist" className="relative hover:scale-110 transition-all group">
                 <Heart className="h-5 w-5 lg:h-6 lg:w-6" strokeWidth={2} />
                 {wishlistCount > 0 && (
-                  <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-[#f2c56f] text-[10px] font-bold text-[#15161b] shadow-sm ring-2 ring-[#c25b5e] group-hover:ring-white transition-all">
+                  <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-[#f2c56f] text-[10px] font-bold text-[#15161b] shadow-sm transition-all">
                     {wishlistCount}
                   </span>
                 )}
@@ -121,7 +121,7 @@ export default function Navbar() {
               <Link href="/cart" className="relative hover:scale-110 transition-all group">
                 <ShoppingCart className="h-5 w-5 lg:h-6 lg:w-6" strokeWidth={2} />
                 {cartCount > 0 && (
-                  <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-[#f2c56f] text-[10px] font-bold text-[#15161b] shadow-sm ring-2 ring-[#c25b5e] group-hover:ring-white transition-all">
+                  <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-[#f2c56f] text-[10px] font-bold text-[#15161b] shadow-sm transition-all">
                     {cartCount}
                   </span>
                 )}

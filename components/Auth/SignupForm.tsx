@@ -72,22 +72,22 @@ export default function SignupForm() {
     <div className="w-full max-w-[520px] mx-auto pb-6 sm:pb-8">
       <form onSubmit={handleSubmit(onSubmit)} className="relative overflow-hidden p-5 sm:p-8 md:p-10 pt-10 sm:pt-12">
 
-        {/* Decorative Background Elements */}
-        <div className="absolute inset-0 pointer-events-none opacity-80">
-          <Image src="/svgs/lemon-2-svg.png" alt="lemon" width={80} height={80} className="absolute -top-6 -left-6 rotate-12 drop-shadow-md" />
-          <Image src="/svgs/lemon-svg.png" alt="lemon" width={100} height={100} className="absolute top-40 -right-10 -rotate-12 drop-shadow-md" />
-          <Image src="/svgs/lemon-2-svg.png" alt="lemon 2" width={70} height={70} className="absolute bottom-32 -left-8 -rotate-45 drop-shadow-md" />
-          <Image src="/svgs/lemon-2-svg.png" alt="lemon 2" width={90} height={90} className="absolute -bottom-8 -right-4 rotate-12 drop-shadow-md" />
+        {/* Subtle Decorative Background Elements */}
+        <div className="absolute inset-0 pointer-events-none opacity-20 z-0">
+          <Image src="/svgs/lemon-2-svg.png" alt="lemon" width={80} height={80} className="absolute -top-6 -left-6 rotate-12" />
+          <Image src="/svgs/lemon-svg.png" alt="lemon" width={100} height={100} className="absolute top-40 -right-10 -rotate-12" />
+          <Image src="/svgs/lemon-2-svg.png" alt="lemon 2" width={70} height={70} className="absolute bottom-32 -left-8 -rotate-45" />
+          <Image src="/svgs/lemon-2-svg.png" alt="lemon 2" width={90} height={90} className="absolute -bottom-8 -right-4 rotate-12" />
 
           {/* Middle / Inner scattered elements */}
-          <Image src="/svgs/lemon-svg.png" alt="lemon" width={45} height={45} className="absolute top-1/4 left-10 rotate-90 drop-shadow-sm" />
-          <Image src="/svgs/lemon-2-svg.png" alt="lemon 2" width={55} height={55} className="absolute top-1/2 right-8 -rotate-45 drop-shadow-sm" />
-          <Image src="/svgs/lemon-svg.png" alt="lemon" width={75} height={75} className="absolute bottom-1/4 left-1/3 rotate-180 drop-shadow-sm" />
+          <Image src="/svgs/lemon-svg.png" alt="lemon" width={45} height={45} className="absolute top-1/4 left-10 rotate-90" />
+          <Image src="/svgs/lemon-2-svg.png" alt="lemon 2" width={55} height={55} className="absolute top-1/2 right-8 -rotate-45" />
+          <Image src="/svgs/lemon-svg.png" alt="lemon" width={75} height={75} className="absolute bottom-1/4 left-1/3 rotate-180" />
         </div>
 
         <div className="relative z-10">
-          <h3 className={`${titleFont.className} text-lg sm:text-xl md:text-2xl uppercase tracking-wide text-[#15161b] mb-4 sm:mb-6 md:mb-8`}>
-            Your Details
+          <h3 className={`${titleFont.className} text-xl sm:text-2xl md:text-3xl uppercase tracking-wide text-[#15161b] mb-4 sm:mb-6 md:mb-8 text-center`}>
+            Join Orake
           </h3>
 
           {/* Google Slide */}

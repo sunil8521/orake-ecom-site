@@ -86,20 +86,20 @@ export default function LoginForm() {
       {/* Form */}
       <form onSubmit={handleSubmit(onSubmit)} className="relative overflow-hidden p-5 sm:p-8 md:p-10 pt-10 sm:pt-12">
 
-        {/* Decorative Background Elements */}
-        <div className="absolute inset-0 pointer-events-none opacity-80">
-          <Image src="/svgs/flower-sb.png" alt="strawberry" width={100} height={100} className="absolute -top-2 -left-3 rotate-12 drop-shadow-md" />
-          <Image src="/svgs/leaf-svg.png" alt="leaf" width={80} height={80} className="absolute top-1/3 -left-8 -rotate-12 drop-shadow-md" />
-          <Image src="/svgs/starwbery-svg.png" alt="strawberry" width={70} height={70} className="absolute -bottom-6 right-10 rotate-45 drop-shadow-md" />
+        {/* Subtle Decorative Background Elements */}
+        <div className="absolute inset-0 pointer-events-none opacity-20 z-0">
+          <Image src="/svgs/flower-sb.png" alt="strawberry" width={100} height={100} className="absolute -top-2 -left-3 rotate-12" />
+          <Image src="/svgs/leaf-svg.png" alt="leaf" width={80} height={80} className="absolute top-1/3 -left-8 -rotate-12" />
+          <Image src="/svgs/starwbery-svg.png" alt="strawberry" width={70} height={70} className="absolute -bottom-6 right-10 rotate-45" />
 
           {/* Middle / Inner scattered elements */}
-          <Image src="/svgs/starwbery-svg.png" alt="strawberry" width={50} height={50} className="absolute top-1/4 right-1/4 -rotate-12 drop-shadow-sm" />
-          <Image src="/svgs/starwbery-svg.png" alt="strawberry" width={60} height={60} className="absolute bottom-1/3 left-8 rotate-90 drop-shadow-sm" />
+          <Image src="/svgs/starwbery-svg.png" alt="strawberry" width={50} height={50} className="absolute top-1/4 right-1/4 -rotate-12" />
+          <Image src="/svgs/starwbery-svg.png" alt="strawberry" width={60} height={60} className="absolute bottom-1/3 left-8 rotate-90" />
         </div>
 
         <div className="relative z-10">
-          <h3 className={`${titleFont.className} text-lg sm:text-xl md:text-2xl uppercase tracking-wide text-[#15161b] mb-4 sm:mb-6 md:mb-8`}>
-            Your Details
+          <h3 className={`${titleFont.className} text-xl sm:text-2xl md:text-3xl uppercase tracking-wide text-[#15161b] mb-4 sm:mb-6 md:mb-8 text-center`}>
+            Welcome Back
           </h3>
 
           {/* Google Slide */}

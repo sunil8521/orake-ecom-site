@@ -14,7 +14,6 @@ interface Props {
 export default function Pagination({ currentPage, totalPages, totalItems, itemsPerPage, onPageChange }: Props) {
   if (totalPages <= 1) return null;
 
-  // Build smart page numbers: 1 ... 4 5 6 ... 13
   const getPages = (): (number | "...")[] => {
     const pages: (number | "...")[] = [];
 

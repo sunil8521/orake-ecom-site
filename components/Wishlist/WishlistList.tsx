@@ -9,34 +9,24 @@ import { toggleWishlist } from "@/actions/wishlist";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useCartWishlistStore } from "@/store/useCartWishlistStore";
+import { ProductType } from "@/models/Product"
 
-export interface WishItem {
-  id: string;
-  name: string;
-  flavor: string;
-  price: number;
-  oldPrice: number | null;
-  image: string;
-  inStock: boolean;
-}
 
-export default function WishlistList({ initialItems }: { initialItems: WishItem[] }) {
-  const [items, setItems] = useState<WishItem[]>(initialItems);
+export default function WishlistList({ initialItems }: { initialItems: ProductType[] }) {
   const router = useRouter();
-
+  const [items, setItems] = useState(initialItems);
   const { decrementWishlist } = useCartWishlistStore();
 
-  const removeItem = async (id: string) => {
-    const previousItems = [...items];
-    setItems(prev => prev.filter(item => item.id !== id));
-    
-    const res = await toggleWishlist(id);
+  const removeItem = async (productId: string) => {
+    // Optimistic: remove from UI instantly
+    setItems(prev => prev.filter(item => item._id !== productId));
+    decrementWishlist();
+
+    const res = await toggleWishlist(productId);
     if (!res.success) {
+      // Revert on failure
+      setItems(initialItems);
       toast.error("Failed to remove item");
-      setItems(previousItems);
-    } else {
-      decrementWishlist();
-      router.refresh();
     }
   };
 
@@ -57,8 +47,8 @@ export default function WishlistList({ initialItems }: { initialItems: WishItem[
           <EmptyWishlist />
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {items.map(item => (
-              <WishlistCard key={item.id} item={item} onRemove={removeItem} />
+            {items.map((item) => (
+              <WishlistCard key={item._id} item={item} onRemove={() => removeItem(item._id)} />
             ))}
           </div>
         )}

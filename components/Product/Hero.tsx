@@ -25,7 +25,7 @@ export default function Hero() {
 				<motion.div
 					initial={{ opacity: 0, y: 20 }}
 					animate={{ opacity: 1, y: 0 }}
-					transition={{ duration: 0.6 }}
+					transition={	{ duration: 0.6 }}
 				>
 
 					<h1 className={`${titleFont.className} text-5xl sm:text-6xl md:text-8xl lg:text-9xl uppercase leading-[0.95] tracking-wide text-white`}>

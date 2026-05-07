@@ -4,10 +4,9 @@ import { connectDB } from "@/lib/db";
 import { Cart } from "@/models/Cart";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import { updateTag } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
 import { getCartCount as _getCartCount } from "@/lib/data/cart";
 
-// GET wrapper — called from Navbar on auth change, not on every keystroke.
 export async function getCartCount(): Promise<number> {
   return _getCartCount();
 }
@@ -23,24 +22,26 @@ export async function addToCart(productId: string, quantity: number = 1) {
     if (!session?.user) throw new Error("Unauthorized");
 
     await connectDB();
-    
+
     let cart = await Cart.findOne({ userId: session.user.id });
-    
+
     if (!cart) {
       cart = new Cart({ userId: session.user.id, items: [] });
     }
 
+    let isNewItem = false;
     const existingItemIndex = cart.items.findIndex((item: any) => item.productId.toString() === productId);
-    
+
     if (existingItemIndex > -1) {
       cart.items[existingItemIndex].quantity += quantity;
     } else {
       cart.items.push({ productId, quantity });
+      isNewItem = true;
     }
 
     await cart.save();
-    updateTag("cart");
-    return { success: true };
+    revalidatePath("/cart");
+    return { success: true, isNewItem };
   } catch (error: any) {
     console.error("Add to cart error:", error);
     return { success: false, error: error.message };
@@ -64,7 +65,7 @@ export async function updateCartItemQty(productId: string, quantity: number) {
         cart.items[existingItemIndex].quantity = quantity;
       }
       await cart.save();
-      updateTag("cart");
+      revalidatePath("/cart");
     }
     return { success: true };
   } catch (error: any) {
@@ -83,7 +84,7 @@ export async function removeFromCart(productId: string) {
 
     cart.items = cart.items.filter((item: any) => item.productId.toString() !== productId);
     await cart.save();
-    updateTag("cart");
+    revalidatePath("/cart");
     return { success: true };
   } catch (error: any) {
     return { success: false, error: error.message };
@@ -96,7 +97,7 @@ export async function clearCart() {
     if (!session?.user) throw new Error("Unauthorized");
     await connectDB();
     await Cart.findOneAndUpdate({ userId: session.user.id }, { items: [] });
-    updateTag("cart");
+    revalidatePath("/cart");
     return { success: true };
   } catch (error: any) {
     return { success: false, error: error.message };

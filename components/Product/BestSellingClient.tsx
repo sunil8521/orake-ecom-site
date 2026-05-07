@@ -1,24 +1,19 @@
 'use client';
 
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 
-import ProductCard, { ProductType } from "@/components/Product/ProductCard";
+import ProductCard from "@/components/Product/ProductCard";
+import { ProductType } from "@/models/Product"
 import { textFont } from "@/lib/fonts";
 
 
 
 const categoryTabs = ['All', 'New Drops', 'Sale'];
-// const categoryTabs = ['All', 'Curated Box', 'Singles', 'New Drops', 'Sale'];
-export default function BestSellingClient({ initialProducts }: { initialProducts: ProductType[] }) {
+export default function BestSellingClient({ initialProducts, initialWishlistSlugs }: { initialProducts: ProductType[], initialWishlistSlugs: string[] }) {
 	const [activeTab, setActiveTab] = useState('All');
-	const videoRef = useRef<HTMLVideoElement>(null);
 
-	useEffect(() => {
-		if (videoRef.current) {
-			videoRef.current.playbackRate = 0.5; // Slow down video to 50%
-		}
-	}, []);
+
 	const containerVariants = {
 		hidden: { opacity: 0 },
 		visible: {
@@ -38,8 +33,6 @@ export default function BestSellingClient({ initialProducts }: { initialProducts
 
 	return (
 		<div className="min-h-screen bg-white">
-
-
 
 			{/* ━━━ Category Tabs + Products ━━━ */}
 			<section className="bg-white py-10 md:py-16 px-4 sm:px-8 lg:px-20">
@@ -75,9 +68,9 @@ export default function BestSellingClient({ initialProducts }: { initialProducts
 						viewport={{ once: false, margin: "-50px" }}
 					>
 						<div className="grid grid-cols-1 sm:grid-cols-2 max-w-4xl mx-auto gap-x-10 md:gap-x-16 gap-y-24 md:gap-y-28 pt-6 md:pt-10 justify-items-center">
-							{initialProducts.map((product) => (
-								<motion.div key={product.id} variants={itemVariants} className="w-full max-w-[340px]">
-									<ProductCard product={product} />
+							{initialProducts.map((product, index) => (
+								<motion.div key={index} variants={itemVariants} className="w-full max-w-[340px]">
+									<ProductCard product={product} isWishlist={initialWishlistSlugs.includes(product._id)} />
 								</motion.div>
 							))}
 						</div>
@@ -86,8 +79,7 @@ export default function BestSellingClient({ initialProducts }: { initialProducts
 				</div>
 			</section>
 
-			{/* ━━━ Advertising Section ━━━ */}
-		
+
 
 		</div>
 	);

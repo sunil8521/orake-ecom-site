@@ -49,7 +49,7 @@ export async function getCartCount(): Promise<number> {
     await connectDB();
     const cart = await Cart.findOne({ userId: session.user.id });
     if (!cart) return 0;
-    return cart.items.reduce((acc: number, item: any) => acc + item.quantity, 0);
+    return cart.items.length;
   } catch {
     return 0;
   }

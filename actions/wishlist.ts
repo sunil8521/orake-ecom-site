@@ -2,22 +2,17 @@
 
 import { connectDB } from "@/lib/db";
 import { Wishlist } from "@/models/Wishlist";
+import { Product } from "@/models/Product";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import { updateTag } from "next/cache";
+import { revalidatePath } from "next/cache";
 import {
-  getWishlistCount as _getWishlistCount,
-  checkWishlistStatus as _checkWishlistStatus,
+  getWishlistCount as _getWishlistCount
 } from "@/lib/data/wishlist";
 
-// These are GET wrappers — called from client components on auth/mount events,
-// NOT in tight loops or on every keystroke. Acceptable use of Server Actions.
+
 export async function getWishlistCount(): Promise<number> {
   return _getWishlistCount();
-}
-
-export async function checkWishlistStatus(productId: string): Promise<boolean> {
-  return _checkWishlistStatus(productId);
 }
 
 async function getSession() {
@@ -31,23 +26,26 @@ export async function toggleWishlist(productId: string) {
     if (!session?.user) throw new Error("Unauthorized");
 
     await connectDB();
-    
-    const existing = await Wishlist.findOne({ 
-        userId: session.user.id, 
-        productId: productId 
+
+    const existing = await Wishlist.findOne({
+      userId: session.user.id,
+      productId: productId
     });
-    
+
     if (existing) {
-        await Wishlist.deleteOne({ _id: existing._id });
-        updateTag("wishlist");
-        return { success: true, added: false };
+      await Wishlist.deleteOne({ _id: existing._id });
+      revalidatePath("/products");
+      revalidatePath("/wishlist");
+      return { success: true, added: false };
     } else {
-        await Wishlist.create({
-            userId: session.user.id,
-            productId: productId
-        });
-        updateTag("wishlist");
-        return { success: true, added: true };
+      await Wishlist.create({
+        userId: session.user.id,
+        productId: productId
+      });
+      revalidatePath("/products");
+      revalidatePath("/wishlist");
+
+      return { success: true, added: true };
     }
   } catch (error: any) {
     console.error("Toggle wishlist error:", error);

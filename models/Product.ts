@@ -12,10 +12,14 @@ export interface IProduct {
     discount: number,
     size: string,
     image: string,
+    subImages?: string[],
     stock: number,
     numReviews: number,
     isFeatured: boolean
 }
+export interface ProductType extends IProduct{
+    _id:string
+} 
 
 const ProcutSchema = new mongoose.Schema<IProduct>({
     name: {
@@ -25,7 +29,8 @@ const ProcutSchema = new mongoose.Schema<IProduct>({
     slug: {
         type: String,
         lowercase: true,
-        unique: true
+        unique: true,
+        index: true
     },
     description: {
         type: String,
@@ -43,13 +48,19 @@ const ProcutSchema = new mongoose.Schema<IProduct>({
         type: Number,
         default: 0
     },
-    size: { 
+    size: {
         type: String,
         default: "250ML"
     },
     image: {
         type: String,
         required: true
+    },
+    subImages: {
+        type: [String],
+        validate: [function (val: string[]) {
+            return val.length <= 5;
+        }, 'Sub images exceed the limit of 5']
     },
     stock: {
         type: Number,
