@@ -1,53 +1,43 @@
 import mongoose, { Schema, models, model } from "mongoose";
-import bcrypt from "bcryptjs"
 
+/**
+ * This model is a Mongoose wrapper around better-auth's `user` collection.
+ * It does NOT own or manage this collection — better-auth does.
+ * It exists solely so that `ref: "User"` in Cart, Order, Wishlist, Rating models
+ * can resolve correctly for `.populate()` calls.
+ *
+ * Collection name is explicitly set to "user" (the 3rd arg) to match better-auth.
+ */
 export interface IUser {
   _id: mongoose.Types.ObjectId;
-  fullName: string;
+  name: string;           // better-auth uses `name` (not `fullName`)
   email: string;
+  emailVerified: boolean;
+  image?: string;
   phone?: string;
-  password?: string;
-  isVerified: boolean;
-  otp?: string;
-  otpExpiry?: Date;
-  provider: "credentials" | "google";
-  role: "user" | "admin"
+  role: "user" | "admin";
+  isDelete: boolean;
   createdAt: Date;
   updatedAt: Date;
-  isDelete: boolean
 }
 
 const UserSchema = new Schema<IUser>(
   {
-    fullName: { type: String, required: true, trim: true },
-    email: { type: String, required: true, unique: true, lowercase: true, trim: true },
-    phone: { type: String, trim: true },
-    password: { type: String, select: false }, // Hidden 
-    isVerified: { type: Boolean, default: false },
-    otp: { type: String, select: false },
-    otpExpiry: { type: Date, select: false },
-    provider: { type: String, enum: ["credentials", "google"], default: "credentials" },
+    name: { type: String },
+    email: { type: String },
+    emailVerified: { type: Boolean, default: false },
+    image: { type: String },
+    phone: { type: String },
     role: { type: String, enum: ["user", "admin"], default: "user" },
-    isDelete: {
-      type: Boolean,
-      default: false,
-      select: false
-    }
+    isDelete: { type: Boolean, default: false },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+    // Do NOT add any pre-save hooks — better-auth manages this collection
+  }
 );
 
-UserSchema.pre("save", async function () {
-  if (!this.isModified("password") || !this.password) {
-    return;
-  }
-  const hashedPassword = await bcrypt.hash(this.password as string, 12);
-  this.password = hashedPassword;
-})
-
-UserSchema.methods.comparePassword = async function (password: string) {
-  return bcrypt.compare(password, this.password);
-}
-
+// 3rd arg "user" = forces Mongoose to use the `user` collection (better-auth's table)
+// NOT `users` (the old orphaned collection)
 const User = models.User || model<IUser>("User", UserSchema, "user");
 export default User;

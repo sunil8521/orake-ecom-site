@@ -2,12 +2,10 @@
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { ShoppingBag, ChevronDown, ChevronLeft, ChevronRight, MapPin, CreditCard, Truck, Package, XCircle, Loader2 } from "lucide-react";
-import { Sansita, DM_Sans } from "next/font/google";
 import { toast } from "sonner";
 import { getUserOrders, cancelOrder } from "@/actions/order";
+import { titleFont, textFont } from "@/lib/fonts";
 
-const titleFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
-const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 
 const ORDERS_PER_PAGE = 3;
 

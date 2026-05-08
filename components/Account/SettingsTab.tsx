@@ -1,12 +1,10 @@
 "use client";
 import { useState } from "react";
 import { Lock, Eye, EyeOff, Loader2, AlertTriangle } from "lucide-react";
-import { Sansita, DM_Sans } from "next/font/google";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
+import { titleFont, textFont } from "@/lib/fonts";
 
-const titleFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
-const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 
 export default function SettingsTab() {
   const [showOldPass, setShowOldPass] = useState(false);

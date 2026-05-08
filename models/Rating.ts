@@ -4,10 +4,11 @@ import mongoose from "mongoose";
 
 export interface IRating {
     procutID: mongoose.Schema.Types.ObjectId,
-    userID: mongoose.Schema.Types.ObjectId,
+    userID?: mongoose.Schema.Types.ObjectId,
+    name?: string,
+    email?: string,
     text: string,
     rating: number
-
 }
 
 
@@ -19,9 +20,13 @@ const RatingSchema = new mongoose.Schema<IRating>({
     },
     userID: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        required: true
-
+        ref: "User"
+    },
+    name: {
+        type: String,
+    },
+    email: {
+        type: String,
     },
     text: {
         type: String,
@@ -31,9 +36,9 @@ const RatingSchema = new mongoose.Schema<IRating>({
         type: Number,
         required: true
     },
-})
+}, { timestamps: true })
 
 
 
 
-export const Rating = mongoose.models.Rating || mongoose.model<IRating>("rating", RatingSchema)
+export const Rating = mongoose.models.Rating || mongoose.model<IRating>("Rating", RatingSchema)

@@ -1,10 +1,8 @@
 import Link from "next/link";
-import { Sansita, DM_Sans } from "next/font/google";
 import { AlertTriangle, ArrowRight } from "lucide-react";
 import Image from "next/image";
+import { titleFont, textFont } from "@/lib/fonts";
 
-const titleFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
-const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 
 export default function NotFound() {
   return (

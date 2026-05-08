@@ -1,9 +1,5 @@
 import Image from "next/image";
-import { DM_Sans, Sansita } from "next/font/google";
-
-const headingFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
-const bodyFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "700"] });
-
+import { headingFont, bodyFont } from "@/lib/fonts";
 export default function SmoothieShowcaseSection() {
   return (
     <div className={`relative w-full ${bodyFont.className}`}>

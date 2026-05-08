@@ -1,9 +1,8 @@
 "use client";
 import { useState, useRef, useCallback, useEffect } from "react";
-import { DM_Sans } from "next/font/google";
 import { Loader2, ChevronRight } from "lucide-react";
+import { textFont } from "@/lib/fonts";
 
-const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 
 interface SlideToGoogleProps {
   onSlideComplete: () => void;

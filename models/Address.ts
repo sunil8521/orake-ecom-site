@@ -17,7 +17,8 @@ export interface IAddress {
 const AddressSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
-        required: true
+        required: true,
+        ref: "User"
     },
     fullName: {
         type: String,

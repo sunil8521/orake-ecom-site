@@ -1,5 +1,5 @@
 "use client";
-import { ArrowRight, Truck, Shield, RotateCcw, Loader2 } from "lucide-react";
+import { ArrowRight, Tag, Shield, RotateCcw, Loader2, CheckCircle, Percent } from "lucide-react";
 import { titleFont, textFont } from "@/lib/fonts";
 import { useState } from "react";
 import { createRazorpayOrder } from "@/actions/payment";
@@ -9,16 +9,54 @@ import { toast } from "sonner";
 
 interface OrderSummaryProps {
   subtotal: number;
-  shipping: number;
+  savings: number;
   total: number;
   onPaymentSuccess?: (orderId: string) => void;
 }
 
-export default function OrderSummary({ subtotal, shipping, total, onPaymentSuccess }: OrderSummaryProps) {
+const VALID_COUPONS: Record<string, { discount: number; type: "percent" | "flat"; label: string }> = {
+  ORAKE10: { discount: 10, type: "percent", label: "10% off" },
+  ORAKE50: { discount: 50, type: "flat", label: "₹50 off" },
+  WELCOME: { discount: 15, type: "percent", label: "15% off" },
+};
+
+export default function OrderSummary({ subtotal, savings, total, onPaymentSuccess }: OrderSummaryProps) {
   const [isProcessing, setIsProcessing] = useState(false);
+  const [couponCode, setCouponCode] = useState("");
+  const [appliedCoupon, setAppliedCoupon] = useState<{ code: string; discount: number; label: string } | null>(null);
+  const [couponError, setCouponError] = useState("");
   const { openAuthModal } = useAuthStore();
   const { data: session } = useSession();
   const user = session?.user;
+
+  const applyCoupon = () => {
+    setCouponError("");
+    const code = couponCode.trim().toUpperCase();
+    if (!code) return;
+
+    const coupon = VALID_COUPONS[code];
+    if (!coupon) {
+      setCouponError("Invalid coupon code");
+      setAppliedCoupon(null);
+      return;
+    }
+
+    const discountAmount = coupon.type === "percent"
+      ? Math.round((subtotal * coupon.discount) / 100)
+      : coupon.discount;
+
+    setAppliedCoupon({ code, discount: discountAmount, label: coupon.label });
+    toast.success(`Coupon "${code}" applied — ${coupon.label}!`);
+  };
+
+  const removeCoupon = () => {
+    setAppliedCoupon(null);
+    setCouponCode("");
+    setCouponError("");
+  };
+
+  const couponDiscount = appliedCoupon?.discount ?? 0;
+  const finalTotal = Math.max(0, total - couponDiscount);
 
   const loadRazorpayScript = () => {
     return new Promise((resolve) => {
@@ -47,8 +85,7 @@ export default function OrderSummary({ subtotal, shipping, total, onPaymentSucce
         return;
       }
 
-      // Create order on server
-      const result = await createRazorpayOrder(total);
+      const result = await createRazorpayOrder(finalTotal);
       
       if (!result.success || !result.orderId) {
         toast.error(result.error || "Could not initialize checkout");
@@ -56,10 +93,9 @@ export default function OrderSummary({ subtotal, shipping, total, onPaymentSucce
         return;
       }
 
-      // Initialize Razorpay Options
       const options: RazorpayOptions = {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "",
-        amount: Number(result.amount) || total * 100,
+        amount: Number(result.amount) || finalTotal * 100,
         currency: result.currency || "INR",
         name: "Orake Energy",
         description: "Water Bottle Order",
@@ -97,41 +133,107 @@ export default function OrderSummary({ subtotal, shipping, total, onPaymentSucce
   
   
   return (
-    <div className="lg:w-[380px] shrink-0">
-      <div className="bg-[#15161b] rounded-[2rem] p-8 text-white shadow-[0_20px_50px_rgba(0,0,0,0.15)] sticky top-28">
-        <h3 className={`${titleFont.className} text-2xl uppercase tracking-wide mb-6`}>Order Summary</h3>
+    <div className="w-full lg:w-[380px] xl:w-[420px] shrink-0">
+      <div className="bg-[#15161b] rounded-[1.5rem] p-6 sm:p-8 text-white shadow-xl lg:sticky lg:top-28">
+        <h3 className={`${textFont.className} text-sm sm:text-base font-bold uppercase tracking-[0.2em] text-gray-400 mb-5 sm:mb-6 pb-4 border-b border-white/10`}>
+          Order Summary
+        </h3>
 
-        <div className="space-y-4 mb-6">
-          <div className="flex justify-between">
-            <span className={`${textFont.className} text-gray-400 text-lg`}>Subtotal</span>
-            <span className={`${textFont.className} text-white text-lg font-semibold`}>Rs. {subtotal.toFixed(2)}</span>
+        {/* Price Breakdown */}
+        <div className="space-y-4 mb-7">
+          <div className="flex justify-between items-baseline">
+            <span className={`${textFont.className} text-gray-400 text-sm sm:text-base`}>Subtotal</span>
+            <span className={`${textFont.className} text-white text-sm sm:text-base font-semibold`}>₹{subtotal.toFixed(0)}</span>
           </div>
-          <div className="flex justify-between">
-            <span className={`${textFont.className} text-gray-400 text-lg`}>Shipping</span>
-            <span className={`${textFont.className} text-lg font-semibold ${shipping === 0 ? "text-green-400" : "text-white"}`}>
-              {shipping === 0 ? "FREE" : `Rs. ${shipping}`}
-            </span>
-          </div>
-          {shipping > 0 && (
-            <p className={`${textFont.className} text-gray-500 text-sm`}>Free shipping on orders over Rs. 999</p>
+
+          {savings > 0 && (
+            <div className="flex justify-between items-baseline">
+              <span className={`${textFont.className} text-[#4ade80] text-sm sm:text-base flex items-center gap-1.5`}>
+                <Tag size={14} /> Savings
+              </span>
+              <span className={`${textFont.className} text-[#4ade80] text-sm sm:text-base font-semibold`}>
+                -₹{savings.toFixed(0)}
+              </span>
+            </div>
           )}
-          <div className="h-px bg-white/10" />
-          <div className="flex justify-between">
-            <span className={`${titleFont.className} text-white text-xl uppercase tracking-wide`}>Total</span>
-            <span className={`${titleFont.className} text-white text-2xl`}>Rs. {total.toFixed(2)}</span>
+
+          {appliedCoupon && (
+            <div className="flex justify-between items-baseline">
+              <span className={`${textFont.className} text-[#dbba53] text-sm sm:text-base flex items-center gap-1.5`}>
+                <Percent size={14} /> Coupon
+              </span>
+              <span className={`${textFont.className} text-[#dbba53] text-sm sm:text-base font-semibold`}>
+                -₹{couponDiscount.toFixed(0)}
+              </span>
+            </div>
+          )}
+
+          <div className="h-px bg-white/10 !mt-5" />
+
+          <div className="flex justify-between items-baseline !mt-4">
+            <span className={`${textFont.className} text-white text-base sm:text-lg font-bold uppercase tracking-widest`}>Total</span>
+            <div className="text-right">
+              {couponDiscount > 0 && (
+                <span className={`${textFont.className} text-gray-500 text-xs line-through block mb-0.5`}>
+                  ₹{total.toFixed(0)}
+                </span>
+              )}
+              <span className={`${titleFont.className} text-white text-3xl sm:text-4xl tracking-tight`}>
+                ₹{finalTotal.toFixed(0)}
+              </span>
+            </div>
           </div>
         </div>
 
-        {/* Promo */}
-        <div className="flex gap-2 mb-6">
-          <input type="text" placeholder="Promo code" className={`${textFont.className} flex-1 bg-white/5 border border-white/10 px-4 py-3 rounded-xl text-white placeholder-gray-500 focus:border-[#dbba53] focus:outline-none transition-colors`} />
-          <button className={`${textFont.className} bg-white/10 px-5 py-3 rounded-xl text-white font-bold uppercase tracking-wider hover:bg-white/20 transition-colors text-sm`}>Apply</button>
+        {/* Coupon Code */}
+        <div className="mb-7">
+          {appliedCoupon ? (
+            <div className="flex items-center justify-between bg-[#dbba53]/10 border border-[#dbba53]/20 rounded-xl px-4 py-3">
+              <div className="flex items-center gap-2.5">
+                <CheckCircle size={18} className="text-[#dbba53]" />
+                <span className={`${textFont.className} text-[#dbba53] text-sm font-bold tracking-[0.15em] uppercase mt-0.5`}>
+                  {appliedCoupon.code}
+                </span>
+              </div>
+              <button
+                onClick={removeCoupon}
+                className={`${textFont.className} text-gray-400 hover:text-red-400 text-xs uppercase tracking-widest transition-colors`}
+              >
+                Remove
+              </button>
+            </div>
+          ) : (
+            <>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={couponCode}
+                  onChange={(e) => { setCouponCode(e.target.value); setCouponError(""); }}
+                  onKeyDown={(e) => e.key === "Enter" && applyCoupon()}
+                  placeholder="Coupon code"
+                  className={`${textFont.className} flex-1 bg-white/5 border border-white/10 px-4 py-3 rounded-xl text-white text-sm placeholder-gray-500 focus:border-[#c25b5e] focus:bg-white/10 outline-none transition-all uppercase tracking-wider`}
+                />
+                <button
+                  onClick={applyCoupon}
+                  className={`${textFont.className} bg-white/10 px-6 py-3 rounded-xl text-white text-sm font-bold uppercase tracking-wider hover:bg-white/20 hover:text-[#c25b5e] transition-all`}
+                >
+                  Apply
+                </button>
+              </div>
+              {couponError && (
+                <p className={`${textFont.className} text-red-400 text-xs mt-2 tracking-wider ml-1`}>
+                  {couponError}
+                </p>
+              )}
+            </>
+          )}
         </div>
 
+        {/* Checkout Button */}
         <button 
           onClick={handleCheckout}
           disabled={isProcessing}
-          className={`${textFont.className} w-full bg-[#c25b5e] hover:bg-[#de3e4f] disabled:opacity-70 disabled:cursor-not-allowed text-white py-4 rounded-full text-xl font-bold uppercase tracking-wider transition-all duration-300 hover:shadow-[0_10px_30px_rgba(222,62,79,0.4)] active:scale-[0.98] flex items-center justify-center gap-3`}
+          className={`${textFont.className} w-full bg-[#c25b5e] hover:bg-[#de3e4f] disabled:opacity-70 disabled:cursor-not-allowed text-white py-4 rounded-xl text-base font-bold uppercase tracking-[0.2em] transition-all duration-300 hover:shadow-[0_8px_25px_rgba(194,91,94,0.35)] active:scale-[0.98] flex items-center justify-center gap-3`}
         >
           {isProcessing ? (
              <><Loader2 size={20} className="animate-spin" /> Processing...</>
@@ -140,15 +242,15 @@ export default function OrderSummary({ subtotal, shipping, total, onPaymentSucce
           )}
         </button>
 
-        <div className="grid grid-cols-3 gap-3 mt-8">
+        {/* Trust Badges */}
+        <div className="flex items-center justify-center gap-6 mt-6 pt-5 border-t border-white/5">
           {[
-            { icon: Truck, label: "Free Ship 999+" },
-            { icon: Shield, label: "Secure Pay" },
-            { icon: RotateCcw, label: "Easy Returns" },
+            { icon: Shield, label: "Secure" },
+            { icon: RotateCcw, label: "Returns" },
           ].map(({ icon: Icon, label }) => (
-            <div key={label} className="text-center">
-              <Icon size={18} className="mx-auto text-gray-500 mb-1" />
-              <span className={`${textFont.className} text-[10px] text-gray-500 uppercase tracking-wider leading-tight block`}>{label}</span>
+            <div key={label} className="flex items-center gap-2">
+              <Icon size={16} className="text-gray-500" />
+              <span className={`${textFont.className} text-xs sm:text-sm text-gray-500 uppercase tracking-widest font-medium`}>{label}</span>
             </div>
           ))}
         </div>

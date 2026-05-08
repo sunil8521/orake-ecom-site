@@ -1,10 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Sansita, DM_Sans } from "next/font/google";
+import { titleFont, textFont } from "@/lib/fonts";
 
-const titleFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
-const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 
 export default function VideoShowcaseSection() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -17,7 +15,7 @@ export default function VideoShowcaseSection() {
       ([entry]) => {
         setIsInView(entry.isIntersecting);
         if (entry.isIntersecting && videoRef.current) {
-          videoRef.current.play().catch(() => {});
+          videoRef.current.play().catch(() => { });
         } else if (!entry.isIntersecting && videoRef.current) {
           videoRef.current.pause();
         }
@@ -34,23 +32,22 @@ export default function VideoShowcaseSection() {
 
   return (
     <section className="relative overflow-hidden bg-white px-12 sm:px-16 lg:px-28 pt-0 pb-4 sm:pt-2 sm:pb-6 md:pt-3 md:pb-8">
-      
+
       {/* Background  */}
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_80%,rgba(222,62,79,0.05)_0%,rgba(244,238,207,0.2)_30%,rgba(255,255,255,0)_70%)]" />
 
       <div className="relative mx-auto w-full max-w-[1400px] xl:max-w-[1500px]">
         {/* Video Container */}
-        <div 
+        <div
           ref={containerRef}
           className="group relative w-full overflow-hidden rounded-[1.2rem] sm:rounded-[2rem] md:rounded-[2.5rem] bg-[#000000]   transition-shadow duration-700  flex items-end aspect-[3/4] sm:aspect-[4/3] md:aspect-auto md:min-h-[40vh]"
         >
-          
+
           {/* Video Background */}
           <video
             ref={videoRef}
-            className={`absolute inset-0 h-full w-full object-cover transition-all duration-1000 ease-out group-hover:scale-105 z-0 ${
-              isLoaded ? "opacity-100 scale-100" : "opacity-0 scale-110"
-            }`}
+            className={`absolute inset-0 h-full w-full object-cover transition-all duration-1000 ease-out group-hover:scale-105 z-0 ${isLoaded ? "opacity-100 scale-100" : "opacity-0 scale-110"
+              }`}
             src="/video2.mp4"
             loop
             muted
@@ -61,16 +58,15 @@ export default function VideoShowcaseSection() {
             Your browser does not support the video tag.
           </video>
 
-            
+
 
           {/* Dark Overlay Gradients */}
-           <div className="absolute inset-0 z-[1] bg-gradient-to-r from-black/40 via-black/7 to-transparent opacity-50" />
+          <div className="absolute inset-0 z-[1] bg-gradient-to-r from-black/40 via-black/7 to-transparent opacity-50" />
 
           {/* Content */}
-          <div 
-            className={`relative z-10 w-full p-5 sm:p-8 md:p-12 lg:p-16 lg:w-[65%] xl:w-[55%] transition-all duration-[1.2s] ease-out delay-200 ${
-              isInView ? "translate-y-0 opacity-100" : "translate-y-16 opacity-0"
-            }`}
+          <div
+            className={`relative z-10 w-full p-5 sm:p-8 md:p-12 lg:p-16 lg:w-[65%] xl:w-[55%] transition-all duration-[1.2s] ease-out delay-200 ${isInView ? "translate-y-0 opacity-100" : "translate-y-16 opacity-0"
+              }`}
           >
             <h2 className={`${titleFont.className} mb-3 sm:mb-4 text-[clamp(2rem,7vw,5rem)] uppercase leading-[1.05] tracking-wide text-white drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)]`}>
               Refresh Your Life,
@@ -89,8 +85,8 @@ export default function VideoShowcaseSection() {
                 "Long-lasting temperature control",
                 "Perfect for every adventure",
               ].map((item, i) => (
-                <div 
-                  key={i} 
+                <div
+                  key={i}
                   className="flex items-center gap-3 transition-all duration-700 ease-out"
                   style={{ transitionDelay: `${isInView ? 500 + i * 150 : 0}ms`, opacity: isInView ? 1 : 0, transform: isInView ? 'translateX(0)' : 'translateX(-20px)' }}
                 >
@@ -115,7 +111,7 @@ export default function VideoShowcaseSection() {
               </span>
             </button>
           </div>
-          
+
         </div>
       </div>
     </section>

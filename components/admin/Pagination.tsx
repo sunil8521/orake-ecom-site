@@ -1,8 +1,7 @@
 "use client";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { Oswald, DM_Sans } from "next/font/google";
+import { textFont } from "@/lib/fonts";
 
-const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 
 interface Props {
   currentPage: number;
@@ -15,7 +14,6 @@ interface Props {
 export default function Pagination({ currentPage, totalPages, totalItems, itemsPerPage, onPageChange }: Props) {
   if (totalPages <= 1) return null;
 
-  // Build smart page numbers: 1 ... 4 5 6 ... 13
   const getPages = (): (number | "...")[] => {
     const pages: (number | "...")[] = [];
 

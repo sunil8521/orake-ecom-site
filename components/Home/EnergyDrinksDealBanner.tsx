@@ -1,11 +1,8 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import { DM_Sans } from "next/font/google";
 import { motion } from "framer-motion";
-
-const bodyFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
-
+import { bodyFont } from "@/lib/fonts";
 export default function EnergyDrinksDealBanner() {
   return (
     <div className={`w-full max-w-[1400px] xl:max-w-[1500px] mx-auto px-12 sm:px-16 lg:px-28 mt-16 sm:mt-20 md:mt-24 pb-16 md:pb-20 ${bodyFont.className}`}>

@@ -1,23 +1,52 @@
 "use client";
-import { useState } from "react";
-import { Send } from "lucide-react";
+import { Send, Loader2 } from "lucide-react";
 import { titleFont, textFont } from "@/lib/fonts";
+import { submitContactForm } from "@/actions/contact";
+import { toast } from "sonner";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const contactSchema = z.object({
+  name: z.string().min(2, "Name is required"),
+  email: z.email("Invalid email address"),
+  phone: z.string().optional(),
+  subject: z.string().optional(),
+  message: z.string().min(5, "Message must be at least 5 characters"),
+});
+
+type ContactFormValues = z.infer<typeof contactSchema>;
 
 export default function ContactForm() {
-  const [form, setForm] = useState({
-    name: "", email: "", phone: "", subject: "", message: "",
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<ContactFormValues>({
+    resolver: zodResolver(contactSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      phone: "",
+      subject: "",
+      message: "",
+    },
   });
 
-  const handle = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
-    setForm({ ...form, [e.target.name]: e.target.value });
+  const onSubmit = async (data: ContactFormValues) => {
+    const res = await submitContactForm(data);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    alert("Message blasted off! We'll hit you back soon.");
+    if (res.success) {
+      toast.success("Message blasted off! We'll hit you back soon.");
+      reset();
+    } else {
+      toast.error(res.error || "Failed to send message.");
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-[#fafafa] border border-gray-100 rounded-3xl p-8 sm:p-10 shadow-sm">
+    <form onSubmit={handleSubmit(onSubmit)} className="bg-[#fafafa] border border-gray-100 rounded-3xl p-8 sm:p-10 shadow-sm">
       <h3 className={`${titleFont.className} text-3xl sm:text-4xl uppercase tracking-wide text-[#15161b] mb-2`}>
         Send a Message
       </h3>
@@ -31,29 +60,31 @@ export default function ContactForm() {
             <label className={`${textFont.className} block text-sm font-semibold uppercase tracking-wider text-gray-500 mb-2`}>
               Name <span className="text-[#de3e4f]">*</span>
             </label>
-            <input type="text" name="name" value={form.name} onChange={handle} placeholder="Your name" required
-              className={`${textFont.className} w-full bg-white border border-gray-200 px-4 py-3.5 text-base font-medium text-[#15161b] placeholder-gray-300 rounded-xl focus:border-[#de3e4f] focus:ring-2 focus:ring-[#de3e4f]/10 focus:outline-none transition-all`} />
+            <input type="text" placeholder="Your name" disabled={isSubmitting} {...register("name")}
+              className={`${textFont.className} w-full bg-white border ${errors.name ? 'border-[#de3e4f]' : 'border-gray-200'} px-4 py-3.5 text-base font-medium text-[#15161b] placeholder-gray-300 rounded-xl focus:border-[#de3e4f] focus:ring-2 focus:ring-[#de3e4f]/10 focus:outline-none transition-all disabled:opacity-50`} />
+            {errors.name && <p className="text-[#de3e4f] text-xs mt-1.5 font-medium uppercase tracking-wide">{errors.name.message}</p>}
           </div>
           <div>
             <label className={`${textFont.className} block text-sm font-semibold uppercase tracking-wider text-gray-500 mb-2`}>
               Email <span className="text-[#de3e4f]">*</span>
             </label>
-            <input type="email" name="email" value={form.email} onChange={handle} placeholder="you@energy.com" required
-              className={`${textFont.className} w-full bg-white border border-gray-200 px-4 py-3.5 text-base font-medium text-[#15161b] placeholder-gray-300 rounded-xl focus:border-[#de3e4f] focus:ring-2 focus:ring-[#de3e4f]/10 focus:outline-none transition-all`} />
+            <input type="email" placeholder="you@energy.com" disabled={isSubmitting} {...register("email")}
+              className={`${textFont.className} w-full bg-white border ${errors.email ? 'border-[#de3e4f]' : 'border-gray-200'} px-4 py-3.5 text-base font-medium text-[#15161b] placeholder-gray-300 rounded-xl focus:border-[#de3e4f] focus:ring-2 focus:ring-[#de3e4f]/10 focus:outline-none transition-all disabled:opacity-50`} />
+            {errors.email && <p className="text-[#de3e4f] text-xs mt-1.5 font-medium uppercase tracking-wide">{errors.email.message}</p>}
           </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div>
             <label className={`${textFont.className} block text-sm font-semibold uppercase tracking-wider text-gray-500 mb-2`}>Phone Number</label>
-            <input type="tel" name="phone" value={form.phone} onChange={handle} placeholder="Optional"
-              className={`${textFont.className} w-full bg-white border border-gray-200 px-4 py-3.5 text-base font-medium text-[#15161b] placeholder-gray-300 rounded-xl focus:border-[#de3e4f] focus:ring-2 focus:ring-[#de3e4f]/10 focus:outline-none transition-all`} />
+            <input type="tel" placeholder="Optional" disabled={isSubmitting} {...register("phone")}
+              className={`${textFont.className} w-full bg-white border border-gray-200 px-4 py-3.5 text-base font-medium text-[#15161b] placeholder-gray-300 rounded-xl focus:border-[#de3e4f] focus:ring-2 focus:ring-[#de3e4f]/10 focus:outline-none transition-all disabled:opacity-50`} />
           </div>
           <div>
             <label className={`${textFont.className} block text-sm font-semibold uppercase tracking-wider text-gray-500 mb-2`}>Subject</label>
             <div className="relative">
-              <select name="subject" value={form.subject} onChange={handle}
-                className={`${textFont.className} w-full bg-white border border-gray-200 px-4 py-3.5 text-base font-medium text-[#15161b] appearance-none rounded-xl focus:border-[#de3e4f] focus:ring-2 focus:ring-[#de3e4f]/10 focus:outline-none transition-all pr-10`}>
+              <select disabled={isSubmitting} {...register("subject")}
+                className={`${textFont.className} w-full bg-white border border-gray-200 px-4 py-3.5 text-base font-medium text-[#15161b] appearance-none rounded-xl focus:border-[#de3e4f] focus:ring-2 focus:ring-[#de3e4f]/10 focus:outline-none transition-all pr-10 disabled:opacity-50`}>
                 <option value="" disabled>Select inquiry type</option>
                 <option value="wholesale">Wholesale / Distribution</option>
                 <option value="press">Press / Media</option>
@@ -69,14 +100,24 @@ export default function ContactForm() {
           <label className={`${textFont.className} block text-sm font-semibold uppercase tracking-wider text-gray-500 mb-2`}>
             Message <span className="text-[#de3e4f]">*</span>
           </label>
-          <textarea name="message" value={form.message} onChange={handle} placeholder="Drop the details here..." required rows={5}
-            className={`${textFont.className} w-full bg-white border border-gray-200 px-4 py-3.5 text-base font-medium text-[#15161b] placeholder-gray-300 rounded-xl focus:border-[#de3e4f] focus:ring-2 focus:ring-[#de3e4f]/10 focus:outline-none transition-all resize-none`} />
+          <textarea placeholder="Drop the details here..." rows={5} disabled={isSubmitting} {...register("message")}
+            className={`${textFont.className} w-full bg-white border ${errors.message ? 'border-[#de3e4f]' : 'border-gray-200'} px-4 py-3.5 text-base font-medium text-[#15161b] placeholder-gray-300 rounded-xl focus:border-[#de3e4f] focus:ring-2 focus:ring-[#de3e4f]/10 focus:outline-none transition-all resize-none disabled:opacity-50`} />
+          {errors.message && <p className="text-[#de3e4f] text-xs mt-1.5 font-medium uppercase tracking-wide">{errors.message.message}</p>}
         </div>
 
-        <button type="submit"
-          className={`${textFont.className} group inline-flex items-center gap-3 bg-[#15161b] hover:bg-[#de3e4f] text-white px-8 py-4 rounded-full text-base font-bold uppercase tracking-wider transition-all duration-300 hover:shadow-[0_10px_30px_rgba(222,62,79,0.3)] active:scale-95`}>
-          Send Message
-          <Send size={16} className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+        <button type="submit" disabled={isSubmitting}
+          className={`${textFont.className} group inline-flex items-center gap-3 bg-[#15161b] hover:bg-[#de3e4f] text-white px-8 py-4 rounded-full text-base font-bold uppercase tracking-wider transition-all duration-300 hover:shadow-[0_10px_30px_rgba(222,62,79,0.3)] active:scale-95 disabled:bg-gray-400 disabled:shadow-none disabled:active:scale-100 disabled:cursor-not-allowed`}>
+          {isSubmitting ? (
+            <>
+              Sending...
+              <Loader2 size={16} className="animate-spin" />
+            </>
+          ) : (
+            <>
+              Send Message
+              <Send size={16} className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+            </>
+          )}
         </button>
       </div>
     </form>

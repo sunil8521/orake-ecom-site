@@ -1,10 +1,8 @@
 "use client"
 import Image from "next/image";
-import { Sansita, DM_Sans } from "next/font/google";
 import { motion } from "framer-motion";
+import { titleFont, textFont } from "@/lib/fonts";
 
-const titleFont = Sansita({ subsets: ["latin"], weight: ["700", "800", "900"] });
-const textFont = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] });
 
 export default function Hero() {
 	return (
@@ -27,7 +25,7 @@ export default function Hero() {
 				<motion.div
 					initial={{ opacity: 0, y: 20 }}
 					animate={{ opacity: 1, y: 0 }}
-					transition={{ duration: 0.6 }}
+					transition={	{ duration: 0.6 }}
 				>
 
 					<h1 className={`${titleFont.className} text-5xl sm:text-6xl md:text-8xl lg:text-9xl uppercase leading-[0.95] tracking-wide text-white`}>
