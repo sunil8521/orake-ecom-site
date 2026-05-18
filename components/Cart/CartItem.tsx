@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 import { Minus, Plus, Trash2 } from "lucide-react";
 import { textFont } from "@/lib/fonts";
 
@@ -20,8 +21,8 @@ export default function CartItem({ item, onUpdateQty, onRemove }: CartItemProps)
   return (
     <div className="group relative bg-white border border-gray-100 rounded-[1.25rem] p-4 sm:p-5 hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:border-gray-200 transition-all duration-300">
       <div className="flex gap-4 sm:gap-6">
-        {/* Image Wrapper */}
-        <div className="w-20 h-24 sm:w-28 sm:h-32 bg-gradient-to-b from-gray-50 to-gray-100/50 rounded-xl flex items-center justify-center shrink-0 border border-gray-100 relative overflow-hidden group-hover:border-gray-200 transition-colors">
+        {/* Image — clickable, links to product page */}
+        <Link href={`/products/${item.flavor}`} className="w-20 h-24 sm:w-28 sm:h-32 bg-gradient-to-b from-gray-50 to-gray-100/50 rounded-xl flex items-center justify-center shrink-0 border border-gray-100 relative overflow-hidden group-hover:border-gray-200 transition-colors">
           <Image 
             src={item.image} 
             alt={item.name} 
@@ -30,20 +31,20 @@ export default function CartItem({ item, onUpdateQty, onRemove }: CartItemProps)
             className="w-auto h-[120%] object-contain drop-shadow-md group-hover:scale-105 transition-transform duration-500" 
             style={{ width: 'auto', height: 'auto' }} 
           />
-        </div>
+        </Link>
 
         {/* Content Wrapper */}
         <div className="flex-1 flex flex-col justify-between min-w-0 py-0.5">
           {/* Top: Name & Flavor & Delete */}
           <div className="flex items-start justify-between gap-3">
-            <div className="min-w-0">
-              <h3 className={`${textFont.className} text-sm sm:text-base font-bold text-[#15161b] uppercase tracking-wide leading-tight truncate`}>
+            <Link href={`/products/${item.flavor}`} className="min-w-0">
+              <h3 className={`${textFont.className} text-sm sm:text-base font-bold text-[#15161b] uppercase tracking-wide leading-tight truncate hover:text-[#c25b5e] transition-colors`}>
                 {item.name}
               </h3>
               <p className={`${textFont.className} text-gray-400 text-[10px] sm:text-xs tracking-[0.2em] uppercase mt-1`}>
                 {item.flavor}
               </p>
-            </div>
+            </Link>
             
             <button 
               onClick={() => onRemove(item.id)} 
@@ -92,3 +93,4 @@ export default function CartItem({ item, onUpdateQty, onRemove }: CartItemProps)
     </div>
   );
 }
+

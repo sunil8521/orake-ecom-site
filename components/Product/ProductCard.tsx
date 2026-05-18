@@ -25,11 +25,8 @@ export default function ProductCard({ product, isWishlist }: ProductCardProps) {
     const cardBgColor = "bg-[#f4f4f5]";
     const [isAddingToCart, setIsAddingToCart] = useState(false);
     const [isLiking, setIsLiking] = useState(false);
-    const [localIsWishlist, setLocalIsWishlist] = useState(isWishlist);
 
-    useEffect(() => {
-        setLocalIsWishlist(isWishlist);
-    }, [isWishlist]);
+   
 
     const { openAuthModal } = useAuthStore();
     const { data: session } = useSession();
@@ -70,15 +67,11 @@ export default function ProductCard({ product, isWishlist }: ProductCardProps) {
 
         setIsLiking(true);
 
-        // Optimistic UI update
-        const previousState = localIsWishlist;
-        setLocalIsWishlist(!previousState);
-
+   
         const res = await toggleWishlist(product._id);
         setIsLiking(false);
 
         if (!res.success) {
-            setLocalIsWishlist(previousState); // Revert on failure
             toast.error(res.error || "Failed to update wishlist");
         } else {
             if (res.added) {
@@ -120,12 +113,12 @@ export default function ProductCard({ product, isWishlist }: ProductCardProps) {
                         <button
                             onClick={handleToggleWishlist}
                             disabled={isLiking}
-                            className={`absolute top-4 right-4 sm:top-6 sm:right-6 z-30 w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center transition-all active:scale-90 ${localIsWishlist
+                            className={`absolute top-4 right-4 sm:top-6 sm:right-6 z-30 w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center transition-all active:scale-90 ${isWishlist   
                                 ? "bg-[#c25b5e] text-white shadow-md"
                                 : "bg-white/80 text-gray-400 hover:text-[#c25b5e] hover:bg-white shadow-sm"
                                 }`}
                         >
-                            <Heart size={16} strokeWidth={2} fill={localIsWishlist ? "currentColor" : "none"} />
+                            <Heart size={16} strokeWidth={2} fill={isWishlist ? "currentColor" : "none"} />
                         </button>
 
                         {/* ── The Popping Out Image (shadow closer to can) ── */}

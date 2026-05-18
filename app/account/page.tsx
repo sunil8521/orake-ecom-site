@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default async function AccountPage() {
   const [addresses, ordersData] = await Promise.all([
     getAddresses(),
-    getOrders(1, 3),
+    getOrders(),
   ]);
 
   return (
@@ -21,9 +21,8 @@ export default async function AccountPage() {
       <AccountTabs
         initialAddresses={addresses}
         initialOrders={ordersData.orders}
-        initialOrdersTotal={ordersData.total}
-        initialOrdersTotalPages={ordersData.totalPages}
       />
     </div>
   );
 }
+

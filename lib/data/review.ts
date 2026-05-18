@@ -1,6 +1,6 @@
 import { connectDB } from "@/lib/db";
 import { Rating, IRating } from "@/models/Rating";
-import { User } from "@/models/User"; // import to register User schema for populate
+import User from "@/models/User"; // import to register User schema for populate
 import { cacheLife, cacheTag } from "next/cache";
 
 // Type for populated review

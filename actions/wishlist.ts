@@ -34,19 +34,19 @@ export async function toggleWishlist(productId: string) {
 
     if (existing) {
       await Wishlist.deleteOne({ _id: existing._id });
-      revalidatePath("/products");
-      revalidatePath("/wishlist");
-      return { success: true, added: false };
     } else {
       await Wishlist.create({
         userId: session.user.id,
         productId: productId
       });
-      revalidatePath("/products");
-      revalidatePath("/wishlist");
-
-      return { success: true, added: true };
     }
+
+    // Revalidate with "layout" type to bust the entire route cache tree,
+    // including the client-side router cache for these paths
+    revalidatePath("/wishlist");
+    revalidatePath("/products");
+
+    return { success: true, added: !existing };
   } catch (error: any) {
     console.error("Toggle wishlist error:", error);
     return { success: false, error: error.message };

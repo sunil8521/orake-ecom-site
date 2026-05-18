@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 import { Trash2, ShoppingBag } from "lucide-react";
 import { textFont } from "@/lib/fonts";
 
@@ -46,26 +47,32 @@ export default function WishlistCard({ item, onRemove }: WishlistCardProps) {
         </div>
       )}
 
-      {/* Image */}
-      <div className={`relative h-52 sm:h-56 flex items-center justify-center bg-gray-50 ${!item.stock ? "opacity-40" : ""}`}>
-        <Image src={item.image} alt={item.name} width={200} height={350}
-          className="h-[125%] w-auto object-contain drop-shadow-[0_15px_25px_rgba(0,0,0,0.15)] group-hover:scale-110 group-hover:-translate-y-2 transition-all duration-500"
-          style={{ width: 'auto', height: 'auto' }}
-        />
-      </div>
-
-      {/* Info */}
-      <div className="p-5 border-t border-gray-100">
-        <p className={`${textFont.className} text-gray-400 text-xs uppercase tracking-widest mb-1`}>{item.size}</p>
-        <h3 className={`${textFont.className} text-[#15161b] text-base font-bold uppercase tracking-wide mb-3 leading-tight`}>{item.name}</h3>
-
-        <div className="flex items-center gap-2 mb-4">
-          <span className={`${textFont.className} text-[#15161b] text-xl font-black`}>Rs. {item.price}</span>
-          {item.oldPrice && (
-            <span className={`${textFont.className} text-gray-400 text-sm line-through`}>Rs. {item.oldPrice}</span>
-          )}
+      {/* Clickable area — image + product info → redirects to product page */}
+      <Link href={`/products/${item.slug}`} className="block">
+        {/* Image */}
+        <div className={`relative h-52 sm:h-56 flex items-center justify-center bg-gray-50 ${!item.stock ? "opacity-40" : ""}`}>
+          <Image src={item.image} alt={item.name} width={200} height={350}
+            className="h-[125%] w-auto object-contain drop-shadow-[0_15px_25px_rgba(0,0,0,0.15)] group-hover:scale-110 group-hover:-translate-y-2 transition-all duration-500"
+            style={{ width: 'auto', height: 'auto' }}
+          />
         </div>
 
+        {/* Info */}
+        <div className="p-5 pb-2 border-t border-gray-100">
+          <p className={`${textFont.className} text-gray-400 text-xs uppercase tracking-widest mb-1`}>{item.size}</p>
+          <h3 className={`${textFont.className} text-[#15161b] text-base font-bold uppercase tracking-wide mb-3 leading-tight group-hover:text-[#c25b5e] transition-colors`}>{item.name}</h3>
+
+          <div className="flex items-center gap-2">
+            <span className={`${textFont.className} text-[#15161b] text-xl font-black`}>Rs. {item.price}</span>
+            {item.oldPrice && (
+              <span className={`${textFont.className} text-gray-400 text-sm line-through`}>Rs. {item.oldPrice}</span>
+            )}
+          </div>
+        </div>
+      </Link>
+
+      {/* Add to Cart — outside the link so it doesn't navigate */}
+      <div className="px-5 pb-5 pt-3">
         <button
           onClick={handleAddToCart}
           disabled={!item.stock || isAdding}

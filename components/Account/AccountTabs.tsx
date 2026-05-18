@@ -29,15 +29,11 @@ const tabs = [
 interface AccountTabsProps {
   initialAddresses: any[];
   initialOrders: any[];
-  initialOrdersTotal: number;
-  initialOrdersTotalPages: number;
 }
 
 export default function AccountTabs({
   initialAddresses,
   initialOrders,
-  initialOrdersTotal,
-  initialOrdersTotalPages,
 }: AccountTabsProps) {
   const [activeTab, setActiveTab] = useState("profile");
 
@@ -65,11 +61,7 @@ export default function AccountTabs({
           {activeTab === "profile" && <ProfileTab />}
           {activeTab === "addresses" && <AddressesTab initialAddresses={initialAddresses} />}
           {activeTab === "orders" && (
-            <OrdersTab
-              initialOrders={initialOrders}
-              initialTotal={initialOrdersTotal}
-              initialTotalPages={initialOrdersTotalPages}
-            />
+            <OrdersTab initialOrders={initialOrders} />
           )}
           {activeTab === "settings" && <SettingsTab />}
         </Suspense>

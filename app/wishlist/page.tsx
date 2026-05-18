@@ -23,7 +23,7 @@ async function WishlistContent() {
 export default function WishlistPage() {
   return (
     <div className="min-h-screen bg-white">
-      <Suspense fallback={null}>
+      <Suspense fallback={<p>Loading wishlist...</p>}>
         <WishlistContent />
       </Suspense>
     </div>

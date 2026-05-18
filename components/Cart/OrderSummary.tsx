@@ -6,6 +6,7 @@ import { createRazorpayOrder } from "@/actions/payment";
 import { useAuthStore } from "@/store/useAuthStore";
 import { useSession } from "@/lib/auth-client";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 interface OrderSummaryProps {
   subtotal: number;
@@ -28,6 +29,7 @@ export default function OrderSummary({ subtotal, savings, total, onPaymentSucces
   const { openAuthModal } = useAuthStore();
   const { data: session } = useSession();
   const user = session?.user;
+  const router = useRouter();
 
   const applyCoupon = () => {
     setCouponError("");
@@ -58,77 +60,16 @@ export default function OrderSummary({ subtotal, savings, total, onPaymentSucces
   const couponDiscount = appliedCoupon?.discount ?? 0;
   const finalTotal = Math.max(0, total - couponDiscount);
 
-  const loadRazorpayScript = () => {
-    return new Promise((resolve) => {
-      const script = document.createElement("script");
-      script.src = "https://checkout.razorpay.com/v1/checkout.js";
-      script.onload = () => resolve(true);
-      script.onerror = () => resolve(false);
-      document.body.appendChild(script);
-    });
-  };
-
-  const handleCheckout = async () => {
+  const handleCheckout = () => {
     if (!user) {
       toast.error("Please login to complete your order");
       openAuthModal("login");
       return;
     }
-
-    setIsProcessing(true);
-
-    try {
-      const res = await loadRazorpayScript();
-      if (!res) {
-        toast.error("Failed to load Razorpay. Please check your connection.");
-        setIsProcessing(false);
-        return;
-      }
-
-      const result = await createRazorpayOrder(finalTotal);
-      
-      if (!result.success || !result.orderId) {
-        toast.error(result.error || "Could not initialize checkout");
-        setIsProcessing(false);
-        return;
-      }
-
-      const options: RazorpayOptions = {
-        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "",
-        amount: Number(result.amount) || finalTotal * 100,
-        currency: result.currency || "INR",
-        name: "Orake Energy",
-        description: "Water Bottle Order",
-        order_id: result.orderId,
-        handler: function (response) {
-          if (onPaymentSuccess) {
-            onPaymentSuccess(response.razorpay_payment_id);
-          } else {
-             toast.success("Payment successful!");
-          }
-        },
-        prefill: {
-          name: user.name,
-          email: user.email,
-        },
-        theme: {
-          color: "#c25b5e",
-        },
-      };
-
-      const paymentObject = new window.Razorpay(options);
-      paymentObject.on("payment.failed", function (response: any) {
-        toast.error(response.error.description || "Payment failed");
-      });
-      
-      paymentObject.open();
-
-    } catch (error) {
-      console.error(error);
-      toast.error("Something went wrong during checkout");
-    } finally {
-      setIsProcessing(false);
-    }
+    
+    // Redirect to the dedicated checkout page
+    const query = appliedCoupon ? `?coupon=${appliedCoupon.code}` : "";
+    router.push(`/checkout${query}`);
   };
   
   

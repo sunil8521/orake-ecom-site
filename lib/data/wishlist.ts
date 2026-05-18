@@ -11,11 +11,12 @@ async function getSession() {
 }
 
 export async function getWishlist() {
+  // console.log("[DEBUG] getWishlist() called at", new Date().toISOString());
   try {
     const session = await getSession();
     if (!session?.user) return { items: [] };
 
-    await connectDB();
+    await connectDB();  
 
     const wishlistDocs = await Wishlist.find({ userId: session.user.id })
       .populate({
@@ -25,9 +26,16 @@ export async function getWishlist() {
       })
       .lean();
 
-    const items = wishlistDocs
-      .map((doc: any) => doc.productId)
-      .filter(Boolean);
+   const items = wishlistDocs
+      .filter((doc: any) => doc.productId) // Remove nulls
+      .map((doc: any) => {
+        const p = doc.productId;
+        return {
+          ...p,
+          _id: p._id.toString(), // CRITICAL FIX: Convert ObjectId to String
+        };
+      });
+
     return { items: items };
 
   } catch (error) {

@@ -52,8 +52,8 @@ export async function submitReview(formData: FormData) {
         if (productSlug) {
             revalidatePath(`/products/${productSlug}`);
         }
-        revalidateTag(`reviews-${productId}`);
-        revalidateTag(`product-${productSlug}`);
+        revalidateTag(`reviews-${productId}`, 'days');
+        revalidateTag(`product-${productSlug}`, 'days');
 
         return { success: true, message: "Review submitted successfully!" };
     } catch (error: any) {

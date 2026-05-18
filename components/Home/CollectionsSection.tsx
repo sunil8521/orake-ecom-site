@@ -1,9 +1,9 @@
 'use client';
 
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
-import { ShoppingCart, Heart, Star, StarHalf } from "lucide-react";
-import { useState } from "react";
+import { Star, StarHalf, ArrowRight } from "lucide-react";
 import { headingFont, bodyFont } from "@/lib/fonts";
 function StarRating({ rating, reviews }: { rating: number; reviews: number }) {
   return (
@@ -55,15 +55,6 @@ function NewsletterForm() {
 }
 
 export default function CollectionsSection() {
-  const [liked1, setLiked1] = useState(false);
-  const [liked2, setLiked2] = useState(false);
-  const [stock1, setStock1] = useState(24);
-  const [qty1, setQty1] = useState(1);
-  const [added1, setAdded1] = useState(false);
-
-  const [stock2, setStock2] = useState(3);
-  const [qty2, setQty2] = useState(1);
-  const [added2, setAdded2] = useState(false);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -175,17 +166,6 @@ export default function CollectionsSection() {
                 HYPE DROP
               </motion.div>
 
-              {/* Heart Icon Top-Right */}
-              <button
-                onClick={() => setLiked1(!liked1)}
-                className={`absolute top-4 right-4 sm:top-5 sm:right-5 md:top-4 md:right-4 lg:top-5 lg:right-5 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-all active:scale-90 ${liked1
-                  ? "bg-[#c25b5e] text-white shadow-md"
-                  : "bg-white/80 text-gray-400 hover:text-[#c25b5e] hover:bg-white shadow-sm"
-                  }`}
-              >
-                <Heart size={20} strokeWidth={2} fill={liked1 ? "currentColor" : "none"} />
-              </button>
-
               {/* The Massive Pop-out Image — 20% bigger */}
               <div className="absolute inset-x-0 bottom-0 flex justify-center pointer-events-none z-10 w-full">
                 <div className="relative h-[380px] sm:h-[420px] md:h-[380px] lg:h-[480px] xl:h-[560px]">
@@ -206,37 +186,16 @@ export default function CollectionsSection() {
                 Strawberry Vanilla
               </h3>
               <StarRating rating={5} reviews={24} />
-              <div className={`${bodyFont.className} flex flex-col md:flex-row justify-between md:justify-start items-center md:gap-6 mt-2`}>
-                <div className="flex flex-col items-center md:items-start gap-1">
-                  <div>
-                    <span className="text-2xl md:text-3xl font-black text-black">Rs. 10.00</span>
-                    <span className="ml-3 text-lg text-gray-400 line-through decoration-2">Rs. 668.00</span>
-                  </div>
-                  <div className="text-xs text-gray-500">
-                    {stock1 > 5 ? `${stock1} in stock` : (stock1 > 0 ? `Only ${stock1} left` : 'Out of stock')}
-                  </div>
+              <div className={`${bodyFont.className} flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-6 mt-6 pt-5 border-t border-gray-100`}>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-3xl md:text-4xl font-black text-[#15161b] tracking-tight">Rs. 10.00</span>
+                  <span className="text-sm md:text-base text-gray-400 line-through decoration-1">Rs. 668.00</span>
                 </div>
 
-                <div className="flex items-center gap-3 mt-3 md:mt-0">
-                  <div className="flex items-center border rounded-full overflow-hidden">
-                    <button aria-label="decrease" onClick={() => setQty1(q => Math.max(1, q - 1))} className="px-3 py-1 text-sm">-</button>
-                    <div className="px-4 py-1 text-sm font-bold">{qty1}</div>
-                    <button aria-label="increase" onClick={() => setQty1(q => Math.min(stock1, q + 1))} className="px-3 py-1 text-sm">+</button>
-                  </div>
-
-                  <button onClick={() => {
-                    if (stock1 <= 0) return;
-                    const take = Math.min(qty1, stock1);
-                    setStock1(s => s - take);
-                    setQty1(1);
-                    setAdded1(true);
-                    console.log('Add to cart', { product: 'Strawberry Vanilla', qty: take });
-                    setTimeout(() => setAdded1(false), 2000);
-                  }} disabled={stock1 <= 0} className="bg-[#15161b] disabled:opacity-50 hover:bg-[#c25b5e] text-white w-10 h-10 md:w-12 md:h-12 rounded-[10px] md:rounded-[12px] flex items-center justify-center shadow-md hover:shadow-lg transition-all active:scale-95 group/btn">
-                    <ShoppingCart size={18} strokeWidth={2} className="group-hover/btn:-rotate-6 transition-transform" />
-                  </button>
-                  {added1 && <span className="text-sm text-green-600 font-bold">Added</span>}
-                </div>
+                <Link href="/products/strawberry-vanilla" className="group/btn w-full sm:w-auto flex justify-center items-center gap-3 bg-[#15161b] hover:bg-[#c25b5e] text-white px-6 py-3.5 md:px-8 md:py-4 rounded-full text-xs font-bold uppercase tracking-[0.2em] shadow-lg hover:shadow-[0_15px_30px_rgba(194,91,94,0.3)] transition-all duration-300 active:scale-95 whitespace-nowrap">
+                  View Product
+                  <ArrowRight size={16} className="group-hover/btn:translate-x-1.5 transition-transform duration-300" />
+                </Link>
               </div>
             </div>
           </motion.div>
@@ -268,17 +227,6 @@ export default function CollectionsSection() {
                 RESTOCKED
               </motion.div>
 
-              {/* Heart Icon Top-Right */}
-              <button
-                onClick={() => setLiked2(!liked2)}
-                className={`absolute top-4 right-4 sm:top-5 sm:right-5 md:top-4 md:right-4 lg:top-5 lg:right-5 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-all active:scale-90 ${liked2
-                  ? "bg-[#dbba53] text-white shadow-md"
-                  : "bg-white/80 text-gray-400 hover:text-[#dbba53] hover:bg-white shadow-sm"
-                  }`}
-              >
-                <Heart size={20} strokeWidth={2} fill={liked2 ? "currentColor" : "none"} />
-              </button>
-
               {/* The Massive Pop-out Image — 20% bigger */}
               <div className="absolute inset-x-0 bottom-0 flex justify-center pointer-events-none z-10 w-full">
                 <div className="relative h-[380px] sm:h-[420px] md:h-[380px] lg:h-[480px] xl:h-[560px]">
@@ -299,37 +247,16 @@ export default function CollectionsSection() {
                 Ginger Lemon
               </h3>
               <StarRating rating={4} reviews={12} />
-              <div className={`${bodyFont.className} flex flex-col md:flex-row justify-between md:justify-start items-center md:gap-6 mt-2`}>
-                <div className="flex flex-col items-center md:items-start gap-1">
-                  <div>
-                    <span className="text-2xl md:text-3xl font-black text-black">Rs. 20.00</span>
-                    <span className="ml-3 text-lg text-gray-400 line-through decoration-2">Rs. 1499.00</span>
-                  </div>
-                  <div className="text-xs text-gray-500">
-                    {stock2 > 5 ? `${stock2} in stock` : (stock2 > 0 ? `Only ${stock2} left` : 'Out of stock')}
-                  </div>
+              <div className={`${bodyFont.className} flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-6 mt-6 pt-5 border-t border-gray-100`}>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-3xl md:text-4xl font-black text-[#15161b] tracking-tight">Rs. 20.00</span>
+                  <span className="text-sm md:text-base text-gray-400 line-through decoration-1">Rs. 1499.00</span>
                 </div>
 
-                <div className="flex items-center gap-3 mt-3 md:mt-0">
-                  <div className="flex items-center border rounded-full overflow-hidden">
-                    <button aria-label="decrease" onClick={() => setQty2(q => Math.max(1, q - 1))} className="px-3 py-1 text-sm">-</button>
-                    <div className="px-4 py-1 text-sm font-bold">{qty2}</div>
-                    <button aria-label="increase" onClick={() => setQty2(q => Math.min(stock2, q + 1))} className="px-3 py-1 text-sm">+</button>
-                  </div>
-
-                  <button onClick={() => {
-                    if (stock2 <= 0) return;
-                    const take = Math.min(qty2, stock2);
-                    setStock2(s => s - take);
-                    setQty2(1);
-                    setAdded2(true);
-                    console.log('Add to cart', { product: 'Ginger Lemon', qty: take });
-                    setTimeout(() => setAdded2(false), 2000);
-                  }} disabled={stock2 <= 0} className="bg-[#15161b] disabled:opacity-50 hover:bg-[#dbba53] text-white w-10 h-10 md:w-12 md:h-12 rounded-[10px] md:rounded-[12px] flex items-center justify-center shadow-md hover:shadow-lg transition-all active:scale-95 group/btn">
-                    <ShoppingCart size={18} strokeWidth={2} className="group-hover/btn:-rotate-6 transition-transform" />
-                  </button>
-                  {added2 && <span className="text-sm text-green-600 font-bold">Added</span>}
-                </div>
+                <Link href="/products/ginger-lemon" className="group/btn w-full sm:w-auto flex justify-center items-center gap-3 bg-[#15161b] hover:bg-[#dbba53] text-white px-6 py-3.5 md:px-8 md:py-4 rounded-full text-xs font-bold uppercase tracking-[0.2em] shadow-lg hover:shadow-[0_15px_30px_rgba(219,186,83,0.3)] transition-all duration-300 active:scale-95 whitespace-nowrap">
+                  View Product
+                  <ArrowRight size={16} className="group-hover/btn:translate-x-1.5 transition-transform duration-300" />
+                </Link>
               </div>
             </div>
           </motion.div>

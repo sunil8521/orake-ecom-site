@@ -1,17 +1,19 @@
 "use client";
 import { useState, useTransition, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Plus, Search, Edit2, Trash2, X, Star, Loader2, ChevronLeft, ChevronRight } from "lucide-react";
+import { Plus, Search, Edit2, Trash2, X, Star, Loader2, ChevronLeft, ChevronRight, ImagePlus, UploadCloud } from "lucide-react";
 import { adminTitleFont as tf, adminTextFont as tx } from "@/lib/fonts";
 import { createProduct, updateProduct, deleteProduct } from "@/actions/admin-products";
 import type { AdminProduct } from "@/lib/data/admin-products";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useForm } from "react-hook-form";
 import { useAdminProductStore } from "@/store/useAdminProductStore";
+import { uploadImageAction } from "@/actions/upload";
+import { toast } from "sonner";
 
 type ProductForm = { name: string; description: string; price: string; oldPrice: string; discount: string; stock: string; size: string; image: string; isFeatured: boolean; };
 
-const emptyForm: ProductForm = { name: "", description: "", price: "", oldPrice: "", discount: "", stock: "", size: "250ML", image: "/can1.png", isFeatured: false };
+const emptyForm: ProductForm = { name: "", description: "", price: "", oldPrice: "", discount: "", stock: "", size: "250ML", image: "", isFeatured: false };
 
 function Pagination({ page, totalPages, total, onPage }: { page: number; totalPages: number; total: number; onPage: (p: number) => void }) {
   if (totalPages <= 1) return null;
@@ -51,13 +53,19 @@ export default function AdminProductsClient({
 
   const { isModalOpen, editProduct, openModal, closeModal } = useAdminProductStore();
 
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<ProductForm>({
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
+
+  const { register, handleSubmit, reset, formState: { errors }, setValue } = useForm<ProductForm>({
     defaultValues: emptyForm
   });
 
   useEffect(() => {
     if (isModalOpen) {
+      setSelectedFile(null);
       if (editProduct) {
+        setPreviewUrl(editProduct.image);
         reset({
           name: editProduct.name,
           description: editProduct.description,
@@ -70,6 +78,7 @@ export default function AdminProductsClient({
           isFeatured: editProduct.isFeatured || false,
         });
       } else {
+        setPreviewUrl(null);
         reset(emptyForm);
       }
     }
@@ -104,7 +113,42 @@ export default function AdminProductsClient({
     }
   };
 
-  const onSubmit = (form: ProductForm) => {
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        toast.error("Image must be less than 5MB");
+        return;
+      }
+      setSelectedFile(file);
+      setPreviewUrl(URL.createObjectURL(file));
+      setValue("image", file.name); // Set form value to pass validation
+    }
+  };
+
+  const onSubmit = async (form: ProductForm) => {
+    setIsUploading(true);
+    let imageUrl = form.image;
+
+    if (selectedFile) {
+      const formData = new FormData();
+      formData.append("file", selectedFile);
+      
+      const uploadResult = await uploadImageAction(formData);
+      
+      if (!uploadResult.success || !uploadResult.url) {
+        toast.error(uploadResult.error || "Failed to upload image");
+        setIsUploading(false);
+        return;
+      }
+      
+      imageUrl = uploadResult.url;
+    } else if (!editProduct && !form.image) {
+       toast.error("Please select an image");
+       setIsUploading(false);
+       return;
+    }
+
     startTransition(async () => {
       const data = { 
         name: form.name, 
@@ -114,7 +158,7 @@ export default function AdminProductsClient({
         discount: form.discount ? Number(form.discount) : undefined, 
         stock: Number(form.stock), 
         size: form.size, 
-        image: form.image, 
+        image: imageUrl, 
         isFeatured: form.isFeatured 
       };
       
@@ -124,6 +168,7 @@ export default function AdminProductsClient({
         await createProduct(data);
       }
       
+      setIsUploading(false);
       closeModal();
       router.refresh(); 
     });
@@ -241,9 +286,32 @@ export default function AdminProductsClient({
                     className={`${tx.className} w-full border-2 border-gray-200 bg-gray-50 px-4 py-2.5 text-sm placeholder-gray-400 focus:border-[#c25b5e] focus:bg-white focus:outline-none rounded-xl`} />
                 </div>
                 <div className="col-span-2">
-                  <label className={`${tx.className} block text-[10px] font-semibold uppercase tracking-[0.2em] text-gray-400 mb-1.5`}>Image URL *</label>
-                  <input type="text" {...register("image", { required: true })} placeholder="/can1.png"
-                    className={`${tx.className} w-full border-2 border-gray-200 bg-gray-50 px-4 py-2.5 text-sm placeholder-gray-400 focus:border-[#c25b5e] focus:bg-white focus:outline-none rounded-xl`} />
+                  <label className={`${tx.className} block text-[10px] font-semibold uppercase tracking-[0.2em] text-gray-400 mb-1.5`}>Product Image *</label>
+                  <div className="relative border-2 border-dashed border-gray-200 bg-gray-50 rounded-xl overflow-hidden group hover:bg-gray-100 transition-colors">
+                    <input type="file" accept="image/*" onChange={handleImageChange} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" />
+                    <div className="flex flex-col items-center justify-center p-6 gap-2">
+                      {previewUrl ? (
+                        <div className="relative w-full h-32 flex items-center justify-center">
+                          <img src={previewUrl} alt="Preview" className="h-full w-auto object-contain drop-shadow-md" />
+                          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-lg">
+                            <span className={`${tx.className} text-white text-xs font-bold uppercase tracking-wider`}>Change Image</span>
+                          </div>
+                        </div>
+                      ) : (
+                        <>
+                          <div className="w-12 h-12 bg-white rounded-full shadow-sm flex items-center justify-center text-gray-400 group-hover:text-[#c25b5e] group-hover:scale-110 transition-all">
+                            <ImagePlus size={20} />
+                          </div>
+                          <div className="text-center">
+                            <p className={`${tx.className} text-sm font-semibold text-[#15161b]`}>Click or drag to upload</p>
+                            <p className={`${tx.className} text-xs text-gray-400 mt-1`}>SVG, PNG, JPG or GIF (max. 5MB)</p>
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                  {/* Hidden input to ensure react-hook-form validation works if needed */}
+                  <input type="hidden" {...register("image")} />
                 </div>
               </div>
 
@@ -286,9 +354,9 @@ export default function AdminProductsClient({
               </div>
               <div className="flex gap-3 pt-1">
                 <button type="button" onClick={closeModal} className={`${tx.className} flex-1 bg-gray-100 hover:bg-gray-200 text-[#15161b] py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest`}>Cancel</button>
-                <button type="submit" disabled={isPending}
+                <button type="submit" disabled={isPending || isUploading}
                   className={`${tx.className} flex-1 flex items-center justify-center gap-2 bg-[#c25b5e] hover:bg-[#de3e4f] text-white py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest shadow-lg shadow-[#c25b5e]/20 disabled:opacity-50 disabled:cursor-not-allowed`}>
-                  {isPending ? <><Loader2 size={13} className="animate-spin" /> Saving…</> : editProduct ? "Save Changes" : "Add Product"}
+                  {(isPending || isUploading) ? <><Loader2 size={13} className="animate-spin" /> {isUploading ? "Uploading..." : "Saving…"}</> : editProduct ? "Save Changes" : "Add Product"}
                 </button>
               </div>
             </form>

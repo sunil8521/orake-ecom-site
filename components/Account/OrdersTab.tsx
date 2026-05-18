@@ -1,9 +1,9 @@
 "use client";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useMemo } from "react";
 import Link from "next/link";
 import { ShoppingBag, ChevronDown, ChevronLeft, ChevronRight, MapPin, CreditCard, Truck, Package, XCircle, Loader2 } from "lucide-react";
 import { toast } from "sonner";
-import { getUserOrders, cancelOrder } from "@/actions/order";
+import { cancelOrder } from "@/actions/order";
 import { titleFont, textFont } from "@/lib/fonts";
 
 
@@ -67,41 +67,21 @@ function ProductImage({ src, alt }: { src: string; alt: string }) {
 
 interface OrdersTabProps {
   initialOrders?: Order[];
-  initialTotal?: number;
-  initialTotalPages?: number;
 }
 
-export default function OrdersTab({ initialOrders = [], initialTotal = 0, initialTotalPages = 1 }: OrdersTabProps) {
-  // ✅ Page 1 comes from server — instant render, no loading spinner
+export default function OrdersTab({ initialOrders = [] }: OrdersTabProps) {
   const [orders, setOrders] = useState<Order[]>(initialOrders);
-  const [loading, setLoading] = useState(false);
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(initialTotalPages);
-  const [totalOrders, setTotalOrders] = useState(initialTotal);
   const [cancellingId, setCancellingId] = useState<string | null>(null);
   const [showCancelConfirm, setShowCancelConfirm] = useState<string | null>(null);
 
-  const fetchOrders = useCallback(async (p: number) => {
-    setLoading(true);
-    try {
-      const res = await getUserOrders(p, ORDERS_PER_PAGE);
-      if (res.success) {
-        setOrders(res.orders ?? []);
-        setTotalPages(res.totalPages ?? 1);
-        setTotalOrders(res.total ?? 0);
-      } else {
-        toast.error(res.error || "Failed to load orders");
-      }
-    } catch {
-      toast.error("Something went wrong");
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  // Only fetch when navigating to page 2+ (page 1 is pre-loaded)
-  useEffect(() => { if (page > 1) fetchOrders(page); }, [page, fetchOrders]);
+  // Client-side pagination — no server calls needed
+  const totalPages = Math.ceil(orders.length / ORDERS_PER_PAGE);
+  const paginatedOrders = useMemo(() => {
+    const start = (page - 1) * ORDERS_PER_PAGE;
+    return orders.slice(start, start + ORDERS_PER_PAGE);
+  }, [orders, page]);
 
   const toggleExpand = (id: string) => setExpandedId(p => p === id ? null : id);
   const formatDate = (d: string) => new Date(d).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
@@ -132,25 +112,19 @@ export default function OrdersTab({ initialOrders = [], initialTotal = 0, initia
     setExpandedId(null);
   };
 
-  if (loading) {
-    return (
-      <div className="bg-white border border-gray-200 rounded-[2rem] p-8 sm:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.06)] flex items-center justify-center py-20">
-        <Loader2 size={24} className="animate-spin text-[#c25b5e]" />
-      </div>
-    );
-  }
+
 
   return (
     <div className="bg-white border border-gray-200 rounded-[2rem] p-5 sm:p-8 lg:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.06)]">
       <div className="flex items-center justify-between mb-6">
         <h3 className={`${titleFont.className} text-xl sm:text-2xl uppercase tracking-wide text-[#15161b]`}>Order History</h3>
-        {totalOrders > 0 && <span className={`${textFont.className} text-xs text-gray-400`}>{totalOrders} orders</span>}
+        {orders.length > 0 && <span className={`${textFont.className} text-xs text-gray-400`}>{orders.length} orders</span>}
       </div>
 
       {orders.length > 0 ? (
         <>
           <div className="space-y-3">
-            {orders.map(order => {
+            {paginatedOrders.map(order => {
               const isExpanded = expandedId === order._id;
               const itemCount = order.orderItems.reduce((s, i) => s + i.quantity, 0);
 

@@ -3,6 +3,9 @@ import type { Metadata } from "next";
 import { getCart } from "@/lib/data/cart";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
+import { getUserAddresses } from "@/actions/address";
+
+import { titleFont } from "@/lib/fonts";
 
 export const metadata: Metadata = {
   title: "Checkout | Orake Energy",
@@ -13,12 +16,22 @@ export default async function CheckoutPage() {
   const reqHeaders = await headers();
   const session = await auth.api.getSession({ headers: reqHeaders });
   const cartData = await getCart();
+  const addressRes = await getUserAddresses();
+  const addresses = addressRes.success ? addressRes.addresses : [];
   
   return (
     <div className="min-h-screen bg-white">
-      {/* Small top header space since header is fixed usually */}
-      <div className="h-20 bg-[#15161b]"></div>
-      <CheckoutForm initialCartItems={cartData?.items || []} user={session?.user || null} />
+      <div className="relative bg-gradient-to-b from-[#15161b] via-[#1a1b22] to-[#15161b] pt-24 pb-10 sm:pt-32 sm:pb-14 md:pt-40 md:pb-20 px-4 sm:px-6 text-center overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute w-64 h-64 sm:w-96 sm:h-96 bg-[#c25b5e]/10 rounded-full blur-[120px] -top-20 -right-20" />
+        </div>
+        <div className="relative z-10">
+          <h1 className={`${titleFont.className} text-3xl sm:text-5xl md:text-7xl text-white tracking-tight uppercase leading-none`}>
+            CHECKOUT
+          </h1>
+        </div>
+      </div>
+      <CheckoutForm initialCartItems={cartData?.items || []} user={session?.user || null} initialAddresses={addresses} />
     </div>
   );
 }

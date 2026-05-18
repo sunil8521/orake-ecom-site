@@ -34,3 +34,41 @@ export async function createRazorpayOrder(amount: number, currency: string = 'IN
     };
   }
 }
+
+import crypto from "crypto";
+import { connectDB } from "@/lib/db";
+import { Order } from "@/models/Order";
+import { updateTag, revalidatePath } from "next/cache";
+
+export async function verifyPayment(
+  razorpay_order_id: string,
+  razorpay_payment_id: string,
+  razorpay_signature: string,
+  dbOrderId: string
+) {
+  try {
+    const text = razorpay_order_id + "|" + razorpay_payment_id;
+    const generated_signature = crypto
+      .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET!)
+      .update(text)
+      .digest("hex");
+
+    if (generated_signature === razorpay_signature) {
+      await connectDB();
+      // Payment is successful, update DB order
+      await Order.findByIdAndUpdate(dbOrderId, {
+        isPaid: true,
+        paidAt: new Date(),
+        status: "Processing",
+      });
+      updateTag("orders");
+      revalidatePath("/account");
+      revalidatePath("/cart");
+      return { success: true };
+    } else {
+      return { success: false, error: "Invalid signature" };
+    }
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+}

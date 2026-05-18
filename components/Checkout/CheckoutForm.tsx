@@ -5,27 +5,30 @@ import { useSession } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { titleFont, textFont } from "@/lib/fonts";
 import { clearCart } from "@/actions/cart";
-import { placeOrder } from "@/actions/order";
+import { placeOrder, deleteAbandonedOrder } from "@/actions/order";
+import { verifyPayment } from "@/actions/payment";
 import { toast } from "sonner";
-import { Loader2 } from "lucide-react";
+import { Loader2, X, MapPin } from "lucide-react";
 import OrderSuccessModal from "../Cart/OrderSuccessModal";
+import { addAddress } from "@/actions/address";
+import { useCartWishlistStore } from "@/store/useCartWishlistStore";
 
-export default function CheckoutForm({ initialCartItems, user }: { initialCartItems: any[], user: any }) {
+export default function CheckoutForm({ initialCartItems, user, initialAddresses = [] }: { initialCartItems: any[], user: any, initialAddresses?: any[] }) {
   const router = useRouter();
   const [processing, setProcessing] = useState(false);
   const [cartItems] = useState<any[]>(initialCartItems);
+  const { setCartCount } = useCartWishlistStore();
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const [successOrderId, setSuccessOrderId] = useState<string>();
 
-  // Redirect if not logged in
-  useEffect(() => {
-    if (!user) {
-      router.push("/?auth=login&redirect=/checkout");
-    }
-  }, [user, router]);
+  const [addresses, setAddresses] = useState<any[]>(initialAddresses);
+  const [selectedAddressId, setSelectedAddressId] = useState<string>(
+    initialAddresses.find((a: any) => a.isDefault)?._id || initialAddresses[0]?._id || "new"
+  );
+  const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
 
-  // Form state
-  const [formData, setFormData] = useState({
+  // Form state for new address
+  const [newAddressForm, setNewAddressForm] = useState({
     fullName: user?.name || "",
     phone: "",
     street: "",
@@ -35,7 +38,35 @@ export default function CheckoutForm({ initialCartItems, user }: { initialCartIt
     country: "India"
   });
 
+  // Redirect if not logged in
+  useEffect(() => {
+    if (!user) {
+      router.push("/?auth=login&redirect=/checkout");
+    }
+  }, [user, router]);
+
   const [paymentMethod, setPaymentMethod] = useState("COD"); // 'COD' or 'Razorpay'
+
+  const handleAddNewAddress = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setProcessing(true);
+    try {
+      const res = await addAddress({ ...newAddressForm, isDefault: addresses.length === 0 });
+      if (res.success) {
+        setAddresses(prev => [...prev, res.address]);
+        setSelectedAddressId(res.address._id);
+        toast.success("Address added");
+        setIsAddressModalOpen(false);
+        setNewAddressForm({ fullName: user?.name || "", phone: "", street: "", city: "", state: "", postalCode: "", country: "India" });
+      } else {
+        toast.error(res.error || "Failed to add address");
+      }
+    } catch {
+      toast.error("Something went wrong");
+    } finally {
+      setProcessing(false);
+    }
+  };
 
   const loadRazorpayScript = () => {
     return new Promise((resolve) => {
@@ -48,7 +79,7 @@ export default function CheckoutForm({ initialCartItems, user }: { initialCartIt
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setNewAddressForm({ ...newAddressForm, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -57,12 +88,23 @@ export default function CheckoutForm({ initialCartItems, user }: { initialCartIt
       toast.error("Your cart is empty");
       return;
     }
+    if (!selectedAddressId || selectedAddressId === "new") {
+      toast.error("Please select a shipping address");
+      return;
+    }
 
     setProcessing(true);
 
     try {
+      const selectedAddress = addresses.find(a => a._id === selectedAddressId);
+      if (!selectedAddress) {
+        toast.error("Invalid address selected");
+        setProcessing(false);
+        return;
+      }
+
       // 1. Create order in Database (Pending or Processing based on method)
-      const res = await placeOrder(formData, paymentMethod);
+      const res = await placeOrder(selectedAddress, paymentMethod);
 
       if (!res.success || !res.orderId) {
         toast.error(res.error || "Failed to create order");
@@ -70,8 +112,9 @@ export default function CheckoutForm({ initialCartItems, user }: { initialCartIt
         return;
       }
 
-      // 2. If COD, we are done!
+      // 2. If COD, we are done! (cart already cleared on server by placeOrder)
       if (paymentMethod === "COD") {
+        setCartCount(0);
         setSuccessOrderId(res.orderId);
         setIsSuccessModalOpen(true);
         setProcessing(false);
@@ -93,25 +136,39 @@ export default function CheckoutForm({ initialCartItems, user }: { initialCartIt
           currency: "INR",
           name: "Orake Energy",
           description: "Order Payment",
-          order_id: res.razorpayOrderId, // MUST pass the Razorpay Order ID from backend
+          order_id: res.razorpayOrderId, 
           handler: async function (response: any) {
-            // Payment Success
-            await clearCart();
-            setSuccessOrderId(res.orderId); // Show our DB order ID
-            setIsSuccessModalOpen(true);
+            // Verify payment signature on the server
+            const verifyRes = await verifyPayment(
+              response.razorpay_order_id,
+              response.razorpay_payment_id,
+              response.razorpay_signature,
+              res.orderId
+            );
+
+            if (verifyRes.success) {
+              await clearCart();
+              setCartCount(0);
+              setSuccessOrderId(res.orderId); // Show our DB order ID
+              setIsSuccessModalOpen(true);
+            } else {
+              toast.error(verifyRes.error || "Payment verification failed");
+            }
             setProcessing(false);
           },
           prefill: {
-            name: formData.fullName,
-            email: user?.email,
-            contact: formData.phone
+            name: selectedAddress.fullName,
+            email: user.email,
+            contact: selectedAddress.phone
           },
           theme: {
             color: "#c25b5e",
           },
           modal: {
-            ondismiss: function() {
-              toast.error("Payment cancelled. Order saved as Pending in your account.");
+            ondismiss: async function() {
+              // Delete the abandoned order from DB
+              await deleteAbandonedOrder(res.orderId);
+              toast.error("Payment cancelled. Please try again.");
               setProcessing(false);
             }
           }
@@ -119,8 +176,10 @@ export default function CheckoutForm({ initialCartItems, user }: { initialCartIt
 
         const rzp = new (window as any).Razorpay(options);
         
-        rzp.on("payment.failed", function (response: any) {
+        rzp.on("payment.failed", async function (response: any) {
           toast.error(response.error.description || "Payment failed");
+          // Optionally delete the order if payment completely failed
+          await deleteAbandonedOrder(res.orderId);
           setProcessing(false);
         });
 
@@ -144,27 +203,51 @@ export default function CheckoutForm({ initialCartItems, user }: { initialCartIt
 
   return (
     <div className="max-w-6xl mx-auto px-6 lg:px-20 py-12 md:py-20">
-      
-      <h1 className={`${titleFont.className} text-4xl md:text-5xl text-[#15161b] mb-10 tracking-tight uppercase`}>
-        Checkout
-      </h1>
-
       <div className="flex flex-col lg:flex-row gap-12">
         {/* Form Column */}
         <div className="flex-1">
           <form onSubmit={handleSubmit} className="space-y-8">
             {/* Shipping Address */}
             <div className="bg-gray-50 p-6 md:p-8 rounded-[1.5rem] border border-gray-100">
-              <h2 className={`${textFont.className} text-xl font-bold uppercase tracking-wide mb-6`}>Shipping Address</h2>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <input required type="text" name="fullName" placeholder="Full Name" value={formData.fullName} onChange={handleInputChange} className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#c25b5e]" />
-                <input required type="tel" name="phone" placeholder="Phone Number" value={formData.phone} onChange={handleInputChange} className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#c25b5e]" />
-                <input required type="text" name="street" placeholder="Street Address" value={formData.street} onChange={handleInputChange} className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#c25b5e] md:col-span-2" />
-                <input required type="text" name="city" placeholder="City" value={formData.city} onChange={handleInputChange} className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#c25b5e]" />
-                <input required type="text" name="state" placeholder="State" value={formData.state} onChange={handleInputChange} className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#c25b5e]" />
-                <input required type="text" name="postalCode" placeholder="Postal / Zip Code" value={formData.postalCode} onChange={handleInputChange} className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-[#c25b5e]" />
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
+                <h2 className={`${textFont.className} text-xl font-bold uppercase tracking-wide`}>Shipping Address</h2>
+                <button type="button" onClick={() => setIsAddressModalOpen(true)} className={`${textFont.className} flex items-center justify-center px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-widest transition-all bg-[#15161b] hover:bg-[#c25b5e] text-white shrink-0`}>
+                  + Add New
+                </button>
               </div>
+              
+              {addresses.length > 0 ? (
+                <div className="flex flex-col gap-4">
+                  {addresses.map((addr: any) => (
+                    <label key={addr._id} className={`relative flex flex-col p-5 rounded-2xl border-2 cursor-pointer transition-all ${selectedAddressId === addr._id ? 'border-[#c25b5e] bg-red-50/20' : 'border-gray-200 bg-white hover:border-gray-300'}`}>
+                      <input type="radio" name="selectedAddressId" value={addr._id} checked={selectedAddressId === addr._id} onChange={(e) => setSelectedAddressId(e.target.value)} className="sr-only" />
+                      
+                      <div className="flex items-start justify-between mb-2">
+                        <h4 className={`${textFont.className} text-sm font-bold text-[#15161b]`}>{addr.fullName}</h4>
+                        {selectedAddressId === addr._id && (
+                          <div className="w-4 h-4 rounded-full bg-[#c25b5e] flex items-center justify-center">
+                            <div className="w-1.5 h-1.5 rounded-full bg-white"></div>
+                          </div>
+                        )}
+                      </div>
+                      <p className={`${textFont.className} text-xs text-gray-500 mb-2`}>{addr.phone}</p>
+                      <p className={`${textFont.className} text-xs text-gray-600 leading-relaxed`}>
+                        {addr.street}<br/>
+                        {addr.city}, {addr.state} {addr.postalCode}<br/>
+                        {addr.country}
+                      </p>
+                    </label>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-8 bg-white rounded-2xl border border-gray-200">
+                  <MapPin size={32} className="mx-auto text-gray-300 mb-3" />
+                  <p className={`${textFont.className} text-gray-400 text-xs uppercase tracking-wider mb-4`}>No saved addresses</p>
+                  <button type="button" onClick={() => setIsAddressModalOpen(true)} className={`${textFont.className} px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest transition-all bg-[#15161b] hover:bg-[#c25b5e] text-white`}>
+                    + Add New Address
+                  </button>
+                </div>
+              )}
             </div>
 
             {/* Payment Method */}
@@ -192,8 +275,8 @@ export default function CheckoutForm({ initialCartItems, user }: { initialCartIt
 
             <button
               type="submit"
-              disabled={processing || cartItems.length === 0}
-              className={`${textFont.className} w-full bg-[#15161b] text-white rounded-xl py-4 font-bold text-lg uppercase tracking-widest hover:bg-[#c25b5e] hover:shadow-lg transition-all flex items-center justify-center gap-2`}
+              disabled={processing || cartItems.length === 0 || !selectedAddressId || selectedAddressId === "new"}
+              className={`${textFont.className} w-full bg-[#15161b] text-white rounded-xl py-4 font-bold text-lg uppercase tracking-widest hover:bg-[#c25b5e] hover:shadow-lg transition-all flex items-center justify-center gap-2 disabled:opacity-50`}
             >
               {processing && <Loader2 size={20} className="animate-spin" />}
               {processing ? "Processing..." : `Place Order (Rs. ${total.toFixed(2)})`}
@@ -245,9 +328,72 @@ export default function CheckoutForm({ initialCartItems, user }: { initialCartIt
 
       <OrderSuccessModal 
         isOpen={isSuccessModalOpen}
-        onClose={() => router.push("/account")} // Redirect to account/orders
+        onClose={() => router.push("/account")}
         orderId={successOrderId || "unknown"}
+        paymentMethod={paymentMethod}
       />
+
+      {isAddressModalOpen && (
+        <div className="fixed inset-0 bg-black/50 z-[100] flex items-center justify-center p-4" onClick={() => setIsAddressModalOpen(false)}>
+          <div className="bg-white rounded-2xl w-full max-w-xl max-h-[90vh] overflow-y-auto shadow-2xl p-6 sm:p-8" onClick={e => e.stopPropagation()}>
+            <div className="flex items-center justify-between mb-6">
+              <h3 className={`${titleFont.className} text-2xl uppercase tracking-wide text-[#15161b]`}>
+                Add New Address
+              </h3>
+              <button type="button" onClick={() => setIsAddressModalOpen(false)} className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-gray-400 hover:text-[#15161b] transition-colors">
+                <X size={16} />
+              </button>
+            </div>
+            
+            <form onSubmit={handleAddNewAddress} className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className={`${textFont.className} block text-[10px] font-bold uppercase tracking-[0.15em] text-gray-400 mb-2`}>Full Name</label>
+                  <input required type="text" name="fullName" value={newAddressForm.fullName} onChange={handleInputChange} className={`${textFont.className} w-full border border-gray-200 bg-gray-50 px-4 py-3 text-sm font-medium text-[#15161b] focus:border-[#c25b5e] focus:bg-white focus:outline-none transition-all rounded-xl`} />
+                </div>
+                <div>
+                  <label className={`${textFont.className} block text-[10px] font-bold uppercase tracking-[0.15em] text-gray-400 mb-2`}>Phone Number</label>
+                  <input required type="tel" name="phone" value={newAddressForm.phone} onChange={handleInputChange} className={`${textFont.className} w-full border border-gray-200 bg-gray-50 px-4 py-3 text-sm font-medium text-[#15161b] focus:border-[#c25b5e] focus:bg-white focus:outline-none transition-all rounded-xl`} />
+                </div>
+              </div>
+              
+              <div>
+                <label className={`${textFont.className} block text-[10px] font-bold uppercase tracking-[0.15em] text-gray-400 mb-2`}>Street Address</label>
+                <input required type="text" name="street" value={newAddressForm.street} onChange={handleInputChange} className={`${textFont.className} w-full border border-gray-200 bg-gray-50 px-4 py-3 text-sm font-medium text-[#15161b] focus:border-[#c25b5e] focus:bg-white focus:outline-none transition-all rounded-xl`} />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className={`${textFont.className} block text-[10px] font-bold uppercase tracking-[0.15em] text-gray-400 mb-2`}>City</label>
+                  <input required type="text" name="city" value={newAddressForm.city} onChange={handleInputChange} className={`${textFont.className} w-full border border-gray-200 bg-gray-50 px-4 py-3 text-sm font-medium text-[#15161b] focus:border-[#c25b5e] focus:bg-white focus:outline-none transition-all rounded-xl`} />
+                </div>
+                <div>
+                  <label className={`${textFont.className} block text-[10px] font-bold uppercase tracking-[0.15em] text-gray-400 mb-2`}>State</label>
+                  <input required type="text" name="state" value={newAddressForm.state} onChange={handleInputChange} className={`${textFont.className} w-full border border-gray-200 bg-gray-50 px-4 py-3 text-sm font-medium text-[#15161b] focus:border-[#c25b5e] focus:bg-white focus:outline-none transition-all rounded-xl`} />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className={`${textFont.className} block text-[10px] font-bold uppercase tracking-[0.15em] text-gray-400 mb-2`}>Postal Code</label>
+                  <input required type="text" name="postalCode" value={newAddressForm.postalCode} onChange={handleInputChange} className={`${textFont.className} w-full border border-gray-200 bg-gray-50 px-4 py-3 text-sm font-medium text-[#15161b] focus:border-[#c25b5e] focus:bg-white focus:outline-none transition-all rounded-xl`} />
+                </div>
+                <div>
+                  <label className={`${textFont.className} block text-[10px] font-bold uppercase tracking-[0.15em] text-gray-400 mb-2`}>Country</label>
+                  <input required type="text" name="country" value={newAddressForm.country} onChange={handleInputChange} className={`${textFont.className} w-full border border-gray-200 bg-gray-50 px-4 py-3 text-sm font-medium text-[#15161b] focus:border-[#c25b5e] focus:bg-white focus:outline-none transition-all rounded-xl`} />
+                </div>
+              </div>
+
+              <div className="pt-6">
+                <button type="submit" disabled={processing} className={`${textFont.className} w-full bg-[#15161b] text-white py-3.5 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-[#c25b5e] transition-colors shadow-lg shadow-[#15161b]/20 disabled:opacity-50 flex items-center justify-center gap-2`}>
+                  {processing && <Loader2 size={14} className="animate-spin" />}
+                  Save Address & Use
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -8,32 +8,35 @@ async function getSession() {
   return auth.api.getSession({ headers: reqHeaders });
 }
 
-export async function getOrders(page: number = 1, limit: number = 3) {
+export async function getOrders() {
   // No 'use cache' — per-user data, always fresh
   // Dynamic via getSession() → headers()
   try {
     const session = await getSession();
-    if (!session?.user) return { orders: [], total: 0, totalPages: 1, page: 1 };
+    if (!session?.user) return { orders: [], total: 0 };
 
     await connectDB();
 
-    const skip = (page - 1) * limit;
+    const query = {
+      userId: session.user.id,
+      // Exclude abandoned Razorpay checkouts (unpaid + still Pending)
+      $nor: [
+        { paymentMethod: 'Razorpay', isPaid: false, status: 'Pending' }
+      ]
+    };
 
-    const total = await Order.countDocuments({ userId: session.user.id });
-    const orders = await Order.find({ userId: session.user.id })
+    const total = await Order.countDocuments(query);
+    const orders = await Order.find(query)
       .sort({ createdAt: -1 })
-      .skip(skip)
-      .limit(limit)
       .lean();
 
     return {
       orders: JSON.parse(JSON.stringify(orders)),
       total,
-      totalPages: Math.ceil(total / limit),
-      page,
     };
   } catch (error) {
     console.error("Failed to fetch orders:", error);
-    return { orders: [], total: 0, totalPages: 1, page: 1 };
+    return { orders: [], total: 0 };
   }
 }
+

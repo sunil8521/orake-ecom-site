@@ -6,7 +6,7 @@ import { clearCart } from "@/actions/cart";
 import { getCart } from "@/lib/data/cart";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import { updateTag } from "next/cache";
+import { updateTag, revalidatePath } from "next/cache";
 import { razorpay } from "@/lib/razorpay";
 
 async function getSession() {
@@ -48,10 +48,10 @@ export async function placeOrder(shippingAddress: ShippingAddress, paymentMethod
     // Format items for DB
     const orderItems = items.map((item: any) => ({
         name: item.name,
-        qty: item.qty,
+        quantity: item.qty || item.quantity,
         image: item.image,
         price: item.price,
-        productId: item.id
+        productId: item.id || item.productId || item._id
     }));
 
     // Create the order in MongoDB
@@ -92,6 +92,9 @@ export async function placeOrder(shippingAddress: ShippingAddress, paymentMethod
     }
 
     // Return the required info to the frontend
+    revalidatePath("/account");
+    revalidatePath("/cart");
+
     return {
         success: true,
         orderId: order._id.toString(),
@@ -115,8 +118,16 @@ export async function getUserOrders(page: number = 1, limit: number = 3) {
     
     const skip = (page - 1) * limit;
     
-    const total = await Order.countDocuments({ userId: session.user.id });
-    const orders = await Order.find({ userId: session.user.id })
+    const query = {
+      userId: session.user.id,
+      $nor: [
+        // Hide abandoned checkouts (Razorpay unpaid orders still in Pending status)
+        { paymentMethod: 'Razorpay', isPaid: false, status: 'Pending' }
+      ]
+    };
+    
+    const total = await Order.countDocuments(query);
+    const orders = await Order.find(query)
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit)
@@ -156,6 +167,28 @@ export async function cancelOrder(id: string) {
     updateTag("orders");
     
     return { success: true, order: JSON.parse(JSON.stringify(order)) };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+}
+
+export async function deleteAbandonedOrder(id: string) {
+  try {
+    const session = await getSession();
+    if (!session?.user) return { success: false, error: "Unauthorized" };
+
+    await connectDB();
+    
+    const order = await Order.findOne({ _id: id, userId: session.user.id });
+    if (!order) return { success: false, error: "Order not found" };
+    
+    // Only allow deleting if it's a pending Razorpay order
+    if (order.paymentMethod === "Razorpay" && order.status === "Pending" && !order.isPaid) {
+      await Order.findByIdAndDelete(id);
+      return { success: true };
+    }
+    
+    return { success: false, error: "Cannot delete this order" };
   } catch (error: any) {
     return { success: false, error: error.message };
   }

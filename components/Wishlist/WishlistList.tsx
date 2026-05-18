@@ -1,5 +1,4 @@
 "use client";
-import { useState } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { textFont } from "@/lib/fonts";
@@ -7,27 +6,24 @@ import WishlistCard from "./WishlistCard";
 import EmptyWishlist from "./EmptyWishlist";
 import { toggleWishlist } from "@/actions/wishlist";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
 import { useCartWishlistStore } from "@/store/useCartWishlistStore";
 import { ProductType } from "@/models/Product"
 
 
-export default function WishlistList({ initialItems }: { initialItems: ProductType[] }) {
-  const router = useRouter();
-  const [items, setItems] = useState(initialItems);
+// Same pattern as CartList — read props directly, no useState.
+// revalidatePath in the server action handles the UI update.
+export default function WishlistList({ initialItems: items }: { initialItems: ProductType[] }) {
   const { decrementWishlist } = useCartWishlistStore();
 
   const removeItem = async (productId: string) => {
-    // Optimistic: remove from UI instantly
-    setItems(prev => prev.filter(item => item._id !== productId));
     decrementWishlist();
 
     const res = await toggleWishlist(productId);
     if (!res.success) {
-      // Revert on failure
-      setItems(initialItems);
       toast.error("Failed to remove item");
     }
+    // No need for setState — toggleWishlist calls revalidatePath("/wishlist")
+    // which re-runs the server component and passes fresh items as props
   };
 
   return (

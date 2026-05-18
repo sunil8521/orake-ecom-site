@@ -10,9 +10,10 @@ interface OrderSuccessModalProps {
   isOpen: boolean;
   onClose: () => void;
   orderId?: string;
+  paymentMethod?: string;
 }
 
-export default function OrderSuccessModal({ isOpen, onClose, orderId }: OrderSuccessModalProps) {
+export default function OrderSuccessModal({ isOpen, onClose, orderId, paymentMethod = "Razorpay" }: OrderSuccessModalProps) {
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -23,6 +24,8 @@ export default function OrderSuccessModal({ isOpen, onClose, orderId }: OrderSuc
       document.body.style.overflow = "";
     };
   }, [isOpen]);
+
+  const isCOD = paymentMethod === "COD";
 
   return (
     <AnimatePresence>
@@ -60,11 +63,13 @@ export default function OrderSuccessModal({ isOpen, onClose, orderId }: OrderSuc
             </div>
 
             <h3 className={`${titleFont.className} text-2xl sm:text-3xl uppercase tracking-wide text-[#15161b] mb-4`}>
-              Payment Successful!
+              {isCOD ? "Order Placed!" : "Payment Successful!"}
             </h3>
             
             <p className={`${textFont.className} text-gray-500 text-sm sm:text-base mb-2`}>
-              Thank you for your order. We've received your payment and are processing your order right away.
+              {isCOD
+                ? "Your order has been placed successfully! You can pay when your order arrives at your doorstep."
+                : "Thank you for your order. We've received your payment and are processing your order right away."}
             </p>
             
             {orderId && (
@@ -81,12 +86,12 @@ export default function OrderSuccessModal({ isOpen, onClose, orderId }: OrderSuc
               >
                 <Package size={18} /> View Orders
               </Link>
-              <button
-                onClick={onClose}
-                className={`${textFont.className} w-full bg-gray-100 hover:bg-gray-200 text-[#15161b] py-3.5 sm:py-4 rounded-full text-sm sm:text-base font-bold uppercase tracking-wider transition-colors`}
+              <Link
+                href="/products"
+                className={`${textFont.className} w-full bg-gray-100 hover:bg-gray-200 text-[#15161b] py-3.5 sm:py-4 rounded-full text-sm sm:text-base font-bold uppercase tracking-wider transition-colors text-center`}
               >
                 Continue Shopping
-              </button>
+              </Link>
             </div>
           </motion.div>
         </div>
@@ -94,3 +99,4 @@ export default function OrderSuccessModal({ isOpen, onClose, orderId }: OrderSuc
     </AnimatePresence>
   );
 }
+
