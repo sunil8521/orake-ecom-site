@@ -7,7 +7,7 @@ import { titleFont, textFont } from "@/lib/fonts";
 export default function NotFound() {
   return (
     <div className="min-h-[100dvh] flex flex-col items-center justify-center bg-[#15161b] relative overflow-hidden">
-      {/* Decorative Background Elements */}
+      {/* Decorative Background */}
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#de3e4f]/10 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-[#dbba53]/5 rounded-full blur-[150px] pointer-events-none" />
       
