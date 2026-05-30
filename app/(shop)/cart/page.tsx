@@ -3,6 +3,7 @@ import { getCart } from "@/lib/data/cart";
 import CartHero from "@/components/Cart/CartHero";
 import CartList from "@/components/Cart/CartList";
 import { Suspense } from "react";
+import { headers } from "next/headers";
 
 export const metadata: Metadata = {
   title: "Your Cart — Orake",
@@ -10,6 +11,7 @@ export const metadata: Metadata = {
 };
 
 async function CartContent() {
+  await headers();
   const res = await getCart();
   const items = res?.items ?? [];
   return (

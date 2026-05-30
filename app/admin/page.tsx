@@ -13,7 +13,10 @@ const statusColors: Record<string, string> = {
   Cancelled: "bg-red-100 text-red-600",
 };
 
+import { connection } from "next/server";
+
 export default async function AdminDashboard() {
+  await connection();
   const [stats, ordersResult, productsResult] = await Promise.all([
     getAdminStats(),
     getAdminOrders({ limit: 5 }),

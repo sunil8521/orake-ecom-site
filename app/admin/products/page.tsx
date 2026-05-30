@@ -1,11 +1,13 @@
 import { getAdminProducts } from "@/lib/data/admin-products";
 import AdminProductsClient from "./AdminProductsClient";
+import { connection } from "next/server";
 
 export default async function AdminProductsPage({
   searchParams,
 }: {
   searchParams: Promise<{ search?: string; page?: string }>;
 }) {
+  await connection();
   const params = await searchParams;
   
   const search = params.search || "";

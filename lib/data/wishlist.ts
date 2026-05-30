@@ -11,7 +11,7 @@ async function getSession() {
 }
 
 export async function getWishlist() {
-  // console.log("[DEBUG] getWishlist() called at", new Date().toISOString());
+  await headers();
   try {
     const session = await getSession();
     if (!session?.user) return { items: [] };
@@ -45,6 +45,7 @@ export async function getWishlist() {
 }
 
 export async function getWishlistCount(): Promise<number> {
+  await headers();
   try {
     const session = await getSession();
     if (!session?.user) return 0;
@@ -57,7 +58,7 @@ export async function getWishlistCount(): Promise<number> {
 
 
 export async function getUserWishlist(): Promise<string[]> {
-
+  await headers();
   try {
     const session = await getSession();
     if (!session?.user) {
@@ -71,5 +72,4 @@ export async function getUserWishlist(): Promise<string[]> {
     console.log(er)
     return []
   }
-
 }

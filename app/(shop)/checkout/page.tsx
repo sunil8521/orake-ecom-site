@@ -4,6 +4,7 @@ import { getCart } from "@/lib/data/cart";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { getUserAddresses } from "@/actions/address";
+import { Suspense } from "react";
 
 import { titleFont } from "@/lib/fonts";
 
@@ -12,13 +13,19 @@ export const metadata: Metadata = {
   description: "Securely complete your purchase.",
 };
 
-export default async function CheckoutPage() {
+async function CheckoutContent() {
   const reqHeaders = await headers();
   const session = await auth.api.getSession({ headers: reqHeaders });
   const cartData = await getCart();
   const addressRes = await getUserAddresses();
   const addresses = addressRes.success ? addressRes.addresses : [];
-  
+
+  return (
+    <CheckoutForm initialCartItems={cartData?.items || []} user={session?.user || null} initialAddresses={addresses} />
+  );
+}
+
+export default function CheckoutPage() {
   return (
     <div className="min-h-screen bg-white">
       <div className="relative bg-gradient-to-b from-[#15161b] via-[#1a1b22] to-[#15161b] pt-24 pb-10 sm:pt-32 sm:pb-14 md:pt-40 md:pb-20 px-4 sm:px-6 text-center overflow-hidden">
@@ -31,7 +38,9 @@ export default async function CheckoutPage() {
           </h1>
         </div>
       </div>
-      <CheckoutForm initialCartItems={cartData?.items || []} user={session?.user || null} initialAddresses={addresses} />
+      <Suspense fallback={<div className="max-w-4xl mx-auto py-12 px-4 text-center text-gray-500 font-bold uppercase tracking-wider">Loading secure checkout...</div>}>
+        <CheckoutContent />
+      </Suspense>
     </div>
   );
 }

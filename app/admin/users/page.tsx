@@ -1,11 +1,13 @@
 import { getAdminUsers } from "@/lib/data/admin-users";
 import AdminUsersClient from "./AdminUsersClient";
+import { connection } from "next/server";
 
 export default async function AdminUsersPage({
   searchParams,
 }: {
   searchParams: Promise<{ search?: string; role?: string; provider?: string; showDeleted?: string; page?: string }>;
 }) {
+  await connection();
   const params = await searchParams;
   
   const search = params.search || "";

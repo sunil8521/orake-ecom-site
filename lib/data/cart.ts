@@ -12,6 +12,7 @@ async function getSession() {
 
 export async function getCart() {
   // No 'use cache' — per-user data must always be fresh
+  await headers();
   try {
     const session = await getSession();
     if (!session?.user) return null;
@@ -43,6 +44,7 @@ export async function getCart() {
 }
 
 export async function getCartCount(): Promise<number> {
+  await headers();
   try {
     const session = await getSession();
     if (!session?.user) return 0;

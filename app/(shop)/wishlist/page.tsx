@@ -3,6 +3,7 @@ import WishlistHero from "@/components/Wishlist/WishlistHero";
 import WishlistList from "@/components/Wishlist/WishlistList";
 import { getWishlist } from "@/lib/data/wishlist";
 import { Suspense } from "react";
+import { headers } from "next/headers";
 
 export const metadata: Metadata = {
   title: "Wishlist — Orake",
@@ -11,6 +12,7 @@ export const metadata: Metadata = {
 
 
 async function WishlistContent() {
+  await headers();
   const data = await getWishlist();
   return (
     <>

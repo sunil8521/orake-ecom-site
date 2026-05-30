@@ -1,11 +1,13 @@
 import { getAdminOrders } from "@/lib/data/admin-orders";
 import AdminOrdersClient from "./AdminOrdersClient";
+import { connection } from "next/server";
 
 export default async function AdminOrdersPage({
   searchParams,
 }: {
   searchParams: Promise<{ search?: string; status?: string; page?: string }>;
 }) {
+  await connection();
   const params = await searchParams;
   
   const search = params.search || "";

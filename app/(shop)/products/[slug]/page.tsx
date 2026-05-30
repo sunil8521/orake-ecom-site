@@ -10,10 +10,11 @@ import ProductTabs from "@/components/Product/ProductTabs";
 import { getFeaturedProducts } from "@/lib/data/product";
 import { bodyFont } from "@/lib/fonts";
 
-export default async function ProductDetailsPage({ params }: { params: Promise<{ slug: string }> }) {
+import { Suspense } from "react";
+
+async function ProductDetailsContent({ params }: { params: Promise<{ slug: string }> }) {
     const resolvedParams = await params;
     const { slug } = resolvedParams;
-
     const product = await getProductBySlug(slug);
     
     if (!product) {
@@ -21,10 +22,8 @@ export default async function ProductDetailsPage({ params }: { params: Promise<{
     }
 
     // Fetch product reviews and wishlist status
-    const [reviews, wishlistItems] = await Promise.all([
-        getProductReviews(product._id),
-        getUserWishlist()
-    ]);
+    const wishlistItems = await getUserWishlist();
+    const reviews = await getProductReviews(product._id);
     
     const isWishlisted = wishlistItems.includes(product._id.toString());
 
@@ -54,17 +53,9 @@ export default async function ProductDetailsPage({ params }: { params: Promise<{
     const relatedProduct = relatedProducts.length > 0 ? relatedProducts[0] : allProducts[0];
 
     return (
-        <main className="bg-[#fafafa] min-h-screen pt-24 pb-20 selection:bg-[#c25b5e] selection:text-white">
-            <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-20 mb-8 mt-2">
-                <Link href="/products" className={`${bodyFont.className} inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-gray-400 hover:text-[#c25b5e] transition-colors`}>
-                    <ArrowLeft size={16} strokeWidth={2.5} />
-                    Back to Products
-                </Link>
-            </div>
-
+        <>
             {/* Product Top Section */}
             <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-20 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 mb-20">
-
                 {/* LEFT: Image Gallery */}
                 <ProductGallery galleryImages={galleryImages} productName={product.name} />
 
@@ -74,7 +65,23 @@ export default async function ProductDetailsPage({ params }: { params: Promise<{
 
             {/* Bottom Info Tabs */}
             <ProductTabs product={product} reviews={reviews} />
+        </>
+    );
+}
 
+export default function ProductDetailsPage({ params }: { params: Promise<{ slug: string }> }) {
+    return (
+        <main className="bg-[#fafafa] min-h-screen pt-24 pb-20 selection:bg-[#c25b5e] selection:text-white">
+            <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-20 mb-8 mt-2">
+                <Link href="/products" className={`${bodyFont.className} inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-gray-400 hover:text-[#c25b5e] transition-colors`}>
+                    <ArrowLeft size={16} strokeWidth={2.5} />
+                    Back to Products
+                </Link>
+            </div>
+
+            <Suspense fallback={<div className="max-w-7xl mx-auto px-6 text-center text-gray-400 py-20 font-bold uppercase tracking-wider">Loading product details...</div>}>
+                <ProductDetailsContent params={params} />
+            </Suspense>
         </main>
     );
 }

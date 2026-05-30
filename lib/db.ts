@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { MongoClient } from "mongodb";
+import { connection } from "next/server";
 
 const MONGODB_URI = process.env.MONGODB_URI || "";
 
@@ -28,7 +29,6 @@ export async function getClient(): Promise<MongoClient> {
 export async function getDb() {
   const c = await getClient();
   return c.db();
-
 }
 
 // ─── Mongoose Connection (for app models: User, Product, Cart, etc.) ───
