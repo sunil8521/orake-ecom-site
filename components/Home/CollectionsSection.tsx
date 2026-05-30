@@ -193,7 +193,7 @@ export default function CollectionsSection() {
                   <span className="text-sm md:text-base text-gray-400 line-through decoration-1">Rs. 668.00</span>
                 </div>
 
-                <Link href="/products/strawberry-vanilla" className="group/btn w-full sm:w-auto flex justify-center items-center gap-3 bg-[#15161b] hover:bg-[#c25b5e] text-white px-6 py-3.5 md:px-8 md:py-4 rounded-full text-xs font-bold uppercase tracking-[0.2em] shadow-lg hover:shadow-[0_15px_30px_rgba(194,91,94,0.3)] transition-all duration-300 active:scale-95 whitespace-nowrap">
+                <Link href="/products" className="group/btn w-full sm:w-auto flex justify-center items-center gap-3 bg-[#15161b] hover:bg-[#c25b5e] text-white px-6 py-3.5 md:px-8 md:py-4 rounded-full text-xs font-bold uppercase tracking-[0.2em] shadow-lg hover:shadow-[0_15px_30px_rgba(194,91,94,0.3)] transition-all duration-300 active:scale-95 whitespace-nowrap">
                   View Product
                   <ArrowRight size={16} className="group-hover/btn:translate-x-1.5 transition-transform duration-300" />
                 </Link>
@@ -254,7 +254,7 @@ export default function CollectionsSection() {
                   <span className="text-sm md:text-base text-gray-400 line-through decoration-1">Rs. 1499.00</span>
                 </div>
 
-                <Link href="/products/ginger-lemon" className="group/btn w-full sm:w-auto flex justify-center items-center gap-3 bg-[#15161b] hover:bg-[#dbba53] text-white px-6 py-3.5 md:px-8 md:py-4 rounded-full text-xs font-bold uppercase tracking-[0.2em] shadow-lg hover:shadow-[0_15px_30px_rgba(219,186,83,0.3)] transition-all duration-300 active:scale-95 whitespace-nowrap">
+                <Link href="/products" className="group/btn w-full sm:w-auto flex justify-center items-center gap-3 bg-[#15161b] hover:bg-[#dbba53] text-white px-6 py-3.5 md:px-8 md:py-4 rounded-full text-xs font-bold uppercase tracking-[0.2em] shadow-lg hover:shadow-[0_15px_30px_rgba(219,186,83,0.3)] transition-all duration-300 active:scale-95 whitespace-nowrap">
                   View Product
                   <ArrowRight size={16} className="group-hover/btn:translate-x-1.5 transition-transform duration-300" />
                 </Link>
