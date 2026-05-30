@@ -26,7 +26,7 @@ export default function ProductCard({ product, isWishlist }: ProductCardProps) {
     const [isAddingToCart, setIsAddingToCart] = useState(false);
     const [isLiking, setIsLiking] = useState(false);
 
-   
+
 
     const { openAuthModal } = useAuthStore();
     const { data: session } = useSession();
@@ -67,7 +67,7 @@ export default function ProductCard({ product, isWishlist }: ProductCardProps) {
 
         setIsLiking(true);
 
-   
+
         const res = await toggleWishlist(product._id);
         setIsLiking(false);
 
@@ -113,7 +113,7 @@ export default function ProductCard({ product, isWishlist }: ProductCardProps) {
                         <button
                             onClick={handleToggleWishlist}
                             disabled={isLiking}
-                            className={`absolute top-4 right-4 sm:top-6 sm:right-6 z-30 w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center transition-all active:scale-90 ${isWishlist   
+                            className={`absolute top-4 right-4 sm:top-6 sm:right-6 z-30 w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center transition-all active:scale-90 ${isWishlist
                                 ? "bg-[#c25b5e] text-white shadow-md"
                                 : "bg-white/80 text-gray-400 hover:text-[#c25b5e] hover:bg-white shadow-sm"
                                 }`}

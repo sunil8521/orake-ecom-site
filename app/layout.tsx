@@ -44,7 +44,7 @@ export default function RootLayout({
         />
         <MainLayout>{children}</MainLayout>
         <AuthModal />
-        <SignupPopup />
+        {/* <SignupPopup /> */}
       </body>
     </html>
   );

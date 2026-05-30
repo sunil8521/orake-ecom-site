@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 
 export default function HeroSection() {
- 
+
   const canImages = ["/can1.png", "/can2.png"];
   const [canIdx, setCanIdx] = useState(0);
   const caramelSplash = "/can2.png"; // Place can2.png in public/
@@ -79,7 +79,7 @@ export default function HeroSection() {
           </div>
 
         </div>
-         
+
       </div>
 
       {/* Product cans row - curved layout at bottom */}
