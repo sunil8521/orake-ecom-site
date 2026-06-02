@@ -5,7 +5,7 @@ import FooterBanner from "@/components/About/FooterBanner";
 
 export const metadata: Metadata = {
 	title: "About Orake — Our Story & Mission",
-	description: "Discover the story behind Orake premium prebiotic energy drinks. Real ingredients, zero sugar, and a mission to fuel your everyday grind naturally.",
+	description: "Discover the story behind Orake premium prebiotic fiber sodas. Real ingredients, zero sugar, and a mission to nourish your gut naturally.",
 };
 
 export default function AboutPage() {

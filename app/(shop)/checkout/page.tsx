@@ -9,7 +9,7 @@ import { Suspense } from "react";
 import { titleFont } from "@/lib/fonts";
 
 export const metadata: Metadata = {
-  title: "Checkout | Orake Energy",
+  title: "Checkout | Orake",
   description: "Securely complete your purchase.",
 };
 

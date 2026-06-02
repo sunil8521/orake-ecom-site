@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { titleFont, textFont } from "@/lib/fonts";
+import Link from "next/link";
 
 
 export default function VideoShowcaseSection() {
@@ -15,6 +16,7 @@ export default function VideoShowcaseSection() {
       ([entry]) => {
         setIsInView(entry.isIntersecting);
         if (entry.isIntersecting && videoRef.current) {
+          videoRef.current.playbackRate = 0.55;
           videoRef.current.play().catch(() => { });
         } else if (!entry.isIntersecting && videoRef.current) {
           videoRef.current.pause();
@@ -31,7 +33,7 @@ export default function VideoShowcaseSection() {
   }, []);
 
   return (
-    <section className="relative overflow-hidden bg-white px-12 sm:px-16 lg:px-28 pt-0 pb-4 sm:pt-2 sm:pb-6 md:pt-3 md:pb-8">
+    <section className="relative overflow-hidden bg-white px-4 sm:px-8 lg:px-28 pt-8 pb-8 sm:pt-14 sm:pb-12 md:pt-20 md:pb-16">
 
       {/* Background  */}
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_80%,rgba(222,62,79,0.05)_0%,rgba(244,238,207,0.2)_30%,rgba(255,255,255,0)_70%)]" />
@@ -40,20 +42,25 @@ export default function VideoShowcaseSection() {
         {/* Video Container */}
         <div
           ref={containerRef}
-          className="group relative w-full overflow-hidden rounded-[1.2rem] sm:rounded-[2rem] md:rounded-[2.5rem] bg-[#000000]   transition-shadow duration-700  flex items-end aspect-[3/4] sm:aspect-[4/3] md:aspect-auto md:min-h-[40vh]"
+          className="group relative w-full overflow-hidden rounded-[1.2rem] sm:rounded-[2rem] md:rounded-[2.5rem] bg-[#000000] transition-shadow duration-700 flex items-center min-h-[580px] sm:min-h-[520px] md:min-h-0 md:aspect-[16/9]"
         >
 
           {/* Video Background */}
           <video
             ref={videoRef}
-            className={`absolute inset-0 h-full w-full object-cover transition-all duration-1000 ease-out group-hover:scale-105 z-0 ${isLoaded ? "opacity-100 scale-100" : "opacity-0 scale-110"
+            className={`absolute inset-0 h-full w-full object-cover object-[center_10%] transition-all duration-1000 ease-out group-hover:scale-105 z-0 ${isLoaded ? "opacity-100 scale-100" : "opacity-0 scale-110"
               }`}
             src="/video2.mp4"
             loop
             muted
             playsInline
             preload="auto"
-            onLoadedData={() => setIsLoaded(true)}
+            onLoadedData={() => {
+              setIsLoaded(true);
+              if (videoRef.current) {
+                videoRef.current.playbackRate = 0.55;
+              }
+            }}
           >
             Your browser does not support the video tag.
           </video>
@@ -61,29 +68,29 @@ export default function VideoShowcaseSection() {
 
 
           {/* Dark Overlay Gradients */}
-          <div className="absolute inset-0 z-[1] bg-gradient-to-r from-black/40 via-black/7 to-transparent opacity-50" />
+          <div className="absolute inset-0 z-[1] bg-gradient-to-t from-black/85 via-black/45 to-black/10 md:bg-gradient-to-r md:from-black/75 md:via-black/35 md:to-transparent" />
 
           {/* Content */}
           <div
             className={`relative z-10 w-full p-5 sm:p-8 md:p-12 lg:p-16 lg:w-[65%] xl:w-[55%] transition-all duration-[1.2s] ease-out delay-200 ${isInView ? "translate-y-0 opacity-100" : "translate-y-16 opacity-0"
               }`}
           >
-            <h2 className={`${titleFont.className} mb-3 sm:mb-4 text-[clamp(2rem,7vw,5rem)] uppercase leading-[1.05] tracking-wide text-white drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)]`}>
+            <h2 className={`${titleFont.className} mb-3 sm:mb-4 text-[clamp(1.8rem,7vw,5rem)] uppercase leading-[1.05] tracking-wide text-white drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)]`}>
               Refresh Your Life,
               <br />
               <span className="text-[#de3e4f]">One Sip at a Time</span>
             </h2>
 
             <p className={`${textFont.className} mt-3 sm:mt-5 mb-6 sm:mb-8 md:mb-10 max-w-[40ch] text-[clamp(0.95rem,3.5vw,1.5rem)] font-light leading-relaxed text-[#f0f0f2]/90 drop-shadow-md`}>
-              Stay hydrated and energized with every drink. Our bottles are designed to keep your beverage pure, cool, and always within reach.
+              Every sip feeds the 38 trillion microbes in your gut. Real fruit. Zero sugar. Bold fizz that makes your taste buds riot.
             </p>
 
             {/* Feature List */}
             <div className="mb-6 sm:mb-8 md:mb-10 flex flex-col gap-2.5 sm:gap-3">
               {[
-                "Crystal-clear, fresh taste",
-                "Long-lasting temperature control",
-                "Perfect for every adventure",
+                "5G prebiotic fiber per can",
+                "Zero sugar, real fruit juice",
+                "100% recyclable aluminum",
               ].map((item, i) => (
                 <div
                   key={i}
@@ -102,14 +109,14 @@ export default function VideoShowcaseSection() {
               ))}
             </div>
 
-            <button className={`${textFont.className} group/btn mt-1 sm:mt-2 inline-flex items-center gap-2.5 sm:gap-3 rounded-full bg-white pl-5 pr-4 py-2.5 sm:pl-7 sm:pr-5 sm:py-3.5 text-[1.05rem] sm:text-[1.25rem] font-semibold leading-none text-black shadow-[0_10px_20px_rgba(0,0,0,0.2)] transition-all duration-300 hover:scale-[1.03] hover:bg-[#de3e4f] hover:text-white hover:shadow-[0_15px_30px_rgba(222,62,79,0.3)] active:scale-95`}>
-              Shop Bottles
+            <Link href="/products" className={`${textFont.className} group/btn mt-1 sm:mt-2 inline-flex items-center gap-2.5 sm:gap-3 rounded-full bg-white pl-5 pr-4 py-2.5 sm:pl-7 sm:pr-5 sm:py-3.5 text-[1.05rem] sm:text-[1.25rem] font-semibold leading-none text-black shadow-[0_10px_20px_rgba(0,0,0,0.2)] transition-all duration-300 hover:scale-[1.03] hover:bg-[#de3e4f] hover:text-white hover:shadow-[0_15px_30px_rgba(222,62,79,0.3)] active:scale-95`}>
+              Shop Orake
               <span className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-black text-white transition-all duration-300 group-hover/btn:translate-x-1 group-hover/btn:bg-white group-hover/btn:text-[#de3e4f] shrink-0">
                 <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                 </svg>
               </span>
-            </button>
+            </Link>
           </div>
 
         </div>

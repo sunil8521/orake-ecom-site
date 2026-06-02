@@ -77,7 +77,7 @@ export default function ProductTabs({ product, reviews }: ProductTabsProps) {
               className={`${bodyFont.className} text-gray-500 leading-relaxed max-w-4xl text-[15px] sm:text-base space-y-6`}
             >
               <p>{product.description}</p>
-              <p>How does it taste then? Delightfully tasty! Sweetened with real fruit extracts only, it's a supercool and healthier alternative to the usual energy drinks. You can enjoy it anytime, whether you're watching a movie, partying, or simply hanging out with friends.</p>
+              <p>How does it taste then? Delightfully tasty! Sweetened with real fruit extracts only, it&apos;s a supercool and healthier alternative to regular sodas. You can enjoy it anytime, whether you&apos;re watching a movie, partying, or simply hanging out with friends.</p>
               <p>So, if you want to savor the classic taste sans the sugar, make a smart choice today. Order Orake {product.name} to enjoy all the fizz and flavor, and say goodbye to all the guilt.</p>
             </motion.div>
           )}

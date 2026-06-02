@@ -43,7 +43,7 @@ export default function TaglineBanner() {
             className={`${headingFont.className} fill-[#ffffff] text-[30px] uppercase tracking-normal`}
           >
             <textPath href="#taglineFlowPath" startOffset="100%">
-              WHEREVER YOU ARE  •  ENJOY SOLO  •  SHARE WITH FRIENDS  •  WHEREVER YOU ARE  •  ENJOY SOLO  •  SHARE WITH FRIENDS  •
+              WHEREVER YOU ARE  •  ENJOY SOLO  •  SHARE WITH FRIENDS  •  CHOOSE ORAKE  •  WHEREVER YOU ARE  •  ENJOY SOLO  •  SHARE WITH FRIENDS  •  CHOOSE ORAKE 
               <animate
                 attributeName="startOffset"
                 from="100%"

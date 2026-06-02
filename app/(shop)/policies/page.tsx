@@ -9,8 +9,8 @@ const policies = [
     icon: "↩",
     sections: [
       {
-        heading: "Damaged or Wrong Product",
-        content: "If your order arrives damaged, leaking, or incorrect, contact us within 48 hours of delivery with a photo. We will send a replacement or issue a full refund — no return required."
+        heading: "Instant Replacement Policy",
+        content: "We rage too when that happens. Snap a photo of the damage, fill in the contact form within 48 hours, and our team will ship a fresh batch immediately — no bureaucracy, no endless back-and-forth. We make it right. That's the Orake promise. Your order is our responsibility until it's in your hands."
       },
       {
         heading: "Change of Mind",
@@ -37,7 +37,7 @@ const policies = [
       },
       {
         heading: "After Shipment",
-        content: "Once the order is dispatched, cancellation is not possible. If the product arrives damaged, please refer to our Refund Policy."
+        content: "Once the order is dispatched, cancellation is not possible. If the product arrives damaged, please refer to our Instant Replacement Policy."
       },
       {
         heading: "Subscription / Repeat Orders",
@@ -102,8 +102,8 @@ const policies = [
         content: "If a delivery attempt fails due to a wrong address or unavailability, the package may be returned. Re-shipping charges will apply."
       },
       {
-        heading: "Currently Shipping",
-        content: "We currently ship across India. International shipping is not available yet."
+        heading: "Where We Ship",
+        content: "Everywhere your gut needs us. We currently cover all major Indian pin codes and are building international shipping for the Orake diaspora worldwide. Watch this space — the gut revolution has no borders."
       }
     ]
   }

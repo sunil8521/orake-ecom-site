@@ -9,27 +9,27 @@ import { titleFont, textFont } from "@/lib/fonts";
 const blogData: Record<string, any> = {
   "science-of-hydration": {
     image: "/blog-hydration.png",
-    tag: "Science & Performance",
+    tag: "Science & Gut Health",
     author: "DR. KATE",
     date: "OCT 12, 2025",
-    title: "The Science of Hydration: Why Orake Hits Different at 3 AM",
+    title: "The Science of Gut Health: Why Your Microbiome Craves Orake",
     content: (
       <>
-        <p className="lead">It&apos;s 3 AM. The glow of the monitor is the only light in the room. You reach for an energy drink, hoping it will push you through the final hours of the grind. But usually, that means an inevitable, soul-crushing crash by 4 PM. Not with Orake.</p>
+        <p className="lead">It&apos;s 3 AM. The glow of the monitor is the only light in the room. You reach for a soda, hoping for something that actually tastes good without wrecking your gut. Most drinks fail you. Not Orake.</p>
         
         <h2>The Zero-Sugar Difference</h2>
-        <p>Most commercial energy drinks rely on a massive spike of synthetic sugars to jolt your nervous system. This causes a rapid release of insulin, which subsequently drops your blood sugar to the floor. We engineered Orake completely differently.</p>
-        <p>By utilizing real fruit extracts and natural, plant-based sweeteners, we&apos;ve entirely eliminated the sugar crash. Our formula provides a sustained, steady release of energy that respects your body&apos;s natural metabolic pathways.</p>
+        <p>Most commercial sodas rely on a massive spike of synthetic sugars to keep you hooked. This causes a rapid release of insulin, which subsequently drops your blood sugar to the floor. We engineered Orake completely differently.</p>
+        <p>By utilizing real fruit extracts and natural, plant-based sweeteners, we&apos;ve entirely eliminated the sugar crash. Our formula works with your body&apos;s natural metabolic pathways, not against them.</p>
         
         <h2>Prebiotic Fiber: The Unsung Hero</h2>
-        <p>Did you know your gut microbiome plays a massive role in your cognitive function? Orake is infused with prebiotic fibers that nourish your gut bacteria. A healthy gut means improved neurotransmitter production, leading to sharper focus and faster reaction times. It&apos;s not just about waking up; it&apos;s about thinking clearer.</p>
+        <p>Did you know your gut microbiome plays a massive role in your cognitive function? Orake is packed with 5G of prebiotic fiber that nourishes your gut bacteria. A healthy gut means improved neurotransmitter production, leading to better mood, sharper focus, and stronger immunity. It&apos;s not just a soda; it&apos;s a functional beverage.</p>
         
         <blockquote>
-          &quot;We didn&apos;t just want to make another energy drink. We wanted to engineer a functional beverage that actually supports your body&apos;s performance.&quot;<br/>
-          <strong>- Dr. Kate, Lead Chemist</strong>
+          &quot;We didn&apos;t just want to make another soda. We wanted to engineer a functional beverage that actually supports your body from the inside out.&quot;<br/>
+          <strong>- Dr. Kate, Lead Formulation Scientist</strong>
         </blockquote>
         
-        <p>Next time you&apos;re facing a late-night session, reach for the can that&apos;s built on science, not just sugar. Grab an Orake.</p>
+        <p>Next time you&apos;re craving something fizzy, reach for the can that&apos;s built on science, not just sugar. Grab an Orake.</p>
       </>
     )
   },
@@ -42,7 +42,7 @@ const blogData: Record<string, any> = {
     title: "Behind The Flavor: Designing the Strawberry Vanilla Drop",
     content: (
       <>
-        <p className="lead">Creating an energy drink that actually tastes good without relying on fifty grams of sugar is one of the hardest challenges in the beverage industry. Most &quot;zero sugar&quot; drinks taste like a science experiment gone wrong. We refused to accept that compromise.</p>
+        <p className="lead">Creating a prebiotic fiber soda that actually tastes good without relying on fifty grams of sugar is one of the hardest challenges in the beverage industry. Most &quot;zero sugar&quot; drinks taste like a science experiment gone wrong. We refused to accept that compromise.</p>
         
         <h2>47 Iterations Later</h2>
         <p>When we set out to create the Strawberry Vanilla flavor, our goal was simple: it had to taste like a premium, refreshing fruit smoothie, not a metallic battery.</p>
@@ -53,7 +53,7 @@ const blogData: Record<string, any> = {
         
         <ul>
             <li><strong>The Top Note:</strong> Bright, acidic strawberry that immediately wakes up the palate.</li>
-            <li><strong>The Body:</strong> A clean, lightly carbonated mouthfeel enhanced by our prebiotic fiber blend.</li>
+            <li><strong>The Body:</strong> A clean, lightly carbonated mouthfeel enhanced by our 5G prebiotic fiber blend.</li>
             <li><strong>The Finish:</strong> A lingering, soothing vanilla that leaves you refreshed, not sticky.</li>
         </ul>
         

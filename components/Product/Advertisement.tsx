@@ -42,7 +42,7 @@ export default function Advertising() {
                         transition={{ duration: 0.6, delay: 0.2 }}
                         className={`${textFont.className} text-white/90 text-sm md:text-base lg:text-xl font-medium tracking-wide mb-8 max-w-2xl drop-shadow-md`}
                     >
-                        The ultimate fusion of taste and prebiotic energy. Refresh differently.
+                        The ultimate fusion of taste and prebiotic goodness. Refresh differently.
                     </motion.p>
                     <motion.button
                         initial={{ opacity: 0, y: 20 }}

@@ -99,7 +99,7 @@ export default function SmoothieShowcaseSection() {
         {/* Layer 1 — Vanilla */}
         <div className="sticky top-0 w-full h-[100dvh] bg-[#cf797e] flex flex-col items-center justify-center p-4 z-10 overflow-hidden group">
           <div className="absolute top-4 left-4 z-30 text-left pointer-events-none">
-            <div className="bg-black text-white px-3 py-1 rounded-full text-xs font-bold tracking-wider uppercase">Fresh Drop</div>
+            {/* <div className="bg-black text-white px-3 py-1 rounded-full text-xs font-bold tracking-wider uppercase">Fresh Drop</div> */}
             <h3 className={`${headingFont.className} text-xl text-white font-black mt-1`}>Strawberry Vanilla</h3>
             <p className="text-xs text-white/90">Prebiotic fiber — small-batch release</p>
           </div>
@@ -118,7 +118,7 @@ export default function SmoothieShowcaseSection() {
         {/* Layer 2 — Lemon (scrolls up over Vanilla) */}
         <div className="sticky top-0 w-full h-[100dvh] bg-[#dbba53] flex flex-col items-center justify-center p-4 shadow-[0_-10px_30px_rgba(0,0,0,0.2)] z-20 overflow-hidden group">
           <div className="absolute top-4 right-4 z-30 text-right pointer-events-none">
-            <div className="bg-black text-white px-3 py-1 rounded-full text-xs font-bold tracking-wider uppercase">Featured</div>
+            {/* <div className="bg-black text-white px-3 py-1 rounded-full text-xs font-bold tracking-wider uppercase">Featured</div> */}
             <h3 className={`${headingFont.className} text-xl text-white font-black mt-1`}>Ginger Lemon</h3>
             <p className="text-xs text-white/90">Zero sugar — award-winning</p>
           </div>

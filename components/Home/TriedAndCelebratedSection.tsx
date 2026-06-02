@@ -2,15 +2,15 @@
 const testimonials = [
   {
     name: "Aaron Karthik",
-    text: "I've tried a lot of non alcoholic beers and by far this one is my favorite. German Lager is my favourite, which is very close to real beer, followed by Kiwi Mint and Peach. Strawberry and Cranberry are on the little sweeter side, but definitely worth it!",
+    text: "I've tried a lot of healthy sodas, and by far Orake is my favorite. The Strawberry Vanilla is unreal — it tastes super indulgent but has zero sugar and actually leaves my gut feeling amazing.",
   },
   {
     name: "Raj",
-    text: "3Sisters Sports drink is just too good. No added sugar is a plus. It hydrates and provide energy instantly and tastes really good. It has become my constant now while playing pickleball.",
+    text: "Orake prebiotic soda is just too good. No added sugar and 5g of fiber per can is a game changer. It refreshes and hydrates instantly. It has become my constant now after workouts.",
   },
   {
     name: "Shivam",
-    text: "The Indie-soda range by 3Sisters is completely awesome!! I like all four flavors, but my real favorites are kala khatta and imli chaska. The two have refreshingly punchy and playful taste."
+    text: "The prebiotic soda range by Orake is completely awesome!! The Ginger Lemon has that perfect, sharp ginger kick without the sweetness overkill. A clean label that actually delivers on flavor."
   }
 ]
 

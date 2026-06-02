@@ -134,7 +134,7 @@ export default function CheckoutForm({ initialCartItems, user, initialAddresses 
           key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
           amount: res.totalPrice * 100, // paise
           currency: "INR",
-          name: "Orake Energy",
+          name: "Orake",
           description: "Order Payment",
           order_id: res.razorpayOrderId, 
           handler: async function (response: any) {

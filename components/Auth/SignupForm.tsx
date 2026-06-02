@@ -131,7 +131,7 @@ export default function SignupForm() {
                 <input
                   {...register("email")}
                   type="email"
-                  placeholder="you@energy.com"
+                  placeholder="you@orake.com"
                   className={`${textFont.className} w-full border-2 ${errors.email ? "border-red-400" : "border-gray-200"} bg-gray-50 pl-10 sm:pl-12 pr-4 py-2.5 sm:py-3 text-sm sm:text-base font-medium text-[#15161b] placeholder-gray-400 focus:border-[#dbba53] focus:bg-white focus:outline-none transition-all rounded-lg sm:rounded-xl`}
                 />
               </div>

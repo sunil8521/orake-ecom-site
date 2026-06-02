@@ -115,7 +115,7 @@ export default function ProductInfo({ product, relatedProduct, initialIsWishlist
         {product.name}
       </h1>
       <h2 className={`${bodyFont.className} text-lg sm:text-xl text-[#c25b5e] font-bold uppercase tracking-[0.2em] mb-6`}>
-        Energy Drink
+        Prebiotic Fiber Soda
       </h2>
 
       {/* Reviews & Stock */}

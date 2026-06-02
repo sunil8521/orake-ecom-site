@@ -6,8 +6,8 @@ import ProductSkeleton from "@/components/Product/ProductSkeleton";
 import { Suspense } from "react";
       
 export const metadata: Metadata = {
-  title: "Orake Products — Premium Prebiotic Energy Drinks",
-  description: "Shop Orake's lineup of zero-sugar prebiotic energy drinks. Strawberry Vanilla and Ginger Lemon — real fruit juice, natural caffeine, no crash.",
+  title: "Orake Products — Premium Prebiotic Fiber Sodas",
+  description: "Shop Orake's lineup of zero-sugar prebiotic fiber sodas. Strawberry Vanilla and Ginger Lemon — real fruit juice, 5G prebiotic fiber, no crash.",
 };
 
 export default function ProductPage() {

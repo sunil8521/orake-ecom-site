@@ -26,7 +26,7 @@ export default function GiftExperienceSection() {
           </h2>
 
           <p className={`${textFont.className} mt-6 sm:mt-8 max-w-[34ch] text-[clamp(1.15rem,2.2vw,2.05rem)] font-medium leading-[1.3] text-[#292a31]`}>
-            Whether it&apos;s a birthday, a promotion, or just a Tuesday night, our curated gift boxes are designed to impress. Pick your sisters, share the flavor.
+            Whether it&apos;s a birthday, a major win, or just a Tuesday night vibe, our curated gift boxes are built to impress. Share the gut-loving fizz, drop the flavor.
           </p>
 
           <button className={`${textFont.className} group mt-8 sm:mt-10 inline-flex items-center gap-4 rounded-full bg-black pl-5 pr-8 py-3.5 text-[1.2rem] sm:text-[1.5rem] font-semibold leading-none text-white transition-all duration-300 hover:bg-[#1a1a1a] hover:scale-105 active:scale-95 shadow-[0_10px_20px_rgba(0,0,0,0.15)] hover:shadow-[0_15px_30px_rgba(0,0,0,0.25)]`}>

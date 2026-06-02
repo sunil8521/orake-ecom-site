@@ -98,26 +98,26 @@ export default function AboutUs() {
 
 						<div className={`${textFont.className} text-gray-600 space-y-6 text-lg sm:text-xl font-light leading-relaxed max-w-2xl mx-auto lg:mx-0`}>
 							<p>
-								Every energy drink on the market was the same. Sugar spikes, artificial colors, and a massive crash at 3 PM. We were sick of it. 
+								Every soda you&apos;ve ever loved was quietly working against you. Sugary crashes, fake health drinks in pastel cans, the same lie in different colors. We were done with it.
 							</p>
 							<p>
-								So we locked ourselves in the lab and built Orake. Our mission was simple: engineer a high-voltage hydration system that uses real ingredients and massive doses of focus-enhancing nootropics.
+								So we locked ourselves in a lab and rebuilt soda from the inside out — starting with your gut. 47 flavor iterations. Months of microbiome research. The result is Orake: 5G of real prebiotic fiber in every 250ml can, wrapped in flavors so good you&apos;ll forget it&apos;s good for you.
 							</p>
 						</div>
 
 						{/* Stats */}
 						<div className="grid grid-cols-3 gap-6 mt-12 pt-12 border-t border-black/10">
 							<div className="text-center lg:text-left">
-								<p className={`${titleFont.className} text-4xl md:text-5xl text-[#15161b] mb-1`}>100%</p>
-								<p className={`${textFont.className} text-[10px] md:text-[11px] text-gray-500 font-bold uppercase tracking-[0.2em]`}>Vegan</p>
+								<p className={`${titleFont.className} text-4xl md:text-5xl text-[#15161b] mb-1`}>5G</p>
+								<p className={`${textFont.className} text-[10px] md:text-[11px] text-gray-500 font-bold uppercase tracking-[0.2em]`}>Prebiotic Fiber</p>
 							</div>
 							<div className="text-center lg:text-left">
-								<p className={`${titleFont.className} text-4xl md:text-5xl text-[#15161b] mb-1`}>200MG</p>
-								<p className={`${textFont.className} text-[10px] md:text-[11px] text-gray-500 font-bold uppercase tracking-[0.2em]`}>Clean Caffeine</p>
+								<p className={`${titleFont.className} text-4xl md:text-5xl text-[#15161b] mb-1`}>100%</p>
+								<p className={`${textFont.className} text-[10px] md:text-[11px] text-gray-500 font-bold uppercase tracking-[0.2em]`}>Real Fruit</p>
 							</div>
 							<div className="text-center lg:text-left">
 								<p className={`${titleFont.className} text-4xl md:text-5xl text-[#15161b] mb-1`}>ZERO</p>
-								<p className={`${textFont.className} text-[10px] md:text-[11px] text-gray-500 font-bold uppercase tracking-[0.2em]`}>Jitters</p>
+								<p className={`${textFont.className} text-[10px] md:text-[11px] text-gray-500 font-bold uppercase tracking-[0.2em]`}>Added Sugar</p>
 							</div>
 						</div>
 					</motion.div>

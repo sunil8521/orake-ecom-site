@@ -54,16 +54,16 @@ export default function EnergyDrinksDealBanner() {
         >
           <div className="w-fit mb-5 lg:mb-6 overflow-hidden rounded-full p-[2px] bg-gradient-to-r from-[#f3f3e7] to-white/10 shadow-sm">
             <span className="inline-block px-5 py-2 bg-[#8a9b87] rounded-full text-xs sm:text-sm lg:text-base text-[#f3f3e7] font-semibold tracking-widest uppercase shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)]">
-              ❄️ Winter Deal Days
+              ☀️ Summer Limited Deal
             </span>
           </div>
 
           <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-[80px] font-bold text-white leading-[1.05] mb-5 lg:mb-6 drop-shadow-sm tracking-tight">
-            Save 20% or more<br className="hidden sm:block lg:hidden" />on Energy
+            Save 15% or More<br className="hidden sm:block lg:hidden" /> on Gut Fuel
           </h2>
 
           <p className="text-[#f3f3e7] text-sm sm:text-base lg:text-xl font-medium mb-8 lg:mb-10 lg:w-5/6 opacity-95 max-w-[320px] sm:max-w-[400px] lg:max-w-full">
-            Unlock maximum performance and ultimate hydration. Grab your favorite prebiotic blends before the season ends.
+            Your gut&apos;s been waiting for this. Grab your favorite prebiotic fiber blends before they sell out.
           </p>
 
           <button className="relative w-fit px-8 sm:px-10 lg:px-12 py-3.5 sm:py-4 lg:py-5 bg-white text-[#8a9b87] rounded-full font-bold shadow-[0_15px_30px_rgba(0,0,0,0.15)] overflow-hidden hover:bg-[#15161b] hover:text-white transition-all duration-300 group">
@@ -84,7 +84,7 @@ export default function EnergyDrinksDealBanner() {
             transition={{ duration: 0.9, delay: 0.4, ease: [0.25, 0.8, 0.25, 1] }}
             className="absolute top-1/2 left-1/2 lg:left-auto lg:right-[10%] xl:right-[10%] -translate-x-[60%] lg:translate-x-0 -translate-y-[60%] lg:-translate-y-[55%] rotate-[15deg] w-[420px] sm:w-[500px] lg:w-[650px] xl:w-[750px] h-[860px] sm:h-[1020px] lg:h-[1300px] xl:h-[1500px] drop-shadow-[0_20px_30px_rgba(0,0,0,0.4)] z-10"
           >
-            <Image src="/can1.png" alt="Energy Drink Vanilla" fill sizes="(max-width: 768px) 50vw, 40vw" className="object-contain" />
+            <Image src="/can1.png" alt="Orake Strawberry Vanilla" fill sizes="(max-width: 768px) 50vw, 40vw" className="object-contain" />
           </motion.div>
 
           {/* Front Can (Lemon) - Larger and foreground */}
@@ -95,7 +95,7 @@ export default function EnergyDrinksDealBanner() {
             transition={{ duration: 0.9, delay: 0.6, ease: [0.25, 0.8, 0.25, 1] }}
             className="absolute top-1/2 left-1/2 lg:left-auto lg:right-[-15%] xl:right-[-40%] -translate-x-[40%] lg:translate-x-0 -translate-y-[55%] lg:-translate-y-[50%] -rotate-[10deg] w-[480px] sm:w-[600px] lg:w-[780px] xl:w-[900px] h-[980px] sm:h-[1220px] lg:h-[1550px] xl:h-[1800px] drop-shadow-[0_30px_40px_rgba(0,0,0,0.5)] z-20"
           >
-            <Image src="/can2.png" alt="Energy Drink Lemon" fill sizes="(max-width: 1024px) 70vw, 50vw" className="object-contain" priority />
+            <Image src="/can2.png" alt="Orake Ginger Lemon" fill sizes="(max-width: 1024px) 70vw, 50vw" className="object-contain" priority />
           </motion.div>
 
         </div>

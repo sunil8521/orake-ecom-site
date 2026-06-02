@@ -18,7 +18,7 @@ export async function sendOTPEmail(
   purpose: string = "Verification"
 ) {
   const mailOptions = {
-    from: `"Orake Energy" <${process.env.EMAIL_USER}>`,
+    from: `"Orake" <${process.env.EMAIL_USER}>`,
     to: email,
     subject: `Your Orake ${purpose} Code — OTP Inside 🔥`,
     html: `
@@ -28,7 +28,7 @@ export async function sendOTPEmail(
             ORAKE
           </h1>
           <p style="color: #9ca3af; font-size: 13px; text-transform: uppercase; letter-spacing: 3px; margin: 0;">
-            Energy That Hits Different
+            The Soda Your Gut Was Waiting For
           </p>
         </div>
         <div style="background: #ffffff; padding: 40px 30px; text-align: center;">
@@ -50,7 +50,7 @@ export async function sendOTPEmail(
         </div>
         <div style="padding: 20px 30px; text-align: center;">
           <p style="color: #4b5563; font-size: 11px; margin: 0;">
-            © 2026 Orake Energy. All rights reserved.
+            © 2026 Orake. All rights reserved.
           </p>
         </div>
       </div>
@@ -92,3 +92,43 @@ export async function sendContactEmail(data: {
 
   await transporter.sendMail(mailOptions);
 }
+
+export async function sendPartnerEmail(data: {
+  name: string;
+  companyName: string;
+  email: string;
+  phone: string;
+  partnershipType: string;
+  city: string;
+  volume: string;
+  details?: string;
+}) {
+  const mailOptions = {
+    from: `"Orake Partnership Program" <${process.env.EMAIL_USER}>`,
+    to: process.env.EMAIL_USER, // Send to admin
+    replyTo: data.email,
+    subject: `New Partnership Request: ${data.companyName} (${data.partnershipType})`,
+    html: `
+      <div style="font-family: 'Helvetica Neue', Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #f4f4f5; padding: 30px; border-radius: 12px;">
+        <h2 style="color: #15161b; text-transform: uppercase; border-bottom: 2px solid #de3e4f; padding-bottom: 10px; margin-bottom: 20px;">
+          New Orake Partner Request
+        </h2>
+        <div style="background: #ffffff; padding: 20px; border-radius: 8px;">
+          <p><strong>Full Name:</strong> ${data.name}</p>
+          <p><strong>Company/Store Name:</strong> ${data.companyName}</p>
+          <p><strong>Work Email:</strong> ${data.email}</p>
+          <p><strong>Phone Number:</strong> ${data.phone}</p>
+          <p><strong>Partnership Type:</strong> ${data.partnershipType}</p>
+          <p><strong>City/Region:</strong> ${data.city}</p>
+          <p><strong>Estimated Monthly Volume:</strong> ${data.volume}</p>
+          <hr style="border: 0; border-top: 1px solid #e5e7eb; margin: 20px 0;" />
+          <p><strong>Additional Details:</strong></p>
+          <p style="white-space: pre-wrap; color: #4b5563;">${data.details || 'No additional details provided.'}</p>
+        </div>
+      </div>
+    `,
+  };
+
+  await transporter.sendMail(mailOptions);
+}
+

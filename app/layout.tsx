@@ -3,9 +3,9 @@ import "./globals.css";
 import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
-  title: "Orake — Energy That Hits Different",
-  description: "Premium prebiotic energy drinks. Zero sugar, real fruit juice, natural caffeine. Fuel your grind with Strawberry Vanilla and Ginger Lemon flavors.",
-  keywords: "energy drink, prebiotic, zero sugar, natural caffeine, Orake",
+  title: "Orake — The Soda Your Gut Was Waiting For",
+  description: "Premium prebiotic fiber soda. Zero sugar, real fruit juice, 5G prebiotic fiber per can. Strawberry Vanilla and Ginger Lemon flavors.",
+  keywords: "prebiotic fiber soda, zero sugar, gut health, real fruit, Orake",
 };
 
 export default function RootLayout({

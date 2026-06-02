@@ -7,7 +7,7 @@ import { headers } from "next/headers";
 
 export const metadata: Metadata = {
   title: "Wishlist — Orake",
-  description: "Your saved Orake energy drink favorites. Save products and add them to cart when ready.",
+  description: "Your saved Orake favorites. Save products and add them to cart when ready.",
 };
 
 

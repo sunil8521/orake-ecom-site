@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { MoveUpRight } from "lucide-react";
-import { FaInstagram, FaTwitter, FaFacebookF, FaCcVisa, FaCcMastercard, FaCcPaypal } from "react-icons/fa";
+import { FaInstagram, FaTwitter, FaFacebookF } from "react-icons/fa";
 import { titleFont, textFont } from "@/lib/fonts";
 
 
@@ -49,14 +49,6 @@ export default function Footer() {
             <Image src="/orake-white-logo.svg" alt="Orake" width={140} height={50} className="opacity-90" />
           </div>
 
-          {/* Quick nav buttons */}
-          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 sm:gap-3 mt-2">
-            <a href="/" className="px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 text-sm">Home</a>
-            <a href="/about" className="px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 text-sm">About</a>
-            <a href="/products" className="px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 text-sm">Products</a>
-            <a href="/contact" className="px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 text-sm">Contact</a>
-            <a href="/blog" className="px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 text-sm">Blogs</a>
-          </div>
 
           <h3 className={`${titleFont.className} text-[clamp(2.5rem,5vw,4rem)] uppercase leading-[0.9] tracking-wider text-center lg:text-left`}>
             Thirsty for <br /> <span className="text-[#15161b]">more details?</span>
@@ -131,11 +123,6 @@ export default function Footer() {
           © 2026 <a href="https://swiftrise.in" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors underline underline-offset-4 decoration-white/30 hover:decoration-white">Swiftrise Solution Pvt Ltd</a>. ALL RIGHTS RESERVED.
         </p>
 
-        <div className="flex items-center gap-4">
-          <FaCcVisa size={28} />
-          <FaCcMastercard size={28} />
-          <FaCcPaypal size={28} />
-        </div>
       </div>
 
     </footer>

@@ -13,9 +13,10 @@ import { getWishlistCount } from "@/actions/wishlist";
 
 const navLinks = [
   { path: "/", label: "Home" },
-  { path: "/about", label: "About" },
   { path: "/products", label: "Products" },
+  { path: "/about", label: "About" },
   { path: "/contact", label: "Contact" },
+  { path: "/become-a-partner", label: "Become a Partner" },
   { path: "/blog", label: "Blogs" },
 ];
 
@@ -26,6 +27,16 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { openAuthModal } = useAuthStore();
+  const [isSubscribed, setIsSubscribed] = useState(false);
+
+  useEffect(() => {
+    setIsSubscribed(localStorage.getItem("orake_subscribed") === "true");
+
+    const handleSubscribed = () => setIsSubscribed(true);
+    window.addEventListener("orake_subscribed", handleSubscribed);
+    return () => window.removeEventListener("orake_subscribed", handleSubscribed);
+  }, []);
+
   const { cartCount, wishlistCount, setCartCount, setWishlistCount } = useCartWishlistStore();
 
   useEffect(() => {
@@ -55,17 +66,17 @@ export default function Navbar() {
         }`}
     >
       {/* ✅ FIXED CONTAINER */}
-      <div className="w-full max-w-[1400px] mx-auto px-6 sm:px-16 lg:px-28">
+      <div className="w-full max-w-[1550px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16">
                 <div className="flex h-16 items-center justify-between lg:h-20">
 
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3">
-            <div className="flex h-9 items-center">
+            <div className="flex h-9 sm:h-10 items-center">
               <Image
                 src="/orake-white-logo.svg"
                 alt="Logo"
-                width={120}
-                height={40}
+                width={110}
+                height={36}
                 className={`h-full w-auto object-contain transition-all duration-500 ${scrolled
                     ? "[filter:brightness(0)_saturate(100%)_invert(78%)_sepia(60%)_saturate(500%)_hue-rotate(5deg)_brightness(105%)]"
                     : ""
@@ -76,7 +87,7 @@ export default function Navbar() {
           </Link>
 
           {/* ✅ DESKTOP NAV (FIXED BREAKPOINT) */}
-          <div className="hidden flex-1 items-center justify-center lg:flex lg:gap-6 xl:gap-10">
+          <div className="hidden flex-1 items-center justify-center lg:flex lg:gap-4 xl:gap-6 lg:mx-4 xl:mx-6">
             {navLinks.map((link) => {
               const isActive =
                 pathname === link.path ||
@@ -87,7 +98,7 @@ export default function Navbar() {
                   key={link.path}
                   href={link.path}
                   onClick={handleNavClick}
-                  className={`group relative px-2 py-2 text-[13px] lg:text-[15px] font-bold uppercase tracking-[0.16em] transition-colors duration-300
+                  className={`group relative px-2 py-2 text-[12px] lg:text-[13px] xl:text-[14px] font-bold uppercase tracking-[0.16em] transition-colors duration-300
                     ${scrolled
                       ? "text-[#f6efe2] hover:text-[#d4a64a]"
                       : "text-[#f6efe2] hover:text-[#f2c56f]"
@@ -107,7 +118,7 @@ export default function Navbar() {
           </div>
 
           {/* Icons + Hamburger */}
-          <div className="flex items-center gap-4 lg:gap-6">
+          <div className="flex items-center gap-4 lg:gap-6 lg:ml-2 xl:ml-8">
             {/* ✅ ICONS FIXED */}
             <div className="flex items-center gap-4 lg:gap-5 text-[#f6efe2]">
               <Link href="/wishlist" className="relative hover:scale-110 transition-all group">
@@ -221,6 +232,17 @@ export default function Navbar() {
                 </Link>
               );
             })}
+            {!isAuthenticated && !isSubscribed && (
+              <button
+                onClick={() => {
+                  setMenuOpen(false);
+                  window.dispatchEvent(new CustomEvent("open-signup-popup"));
+                }}
+                className="mt-6 w-full py-4 bg-[#f2c56f] text-[#15161b] text-sm font-bold uppercase tracking-[0.2em] rounded-xl transition-all duration-300 hover:bg-white"
+              >
+                Sign Up
+              </button>
+            )}
           </div>
         </div>
       </div>

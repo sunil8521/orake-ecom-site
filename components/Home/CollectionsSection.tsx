@@ -76,7 +76,7 @@ export default function CollectionsSection() {
   };
 
   const badgeVariants = {
-    initial: { rotate: -15, scale: 0, opacity: 0 },
+    initial: { rotate: 0, scale: 0, opacity: 0 },
     animate: {
       rotate: 0,
       scale: 1,
@@ -162,7 +162,7 @@ export default function CollectionsSection() {
               {/* Badges */}
               <motion.div
                 variants={badgeVariants}
-                className={`${bodyFont.className} absolute top-4 left-4 sm:top-5 sm:left-5 md:top-4 md:left-4 lg:top-5 lg:left-5 z-20 rounded-xl sm:rounded-2xl bg-[#c25b5e] px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-black tracking-widest text-white shadow-xl -rotate-6 group-hover:-rotate-2 transition-transform duration-300`}
+                className={`${bodyFont.className} absolute top-4 left-4 sm:top-5 sm:left-5 md:top-4 md:left-4 lg:top-5 lg:left-5 z-20 rounded-xl sm:rounded-2xl bg-[#c25b5e] px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-black tracking-widest text-white shadow-xl transition-transform duration-300`}
               >
                 HYPE DROP
               </motion.div>
@@ -189,8 +189,8 @@ export default function CollectionsSection() {
               <StarRating rating={5} reviews={24} />
               <div className={`${bodyFont.className} flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-6 mt-6 pt-5 border-t border-gray-100`}>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-3xl md:text-4xl font-black text-[#15161b] tracking-tight">Rs. 10.00</span>
-                  <span className="text-sm md:text-base text-gray-400 line-through decoration-1">Rs. 668.00</span>
+                  <span className="text-3xl md:text-4xl font-black text-[#15161b] tracking-tight">Rs. 85.00</span>
+                  <span className="text-sm md:text-base text-gray-400 line-through decoration-1">Rs. 100.00</span>
                 </div>
 
                 <Link href="/products" className="group/btn w-full sm:w-auto flex justify-center items-center gap-3 bg-[#15161b] hover:bg-[#c25b5e] text-white px-6 py-3.5 md:px-8 md:py-4 rounded-full text-xs font-bold uppercase tracking-[0.2em] shadow-lg hover:shadow-[0_15px_30px_rgba(194,91,94,0.3)] transition-all duration-300 active:scale-95 whitespace-nowrap">
@@ -223,7 +223,7 @@ export default function CollectionsSection() {
               {/* Badges */}
               <motion.div
                 variants={badgeVariants}
-                className={`${bodyFont.className} absolute top-4 left-4 sm:top-5 sm:left-5 md:top-4 md:left-4 lg:top-5 lg:left-5 z-20 rounded-xl sm:rounded-2xl bg-[#dbba53] px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-black tracking-widest text-white shadow-xl rotate-6 group-hover:rotate-2 transition-transform duration-300`}
+                className={`${bodyFont.className} absolute top-4 left-4 sm:top-5 sm:left-5 md:top-4 md:left-4 lg:top-5 lg:left-5 z-20 rounded-xl sm:rounded-2xl bg-[#dbba53] px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-black tracking-widest text-white shadow-xl transition-transform duration-300`}
               >
                 RESTOCKED
               </motion.div>
@@ -250,8 +250,8 @@ export default function CollectionsSection() {
               <StarRating rating={4} reviews={12} />
               <div className={`${bodyFont.className} flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-6 mt-6 pt-5 border-t border-gray-100`}>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-3xl md:text-4xl font-black text-[#15161b] tracking-tight">Rs. 20.00</span>
-                  <span className="text-sm md:text-base text-gray-400 line-through decoration-1">Rs. 1499.00</span>
+                  <span className="text-3xl md:text-4xl font-black text-[#15161b] tracking-tight">Rs. 85.00</span>
+                  <span className="text-sm md:text-base text-gray-400 line-through decoration-1">Rs. 100.00</span>
                 </div>
 
                 <Link href="/products" className="group/btn w-full sm:w-auto flex justify-center items-center gap-3 bg-[#15161b] hover:bg-[#dbba53] text-white px-6 py-3.5 md:px-8 md:py-4 rounded-full text-xs font-bold uppercase tracking-[0.2em] shadow-lg hover:shadow-[0_15px_30px_rgba(219,186,83,0.3)] transition-all duration-300 active:scale-95 whitespace-nowrap">

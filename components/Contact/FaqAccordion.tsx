@@ -5,23 +5,23 @@ import { textFont } from "@/lib/fonts";
 const faqs = [
   {
     q: "Where do you ship Orake?",
-    a: "We currently ship to all 50 US states. International shipping is in the works, so stay tuned!"
+    a: "Everywhere your gut needs us. We currently cover all major Indian pin codes and are building international shipping for the Orake diaspora worldwide. The gut revolution has no borders."
   },
   {
     q: "What's actually in your drinks?",
-    a: "Just the good stuff. Real fruit juice, natural caffeine extracted from green tea, zero artificial sugars, and essential vitamins to keep you absolutely dialed."
+    a: "The good stuff. Full stop. Real fruit juice. 5G of prebiotic fiber per can. Zero artificial sweeteners, zero synthetic colors, zero compromise. If you can't find it in nature, it doesn't find its way into our cans."
   },
   {
     q: "Are the cans recyclable?",
-    a: "100%. We care about the planet as much as we care about your energy levels. Please recycle after you crack open the chaos."
+    a: "100% aluminum. Infinitely recyclable. Because the planet's microbiome deserves as much care as yours. Crush it, bin it, repeat."
   },
   {
     q: "What if my package arrives damaged?",
-    a: "No stress. Snap a picture of the damaged box or cans, hit us up via the contact form above, and we'll ship a replacement stash immediately."
+    a: "We rage too when that happens. Snap a photo of the damage, hit us up via the contact form above, and our team will ship a fresh batch immediately — no bureaucracy, no endless back-and-forth."
   },
   {
     q: "Do you offer wholesale pricing?",
-    a: "We do. If you're looking to stock Orake in your gym, office, or store, select 'Wholesale' in the contact form above and our distribution team will hook you up."
+    a: "Yes — and we love stocking Orake in spaces where people push themselves: gyms, co-working spaces, wellness studios, cafes. Select 'Wholesale' in the contact form and our distribution team will get back to you within 48 hours."
   }
 ];
 

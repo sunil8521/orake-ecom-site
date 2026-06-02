@@ -53,7 +53,7 @@ export default function NotFound() {
             href="/products" 
             className="group inline-flex items-center justify-center px-8 py-4 bg-transparent border border-white/20 text-white font-bold uppercase tracking-wider rounded-full hover:bg-white/5 transition-colors"
           >
-            Shop Energy
+            Shop Orake
           </Link>
         </div>
       </div>

@@ -33,7 +33,7 @@ export default function Hero() {
 						<span className="text-[#de3e4f]"> GEAR.</span>
 					</h1>
 					<p className={`${textFont.className} text-gray-300 text-sm md:text-base tracking-[0.15em] uppercase max-w-lg mx-auto mt-6`}>
-						Fuel your grind. Engineered for performance. No crash. No compromise.
+						Fuel your grind. Feed your gut. No crash. No compromise.
 					</p>
 				</motion.div>
 			</div>

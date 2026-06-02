@@ -1,19 +1,20 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-import { X, Loader2 } from "lucide-react";
+import { X } from "lucide-react";
 import { textFont, titleFont } from "@/lib/fonts";
 import { motion, AnimatePresence } from "framer-motion";
-import { subscribeEmail } from "@/actions/newsletter";
+import { useAuthStore } from "@/store/useAuthStore";
+import { authClient } from "@/lib/auth-client";
 
 const FIRST_DELAY = 15 * 1000;   // 15 seconds
 const RESHOW_DELAY = 2 * 60 * 1000; // 2 minutes
 
 export default function SignupPopup() {
   const [visible, setVisible] = useState(false);
-  const [email, setEmail] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const { openAuthModal } = useAuthStore();
+  const session = authClient.useSession();
+  const isAuthenticated = !!session.data?.user;
 
   const schedulePopup = (delay: number) => {
     if (timerRef.current) clearTimeout(timerRef.current);
@@ -21,37 +22,42 @@ export default function SignupPopup() {
   };
 
   useEffect(() => {
-    // Don't show if already subscribed
+    if (isAuthenticated) {
+      localStorage.setItem("orake_subscribed", "true");
+      setVisible(false);
+      return;
+    }
+
+    // Don't show if already subscribed/dismissed permanently
     if (localStorage.getItem("orake_subscribed")) return;
 
     schedulePopup(FIRST_DELAY);
     return () => { if (timerRef.current) clearTimeout(timerRef.current); };
-  }, []);
+  }, [isAuthenticated]);
+
+  useEffect(() => {
+    const handleOpen = () => {
+      if (!isAuthenticated) setVisible(true);
+    };
+    window.addEventListener("open-signup-popup", handleOpen);
+    return () => window.removeEventListener("open-signup-popup", handleOpen);
+  }, [isAuthenticated]);
 
   const handleClose = () => {
     setVisible(false);
     schedulePopup(RESHOW_DELAY); // reschedule after 2 min
   };
 
-  const handleSubmit = async () => {
-    if (!email || !email.includes("@")) return;
-
-    setIsSubmitting(true);
-    
-    const res = await subscribeEmail(email);
-    
-    setIsSubmitting(false);
-
-    if (res.success) {
-      setSubmitted(true);
-      localStorage.setItem("orake_subscribed", "true"); // never show again
-      setTimeout(() => setVisible(false), 2000); // hide automatically after success
-    }
+  const handleSignUpClick = () => {
+    setVisible(false);
+    openAuthModal("signup");
   };
+
+  const shouldShow = visible && !isAuthenticated;
 
   return (
     <AnimatePresence>
-      {visible && (
+      {shouldShow && (
         <>
           {/* Backdrop */}
           <motion.div
@@ -83,58 +89,36 @@ export default function SignupPopup() {
                 <X size={14} />
               </button>
 
-              {submitted ? (
-                <div className="text-center py-6">
-                  <div className="text-4xl mb-4 animate-bounce">🎉</div>
-                  <h2 className={`${titleFont.className} text-white text-3xl uppercase tracking-wide`}>
-                    You're In!
-                  </h2>
-                  <p className={`${textFont.className} text-gray-400 text-sm mt-3`}>
-                    Check your inbox. Your 10% off code is on the way.
-                  </p>
-                </div>
-              ) : (
-                <div className="relative z-10">
-                  <span className={`${textFont.className} inline-block bg-[#de3e4f] text-white text-[10px] font-bold tracking-[3px] uppercase px-4 py-1.5 rounded-full mb-4 shadow-[0_0_20px_rgba(222,62,79,0.3)]`}>
-                    Limited Offer
-                  </span>
+              <div className="relative z-10">
+                <span className={`${textFont.className} inline-block bg-[#de3e4f] text-white text-[10px] font-bold tracking-[3px] uppercase px-4 py-1.5 rounded-full mb-4 shadow-[0_0_20px_rgba(222,62,79,0.3)]`}>
+                  Limited Offer
+                </span>
 
-                  <h2 className={`${titleFont.className} text-white text-3xl sm:text-4xl uppercase leading-tight mb-3`}>
-                    Get <span className="text-[#de3e4f]">10% Off</span><br />
-                    Your First Order
-                  </h2>
+                <h2 className={`${titleFont.className} text-white text-3xl sm:text-4xl uppercase leading-tight mb-3`}>
+                  Save <span className="text-[#de3e4f]">20%</span><br />
+                  On Your 1st Purchase
+                </h2>
 
-                  <p className={`${textFont.className} text-gray-400 text-sm leading-relaxed mb-6`}>
-                    Join the Orake tribe — be the first to know about new drops, secret deals & maximum energy hacks.
-                  </p>
+                <p className={`${textFont.className} text-gray-400 text-sm leading-relaxed mb-6`}>
+                  Join the Orake tribe — be the first to know about new drops, secret deals & gut-first flavor hacks.
+                </p>
 
-                  <div className="flex flex-col sm:flex-row gap-3 mb-4">
-                    <input
-                      type="email"
-                      value={email}
-                      onChange={e => setEmail(e.target.value)}
-                      onKeyDown={e => e.key === "Enter" && handleSubmit()}
-                      placeholder="you@energy.com"
-                      disabled={isSubmitting}
-                      className={`${textFont.className} flex-1 bg-white/5 border border-white/10 focus:border-[#de3e4f] rounded-xl px-4 py-3.5 text-white text-sm outline-none placeholder:text-gray-500 transition-colors focus:ring-2 focus:ring-[#de3e4f]/20 disabled:opacity-50`}
-                    />
-                    <button
-                      onClick={handleSubmit}
-                      disabled={isSubmitting || !email.includes("@")}
-                      className={`${textFont.className} flex items-center justify-center gap-2 bg-[#de3e4f] hover:bg-[#c25b5e] text-white rounded-xl px-6 py-3.5 text-xs font-bold tracking-widest uppercase transition-all shadow-[0_10px_30px_rgba(222,62,79,0.2)] hover:shadow-[0_10px_30px_rgba(222,62,79,0.4)] disabled:opacity-50 disabled:shadow-none disabled:cursor-not-allowed`}
-                    >
-                      {isSubmitting ? <Loader2 size={16} className="animate-spin" /> : "Claim"}
-                    </button>
-                  </div>
-
-                  <p
-                    onClick={handleClose}
-                    className={`${textFont.className} text-center text-xs text-gray-500 hover:text-gray-300 cursor-pointer transition-colors uppercase tracking-wider font-semibold`}
+                <div className="mb-4">
+                  <button
+                    onClick={handleSignUpClick}
+                    className={`${textFont.className} w-full flex items-center justify-center gap-2 bg-[#de3e4f] hover:bg-[#c25b5e] text-white rounded-xl py-4 text-xs font-bold tracking-widest uppercase transition-all shadow-[0_10px_30px_rgba(222,62,79,0.2)] hover:shadow-[0_10px_30px_rgba(222,62,79,0.4)]`}
                   >
-                    No thanks, I prefer paying full price
-                  </p>
+                    Sign Up
+                  </button>
                 </div>
-              )}
+
+                <p
+                  onClick={handleClose}
+                  className={`${textFont.className} text-center text-xs text-gray-500 hover:text-gray-300 cursor-pointer transition-colors uppercase tracking-wider font-semibold`}
+                >
+                  No thanks, I prefer paying full price
+                </p>
+              </div>
             </div>
           </motion.div>
         </>

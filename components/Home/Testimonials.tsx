@@ -3,21 +3,21 @@ import { titleFont, textFont } from "@/lib/fonts";
 
 const testimonials = [
   {
-    text: "I've never tasted a drink so fresh and natural. The mango flavor is my absolute favorite—it's like a burst of fruit!",
-    author: "Emily R.",
-    role: "Fitness Enthusiast",
+    text: "Strawberry Vanilla literally made me stop mid-sip and say wow. No cap, this is the only soda I don't feel guilty about.",
+    author: "Priya S.",
+    role: "Gut Health Convert",
     rating: 5,
   },
   {
-    text: "It's my daily pick-me-up. I love that it's delicious and made with real ingredients. The perfect alternative to soda.",
-    author: "Jordan M.",
-    role: "Health Coach",
+    text: "Ginger Lemon hits different. Zero sugar but it tastes like actual ginger and lemon? My gut has never been happier.",
+    author: "Arjun M.",
+    role: "Daily Sipper",
     rating: 5,
   },
   {
-    text: "The perfect balance of natural sweetness. I've cut out artificial ingredients, and this has been a total game-changer!",
-    author: "Carlos T.",
-    role: "Wellness Blogger",
+    text: "Finally a soda with a clean label I can actually read. 5G prebiotic fiber and it still slaps? Take my money.",
+    author: "Sneha T.",
+    role: "Clean Label Advocate",
     rating: 5,
   },
 

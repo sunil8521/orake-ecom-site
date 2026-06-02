@@ -7,7 +7,7 @@ import { headers } from "next/headers";
 
 export const metadata: Metadata = {
   title: "Your Cart — Orake",
-  description: "Review your Orake energy drink selections and checkout.",
+  description: "Review your Orake prebiotic soda selections and checkout.",
 };
 
 async function CartContent() {
