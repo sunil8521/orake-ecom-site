@@ -97,7 +97,7 @@ export default function Testimonials() {
   return (
     <section 
       id="testimonials" 
-      className={`relative w-full py-16 sm:py-24 overflow-hidden bg-[#faf9f6] px-12 sm:px-16 lg:px-28 ${textFont.className}`}
+      className={`relative w-full overflow-hidden bg-[#faf9f6] px-4 sm:px-8 lg:px-28 pt-8 pb-8 sm:pt-14 sm:pb-12 md:pt-20 md:pb-16 ${textFont.className}`}
     >
       <style>{`
         @keyframes scroll-marquee {

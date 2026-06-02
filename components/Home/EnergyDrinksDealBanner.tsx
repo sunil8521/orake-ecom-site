@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { bodyFont } from "@/lib/fonts";
 export default function EnergyDrinksDealBanner() {
   return (
-    <div className={`w-full max-w-[1400px] xl:max-w-[1500px] mx-auto px-12 sm:px-16 lg:px-28 mt-16 sm:mt-20 md:mt-24 pb-16 md:pb-20 ${bodyFont.className}`}>
+    <div className={`w-full max-w-[1400px] xl:max-w-[1500px] mx-auto px-4 sm:px-8 lg:px-28 pt-8 pb-8 sm:pt-14 sm:pb-12 md:pt-20 md:pb-16 ${bodyFont.className}`}>
 
       {/* Container: Rounded floating pill */}
       <motion.section

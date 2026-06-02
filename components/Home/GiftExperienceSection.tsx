@@ -6,7 +6,7 @@ import { titleFont, textFont, bodyFont } from "@/lib/fonts";
 
 export default function GiftExperienceSection() {
   return (
-    <section className="relative overflow-hidden bg-[#ffffff] px-6 py-16 sm:px-12 md:py-24 lg:px-20">
+    <section className="relative overflow-hidden bg-[#ffffff] px-4 sm:px-8 lg:px-28 pt-8 pb-8 sm:pt-14 sm:pb-12 md:pt-20 md:pb-16">
        
  
       <div className="relative mx-auto grid w-full max-w-7xl items-center gap-4 sm:gap-10 lg:grid-cols-2 lg:gap-14">
