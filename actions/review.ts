@@ -5,7 +5,7 @@ import { Rating } from "@/models/Rating";
 import { Product } from "@/models/Product";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
 
 export async function submitReview(formData: FormData) {
     try {
@@ -51,9 +51,12 @@ export async function submitReview(formData: FormData) {
         // Revalidate cache
         if (productSlug) {
             revalidatePath(`/products/${productSlug}`);
+            revalidatePath(`/products`);
+            updateTag(`products-${productSlug}`);
         }
-        revalidateTag(`reviews-${productId}`, 'days');
-        revalidateTag(`product-${productSlug}`, 'days');
+        updateTag(`reviews-${productId}`);
+        updateTag('products');
+        updateTag('recent-reviews');
 
         return { success: true, message: "Review submitted successfully!" };
     } catch (error: any) {

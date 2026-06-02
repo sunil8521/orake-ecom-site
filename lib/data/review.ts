@@ -40,3 +40,24 @@ export async function getProductReviews(productId: string) {
         return [];
     }
 }
+
+export async function getRecentReviews(limit: number = 8) {
+    'use cache'
+    cacheLife('hours')
+    cacheTag('recent-reviews')
+
+    try {
+        await connectDB();
+        
+        const reviews = await Rating.find({ rating: { $gte: 4 } })
+            .populate('userID', 'name email')
+            .sort({ createdAt: -1 })
+            .limit(limit)
+            .lean();
+
+        return JSON.parse(JSON.stringify(reviews)) as PopulatedReview[];
+    } catch (error) {
+        console.error(`Failed to fetch recent reviews:`, error);
+        return [];
+    }
+}

@@ -1,27 +1,5 @@
 import { titleFont, textFont } from "@/lib/fonts";
-
-
-const testimonials = [
-  {
-    text: "Strawberry Vanilla literally made me stop mid-sip and say wow. No cap, this is the only soda I don't feel guilty about.",
-    author: "Priya S.",
-    role: "Gut Health Convert",
-    rating: 5,
-  },
-  {
-    text: "Ginger Lemon hits different. Zero sugar but it tastes like actual ginger and lemon? My gut has never been happier.",
-    author: "Arjun M.",
-    role: "Daily Sipper",
-    rating: 5,
-  },
-  {
-    text: "Finally a soda with a clean label I can actually read. 5G prebiotic fiber and it still slaps? Take my money.",
-    author: "Sneha T.",
-    role: "Clean Label Advocate",
-    rating: 5,
-  },
-
-];
+import { getRecentReviews } from "@/lib/data/review";
 
 const decorations = [
   "/svgs/starwbery-svg.png",
@@ -31,8 +9,6 @@ const decorations = [
   "/svgs/flower-sb.png",
   "/svgs/leaf-2.png",
   "/svgs/lemon-2-svg.png",
-  
-
 ];
 
 const Stars = ({ count }: { count: number }) => (
@@ -48,8 +24,11 @@ const Stars = ({ count }: { count: number }) => (
       </svg>
     ))}
   </div>
-);const TestimonialCard = ({ t, idx }: { t: typeof testimonials[0], idx: number }) => {
+);
+
+const TestimonialCard = ({ t, idx }: { t: any, idx: number }) => {
   const Decoration = decorations[idx % decorations.length];
+  const reviewerName = t.userID?.name || t.name || "Anonymous";
 
   return (
     <div
@@ -73,7 +52,7 @@ const Stars = ({ count }: { count: number }) => (
         </p>
 
         <div className="mt-8 flex items-center justify-between gap-4">
-          <p className="font-bold text-[#15161b] text-base leading-tight uppercase tracking-wider">{t.author}</p>
+          <p className="font-bold text-[#15161b] text-base leading-tight uppercase tracking-wider">{reviewerName}</p>
           
           {/* Subtle dash to finish the minimalist layout */}
           <div className="w-6 h-[2px] bg-[#de3e4f]/30 rounded-full" />
@@ -83,14 +62,20 @@ const Stars = ({ count }: { count: number }) => (
   );
 };
 
-export default function Testimonials() {
+export default async function Testimonials() {
+  const recentReviews = await getRecentReviews(8);
+  
+  if (recentReviews.length === 0) {
+    return null;
+  }
+
   // Ensure we have enough items so the track is always wider than the 1500px container,
   // allowing a seamless endless loop even if the database only returns 2 or 3 reviews.
   const minItems = 8;
-  const displayTestimonials = [...testimonials];
+  const displayTestimonials = [...recentReviews];
   if (displayTestimonials.length > 0) {
     while (displayTestimonials.length < minItems) {
-      displayTestimonials.push(...testimonials);
+      displayTestimonials.push(...recentReviews);
     }
   }
 
@@ -166,13 +151,13 @@ export default function Testimonials() {
             {/* First Track */}
             <div className="flex shrink-0 gap-6 sm:gap-8 animate-marquee items-stretch">
               {displayTestimonials.map((t, idx) => (
-                <TestimonialCard key={`t1-${idx}`} t={t} idx={idx} />
+                <TestimonialCard key={`t1-${t._id || idx}-${idx}`} t={t} idx={idx} />
               ))}
             </div>
             {/* Second Track for seamless loop */}
             <div className="flex shrink-0 gap-6 sm:gap-8 animate-marquee items-stretch" aria-hidden="true">
               {displayTestimonials.map((t, idx) => (
-                <TestimonialCard key={`t2-${idx}`} t={t} idx={idx} />
+                <TestimonialCard key={`t2-${t._id || idx}-${idx}`} t={t} idx={idx} />
               ))}
             </div>
           </div>

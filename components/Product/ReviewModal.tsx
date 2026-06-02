@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Star, Loader2 } from "lucide-react";
 import { headingFont, bodyFont } from "@/lib/fonts";
 import { submitReview } from "@/actions/review";
+import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 
 // Define schema
@@ -15,7 +16,7 @@ const reviewSchema = z.object({
   rating: z.number().min(1).max(5),
   text: z.string().min(10, "Review must be at least 10 characters").max(500, "Review too long"),
   name: z.string().optional(),
-  email: z.string().email("Invalid email").optional(),
+  email: z.string().email("Invalid email").optional().or(z.literal("")),
 });
 
 type ReviewFormValues = z.infer<typeof reviewSchema>;
@@ -30,6 +31,7 @@ interface ReviewModalProps {
 export default function ReviewModal({ isOpen, onClose, productId, productSlug }: ReviewModalProps) {
   const session = authClient.useSession();
   const isAuthenticated = !!session.data?.user;
+  const router = useRouter();
 
   const [hoveredStar, setHoveredStar] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -78,6 +80,7 @@ export default function ReviewModal({ isOpen, onClose, productId, productSlug }:
     if (result.success) {
       reset();
       onClose();
+      router.refresh();
     } else {
       setErrorMsg(result.error || "Something went wrong. Please try again.");
     }

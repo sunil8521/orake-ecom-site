@@ -20,28 +20,13 @@ export default function ProductTabs({ product, reviews }: ProductTabsProps) {
   const [activeTab, setActiveTab] = useState("description");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Use mock reviews if none exist, per user request
-  const displayReviews = reviews.length > 0 ? reviews : [
-    {
-      _id: "mock1",
-      rating: 5,
-      name: "S. Maharana",
-      text: "Super drink was extremely refreshing and perfectly fizzy. Highly recommend!",
-      createdAt: new Date().toISOString()
-    },
-    {
-      _id: "mock2",
-      rating: 4,
-      name: "A. Kumar",
-      text: "Loved the taste. Great alternative to sugary sodas.",
-      createdAt: new Date().toISOString()
-    }
-  ];
+  // Use actual reviews from props
+  const displayReviews = reviews;
 
   // Calculate average rating
   const totalRating = displayReviews.reduce((sum, rev) => sum + rev.rating, 0);
-  const avgRating = displayReviews.length > 0 ? (totalRating / displayReviews.length).toFixed(1) : "5.0";
-  const numReviews = reviews.length > 0 ? reviews.length : displayReviews.length;
+  const avgRating = displayReviews.length > 0 ? (totalRating / displayReviews.length).toFixed(1) : "0.0";
+  const numReviews = displayReviews.length;
 
   return (
     <div className="max-w-7xl mx-auto px-6 sm:px-12 lg:px-20 mb-24 relative mt-10">
@@ -135,37 +120,51 @@ export default function ProductTabs({ product, reviews }: ProductTabsProps) {
               </div>
 
               {/* Review List */}
-              <div className="col-span-1 md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6 items-start">
-                {displayReviews.map((review: any) => {
-                  const reviewerName = review.userID?.name || review.name || "Anonymous";
-                  const initial = reviewerName.charAt(0).toUpperCase();
+              <div className="col-span-1 md:col-span-2">
+                {displayReviews.length > 0 ? (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-start">
+                    {displayReviews.map((review: any) => {
+                      const reviewerName = review.userID?.name || review.name || "Anonymous";
+                      const initial = reviewerName.charAt(0).toUpperCase();
 
-                  return (
-                    <div key={review._id} className="bg-white p-6 sm:p-8 rounded-[24px] border border-gray-100 shadow-sm hover:shadow-md transition-shadow h-full">
-                      <div className="flex justify-between items-start mb-6">
-                        <div>
-                          <div className="flex text-[#dbba53] gap-1 mb-3">
-                            {[...Array(5)].map((_, i) => (
-                              <svg key={i} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={`w-4 h-4 sm:w-5 sm:h-5 drop-shadow-sm ${i < review.rating ? "text-[#dbba53]" : "text-gray-200"}`}>
-                                <path fillRule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" clipRule="evenodd" />
-                              </svg>
-                            ))}
-                          </div>
-                          <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-gray-500 border border-gray-100 shadow-inner">
-                              <span className={`${headingFont.className} text-lg`}>{initial}</span>
+                      return (
+                        <div key={review._id} className="bg-white p-6 sm:p-8 rounded-[24px] border border-gray-100 shadow-sm hover:shadow-md transition-shadow h-full">
+                          <div className="flex justify-between items-start mb-6">
+                            <div>
+                              <div className="flex text-[#dbba53] gap-1 mb-3">
+                                {[...Array(5)].map((_, i) => (
+                                  <svg key={i} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={`w-4 h-4 sm:w-5 sm:h-5 drop-shadow-sm ${i < review.rating ? "text-[#dbba53]" : "text-gray-200"}`}>
+                                    <path fillRule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" clipRule="evenodd" />
+                                  </svg>
+                                ))}
+                              </div>
+                              <div className="flex items-center gap-3">
+                                <div className="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-gray-500 border border-gray-100 shadow-inner">
+                                  <span className={`${headingFont.className} text-lg`}>{initial}</span>
+                                </div>
+                                <span className={`${bodyFont.className} font-bold text-[#15161b] uppercase text-sm tracking-wide`}>{reviewerName}</span>
+                              </div>
                             </div>
-                            <span className={`${bodyFont.className} font-bold text-[#15161b] uppercase text-sm tracking-wide`}>{reviewerName}</span>
+                            <span className={`${bodyFont.className} text-[11px] font-bold tracking-widest text-gray-400 mt-1`}>
+                              {new Date(review.createdAt).toLocaleDateString()}
+                            </span>
                           </div>
+                          <p className={`${bodyFont.className} text-[15px] text-gray-500 leading-relaxed`}>{review.text}</p>
                         </div>
-                        <span className={`${bodyFont.className} text-[11px] font-bold tracking-widest text-gray-400 mt-1`}>
-                          {new Date(review.createdAt).toLocaleDateString()}
-                        </span>
-                      </div>
-                      <p className={`${bodyFont.className} text-[15px] text-gray-500 leading-relaxed`}>{review.text}</p>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <div className="flex flex-col items-center justify-center h-full min-h-[300px] bg-gray-50/50 rounded-[24px] border border-gray-100 p-8 text-center">
+                    <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm mb-4">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 text-gray-300">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
+                      </svg>
                     </div>
-                  );
-                })}
+                    <h4 className={`${headingFont.className} text-xl text-[#15161b] uppercase tracking-wide mb-2`}>No reviews yet</h4>
+                    <p className={`${bodyFont.className} text-gray-500 max-w-sm`}>Be the first to share your thoughts about {product.name}!</p>
+                  </div>
+                )}
               </div>
             </motion.div>
           )}

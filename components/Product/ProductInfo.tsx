@@ -22,6 +22,7 @@ interface ProductInfoProps {
     size: string;
     image: string;
     numReviews: number;
+    rating: number;
     description: string;
   };
   relatedProduct: {
@@ -125,7 +126,9 @@ export default function ProductInfo({ product, relatedProduct, initialIsWishlist
             {[...Array(5)].map((_, i) => (
               <div key={i} className="relative w-5 h-5 sm:w-6 sm:h-6">
                 <Star size={20} className="absolute inset-0 text-gray-200 sm:w-6 sm:h-6" fill="currentColor" strokeWidth={1} />
-                <Star size={20} className="absolute inset-0 text-[#dbba53] sm:w-6 sm:h-6" fill="currentColor" strokeWidth={1} />
+                {i < Math.round(product.rating || 0) && (
+                  <Star size={20} className="absolute inset-0 text-[#dbba53] sm:w-6 sm:h-6" fill="currentColor" strokeWidth={1} />
+                )}
               </div>
             ))}
           </div>
@@ -136,20 +139,23 @@ export default function ProductInfo({ product, relatedProduct, initialIsWishlist
       </div>
 
       {/* Price */}
-      <div className="flex items-end gap-3 mb-6">
-        <span className={`${headingFont.className} text-4xl sm:text-5xl text-[#15161b] leading-none`}>
+      <div className="flex flex-col sm:flex-row sm:items-end gap-2 sm:gap-3 mb-6">
+        <span className={`${headingFont.className} text-4xl sm:text-5xl text-[#15161b] leading-none whitespace-nowrap`}>
           Rs. {product.price.toFixed(2)}
         </span>
-        {product.oldPrice > 0 && (
-          <span className={`${bodyFont.className} text-xl text-gray-400 line-through decoration-[#c25b5e] decoration-2 mb-1`}>
-            Rs. {product.oldPrice.toFixed(2)}
-          </span>
-        )}
-        {product.discount > 0 && (
-          <span className={`${bodyFont.className} bg-[#c25b5e] text-white text-xs font-bold px-3 py-1.5 rounded-full mb-1.5 uppercase tracking-widest shadow-sm`}>
-            Save {product.discount}%
-          </span>
-        )}
+        
+        <div className="flex items-center gap-3 sm:mb-1">
+          {product.oldPrice > 0 && (
+            <span className={`${bodyFont.className} text-lg sm:text-xl text-gray-400 line-through decoration-[#c25b5e] decoration-2`}>
+              Rs. {product.oldPrice.toFixed(2)}
+            </span>
+          )}
+          {product.discount > 0 && (
+            <span className={`${bodyFont.className} bg-[#c25b5e] text-white text-[10px] sm:text-xs font-bold px-3 py-1 sm:py-1.5 rounded-full uppercase tracking-widest shadow-sm`}>
+              Save {product.discount}%
+            </span>
+          )}
+        </div>
       </div>
 
       {/* Short Description */}

@@ -1,13 +1,12 @@
 import Image from "next/image";
 import { MoveUpRight } from "lucide-react";
-import { FaInstagram, FaTwitter, FaFacebookF } from "react-icons/fa";
+import { FaInstagram, FaFacebookF } from "react-icons/fa";
 import { titleFont, textFont } from "@/lib/fonts";
 
 
 const socials = [
-  { Icon: FaInstagram, label: "Instagram", href: "#" },
-  { Icon: FaTwitter, label: "Twitter", href: "#" },
-  { Icon: FaFacebookF, label: "Facebook", href: "#" },
+  { Icon: FaFacebookF, label: "Facebook", href: "https://www.facebook.com/share/1Hn6nruP6M/?mibextid=wwXIfr" },
+  { Icon: FaInstagram, label: "Instagram", href: "https://www.instagram.com/drinkorake?utm_source=qr" },
 ];
 
 export default function Footer() {
@@ -106,7 +105,7 @@ export default function Footer() {
 
         <div className="flex items-center gap-3">
           {socials.map(({ Icon, label, href }) => (
-            <a key={label} href={href} aria-label={label}
+            <a key={label} href={href} aria-label={label} target="_blank" rel="noopener noreferrer"
               className="w-10 h-10 rounded-full bg-white/15 hover:bg-white hover:text-[#c25b5e] flex items-center justify-center transition-all duration-300 text-white hover:scale-110 hover:shadow-lg">
               <Icon size={16} />
             </a>

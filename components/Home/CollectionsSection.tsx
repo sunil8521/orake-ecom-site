@@ -55,7 +55,11 @@ function NewsletterForm() {
   );
 }
 
-export default function CollectionsSection() {
+export default function CollectionsSection({ products = [] }: { products?: any[] }) {
+  // Find products matching the hardcoded names or fallback to defaults
+  const strawberryProduct = products.find(p => p.name === 'Fan Favorites Box' || p.name?.toLowerCase().includes('strawberry')) || { rating: 5, numReviews: 24, price: 85 };
+  const gingerProduct = products.find(p => p.name === 'Chaos Edition Box' || p.name?.toLowerCase().includes('ginger')) || { rating: 4, numReviews: 12, price: 85 };
+
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -186,7 +190,7 @@ export default function CollectionsSection() {
               <h3 className={`${bodyFont.className} mb-2 text-xl md:text-2xl font-black text-gray-900 group-hover:text-[#c25b5e] transition-colors leading-tight uppercase`}>
                 Strawberry Vanilla
               </h3>
-              <StarRating rating={5} reviews={24} />
+              <StarRating rating={strawberryProduct.rating} reviews={strawberryProduct.numReviews} />
               <div className={`${bodyFont.className} flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-6 mt-6 pt-5 border-t border-gray-100`}>
                 <div className="flex items-baseline gap-2">
                   <span className="text-3xl md:text-4xl font-black text-[#15161b] tracking-tight">Rs. 85.00</span>
@@ -247,7 +251,7 @@ export default function CollectionsSection() {
               <h3 className={`${bodyFont.className} mb-2 text-xl md:text-2xl font-black text-gray-900 group-hover:text-[#dbba53] transition-colors leading-tight uppercase`}>
                 Ginger Lemon
               </h3>
-              <StarRating rating={4} reviews={12} />
+              <StarRating rating={gingerProduct.rating} reviews={gingerProduct.numReviews} />
               <div className={`${bodyFont.className} flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-6 mt-6 pt-5 border-t border-gray-100`}>
                 <div className="flex items-baseline gap-2">
                   <span className="text-3xl md:text-4xl font-black text-[#15161b] tracking-tight">Rs. 85.00</span>

@@ -149,7 +149,9 @@ export default function ProductCard({ product, isWishlist }: ProductCardProps) {
                                     {[...Array(5)].map((_, i) => (
                                         <div key={i} className="relative w-4 h-4 sm:w-4 sm:h-4">
                                             <Star size={16} className="absolute inset-0 text-gray-200" fill="currentColor" strokeWidth={1} />
-                                            <Star size={16} className="absolute inset-0 text-[#dbba53]" fill="currentColor" strokeWidth={1} />
+                                            {i < Math.round(product.rating || 0) && (
+                                                <Star size={16} className="absolute inset-0 text-[#dbba53]" fill="currentColor" strokeWidth={1} />
+                                            )}
                                         </div>
                                     ))}
                                 </div>
