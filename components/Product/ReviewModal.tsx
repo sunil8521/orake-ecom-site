@@ -47,7 +47,7 @@ export default function ReviewModal({ isOpen, onClose, productId, productSlug }:
   } = useForm<ReviewFormValues>({
     resolver: zodResolver(reviewSchema),
     defaultValues: {
-      rating: 5,
+      rating: 0,
       text: "",
       name: "",
       email: "",
@@ -57,6 +57,10 @@ export default function ReviewModal({ isOpen, onClose, productId, productSlug }:
   const currentRating = watch("rating");
 
   const onSubmit = async (data: ReviewFormValues) => {
+    if (data.rating === 0) {
+       setErrorMsg("Please select a star rating before submitting.");
+       return;
+    }
     // If not authenticated, we need name and email
     if (!isAuthenticated && (!data.name || !data.email)) {
        setErrorMsg("Name and email are required for guests.");
@@ -130,7 +134,10 @@ export default function ReviewModal({ isOpen, onClose, productId, productSlug }:
                         <button
                           key={star}
                           type="button"
-                          onClick={() => setValue("rating", star, { shouldValidate: true })}
+                          onClick={() => {
+                              setValue("rating", star, { shouldValidate: true });
+                              setErrorMsg(""); // Clear error if rating selected
+                          }}
                           onMouseEnter={() => setHoveredStar(star)}
                           onMouseLeave={() => setHoveredStar(0)}
                           className="transition-transform hover:scale-110 focus:outline-none"

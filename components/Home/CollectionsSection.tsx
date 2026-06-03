@@ -6,28 +6,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Star, StarHalf, ArrowRight } from "lucide-react";
 import { headingFont, bodyFont } from "@/lib/fonts";
-function StarRating({ rating, reviews }: { rating: number; reviews: number }) {
-  return (
-    <div className="flex justify-center md:justify-start items-center gap-1.5 mb-2 w-full">
-      <div className="flex gap-0.5 text-[#dbba53]">
-        {[1, 2, 3, 4, 5].map((star) => {
-          const filled = rating >= star;
-          const half = !filled && rating >= star - 0.5;
-          return (
-            <div key={star} className="relative w-4 h-4 sm:w-4 sm:h-4">
-              <Star size={16} className="absolute inset-0 text-gray-200" fill="currentColor" strokeWidth={1} />
-              {filled && <Star size={16} className="absolute inset-0 text-[#dbba53]" fill="currentColor" strokeWidth={1} />}
-              {half && <StarHalf size={16} className="absolute inset-0 text-[#dbba53]" fill="currentColor" strokeWidth={1} />}
-            </div>
-          );
-        })}
-      </div>
-      <span className={`${bodyFont.className} text-[10px] sm:text-[11px] font-bold text-gray-500 tracking-wider uppercase ml-1`}>
-        ({reviews > 0 ? reviews : 0} REVIEWS)
-      </span>
-    </div>
-  );
-}
+import { StarRating } from "../Product/StarRating";
 
 function NewsletterForm() {
   const [email, setEmail] = useState("");
@@ -186,18 +165,17 @@ export default function CollectionsSection({ products = [] }: { products?: any[]
               </div>
             </motion.div>
 
-            <div className="px-2 text-center md:text-left mt-8">
+            <div className="px-2 text-left mt-8">
               <h3 className={`${bodyFont.className} mb-2 text-xl md:text-2xl font-black text-gray-900 group-hover:text-[#c25b5e] transition-colors leading-tight uppercase`}>
                 Strawberry Vanilla
               </h3>
-              <StarRating rating={strawberryProduct.rating} reviews={strawberryProduct.numReviews} />
-              <div className={`${bodyFont.className} flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-6 mt-6 pt-5 border-t border-gray-100`}>
+              <div className={`${bodyFont.className} flex flex-row items-center justify-between gap-2`}>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-3xl md:text-4xl font-black text-[#15161b] tracking-tight">Rs. 85.00</span>
-                  <span className="text-sm md:text-base text-gray-400 line-through decoration-1">Rs. 100.00</span>
+                  <span className="text-2xl md:text-3xl font-black text-[#15161b] tracking-tight">Rs. 85.00</span>
+                  <span className="text-xs md:text-sm text-gray-400 line-through decoration-1">Rs. 100.00</span>
                 </div>
 
-                <Link href="/products" className="group/btn w-full sm:w-auto flex justify-center items-center gap-3 bg-[#15161b] hover:bg-[#c25b5e] text-white px-6 py-3.5 md:px-8 md:py-4 rounded-full text-xs font-bold uppercase tracking-[0.2em] shadow-lg hover:shadow-[0_15px_30px_rgba(194,91,94,0.3)] transition-all duration-300 active:scale-95 whitespace-nowrap">
+                <Link href="/products/fan-favorites-box" className="group/btn flex items-center gap-1.5 text-[#15161b] hover:text-[#c25b5e] text-[11px] sm:text-sm font-bold uppercase tracking-[0.1em] sm:tracking-[0.2em] transition-all duration-300 whitespace-nowrap">
                   View Product
                   <ArrowRight size={16} className="group-hover/btn:translate-x-1.5 transition-transform duration-300" />
                 </Link>
@@ -247,18 +225,17 @@ export default function CollectionsSection({ products = [] }: { products?: any[]
               </div>
             </motion.div>
 
-            <div className="px-2 text-center md:text-left mt-8">
+            <div className="px-2 text-left mt-8">
               <h3 className={`${bodyFont.className} mb-2 text-xl md:text-2xl font-black text-gray-900 group-hover:text-[#dbba53] transition-colors leading-tight uppercase`}>
                 Ginger Lemon
               </h3>
-              <StarRating rating={gingerProduct.rating} reviews={gingerProduct.numReviews} />
-              <div className={`${bodyFont.className} flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-6 mt-6 pt-5 border-t border-gray-100`}>
+              <div className={`${bodyFont.className} flex flex-row items-center justify-between gap-2`}>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-3xl md:text-4xl font-black text-[#15161b] tracking-tight">Rs. 85.00</span>
-                  <span className="text-sm md:text-base text-gray-400 line-through decoration-1">Rs. 100.00</span>
+                  <span className="text-2xl md:text-3xl font-black text-[#15161b] tracking-tight">Rs. 85.00</span>
+                  <span className="text-xs md:text-sm text-gray-400 line-through decoration-1">Rs. 100.00</span>
                 </div>
 
-                <Link href="/products" className="group/btn w-full sm:w-auto flex justify-center items-center gap-3 bg-[#15161b] hover:bg-[#dbba53] text-white px-6 py-3.5 md:px-8 md:py-4 rounded-full text-xs font-bold uppercase tracking-[0.2em] shadow-lg hover:shadow-[0_15px_30px_rgba(219,186,83,0.3)] transition-all duration-300 active:scale-95 whitespace-nowrap">
+                <Link href="/products/chaos-edition-box" className="group/btn flex items-center gap-1.5 text-[#15161b] hover:text-[#dbba53] text-[11px] sm:text-sm font-bold uppercase tracking-[0.1em] sm:tracking-[0.2em] transition-all duration-300 whitespace-nowrap">
                   View Product
                   <ArrowRight size={16} className="group-hover/btn:translate-x-1.5 transition-transform duration-300" />
                 </Link>

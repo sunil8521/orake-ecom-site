@@ -17,7 +17,7 @@ interface CartItemType {
   image: string;
 }
 
-export default function CartList({ initialItems: items }: { initialItems: CartItemType[] }) {
+export default function CartList({ initialItems: items, pastOrdersCount = 0 }: { initialItems: CartItemType[], pastOrdersCount?: number }) {
 
   const updateQty = async (id: number | string, delta: number) => {
     const item = items.find(i => i.id === id);
@@ -65,7 +65,13 @@ export default function CartList({ initialItems: items }: { initialItems: CartIt
         </div>
 
         {/* Order Summary */}
-        <OrderSummary subtotal={subtotal} savings={savings} total={total} />
+        <OrderSummary 
+          subtotal={subtotal} 
+          savings={savings} 
+          total={total} 
+          itemsQty={items.reduce((sum, i) => sum + i.qty, 0)}
+          pastOrdersCount={pastOrdersCount}
+        />
       </div>
     </div>
   );

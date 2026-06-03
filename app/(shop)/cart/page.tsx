@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getCart } from "@/lib/data/cart";
+import { getOrders } from "@/lib/data/order";
 import CartHero from "@/components/Cart/CartHero";
 import CartList from "@/components/Cart/CartList";
 import { Suspense } from "react";
@@ -14,10 +15,11 @@ async function CartContent() {
   await headers();
   const res = await getCart();
   const items = res?.items ?? [];
+  const { total: pastOrdersCount } = await getOrders();
   return (
     <>
       <CartHero itemCount={items.length} />
-      <CartList initialItems={items} />
+      <CartList initialItems={items} pastOrdersCount={pastOrdersCount} />
     </>
   );
 }

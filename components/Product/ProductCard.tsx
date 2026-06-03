@@ -19,6 +19,7 @@ interface ProductCardProps {
 
 import Link from "next/link";
 import { headingFont, bodyFont } from "@/lib/fonts";
+import { StarRating } from "./StarRating";
 
 export default function ProductCard({ product, isWishlist }: ProductCardProps) {
 
@@ -146,14 +147,7 @@ export default function ProductCard({ product, isWishlist }: ProductCardProps) {
                             {/* Star Rating */}
                             <div className="flex items-center gap-1.5 mb-5">
                                 <div className="flex gap-0.5 text-[#dbba53]">
-                                    {[...Array(5)].map((_, i) => (
-                                        <div key={i} className="relative w-4 h-4 sm:w-4 sm:h-4">
-                                            <Star size={16} className="absolute inset-0 text-gray-200" fill="currentColor" strokeWidth={1} />
-                                            {i < Math.round(product.rating || 0) && (
-                                                <Star size={16} className="absolute inset-0 text-[#dbba53]" fill="currentColor" strokeWidth={1} />
-                                            )}
-                                        </div>
-                                    ))}
+                                    <StarRating rating={product.rating || 0} className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                                 </div>
                                 <span className={`${bodyFont.className} text-[10px] sm:text-[11px] font-bold text-gray-500 tracking-wider uppercase ml-1`}>
                                     ({product.numReviews > 0 ? product.numReviews : 0} REVIEWS)

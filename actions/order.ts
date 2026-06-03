@@ -39,11 +39,29 @@ export async function placeOrder(shippingAddress: ShippingAddress, paymentMethod
 
     await connectDB();
 
+    // Check past orders to determine discount
+    const orderCountQuery = {
+      userId: session.user.id,
+      $nor: [
+        { paymentMethod: 'Razorpay', isPaid: false, status: 'Pending' }
+      ]
+    };
+    const pastOrdersCount = await Order.countDocuments(orderCountQuery);
+    const isFirstTime = pastOrdersCount === 0;
+    const targetRate = isFirstTime ? 0.80 : 0.85;
+
     // Calculate totals
-    const itemsPrice = items.reduce((acc: number, item: any) => acc + (item.price * item.qty), 0);
-    const shippingPrice = itemsPrice > 999 ? 0 : 99; // Standard rule
+    const itemsPrice = items.reduce((acc: number, item: any) => acc + (item.price * (item.qty || item.quantity)), 0);
+    const originalItemsPrice = items.reduce((acc: number, item: any) => acc + ((item.oldPrice || item.price) * (item.qty || item.quantity)), 0);
+    
+    const targetTotal = Math.round(originalItemsPrice * targetRate);
+    const discountAmount = Math.max(0, itemsPrice - targetTotal);
+
+    const subtotalAfterDiscount = Math.max(0, itemsPrice - discountAmount);
+
+    const shippingPrice = subtotalAfterDiscount > 999 ? 0 : 99; // Standard rule
     const taxPrice = 0; // Or whatever calculation
-    const totalPrice = itemsPrice + shippingPrice + taxPrice;
+    const totalPrice = subtotalAfterDiscount + shippingPrice + taxPrice;
 
     // Format items for DB
     const orderItems = items.map((item: any) => ({

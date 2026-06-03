@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ShoppingCart, Heart, Share2, Plus, Minus, ChevronDown, Check, Loader2, Star, StarHalf } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { headingFont, bodyFont } from "@/lib/fonts";
+import { StarRating } from "./StarRating";
 import { useCartWishlistStore } from "@/store/useCartWishlistStore";
 import { toggleWishlist } from "@/actions/wishlist";
 import { addToCart } from "@/actions/cart";
@@ -123,14 +124,7 @@ export default function ProductInfo({ product, relatedProduct, initialIsWishlist
       <div className="flex items-center gap-4 mb-8 pb-6 border-b border-gray-100">
         <div className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity">
           <div className="flex gap-0.5 text-[#dbba53]">
-            {[...Array(5)].map((_, i) => (
-              <div key={i} className="relative w-5 h-5 sm:w-6 sm:h-6">
-                <Star size={20} className="absolute inset-0 text-gray-200 sm:w-6 sm:h-6" fill="currentColor" strokeWidth={1} />
-                {i < Math.round(product.rating || 0) && (
-                  <Star size={20} className="absolute inset-0 text-[#dbba53] sm:w-6 sm:h-6" fill="currentColor" strokeWidth={1} />
-                )}
-              </div>
-            ))}
+            <StarRating rating={product.rating || 0} className="w-5 h-5 sm:w-6 sm:h-6" />
           </div>
           <span className={`${bodyFont.className} text-sm font-bold text-gray-400 hover:text-[#15161b] uppercase tracking-widest ml-2 transition-colors`}>
             {product.numReviews > 0 ? product.numReviews : 0} Reviews

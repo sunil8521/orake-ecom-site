@@ -1,7 +1,7 @@
 import { connectDB } from "@/lib/db";
+import { cacheLife, cacheTag } from "next/cache";
 import { Rating, IRating } from "@/models/Rating";
 import User from "@/models/User"; // import to register User schema for populate
-import { cacheLife, cacheTag } from "next/cache";
 
 // Type for populated review
 export interface PopulatedReview {
@@ -30,7 +30,7 @@ export async function getProductReviews(productId: string) {
         // Use populate to get User details if userID exists
         // Registration of User schema happens with import { User } above
         const reviews = await Rating.find({ procutID: productId })
-            .populate('userID', 'name email')
+            .populate({ path: 'userID', model: User, select: 'name email' })
             .sort({ createdAt: -1 })
             .lean();
 
@@ -50,7 +50,7 @@ export async function getRecentReviews(limit: number = 8) {
         await connectDB();
         
         const reviews = await Rating.find({ rating: { $gte: 4 } })
-            .populate('userID', 'name email')
+            .populate({ path: 'userID', model: User, select: 'name email' })
             .sort({ createdAt: -1 })
             .limit(limit)
             .lean();

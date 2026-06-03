@@ -13,15 +13,23 @@ export const metadata: Metadata = {
   description: "Securely complete your purchase.",
 };
 
+import { getOrders } from "@/lib/data/order";
+
 async function CheckoutContent() {
   const reqHeaders = await headers();
   const session = await auth.api.getSession({ headers: reqHeaders });
   const cartData = await getCart();
   const addressRes = await getUserAddresses();
   const addresses = addressRes.success ? addressRes.addresses : [];
+  
+  let pastOrdersCount = 0;
+  if (session?.user) {
+    const ordersData = await getOrders();
+    pastOrdersCount = ordersData.total;
+  }
 
   return (
-    <CheckoutForm initialCartItems={cartData?.items || []} user={session?.user || null} initialAddresses={addresses} />
+    <CheckoutForm initialCartItems={cartData?.items || []} user={session?.user || null} initialAddresses={addresses} pastOrdersCount={pastOrdersCount} />
   );
 }
 

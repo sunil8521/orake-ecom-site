@@ -13,7 +13,7 @@ import OrderSuccessModal from "../Cart/OrderSuccessModal";
 import { addAddress } from "@/actions/address";
 import { useCartWishlistStore } from "@/store/useCartWishlistStore";
 
-export default function CheckoutForm({ initialCartItems, user, initialAddresses = [] }: { initialCartItems: any[], user: any, initialAddresses?: any[] }) {
+export default function CheckoutForm({ initialCartItems, user, initialAddresses = [], pastOrdersCount = 0 }: { initialCartItems: any[], user: any, initialAddresses?: any[], pastOrdersCount?: number }) {
   const router = useRouter();
   const [processing, setProcessing] = useState(false);
   const [cartItems] = useState<any[]>(initialCartItems);
@@ -198,8 +198,15 @@ export default function CheckoutForm({ initialCartItems, user, initialAddresses 
   }
 
   const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.qty, 0);
-  const shipping = subtotal > 999 ? 0 : 99;
-  const total = subtotal + shipping;
+  const originalSubtotal = cartItems.reduce((sum, item) => sum + (item.oldPrice || item.price) * item.qty, 0);
+  
+  const isFirstTime = pastOrdersCount === 0;
+  const targetRate = isFirstTime ? 0.80 : 0.85;
+  const targetTotal = Math.round(originalSubtotal * targetRate);
+  const autoDiscount = Math.max(0, subtotal - targetTotal);
+
+  const shipping = (subtotal - autoDiscount) > 999 ? 0 : 99;
+  const total = (subtotal - autoDiscount) + shipping;
 
   return (
     <div className="max-w-6xl mx-auto px-6 lg:px-20 py-12 md:py-20">
@@ -313,6 +320,12 @@ export default function CheckoutForm({ initialCartItems, user, initialAddresses 
                 <span>Subtotal</span>
                 <span>Rs. {subtotal.toFixed(2)}</span>
               </div>
+              {autoDiscount > 0 && (
+                <div className="flex justify-between text-[#dbba53]">
+                  <span>FIRST TIME EXTRA OFF</span>
+                  <span>-Rs. {autoDiscount.toFixed(2)}</span>
+                </div>
+              )}
               <div className="flex justify-between text-gray-300">
                 <span>Shipping</span>
                 <span>{shipping === 0 ? "FREE" : `Rs. ${shipping.toFixed(2)}`}</span>

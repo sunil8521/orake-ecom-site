@@ -12,67 +12,43 @@ interface OrderSummaryProps {
   subtotal: number;
   savings: number;
   total: number;
+  itemsQty: number;
+  pastOrdersCount: number;
   onPaymentSuccess?: (orderId: string) => void;
 }
 
-const VALID_COUPONS: Record<string, { discount: number; type: "percent" | "flat"; label: string }> = {
-  ORAKE10: { discount: 10, type: "percent", label: "10% off" },
-  ORAKE50: { discount: 50, type: "flat", label: "₹50 off" },
-  WELCOME: { discount: 15, type: "percent", label: "15% off" },
-};
-
-export default function OrderSummary({ subtotal, savings, total, onPaymentSuccess }: OrderSummaryProps) {
+export default function OrderSummary({ subtotal, savings, total, itemsQty, pastOrdersCount, onPaymentSuccess }: OrderSummaryProps) {
   const [isProcessing, setIsProcessing] = useState(false);
-  const [couponCode, setCouponCode] = useState("");
-  const [appliedCoupon, setAppliedCoupon] = useState<{ code: string; discount: number; label: string } | null>(null);
-  const [couponError, setCouponError] = useState("");
   const { openAuthModal } = useAuthStore();
   const { data: session } = useSession();
   const user = session?.user;
   const router = useRouter();
 
-  const applyCoupon = () => {
-    setCouponError("");
-    const code = couponCode.trim().toUpperCase();
-    if (!code) return;
+  const isFirstTime = pastOrdersCount === 0;
+  const originalSubtotal = subtotal + savings;
+  
+  // First time buyers pay 80% of original (20% off)
+  // Returning buyers pay 85% of original (15% off)
+  const targetRate = isFirstTime ? 0.80 : 0.85;
+  const targetTotal = Math.round(originalSubtotal * targetRate);
+  
+  // Auto discount is the extra amount needed to reach the target total
+  const autoDiscount = Math.max(0, subtotal - targetTotal);
+  const discountLabel = "FIRST TIME EXTRA OFF";
 
-    const coupon = VALID_COUPONS[code];
-    if (!coupon) {
-      setCouponError("Invalid coupon code");
-      setAppliedCoupon(null);
-      return;
-    }
-
-    const discountAmount = coupon.type === "percent"
-      ? Math.round((subtotal * coupon.discount) / 100)
-      : coupon.discount;
-
-    setAppliedCoupon({ code, discount: discountAmount, label: coupon.label });
-    toast.success(`Coupon "${code}" applied — ${coupon.label}!`);
-  };
-
-  const removeCoupon = () => {
-    setAppliedCoupon(null);
-    setCouponCode("");
-    setCouponError("");
-  };
-
-  const couponDiscount = appliedCoupon?.discount ?? 0;
-  const finalTotal = Math.max(0, total - couponDiscount);
+  const finalTotal = Math.max(0, total - autoDiscount);
+  const isValidCheckout = itemsQty >= 2;
 
   const handleCheckout = () => {
+    if (!isValidCheckout) return;
     if (!user) {
       toast.error("Please login to complete your order");
       openAuthModal("login");
       return;
     }
     
-    // Redirect to the dedicated checkout page
-    const query = appliedCoupon ? `?coupon=${appliedCoupon.code}` : "";
-    router.push(`/checkout${query}`);
+    router.push(`/checkout`);
   };
-  
-  
   return (
     <div className="w-full lg:w-[380px] xl:w-[420px] shrink-0">
       <div className="bg-[#15161b] rounded-[1.5rem] p-6 sm:p-8 text-white shadow-xl lg:sticky lg:top-28">
@@ -98,14 +74,17 @@ export default function OrderSummary({ subtotal, savings, total, onPaymentSucces
             </div>
           )}
 
-          {appliedCoupon && (
+          {autoDiscount > 0 && (
             <div className="flex justify-between items-baseline">
               <span className={`${textFont.className} text-[#dbba53] text-sm sm:text-base flex items-center gap-1.5`}>
-                <Percent size={14} /> Coupon
+                <Percent size={14} /> Auto Discount
               </span>
-              <span className={`${textFont.className} text-[#dbba53] text-sm sm:text-base font-semibold`}>
-                -₹{couponDiscount.toFixed(0)}
-              </span>
+              <div className="text-right">
+                <span className={`${textFont.className} text-[#dbba53] text-[10px] block mb-0.5 uppercase tracking-widest`}>{discountLabel}</span>
+                <span className={`${textFont.className} text-[#dbba53] text-sm sm:text-base font-semibold`}>
+                  -₹{autoDiscount.toFixed(0)}
+                </span>
+              </div>
             </div>
           )}
 
@@ -114,7 +93,7 @@ export default function OrderSummary({ subtotal, savings, total, onPaymentSucces
           <div className="flex justify-between items-baseline !mt-4">
             <span className={`${textFont.className} text-white text-base sm:text-lg font-bold uppercase tracking-widest`}>Total</span>
             <div className="text-right">
-              {couponDiscount > 0 && (
+              {autoDiscount > 0 && (
                 <span className={`${textFont.className} text-gray-500 text-xs line-through block mb-0.5`}>
                   ₹{total.toFixed(0)}
                 </span>
@@ -126,55 +105,20 @@ export default function OrderSummary({ subtotal, savings, total, onPaymentSucces
           </div>
         </div>
 
-        {/* Coupon Code */}
-        <div className="mb-7">
-          {appliedCoupon ? (
-            <div className="flex items-center justify-between bg-[#dbba53]/10 border border-[#dbba53]/20 rounded-xl px-4 py-3">
-              <div className="flex items-center gap-2.5">
-                <CheckCircle size={18} className="text-[#dbba53]" />
-                <span className={`${textFont.className} text-[#dbba53] text-sm font-bold tracking-[0.15em] uppercase mt-0.5`}>
-                  {appliedCoupon.code}
-                </span>
-              </div>
-              <button
-                onClick={removeCoupon}
-                className={`${textFont.className} text-gray-400 hover:text-red-400 text-xs uppercase tracking-widest transition-colors`}
-              >
-                Remove
-              </button>
-            </div>
-          ) : (
-            <>
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  value={couponCode}
-                  onChange={(e) => { setCouponCode(e.target.value); setCouponError(""); }}
-                  onKeyDown={(e) => e.key === "Enter" && applyCoupon()}
-                  placeholder="Coupon code"
-                  className={`${textFont.className} flex-1 bg-white/5 border border-white/10 px-4 py-3 rounded-xl text-white text-sm placeholder-gray-500 focus:border-[#c25b5e] focus:bg-white/10 outline-none transition-all uppercase tracking-wider`}
-                />
-                <button
-                  onClick={applyCoupon}
-                  className={`${textFont.className} bg-white/10 px-6 py-3 rounded-xl text-white text-sm font-bold uppercase tracking-wider hover:bg-white/20 hover:text-[#c25b5e] transition-all`}
-                >
-                  Apply
-                </button>
-              </div>
-              {couponError && (
-                <p className={`${textFont.className} text-red-400 text-xs mt-2 tracking-wider ml-1`}>
-                  {couponError}
-                </p>
-              )}
-            </>
-          )}
-        </div>
+        {/* Discount automatically applied, manual coupons removed */}
 
         {/* Checkout Button */}
+        {!isValidCheckout && (
+          <div className="bg-[#c25b5e]/10 border border-[#c25b5e]/20 rounded-xl p-4 mb-4 text-center">
+            <p className={`${textFont.className} text-[#c25b5e] text-xs sm:text-sm font-bold uppercase tracking-widest`}>
+              Please add {2 - itemsQty} more item{2 - itemsQty > 1 ? 's' : ''} to checkout. Minimum order is 2 items.
+            </p>
+          </div>
+        )}
         <button 
           onClick={handleCheckout}
-          disabled={isProcessing}
-          className={`${textFont.className} w-full bg-[#c25b5e] hover:bg-[#de3e4f] disabled:opacity-70 disabled:cursor-not-allowed text-white py-4 rounded-xl text-base font-bold uppercase tracking-[0.2em] transition-all duration-300 hover:shadow-[0_8px_25px_rgba(194,91,94,0.35)] active:scale-[0.98] flex items-center justify-center gap-3`}
+          disabled={isProcessing || !isValidCheckout}
+          className={`${textFont.className} w-full bg-[#c25b5e] hover:bg-[#de3e4f] disabled:opacity-50 disabled:cursor-not-allowed text-white py-4 rounded-xl text-base font-bold uppercase tracking-[0.2em] transition-all duration-300 hover:shadow-[0_8px_25px_rgba(194,91,94,0.35)] active:scale-[0.98] flex items-center justify-center gap-3`}
         >
           {isProcessing ? (
              <><Loader2 size={20} className="animate-spin" /> Processing...</>
