@@ -68,7 +68,7 @@ export default function ContactForm() {
             <label className={`${textFont.className} block text-sm font-semibold uppercase tracking-wider text-gray-500 mb-2`}>
               Email <span className="text-[#de3e4f]">*</span>
             </label>
-            <input type="email" placeholder="you@orake.com" disabled={isSubmitting} {...register("email")}
+            <input type="email" placeholder="you@drinkorake.com" disabled={isSubmitting} {...register("email")}
               className={`${textFont.className} w-full bg-white border ${errors.email ? 'border-[#de3e4f]' : 'border-gray-200'} px-4 py-3.5 text-base font-medium text-[#15161b] placeholder-gray-300 rounded-xl focus:border-[#de3e4f] focus:ring-2 focus:ring-[#de3e4f]/10 focus:outline-none transition-all disabled:opacity-50`} />
             {errors.email && <p className="text-[#de3e4f] text-xs mt-1.5 font-medium uppercase tracking-wide">{errors.email.message}</p>}
           </div>
