@@ -103,21 +103,21 @@ export default function LoginForm() {
           </h3>
 
           {/* Google Slide */}
-          <div className="mb-5 sm:mb-6">
+          {/* <div className="mb-5 sm:mb-6">
             <SlideToGoogle
               onSlideComplete={handleGoogleSignIn}
               disabled={isSubmitting}
               loading={googleLoading}
               label="Slide to Sign in with Google"
             />
-          </div>
+          </div> */}
 
           {/* Divider */}
-          <div className="flex items-center gap-4 mb-5 sm:mb-6">
+          {/* <div className="flex items-center gap-4 mb-5 sm:mb-6">
             <div className="flex-1 h-px bg-gray-200" />
             <span className={`${textFont.className} text-gray-400 text-sm uppercase tracking-widest`}>or</span>
             <div className="flex-1 h-px bg-gray-200" />
-          </div>
+          </div> */}
 
           <div className="space-y-4 sm:space-y-5 md:space-y-6">
             {/* Email */}

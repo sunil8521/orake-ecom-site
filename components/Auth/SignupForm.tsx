@@ -91,21 +91,21 @@ export default function SignupForm() {
           </h3>
 
           {/* Google Slide */}
-          <div className="mb-5 sm:mb-6">
+          {/* <div className="mb-5 sm:mb-6">
             <SlideToGoogle
               onSlideComplete={handleGoogleSignUp}
               disabled={isSubmitting}
               loading={googleLoading}
               label="Slide to Sign up with Google"
             />
-          </div>
+          </div> */}
 
           {/* Divider */}
-          <div className="flex items-center gap-4 mb-5 sm:mb-6">
+          {/* <div className="flex items-center gap-4 mb-5 sm:mb-6">
             <div className="flex-1 h-px bg-gray-200" />
             <span className={`${textFont.className} text-gray-400 text-sm uppercase tracking-widest`}>or</span>
             <div className="flex-1 h-px bg-gray-200" />
-          </div>
+          </div> */}
 
           <div className="space-y-3 sm:space-y-4 md:space-y-5">
             {/* Name */}
