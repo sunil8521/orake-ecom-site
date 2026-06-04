@@ -132,7 +132,7 @@ export default function CheckoutForm({ initialCartItems, user, initialAddresses 
 
         const options: any = {
           key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-          amount: res.totalPrice * 100, // paise
+          amount: (res.totalPrice || 0) * 100, // paise
           currency: "INR",
           name: "Orake",
           description: "Order Payment",

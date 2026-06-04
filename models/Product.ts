@@ -15,6 +15,7 @@ export interface IProduct {
     subImages?: string[],
     stock: number,
     numReviews: number,
+    rating?: number,
     isFeatured: boolean
 }
 export interface ProductType extends IProduct{

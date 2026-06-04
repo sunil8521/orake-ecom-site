@@ -22,8 +22,8 @@ interface ProductInfoProps {
     discount: number;
     size: string;
     image: string;
-    numReviews: number;
-    rating: number;
+    numReviews?: number;
+    rating?: number;
     description: string;
   };
   relatedProduct: {
@@ -127,7 +127,7 @@ export default function ProductInfo({ product, relatedProduct, initialIsWishlist
             <StarRating rating={product.rating || 0} className="w-5 h-5 sm:w-6 sm:h-6" />
           </div>
           <span className={`${bodyFont.className} text-sm font-bold text-gray-400 hover:text-[#15161b] uppercase tracking-widest ml-2 transition-colors`}>
-            {product.numReviews > 0 ? product.numReviews : 0} Reviews
+            {product.numReviews || 0} Reviews
           </span>
         </div>
       </div>
