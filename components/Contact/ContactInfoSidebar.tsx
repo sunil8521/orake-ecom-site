@@ -40,7 +40,7 @@ export default function ContactInfoSidebar() {
           </div>
           <div className="pl-[3.25rem] space-y-1">
             <p className={`${textFont.className} text-lg font-medium tracking-wide`}>+1 (800) ORAKE-UP</p>
-            <p className={`${textFont.className} text-sm text-white/60`}>raj@drinkorake.com</p>
+            <p className={`${textFont.className} text-sm text-white/60`}>contact@drinkorake.com</p>
           </div>
         </div>
 

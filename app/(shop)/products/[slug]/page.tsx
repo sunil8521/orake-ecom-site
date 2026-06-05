@@ -28,24 +28,11 @@ async function ProductDetailsContent({ params }: { params: Promise<{ slug: strin
     const isWishlisted = wishlistItems.includes(product._id.toString());
 
     // Prepare gallery images
-    let galleryImages = [product.image];
+    const mainImageUrl = typeof product.image === 'string' ? product.image : (product.image as any)?.url || '';
+    let galleryImages = [mainImageUrl];
+    
     if (product.subImages && product.subImages.length > 0) {
-        galleryImages = [product.image, ...product.subImages];
-    } else {
-        const isStrawberry = product.image.includes("can1");
-        if (isStrawberry) {
-            galleryImages = [
-                "/orake-strawberry-clean.png",
-                "/orake-strawberry-ingredients.png",
-                "/orake-strawberry-pour.png",
-            ];
-        } else {
-             galleryImages = [
-                "/orake-ginger-lemon-clean.png",
-                "/orake-ginger-lemon-ingredients.png",
-                "/orake-ginger-lemon-pour.png",
-            ];
-        }
+        galleryImages = product.subImages.map((img: any) => typeof img === 'string' ? img : img?.url || '');
     }
 
     const allProducts = await getFeaturedProducts();

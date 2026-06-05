@@ -1,11 +1,20 @@
 import nodemailer from "nodemailer";
 
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  pool: true, // Use pooled connections
+  host: process.env.EMAIL_HOST || "smtpout.secureserver.net",
+  port: parseInt(process.env.EMAIL_PORT || "465"),
+  secure: process.env.EMAIL_PORT !== "587", // true for 465, false for 587
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
+  tls: {
+    // do not fail on invalid certs and allow legacy ciphers
+    rejectUnauthorized: false,
+    ciphers: "SSLv3",
+  },
+  maxConnections: 1, // GoDaddy sometimes limits concurrent connections heavily
 });
 
 export function generateOTP(): string {
@@ -69,7 +78,7 @@ export async function sendContactEmail(data: {
 }) {
   const mailOptions = {
     from: `"Orake Contact Form" <${process.env.EMAIL_USER}>`,
-    to: process.env.EMAIL_USER, // Send to the admin
+    to: process.env.ADMIN_EMAIL, // Send to the admin
     replyTo: data.email,
     subject: `New Contact Form Submission: ${data.subject || 'General Inquiry'}`,
     html: `
@@ -105,7 +114,7 @@ export async function sendPartnerEmail(data: {
 }) {
   const mailOptions = {
     from: `"Orake Partnership Program" <${process.env.EMAIL_USER}>`,
-    to: process.env.EMAIL_USER, // Send to admin
+    to: process.env.ADMIN_EMAIL, // Send to admin
     replyTo: data.email,
     subject: `New Partnership Request: ${data.companyName} (${data.partnershipType})`,
     html: `
@@ -132,3 +141,35 @@ export async function sendPartnerEmail(data: {
   await transporter.sendMail(mailOptions);
 }
 
+export async function sendWaitlistEmail(data: {
+  name: string;
+  email: string;
+  cartItems: any[];
+  total: number;
+}) {
+  const mailOptions = {
+    from: `"Orake Waitlist" <${process.env.EMAIL_USER}>`,
+    to: process.env.ADMIN_EMAIL,
+    replyTo: data.email,
+    subject: `New Early Customer Waitlist: ${data.name}`,
+    html: `
+      <div style="font-family: 'Helvetica Neue', Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #f4f4f5; padding: 30px; border-radius: 12px;">
+        <h2 style="color: #15161b; text-transform: uppercase; border-bottom: 2px solid #de3e4f; padding-bottom: 10px; margin-bottom: 20px;">
+          Early Access Customer Checkout
+        </h2>
+        <div style="background: #ffffff; padding: 20px; border-radius: 8px;">
+          <p><strong>Customer Name:</strong> ${data.name}</p>
+          <p><strong>Customer Email:</strong> ${data.email}</p>
+          <hr style="border: 0; border-top: 1px solid #e5e7eb; margin: 20px 0;" />
+          <p><strong>Cart Items:</strong></p>
+          <ul>
+            ${data.cartItems.map((item: any) => `<li>${item.quantity || item.qty || 1}x ${item.name} (₹${item.price})</li>`).join('')}
+          </ul>
+          <p><strong>Total Value:</strong> ₹${data.total}</p>
+        </div>
+      </div>
+    `,
+  };
+
+  await transporter.sendMail(mailOptions);
+}

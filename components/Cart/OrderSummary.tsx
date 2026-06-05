@@ -1,5 +1,5 @@
 "use client";
-import { ArrowRight, Tag, Shield, RotateCcw, Loader2, CheckCircle, Percent } from "lucide-react";
+import { ArrowRight, Tag, Shield, RotateCcw, Loader2, CheckCircle, Percent, X } from "lucide-react";
 import { titleFont, textFont } from "@/lib/fonts";
 import { useState } from "react";
 import { createRazorpayOrder } from "@/actions/payment";
@@ -7,6 +7,8 @@ import { useAuthStore } from "@/store/useAuthStore";
 import { useSession } from "@/lib/auth-client";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+
+import { processWaitlistCheckout } from "@/actions/waitlist";
 
 interface OrderSummaryProps {
   subtotal: number;
@@ -19,6 +21,7 @@ interface OrderSummaryProps {
 
 export default function OrderSummary({ subtotal, savings, total, itemsQty, pastOrdersCount, onPaymentSuccess }: OrderSummaryProps) {
   const [isProcessing, setIsProcessing] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const { openAuthModal } = useAuthStore();
   const { data: session } = useSession();
   const user = session?.user;
@@ -39,16 +42,26 @@ export default function OrderSummary({ subtotal, savings, total, itemsQty, pastO
   const finalTotal = Math.max(0, total - autoDiscount);
   const isValidCheckout = itemsQty >= 2;
 
-  const handleCheckout = () => {
+  const handleCheckout = async () => {
     if (!isValidCheckout) return;
     if (!user) {
       toast.error("Please login to complete your order");
       openAuthModal("login");
       return;
     }
-    
-    router.push(`/checkout`);
+        // router.push(`/checkout`);
+    setIsProcessing(true);
+    const res = await processWaitlistCheckout(finalTotal);
+    setIsProcessing(false);
+
+    if (res.success) {
+      setShowModal(true);
+    } else {
+      toast.error("Failed to process your request. Please try again.");
+    }
+    //------
   };
+
   return (
     <div className="w-full lg:w-[380px] xl:w-[420px] shrink-0">
       <div className="bg-[#15161b] rounded-[1.5rem] p-6 sm:p-8 text-white shadow-xl lg:sticky lg:top-28">
@@ -59,14 +72,14 @@ export default function OrderSummary({ subtotal, savings, total, itemsQty, pastO
         {/* Price Breakdown */}
         <div className="space-y-4 mb-7">
           <div className="flex justify-between items-baseline">
-            <span className={`${textFont.className} text-gray-400 text-sm sm:text-base`}>Subtotal</span>
-            <span className={`${textFont.className} text-white text-sm sm:text-base font-semibold`}>₹{subtotal.toFixed(0)}</span>
+            <span className={`${textFont.className} text-gray-400 text-sm sm:text-base`}>Original Price</span>
+            <span className={`${textFont.className} text-white text-sm sm:text-base font-semibold`}>₹{originalSubtotal.toFixed(0)}</span>
           </div>
 
           {savings > 0 && (
             <div className="flex justify-between items-baseline">
               <span className={`${textFont.className} text-[#4ade80] text-sm sm:text-base flex items-center gap-1.5`}>
-                <Tag size={14} /> Savings
+                <Tag size={14} /> Product Savings
               </span>
               <span className={`${textFont.className} text-[#4ade80] text-sm sm:text-base font-semibold`}>
                 -₹{savings.toFixed(0)}
@@ -77,7 +90,7 @@ export default function OrderSummary({ subtotal, savings, total, itemsQty, pastO
           {autoDiscount > 0 && (
             <div className="flex justify-between items-baseline">
               <span className={`${textFont.className} text-[#dbba53] text-sm sm:text-base flex items-center gap-1.5`}>
-                <Percent size={14} /> Auto Discount
+                <Percent size={14} /> Extra Discount
               </span>
               <div className="text-right">
                 <span className={`${textFont.className} text-[#dbba53] text-[10px] block mb-0.5 uppercase tracking-widest`}>{discountLabel}</span>
@@ -90,15 +103,15 @@ export default function OrderSummary({ subtotal, savings, total, itemsQty, pastO
 
           <div className="h-px bg-white/10 !mt-5" />
 
-          <div className="flex justify-between items-baseline !mt-4">
-            <span className={`${textFont.className} text-white text-base sm:text-lg font-bold uppercase tracking-widest`}>Total</span>
-            <div className="text-right">
-              {autoDiscount > 0 && (
-                <span className={`${textFont.className} text-gray-500 text-xs line-through block mb-0.5`}>
-                  ₹{total.toFixed(0)}
+          <div className="flex justify-between items-end !mt-5">
+            <span className={`${textFont.className} text-white text-base sm:text-lg font-bold uppercase tracking-widest mb-1`}>Total</span>
+            <div className="text-right flex flex-col items-end">
+              {(savings > 0 || autoDiscount > 0) && (
+                <span className={`${textFont.className} text-gray-400 text-sm sm:text-base line-through mb-1 decoration-[#c25b5e] decoration-2`}>
+                  ₹{originalSubtotal.toFixed(0)}
                 </span>
               )}
-              <span className={`${titleFont.className} text-white text-3xl sm:text-4xl tracking-tight`}>
+              <span className={`${titleFont.className} text-white text-4xl sm:text-5xl tracking-tight leading-none`}>
                 ₹{finalTotal.toFixed(0)}
               </span>
             </div>
@@ -140,6 +153,37 @@ export default function OrderSummary({ subtotal, savings, total, itemsQty, pastO
           ))}
         </div>
       </div>
+
+      {/* Early Access Modal */}
+      {showModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+          <div className="bg-[#15161b] border border-[#c25b5e]/30 rounded-3xl p-8 max-w-md w-full relative shadow-2xl animate-in fade-in zoom-in duration-300">
+            <button 
+              onClick={() => setShowModal(false)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-white transition"
+            >
+              <X size={24} />
+            </button>
+            <div className="text-center">
+              <div className="w-16 h-16 bg-[#c25b5e]/20 text-[#c25b5e] rounded-full flex items-center justify-center mx-auto mb-6">
+                <CheckCircle size={32} />
+              </div>
+              <h2 className={`${titleFont.className} text-2xl sm:text-3xl text-white mb-4 uppercase tracking-wide`}>
+                You're on the list!
+              </h2>
+              <p className={`${textFont.className} text-gray-400 text-sm sm:text-base mb-6 leading-relaxed`}>
+                Thank you for choosing us, you are our early customer! We have saved your preferences and <strong className="text-white">we will contact you when the product is ready</strong> for official launch.
+              </p>
+              <button
+                onClick={() => setShowModal(false)}
+                className={`${textFont.className} w-full bg-[#c25b5e] hover:bg-[#de3e4f] text-white py-3 sm:py-4 rounded-xl text-sm font-bold uppercase tracking-[0.1em] transition-all duration-300`}
+              >
+                Got it, Thanks!
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -287,9 +287,9 @@ export default function BecomePartnerSection() {
                         className={`${textFont.className} w-full bg-white border ${errors.volume ? 'border-[#de3e4f]' : 'border-gray-200'} px-4 py-3.5 text-base font-medium text-[#15161b] appearance-none rounded-xl focus:border-[#de3e4f] focus:ring-2 focus:ring-[#de3e4f]/10 focus:outline-none transition-all pr-10 disabled:opacity-50`}
                       >
                         <option value="">Select range</option>
-                        <option value="small">&lt; 100 cases / month</option>
-                        <option value="medium">100 - 500 cases / month</option>
-                        <option value="large">500 - 2,000 cases / month</option>
+                        <option value="small">&lt; 500 cases / month</option>
+                        <option value="medium">500 - 1000 cases / month</option>
+                        <option value="large">1000 - 2,000 cases / month</option>
                         <option value="enterprise">2,000+ cases / month</option>
                       </select>
                       <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400 text-xs">▼</div>

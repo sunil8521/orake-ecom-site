@@ -51,7 +51,7 @@ export default function WishlistCard({ item, onRemove }: WishlistCardProps) {
       <Link href={`/products/${item.slug}`} className="block">
         {/* Image */}
         <div className={`relative h-52 sm:h-56 flex items-center justify-center bg-gray-50 ${!item.stock ? "opacity-40" : ""}`}>
-          <Image src={item.image} alt={item.name} width={200} height={350}
+          <Image src={typeof item.image === 'string' ? item.image : (item.image as any)?.url || ''} alt={item.name} width={200} height={350}
             className="h-[125%] w-auto object-contain drop-shadow-[0_15px_25px_rgba(0,0,0,0.15)] group-hover:scale-110 group-hover:-translate-y-2 transition-all duration-500"
             style={{ width: 'auto', height: 'auto' }}
           />

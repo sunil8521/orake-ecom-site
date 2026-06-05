@@ -133,7 +133,7 @@ export default async function Testimonials() {
                 Thousands of sippers trust our small-batch flavors — handcrafted, naturally delicious, and ready for your next adventure.
               </p>
               <p className="text-sm text-gray-500 mt-2">
-                Want to share your experience? Send it to raj@drinkorake.com and we might feature it here.
+                Want to share your experience? Send it to contact@drinkorake.com and we might feature it here.
               </p>
             </div>
           </div>

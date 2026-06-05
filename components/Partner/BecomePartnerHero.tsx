@@ -13,7 +13,7 @@ export default function BecomePartnerHero() {
           initial={{ scale: 1.05 }}
           animate={{ scale: 1 }}
           transition={{ duration: 5, ease: "easeOut" }}
-          className="w-full h-full object-cover  object-[center_10%] lg:object-[center_10%] opacity-100"
+          className="w-full h-full object-cover  object-[center_30%] lg:object-[center_26%] opacity-100"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-[#15161b]/90 md:from-[#15161b] via-[#15161b]/40 md:via-[#15161b]/80 to-transparent w-[85%] md:w-1/2" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#15161b]/60 md:from-[#15161b] via-transparent md:via-[#15161b]/10 to-transparent" />

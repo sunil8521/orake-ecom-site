@@ -303,7 +303,7 @@ export default function CheckoutForm({ initialCartItems, user, initialAddresses 
                 <div key={item.id} className="flex justify-between items-start text-sm">
                   <div className="flex gap-3">
                     <div className="w-12 h-12 bg-white/5 rounded-lg flex items-center justify-center p-1 shrink-0">
-                      <img src={item.image} alt={item.name} className="h-full object-contain drop-shadow-md" />
+                      <img src={typeof item.image === 'string' ? item.image : (item.image as any)?.url || ''} alt={item.name} className="h-full object-contain drop-shadow-md" />
                     </div>
                     <div>
                       <p className={`${textFont.className} font-bold`}>{item.name}</p>

@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { bodyFont } from "@/lib/fonts";
 export default function EnergyDrinksDealBanner() {
@@ -66,11 +67,11 @@ export default function EnergyDrinksDealBanner() {
             Your gut&apos;s been waiting for this. Grab your favorite prebiotic fiber blends before they sell out.
           </p>
 
-          <button className="relative w-fit px-8 sm:px-10 lg:px-12 py-3.5 sm:py-4 lg:py-5 bg-white text-[#8a9b87] rounded-full font-bold shadow-[0_15px_30px_rgba(0,0,0,0.15)] overflow-hidden hover:bg-[#15161b] hover:text-white transition-all duration-300 group">
+          <Link href="/products" className="relative w-fit px-8 sm:px-10 lg:px-12 py-3.5 sm:py-4 lg:py-5 bg-white text-[#8a9b87] rounded-full font-bold shadow-[0_15px_30px_rgba(0,0,0,0.15)] overflow-hidden hover:bg-[#15161b] hover:text-white transition-all duration-300 group block">
             <span className="relative z-10 text-sm sm:text-lg lg:text-xl flex items-center gap-3">
               Shop Now <span className="text-lg sm:text-xl lg:text-2xl leading-none transition-transform group-hover:translate-x-1">→</span>
             </span>
-          </button>
+          </Link>
         </motion.div>
 
         {/* 3D Floating Cans */}

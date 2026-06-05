@@ -1,6 +1,10 @@
 import { headingFont } from "@/lib/fonts";
 
 export default function TaglineBanner() {
+  const phrase = "WHEREVER YOU ARE  •  ENJOY SOLO  •  SHARE WITH FRIENDS  •  CHOOSE ORAKE  •  NEW AGE OF SODA";
+  const gap = "\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0"; // 10 spaces
+  const repeatedText = `${phrase}${gap}${phrase}${gap}${phrase}${gap}${phrase}${gap}${phrase}${gap}${phrase}`;
+
   return (
     <section className="relative w-full max-w-[100vw] overflow-hidden bg-white py-6 md:py-10">
       <div className="w-full relative flex justify-center items-center">
@@ -43,12 +47,12 @@ export default function TaglineBanner() {
             className={`${headingFont.className} fill-[#ffffff] text-[30px] uppercase tracking-normal`}
           >
             <textPath href="#taglineFlowPath" startOffset="100%">
-              WHEREVER YOU ARE  •  ENJOY SOLO  •  SHARE WITH FRIENDS  •  CHOOSE ORAKE  •  WHEREVER YOU ARE  •  ENJOY SOLO  •  SHARE WITH FRIENDS  •  CHOOSE ORAKE 
+              {repeatedText}
               <animate
                 attributeName="startOffset"
                 from="100%"
-                to="-100%"
-                dur="20s"
+                to="-500%"
+                dur="80s"
                 repeatCount="indefinite"
               />
             </textPath>

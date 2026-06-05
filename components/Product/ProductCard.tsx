@@ -128,7 +128,7 @@ export default function ProductCard({ product, isWishlist }: ProductCardProps) {
                             <div className="absolute bottom-[15px] left-1/2 -translate-x-1/2 z-[5] w-[40%] h-[10px] sm:h-[12px] rounded-[50%] bg-[radial-gradient(ellipse,rgba(0,0,0,0.25)_0%,transparent_70%)] group-hover:w-[45%] group-hover:h-[8px] transition-all duration-500 pointer-events-none" />
 
                             <img
-                                src={product.image}
+                                src={typeof product.image === 'string' ? product.image : (product.image as any)?.url || ''}
                                 alt={product.name}
                                 className="h-full w-auto object-contain drop-shadow-[0_10px_18px_rgba(0,0,0,0.12)] group-hover:scale-105 group-hover:-translate-y-1 transition-all duration-500 pointer-events-auto"
                             />

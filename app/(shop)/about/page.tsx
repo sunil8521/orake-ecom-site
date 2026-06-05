@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Hero from "@/components/About/Hero";
 import AboutUs from "@/components/About/AboutUs";
+import VisionMission from "@/components/About/VisionMission";
 import FooterBanner from "@/components/About/FooterBanner";
 
 export const metadata: Metadata = {
@@ -14,6 +15,7 @@ export default function AboutPage() {
 			<main>
 				<Hero />
 				<AboutUs />
+				<VisionMission />
 				{/* <VideoSection /> */}
 			</main>
 			<FooterBanner />

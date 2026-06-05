@@ -24,7 +24,7 @@ export default function CartItem({ item, onUpdateQty, onRemove }: CartItemProps)
         {/* Image — clickable, links to product page */}
         <Link href={`/products/${item.flavor}`} className="w-20 h-24 sm:w-28 sm:h-32 bg-gradient-to-b from-gray-50 to-gray-100/50 rounded-xl flex items-center justify-center shrink-0 border border-gray-100 relative overflow-hidden group-hover:border-gray-200 transition-colors">
           <Image 
-            src={item.image} 
+            src={typeof item.image === 'string' ? item.image : (item.image as any)?.url || ''} 
             alt={item.name} 
             width={150} 
             height={250} 

@@ -20,7 +20,8 @@ export interface AdminProduct {
   oldPrice?: number;
   discount?: number;
   stock: number;
-  image: string;
+  image: { publicId: string; url: string; };
+  subImages?: { publicId: string; url: string; }[];
   size: string;
   isFeatured: boolean;
   numReviews: number;

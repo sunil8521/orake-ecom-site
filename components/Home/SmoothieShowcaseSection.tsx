@@ -51,9 +51,6 @@ export default function SmoothieShowcaseSection() {
             <div className="relative z-10 flex flex-col items-center text-center mt-auto pb-10">
               <h2 className="text-white text-4xl xl:text-5xl font-bold mb-2">Strawberry Vanilla</h2>
               <p className="text-white/90 text-lg xl:text-xl mb-5 font-normal">Prebiotic Fiber Drink</p>
-              <button className="flex items-center justify-center gap-2 px-8 py-3 border border-white/70 rounded-full text-white font-semibold hover:bg-white hover:text-[#cf797e] transition-colors shadow-sm">
-                View more <span className="text-xl">→</span>
-              </button>
             </div>
           </div>
 
@@ -84,9 +81,6 @@ export default function SmoothieShowcaseSection() {
             <div className="relative z-10 flex flex-col items-center text-center mt-auto pb-10">
               <h2 className="text-white text-4xl xl:text-5xl font-bold mb-2">Ginger Lemon</h2>
               <p className="text-white/90 text-lg xl:text-xl mb-5 font-normal">Zero Sugar</p>
-              <button className="flex items-center justify-center gap-2 px-8 py-3 border border-white/70 rounded-full text-white font-semibold hover:bg-white hover:text-[#dbba53] transition-colors shadow-sm">
-                View more <span className="text-xl">→</span>
-              </button>
             </div>
           </div>
         </div>
@@ -109,9 +103,6 @@ export default function SmoothieShowcaseSection() {
           <div className="text-center w-full flex flex-col items-center pb-6">
             <h2 className="text-white text-3xl sm:text-4xl font-bold mb-1">Strawberry Vanilla</h2>
             <p className="text-white/90 text-sm sm:text-base mb-3 font-normal">Prebiotic Fiber Drink</p>
-            <button className="flex items-center justify-center gap-2 px-6 py-2.5 border border-white/70 rounded-full text-white text-sm font-semibold hover:bg-white hover:text-[#cf797e] transition-colors shadow-sm w-fit">
-              View more →
-            </button>
           </div>
         </div>
 
@@ -128,9 +119,6 @@ export default function SmoothieShowcaseSection() {
           <div className="text-center w-full flex flex-col items-center pb-6">
             <h2 className="text-white text-3xl sm:text-4xl font-bold mb-1">Ginger Lemon</h2>
             <p className="text-white/90 text-sm sm:text-base mb-3 font-normal">Zero Sugar</p>
-            <button className="flex items-center justify-center gap-2 px-6 py-2.5 border border-white/70 rounded-full text-white text-sm font-semibold hover:bg-white hover:text-[#dbba53] transition-colors shadow-sm w-fit">
-              View more →
-            </button>
           </div>
         </div>
 

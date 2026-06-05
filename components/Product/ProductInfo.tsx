@@ -207,7 +207,7 @@ export default function ProductInfo({ product, relatedProduct, initialIsWishlist
           <Link href={`/products/${relatedProduct.slug}`} className="w-full">
             <div className="flex items-center gap-4 px-4 py-3 bg-white border border-gray-100 rounded-full shadow-[0_2px_10px_rgba(0,0,0,0.02)] hover:shadow-[0_8px_20px_rgba(194,91,94,0.08)] hover:border-[#c25b5e]/20 transition-all duration-300 group cursor-pointer">
               <div className="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center p-1.5 shrink-0 transition-transform duration-300 group-hover:scale-110 group-hover:bg-red-50/50">
-                <img src={relatedProduct.image} className="w-full h-full object-contain drop-shadow-sm" />
+                <img src={typeof relatedProduct.image === 'string' ? relatedProduct.image : (relatedProduct.image as any)?.url || ''} className="w-full h-full object-contain drop-shadow-sm" />
               </div>
               <span className={`${bodyFont.className} text-xs font-bold uppercase tracking-widest group-hover:text-[#c25b5e] transition-colors truncate`}>
                 {relatedProduct.name}

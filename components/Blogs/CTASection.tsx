@@ -1,5 +1,5 @@
 import { titleFont, textFont } from "@/lib/fonts";
-
+import Link from "next/link";
 
 export default function CTASection() {
   return (
@@ -16,16 +16,16 @@ export default function CTASection() {
 
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-8">
           <div className="flex flex-wrap gap-4">
-            <button className={`${textFont.className} bg-[#de3e4f] text-white text-lg font-bold uppercase tracking-wider px-10 py-4 rounded-full hover:bg-black transition-all duration-300 shadow-[0_10px_20px_rgba(222,62,79,0.3)] hover:shadow-lg active:scale-95`}>
+            <Link href="/products" className={`${textFont.className} bg-[#de3e4f] text-white text-lg font-bold uppercase tracking-wider px-10 py-4 rounded-full hover:bg-black transition-all duration-300 shadow-[0_10px_20px_rgba(222,62,79,0.3)] hover:shadow-lg active:scale-95`}>
               Shop The Drop
-            </button>
-            <button className={`${textFont.className} bg-white text-[#15161b] border-2 border-[#15161b] text-lg font-bold uppercase tracking-wider px-10 py-4 rounded-full hover:bg-[#15161b] hover:text-white transition-all duration-300 active:scale-95`}>
+            </Link>
+            <a href="https://instagram.com/drinkorake" target="_blank" rel="noopener noreferrer" className={`${textFont.className} bg-white text-[#15161b] border-2 border-[#15161b] text-lg font-bold uppercase tracking-wider px-10 py-4 rounded-full hover:bg-[#15161b] hover:text-white transition-all duration-300 active:scale-95`}>
               Follow The Culture
-            </button>
+            </a>
           </div>
 
           <p className={`${textFont.className} text-gray-500 text-lg font-medium tracking-wide`}>
-            Sign up to our list for <span className="text-[#de3e4f] font-bold">15% off</span> your first case.
+            Sign up to our list for <span className="text-[#de3e4f] font-bold">20% off</span> your first case.
           </p>
         </div>
 

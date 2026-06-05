@@ -3,6 +3,11 @@ import slugify from "slugify"
 
 
 
+export interface IImage {
+    publicId: string;
+    url: string;
+}
+
 export interface IProduct {
     name: string,
     slug: string,
@@ -11,16 +16,16 @@ export interface IProduct {
     oldPrice: number,
     discount: number,
     size: string,
-    image: string,
-    subImages?: string[],
+    image: IImage,
+    subImages?: IImage[],
     stock: number,
     numReviews: number,
     rating?: number,
     isFeatured: boolean
 }
-export interface ProductType extends IProduct{
-    _id:string
-} 
+export interface ProductType extends IProduct {
+    _id: string
+}
 
 const ProcutSchema = new mongoose.Schema<IProduct>({
     name: {
@@ -54,12 +59,15 @@ const ProcutSchema = new mongoose.Schema<IProduct>({
         default: "250ML"
     },
     image: {
-        type: String,
-        required: true
+        publicId: { type: String },
+        url: { type: String, required: true }
     },
     subImages: {
-        type: [String],
-        validate: [function (val: string[]) {
+        type: [{
+            publicId: { type: String },
+            url: { type: String, required: true }
+        }],
+        validate: [function (val: any[]) {
             return val.length <= 5;
         }, 'Sub images exceed the limit of 5']
     },

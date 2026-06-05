@@ -1,19 +1,19 @@
 "use client";
 import { useState, useTransition, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Plus, Search, Edit2, Trash2, X, Star, Loader2, ChevronLeft, ChevronRight, ImagePlus, UploadCloud } from "lucide-react";
+import { Plus, Search, Edit2, Trash2, X, Star, Loader2, ChevronLeft, ChevronRight, ImagePlus, UploadCloud, PackageX } from "lucide-react";
 import { adminTitleFont as tf, adminTextFont as tx } from "@/lib/fonts";
 import { createProduct, updateProduct, deleteProduct } from "@/actions/admin-products";
 import type { AdminProduct } from "@/lib/data/admin-products";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useForm } from "react-hook-form";
 import { useAdminProductStore } from "@/store/useAdminProductStore";
-import { uploadImageAction } from "@/actions/upload";
+import { uploadImageAction, deleteImageAction } from "@/actions/upload";
 import { toast } from "sonner";
 
-type ProductForm = { name: string; description: string; price: string; oldPrice: string; discount: string; stock: string; size: string; image: string; isFeatured: boolean; };
+type ProductForm = { name: string; description: string; price: string; oldPrice: string; discount: string; stock: string; size: string; isFeatured: boolean; };
 
-const emptyForm: ProductForm = { name: "", description: "", price: "", oldPrice: "", discount: "", stock: "", size: "250ML", image: "", isFeatured: false };
+const emptyForm: ProductForm = { name: "", description: "", price: "", oldPrice: "", discount: "", stock: "", size: "250ML", isFeatured: false };
 
 function Pagination({ page, totalPages, total, onPage }: { page: number; totalPages: number; total: number; onPage: (p: number) => void }) {
   if (totalPages <= 1) return null;
@@ -47,14 +47,20 @@ export default function AdminProductsClient({
   const [isPending, startTransition] = useTransition();
 
   const [optimisticProducts, setOptimisticProducts] = useState<AdminProduct[]>(initialProducts);
-  
+
   const [searchValue, setSearchValue] = useState(currentSearch);
   const debouncedSearch = useDebounce(searchValue, 350);
 
   const { isModalOpen, editProduct, openModal, closeModal } = useAdminProductStore();
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [existingImage, setExistingImage] = useState<{ publicId: string, url: string } | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+
+  const [newSubFiles, setNewSubFiles] = useState<File[]>([]);
+  const [existingSubImages, setExistingSubImages] = useState<{ publicId: string, url: string }[]>([]);
+  const [subPreviewUrls, setSubPreviewUrls] = useState<string[]>([]);
+
   const [isUploading, setIsUploading] = useState(false);
 
   const { register, handleSubmit, reset, formState: { errors }, setValue } = useForm<ProductForm>({
@@ -64,8 +70,14 @@ export default function AdminProductsClient({
   useEffect(() => {
     if (isModalOpen) {
       setSelectedFile(null);
+      setNewSubFiles([]);
+      setSubPreviewUrls([]);
+
       if (editProduct) {
-        setPreviewUrl(editProduct.image);
+        setExistingImage(editProduct.image);
+        setPreviewUrl(editProduct.image?.url || null);
+        setExistingSubImages(editProduct.subImages || []);
+
         reset({
           name: editProduct.name,
           description: editProduct.description,
@@ -74,11 +86,12 @@ export default function AdminProductsClient({
           discount: editProduct.discount ? String(editProduct.discount) : "",
           stock: String(editProduct.stock),
           size: editProduct.size || "250ML",
-          image: editProduct.image,
           isFeatured: editProduct.isFeatured || false,
         });
       } else {
+        setExistingImage(null);
         setPreviewUrl(null);
+        setExistingSubImages([]);
         reset(emptyForm);
       }
     }
@@ -97,7 +110,7 @@ export default function AdminProductsClient({
   const updateURL = (updates: Record<string, string | number | null>) => {
     const params = new URLSearchParams(searchParams.toString());
     let hasChanges = false;
-    
+
     Object.entries(updates).forEach(([key, value]) => {
       if (value === null || value === "") {
         if (params.has(key)) { params.delete(key); hasChanges = true; }
@@ -122,66 +135,147 @@ export default function AdminProductsClient({
       }
       setSelectedFile(file);
       setPreviewUrl(URL.createObjectURL(file));
-      setValue("image", file.name); // Set form value to pass validation
+      setExistingImage(null);
     }
   };
 
-  const onSubmit = async (form: ProductForm) => {
-    setIsUploading(true);
-    let imageUrl = form.image;
+  const handleSubImagesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    if (!files.length) return;
 
-    if (selectedFile) {
-      const formData = new FormData();
-      formData.append("file", selectedFile);
-      
-      const uploadResult = await uploadImageAction(formData);
-      
-      if (!uploadResult.success || !uploadResult.url) {
-        toast.error(uploadResult.error || "Failed to upload image");
+    const totalCurrent = existingSubImages.length + newSubFiles.length;
+    if (totalCurrent + files.length > 5) {
+      toast.error(`You can only have up to 5 sub-images. You can add ${5 - totalCurrent} more.`);
+      return;
+    }
+
+    const validFiles = files.filter(f => {
+      if (f.size > 5 * 1024 * 1024) {
+        toast.error(`${f.name} exceeds 5MB limit`);
+        return false;
+      }
+      return true;
+    });
+
+    setNewSubFiles(prev => [...prev, ...validFiles]);
+    setSubPreviewUrls(prev => [...prev, ...validFiles.map(f => URL.createObjectURL(f))]);
+  };
+
+  const removeExistingSubImage = (index: number) => {
+    setExistingSubImages(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const removeNewSubImage = (index: number) => {
+    setNewSubFiles(prev => prev.filter((_, i) => i !== index));
+    setSubPreviewUrls(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const onSubmit = async (form: ProductForm) => {
+    let newlyUploadedIds: string[] = [];
+    try {
+      setIsUploading(true);
+      let finalImage = existingImage;
+
+      if (selectedFile) {
+        const formData = new FormData();
+        formData.append("file", selectedFile);
+        const uploadResult = await uploadImageAction(formData);
+        if (!uploadResult.success || !uploadResult.url || !uploadResult.publicId) {
+          toast.error(uploadResult.error || "Failed to upload main image");
+          setIsUploading(false);
+          return;
+        }
+        finalImage = { url: uploadResult.url, publicId: uploadResult.publicId };
+        newlyUploadedIds.push(uploadResult.publicId);
+      } else if (!editProduct && !existingImage) {
+        toast.error("Please select a main image");
         setIsUploading(false);
         return;
       }
-      
-      imageUrl = uploadResult.url;
-    } else if (!editProduct && !form.image) {
-       toast.error("Please select an image");
-       setIsUploading(false);
-       return;
-    }
 
-    startTransition(async () => {
-      const data = { 
-        name: form.name, 
-        description: form.description, 
-        price: Number(form.price), 
-        oldPrice: form.oldPrice ? Number(form.oldPrice) : undefined, 
-        discount: form.discount ? Number(form.discount) : undefined, 
-        stock: Number(form.stock), 
-        size: form.size, 
-        image: imageUrl, 
-        isFeatured: form.isFeatured 
-      };
-      
-      if (editProduct) {
-        await updateProduct(editProduct._id, data);
-      } else {
-        await createProduct(data);
+      const uploadedSubImages: { publicId: string, url: string }[] = [];
+      for (const file of newSubFiles) {
+        const formData = new FormData();
+        formData.append("file", file);
+        const uploadResult = await uploadImageAction(formData);
+        if (uploadResult.success && uploadResult.url && uploadResult.publicId) {
+          uploadedSubImages.push({ url: uploadResult.url, publicId: uploadResult.publicId });
+          newlyUploadedIds.push(uploadResult.publicId);
+        } else {
+          toast.error(`Failed to upload ${file.name}`);
+        }
       }
-      
+
+      const finalSubImages = [...existingSubImages, ...uploadedSubImages];
+
+      startTransition(async () => {
+        try {
+          const data = {
+            name: form.name,
+            description: form.description,
+            price: Number(form.price),
+            oldPrice: form.oldPrice ? Number(form.oldPrice) : undefined,
+            discount: form.discount ? Number(form.discount) : undefined,
+            stock: Number(form.stock),
+            size: form.size,
+            image: finalImage!,
+            subImages: finalSubImages,
+            isFeatured: form.isFeatured
+          };
+
+          let result;
+          if (editProduct) {
+            result = await updateProduct(editProduct._id, data);
+          } else {
+            result = await createProduct(data);
+          }
+
+          if (!result.success) {
+            throw new Error(result.error);
+          }
+
+          setIsUploading(false);
+          closeModal();
+          router.refresh();
+        } catch (err: any) {
+          console.error(err);
+          toast.error(err.message || "Failed to save product");
+
+          for (const id of newlyUploadedIds) {
+            try {
+              await deleteImageAction(id);
+            } catch (e) {
+              console.error("Rollback failed for", id, e);
+            }
+          }
+
+          setIsUploading(false);
+        }
+      });
+    } catch (err: any) {
+      console.error(err);
+      toast.error(err.message || "An error occurred during file upload");
+
+      for (const id of newlyUploadedIds) {
+        try {
+          await deleteImageAction(id);
+        } catch (e) {
+          console.error("Rollback failed for", id, e);
+        }
+      }
+
       setIsUploading(false);
-      closeModal();
-      router.refresh(); 
-    });
+    }
   };
 
   const handleDelete = (id: string) => {
     if (!confirm("Delete this product?")) return;
-    
+
     setOptimisticProducts(prev => prev.filter(p => p._id !== id));
 
-    startTransition(async () => { 
-      await deleteProduct(id); 
-      router.refresh(); 
+    startTransition(async () => {
+      await deleteProduct(id);
+      router.refresh();
     });
   };
 
@@ -212,9 +306,21 @@ export default function AdminProductsClient({
       <div className={`flex-1 min-h-0 bg-white rounded-2xl border border-gray-100 shadow-sm flex flex-col overflow-hidden transition-opacity ${isPending ? 'opacity-60' : 'opacity-100'}`}>
         <div className="flex-1 overflow-y-auto overflow-x-auto">
           {optimisticProducts.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-40 gap-2">
-              <p className={`${tx.className} text-sm text-gray-400`}>{currentSearch ? "No products match your search" : "No products yet"}</p>
-              {!currentSearch && <button onClick={() => openModal()} className={`${tx.className} text-xs text-[#c25b5e] underline`}>Add first product</button>}
+            <div className="flex flex-col items-center justify-center h-full py-16 gap-3">
+              <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mb-2">
+                <PackageX className="w-8 h-8 text-gray-300" />
+              </div>
+              <p className={`${tf.className} text-lg text-[#15161b]`}>{currentSearch ? "No products found" : "No products yet"}</p>
+              <p className={`${tx.className} text-sm text-gray-400 max-w-sm text-center mb-2`}>
+                {currentSearch 
+                  ? "Try adjusting your search terms to find what you're looking for." 
+                  : "Get started by adding your first product to the catalog. Your products will appear here."}
+              </p>
+              {!currentSearch && (
+                <button onClick={() => openModal()} className={`${tx.className} bg-gray-100 hover:bg-gray-200 text-[#15161b] px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest flex items-center gap-2 transition-colors mt-2`}>
+                  <Plus size={14} /> Add Product
+                </button>
+              )}
             </div>
           ) : (
             <table className="w-full min-w-[580px]">
@@ -231,7 +337,7 @@ export default function AdminProductsClient({
                     <td className="px-5 py-3">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-12 bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center shrink-0">
-                          <img src={p.image} alt={p.name} className="h-[130%] w-auto object-contain" />
+                          <img src={p.image?.url || ''} alt={p.name} className="h-[130%] w-auto object-contain" />
                         </div>
                         <div className="min-w-0">
                           <p className={`${tx.className} text-xs md:text-sm font-bold text-[#15161b] uppercase tracking-wide truncate max-w-[140px]`}>{p.name}</p>
@@ -277,7 +383,7 @@ export default function AdminProductsClient({
               <button onClick={closeModal} className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-gray-400 hover:text-[#15161b]"><X size={16} /></button>
             </div>
             <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-4">
-              
+
               {/* Basic Fields */}
               <div className="grid grid-cols-2 gap-3">
                 <div className="col-span-2">
@@ -310,17 +416,46 @@ export default function AdminProductsClient({
                       )}
                     </div>
                   </div>
-                  {/* Hidden input to ensure react-hook-form validation works if needed */}
-                  <input type="hidden" {...register("image")} />
+                </div>
+
+                <div className="col-span-2">
+                  <label className={`${tx.className} block text-[10px] font-semibold uppercase tracking-[0.2em] text-gray-400 mb-1.5`}>
+                    Sub Images (Max 5)
+                  </label>
+                  <div className="flex flex-wrap gap-3 mb-3">
+                    {/* Existing Sub Images */}
+                    {existingSubImages.map((img, idx) => (
+                      <div key={img.publicId} className="relative w-20 h-20 bg-gray-50 border border-gray-200 rounded-lg overflow-hidden group">
+                        <img src={img.url} alt="Sub" className="w-full h-full object-contain" />
+                        <button type="button" onClick={() => removeExistingSubImage(idx)} className="absolute top-1 right-1 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"><X size={12} /></button>
+                      </div>
+                    ))}
+                    {/* New Sub Images Preview */}
+                    {subPreviewUrls.map((url, idx) => (
+                      <div key={idx} className="relative w-20 h-20 bg-gray-50 border border-gray-200 rounded-lg overflow-hidden group">
+                        <img src={url} alt="New Sub" className="w-full h-full object-contain" />
+                        <button type="button" onClick={() => removeNewSubImage(idx)} className="absolute top-1 right-1 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"><X size={12} /></button>
+                      </div>
+                    ))}
+                    {/* Upload Button */}
+                    {(existingSubImages.length + newSubFiles.length) < 5 && (
+                      <div className="relative w-20 h-20 border-2 border-dashed border-gray-200 bg-gray-50 rounded-lg flex flex-col items-center justify-center text-gray-400 hover:text-[#c25b5e] hover:border-[#c25b5e] hover:bg-red-50/30 transition-all cursor-pointer">
+                        <input type="file" multiple accept="image/*" onChange={handleSubImagesChange} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" />
+                        <Plus size={20} />
+                        <span className="text-[9px] font-bold mt-1 uppercase">Add</span>
+                      </div>
+                    )}
+                  </div>
+                  <p className={`${tx.className} text-[10px] text-gray-400`}>Max 5MB per image.</p>
                 </div>
               </div>
 
               <div>
                 <label className={`${tx.className} block text-[10px] font-semibold uppercase tracking-[0.2em] text-gray-400 mb-1.5`}>Description *</label>
-                <textarea {...register("description", { required: true })} rows={2} placeholder="Short description…"
-                  className={`${tx.className} w-full border-2 border-gray-200 bg-gray-50 px-4 py-2.5 text-sm placeholder-gray-400 focus:border-[#c25b5e] focus:bg-white focus:outline-none rounded-xl resize-none`} />
+                <textarea {...register("description", { required: true })} rows={4} placeholder="Short description…"
+                  className={`${tx.className} w-full border-2 border-gray-200 bg-gray-50 px-4 py-2.5 text-sm placeholder-gray-400 focus:border-[#c25b5e] focus:ring-0 focus:bg-white focus:outline-none rounded-xl resize-y min-h-[100px]`} />
               </div>
-              
+
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className={`${tx.className} block text-[10px] font-semibold uppercase tracking-[0.2em] text-gray-400 mb-1.5`}>Size *</label>
