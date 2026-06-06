@@ -67,13 +67,24 @@ export default function BestSellingClient({ initialProducts, initialWishlistSlug
 						whileInView="visible"
 						viewport={{ once: false, margin: "-50px" }}
 					>
-						<div className="grid grid-cols-1 sm:grid-cols-2 max-w-4xl mx-auto gap-x-10 md:gap-x-16 gap-y-24 md:gap-y-28 pt-6 md:pt-10 justify-items-center">
-							{initialProducts.map((product, index) => (
-								<motion.div key={index} variants={itemVariants} className="w-full max-w-[340px]">
-									<ProductCard product={product} isWishlist={initialWishlistSlugs.includes(product._id)} />
-								</motion.div>
-							))}
-						</div>
+						{initialProducts.length === 0 ? (
+							<div className="py-24 text-center">
+								<p className={`${textFont.className} text-gray-400 text-lg sm:text-xl uppercase tracking-[0.2em] font-bold`}>
+									No products available
+								</p>
+								<p className={`${textFont.className} text-gray-500 mt-3 text-sm`}>
+									We're currently restocking. Check back soon for new drops!
+								</p>
+							</div>
+						) : (
+							<div className="grid grid-cols-1 sm:grid-cols-2 max-w-4xl mx-auto gap-x-10 md:gap-x-16 gap-y-24 md:gap-y-28 pt-6 md:pt-10 justify-items-center">
+								{initialProducts.map((product, index) => (
+									<motion.div key={index} variants={itemVariants} className="w-full max-w-[340px]">
+										<ProductCard product={product} isWishlist={initialWishlistSlugs.includes(product._id)} />
+									</motion.div>
+								))}
+							</div>
+						)}
 					</motion.div>
 
 				</div>

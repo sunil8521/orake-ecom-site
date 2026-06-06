@@ -21,7 +21,7 @@ interface ProductInfoProps {
     oldPrice: number;
     discount: number;
     size: string;
-    image: string;
+    image: { publicId?: string; url: string } | string;
     numReviews?: number;
     rating?: number;
     description: string;
@@ -30,7 +30,7 @@ interface ProductInfoProps {
     _id: string;
     slug: string;
     name: string;
-    image: string;
+    image: { publicId?: string; url: string } | string;
   };
   initialIsWishlisted?: boolean;
 }

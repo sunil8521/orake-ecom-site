@@ -124,7 +124,7 @@ export default async function AdminDashboard() {
             ) : topProducts.map((product) => (
               <div key={product._id} className="flex items-center gap-4 p-3 rounded-xl hover:bg-gray-50 transition-colors">
                 <div className="w-12 h-14 bg-gray-100 rounded-xl overflow-hidden flex items-center justify-center shrink-0">
-                  <img src={product.image} alt={product.name} className="h-[130%] w-auto object-contain" />
+                  <img src={typeof product.image === 'string' ? product.image : (product.image as { url: string })?.url || ''} alt={product.name} className="h-[130%] w-auto object-contain" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className={`${tx.className} text-sm font-bold text-[#15161b] uppercase tracking-wide truncate`}>{product.name}</p>
