@@ -1,7 +1,6 @@
 import nodemailer from "nodemailer";
 
 const transporter = nodemailer.createTransport({
-  pool: true, // Use pooled connections
   host: process.env.EMAIL_HOST || "smtpout.secureserver.net",
   port: parseInt(process.env.EMAIL_PORT || "465"),
   secure: process.env.EMAIL_PORT !== "587", // true for 465, false for 587
@@ -14,7 +13,6 @@ const transporter = nodemailer.createTransport({
     rejectUnauthorized: false,
     ciphers: "SSLv3",
   },
-  maxConnections: 1, // GoDaddy sometimes limits concurrent connections heavily
 });
 
 export function generateOTP(): string {

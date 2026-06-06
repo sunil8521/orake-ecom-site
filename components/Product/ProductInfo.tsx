@@ -11,6 +11,7 @@ import { addToCart } from "@/actions/cart";
 import { authClient } from "@/lib/auth-client";
 import { useAuthStore } from "@/store/useAuthStore";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 interface ProductInfoProps {
   product: {
@@ -40,10 +41,12 @@ export default function ProductInfo({ product, relatedProduct, initialIsWishlist
   const isAuthenticated = !!session.data?.user;
   const { openAuthModal } = useAuthStore();
   
+  const router = useRouter();
   const [quantity, setQuantity] = useState(1);
   const [shippingOpen, setShippingOpen] = useState(false);
   const [isWishlistLoading, setIsWishlistLoading] = useState(false);
   const [isCartLoading, setIsCartLoading] = useState(false);
+  const [isBuyNowLoading, setIsBuyNowLoading] = useState(false);
 
   const { setWishlistCount, setCartCount, incrementWishlist, decrementWishlist, incrementCart } = useCartWishlistStore();
   
@@ -107,6 +110,29 @@ export default function ProductInfo({ product, relatedProduct, initialIsWishlist
       toast.error("An error occurred");
     } finally {
       setIsCartLoading(false);
+    }
+  };
+
+  const handleBuyNow = async () => {
+    if (!isAuthenticated) {
+      openAuthModal("login");
+      return;
+    }
+
+    try {
+      setIsBuyNowLoading(true);
+      const result = await addToCart(product._id, quantity);
+      if (result.success) {
+        if (result.isNewItem) incrementCart();
+        router.push('/cart');
+      } else {
+        toast.error(result.error || "Failed to add to cart");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("An error occurred");
+    } finally {
+      setIsBuyNowLoading(false);
     }
   };
 
@@ -194,7 +220,12 @@ export default function ProductInfo({ product, relatedProduct, initialIsWishlist
       </div>
 
       {/* Buy Now */}
-      <button className={`${bodyFont.className} w-full h-[60px] bg-transparent border-2 border-[#15161b] text-[#15161b] hover:bg-[#15161b] hover:text-white text-sm sm:text-base font-bold uppercase tracking-widest rounded-full transition-all mb-12 shadow-sm hover:shadow-lg active:scale-[0.98]`}>
+      <button 
+        onClick={handleBuyNow}
+        disabled={isBuyNowLoading || isCartLoading}
+        className={`${bodyFont.className} flex items-center justify-center gap-2 w-full h-[60px] bg-transparent border-2 border-[#15161b] text-[#15161b] hover:bg-[#15161b] hover:text-white text-sm sm:text-base font-bold uppercase tracking-widest rounded-full transition-all mb-12 shadow-sm hover:shadow-lg active:scale-[0.98] disabled:opacity-70 disabled:active:scale-100 disabled:hover:bg-transparent disabled:hover:text-[#15161b]`}
+      >
+        {isBuyNowLoading && <Loader2 size={20} className="animate-spin" />}
         Buy It Now
       </button>
 
