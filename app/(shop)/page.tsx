@@ -11,11 +11,10 @@ import Testimonials from "@/components/Home/Testimonials";
 import { getFeaturedProducts } from "@/lib/data/product";
 
 export default async function Home() {
-  const products = await getFeaturedProducts();
   return (
     <div className="min-h-screen bg-white overflow-x-clip w-full relative">
       <HeroSection />
-      <CollectionsSection products={products} />
+      <CollectionsSection  />
       <TaglineBanner />
       <SmoothieShowcaseSection />
       <EnergyDrinksDealBanner />      

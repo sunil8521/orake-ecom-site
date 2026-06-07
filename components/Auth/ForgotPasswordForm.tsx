@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Mail, ArrowLeft, CheckCircle, Lock, Eye, EyeOff, Loader2 } from "lucide-react";
 import { titleFont, textFont } from "@/lib/fonts";
 import { useAuthStore } from "@/store/useAuthStore";
@@ -13,12 +13,21 @@ export default function ForgotPasswordForm() {
   const [password, setPassword] = useState("");
   const [showPass, setShowPass] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [resendCooldown, setResendCooldown] = useState(0);
   
   const inputsRef = useRef<(HTMLInputElement | null)[]>([]);
   const { setAuthModalView } = useAuthStore();
 
-  const handleSendOtp = async (e: React.FormEvent) => {
-    e.preventDefault();
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (resendCooldown > 0 && step === "reset") {
+      timer = setTimeout(() => setResendCooldown((prev) => prev - 1), 1000);
+    }
+    return () => clearTimeout(timer);
+  }, [resendCooldown, step]);
+
+  const handleSendOtp = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     if (!email) {
       toast.error("Please enter your email");
       return;
@@ -36,6 +45,7 @@ export default function ForgotPasswordForm() {
       } else {
         toast.success("Reset code sent to your email.");
         setStep("reset");
+        setResendCooldown(60);
       }
     } catch (err) {
       toast.error("Something went wrong");
@@ -133,7 +143,7 @@ export default function ForgotPasswordForm() {
                     type="email"
                     value={email}
                     onChange={e => setEmail(e.target.value)}
-                    placeholder="you@drinkorake.com"
+                    placeholder="Your mail"
                     required
                     className={`${textFont.className} w-full border-2 border-gray-200 bg-gray-50 pl-12 pr-4 py-3.5 text-lg font-medium text-[#15161b] placeholder-gray-400 focus:border-[#c25b5e] focus:bg-white focus:outline-none transition-all rounded-xl`}
                   />
@@ -203,7 +213,7 @@ export default function ForgotPasswordForm() {
                     type={showPass ? "text" : "password"}
                     value={password}
                     onChange={e => setPassword(e.target.value)}
-                    placeholder="••••••••"
+                    placeholder="Your password"
                     required
                     minLength={8}
                     className={`${textFont.className} w-full border-2 border-gray-200 bg-gray-50 pl-12 pr-12 py-3.5 text-lg font-medium text-[#15161b] placeholder-gray-400 focus:border-[#c25b5e] focus:bg-white focus:outline-none transition-all rounded-xl`}
@@ -228,6 +238,19 @@ export default function ForgotPasswordForm() {
                   "Reset Password"
                 )}
               </button>
+
+              {/* Resend Option */}
+              <div className="flex justify-between items-center mt-4">
+                <span className={`${textFont.className} text-sm text-gray-500`}>Didn&apos;t receive the code?</span>
+                <button
+                  type="button"
+                  onClick={() => handleSendOtp()}
+                  disabled={resendCooldown > 0 || loading}
+                  className={`${textFont.className} text-sm font-bold uppercase tracking-wider transition-colors ${resendCooldown > 0 ? "text-gray-400 cursor-not-allowed" : "text-[#c25b5e] hover:text-[#15161b]"}`}
+                >
+                  {resendCooldown > 0 ? `Resend in ${resendCooldown}s` : "Resend Code"}
+                </button>
+              </div>
             </div>
           </form>
         )}

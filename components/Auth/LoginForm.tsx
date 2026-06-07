@@ -130,7 +130,7 @@ export default function LoginForm() {
                 <input
                   {...register("email")}
                   type="email"
-                  placeholder="you@drinkorake.com"
+                  placeholder="Your mail"
                   className={`${textFont.className} w-full border-2 border-gray-200 bg-gray-50 pl-10 sm:pl-12 pr-4 py-2.5 sm:py-3 text-sm sm:text-base font-medium text-[#15161b] placeholder-gray-400 focus:border-[#c25b5e] focus:bg-white focus:outline-none transition-all rounded-lg sm:rounded-xl`}
                 />
               </div>
@@ -147,7 +147,7 @@ export default function LoginForm() {
                 <input
                   {...register("password")}
                   type={showPass ? "text" : "password"}
-                  placeholder="••••••••"
+                  placeholder="Your password"
                   className={`${textFont.className} w-full border-2 border-gray-200 bg-gray-50 pl-10 sm:pl-12 pr-10 sm:pr-12 py-2.5 sm:py-3 text-sm sm:text-base font-medium text-[#15161b] placeholder-gray-400 focus:border-[#c25b5e] focus:bg-white focus:outline-none transition-all rounded-lg sm:rounded-xl`}
                 />
                 <button type="button" onClick={() => setShowPass(!showPass)} className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#15161b] transition-colors">

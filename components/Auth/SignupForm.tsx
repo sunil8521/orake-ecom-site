@@ -18,6 +18,7 @@ import { titleFont, textFont } from "@/lib/fonts";
 export default function SignupForm() {
   const router = useRouter();
   const [showPass, setShowPass] = useState(false);
+  const [showConfirmPass, setShowConfirmPass] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const { setAuthModalView, closeAuthModal, setOtpEmail } = useAuthStore();
 
@@ -131,7 +132,7 @@ export default function SignupForm() {
                 <input
                   {...register("email")}
                   type="email"
-                  placeholder="you@drinkorake.com"
+                  placeholder="Your mail"
                   className={`${textFont.className} w-full border-2 ${errors.email ? "border-red-400" : "border-gray-200"} bg-gray-50 pl-10 sm:pl-12 pr-4 py-2.5 sm:py-3 text-sm sm:text-base font-medium text-[#15161b] placeholder-gray-400 focus:border-[#dbba53] focus:bg-white focus:outline-none transition-all rounded-lg sm:rounded-xl`}
                 />
               </div>
@@ -146,7 +147,7 @@ export default function SignupForm() {
                 <input
                   {...register("phone")}
                   type="tel"
-                  placeholder="9876543210"
+                  placeholder="Your number"
                   className={`${textFont.className} w-full border-2 ${errors.phone ? "border-red-400" : "border-gray-200"} bg-gray-50 pl-10 sm:pl-12 pr-4 py-2.5 sm:py-3 text-sm sm:text-base font-medium text-[#15161b] placeholder-gray-400 focus:border-[#dbba53] focus:bg-white focus:outline-none transition-all rounded-lg sm:rounded-xl`}
                 />
               </div>
@@ -161,7 +162,7 @@ export default function SignupForm() {
                 <input
                   {...register("password")}
                   type={showPass ? "text" : "password"}
-                  placeholder="Min 8 characters"
+                  placeholder="Your password"
                   className={`${textFont.className} w-full border-2 ${errors.password ? "border-red-400" : "border-gray-200"} bg-gray-50 pl-10 sm:pl-12 pr-10 sm:pr-12 py-2.5 sm:py-3 text-sm sm:text-base font-medium text-[#15161b] placeholder-gray-400 focus:border-[#dbba53] focus:bg-white focus:outline-none transition-all rounded-lg sm:rounded-xl`}
                 />
                 <button type="button" onClick={() => setShowPass(!showPass)} className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#15161b] transition-colors pointer-events-auto">
@@ -178,10 +179,13 @@ export default function SignupForm() {
                 <Lock size={16} className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 text-gray-300 pointer-events-none" />
                 <input
                   {...register("confirm")}
-                  type={showPass ? "text" : "password"}
-                  placeholder="Re-enter password"
-                  className={`${textFont.className} w-full border-2 ${errors.confirm ? "border-red-400" : "border-gray-200"} bg-gray-50 pl-10 sm:pl-12 pr-4 py-2.5 sm:py-3 text-sm sm:text-base font-medium text-[#15161b] placeholder-gray-400 focus:border-[#dbba53] focus:bg-white focus:outline-none transition-all rounded-lg sm:rounded-xl`}
+                  type={showConfirmPass ? "text" : "password"}
+                  placeholder="Your confirm password"
+                  className={`${textFont.className} w-full border-2 ${errors.confirm ? "border-red-400" : "border-gray-200"} bg-gray-50 pl-10 sm:pl-12 pr-10 sm:pr-12 py-2.5 sm:py-3 text-sm sm:text-base font-medium text-[#15161b] placeholder-gray-400 focus:border-[#dbba53] focus:bg-white focus:outline-none transition-all rounded-lg sm:rounded-xl`}
                 />
+                <button type="button" onClick={() => setShowConfirmPass(!showConfirmPass)} className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#15161b] transition-colors pointer-events-auto">
+                  {showConfirmPass ? <EyeOff size={16} /> : <Eye size={16} />}
+                </button>
               </div>
               {errors.confirm && <p className={`${textFont.className} text-red-500 text-xs mt-1.5 pl-1`}>{errors.confirm.message}</p>}
             </div>
@@ -192,7 +196,7 @@ export default function SignupForm() {
                 <div className="w-2.5 h-2.5 rounded-sm bg-[#dbba53]" />
               </div>
               <span className={`${textFont.className} text-xs sm:text-sm text-gray-500 leading-relaxed`}>
-                I agree to the <Link href="/policies#terms" onClick={() => closeAuthModal()} className="text-[#c25b5e] hover:text-[#15161b] transition-colors font-semibold">Terms</Link> and <Link href="/policies#refund" onClick={() => closeAuthModal()} className="text-[#c25b5e] hover:text-[#15161b] transition-colors font-semibold">Policies</Link>
+                I agree to the <Link href="/policies#terms" onClick={() => closeAuthModal()} className="text-[#c25b5e] hover:text-[#15161b] transition-colors font-semibold">Terms</Link> and <Link href="/policies" onClick={() => closeAuthModal()} className="text-[#c25b5e] hover:text-[#15161b] transition-colors font-semibold">Policies</Link>
               </span>
             </label>
 

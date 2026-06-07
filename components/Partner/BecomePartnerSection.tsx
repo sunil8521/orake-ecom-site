@@ -160,7 +160,7 @@ export default function BecomePartnerSection() {
                       </label>
                       <input
                         type="text"
-                        placeholder="Sunil Maharana"
+                        placeholder="Your name"
                         disabled={isSubmitting}
                         {...register("name")}
                         className={`${textFont.className} w-full bg-white border ${errors.name ? 'border-[#de3e4f]' : 'border-gray-200'} px-4 py-3.5 text-base font-medium text-[#15161b] placeholder-gray-300 rounded-xl focus:border-[#de3e4f] focus:ring-2 focus:ring-[#de3e4f]/10 focus:outline-none transition-all disabled:opacity-50`}
@@ -177,7 +177,7 @@ export default function BecomePartnerSection() {
                       </label>
                       <input
                         type="text"
-                        placeholder="Orake Distribution LLC"
+                        placeholder="Your company name"
                         disabled={isSubmitting}
                         {...register("companyName")}
                         className={`${textFont.className} w-full bg-white border ${errors.companyName ? 'border-[#de3e4f]' : 'border-gray-200'} px-4 py-3.5 text-base font-medium text-[#15161b] placeholder-gray-300 rounded-xl focus:border-[#de3e4f] focus:ring-2 focus:ring-[#de3e4f]/10 focus:outline-none transition-all disabled:opacity-50`}
@@ -198,7 +198,7 @@ export default function BecomePartnerSection() {
                       </label>
                       <input
                         type="email"
-                        placeholder="you@company.com"
+                        placeholder="Your work email"
                         disabled={isSubmitting}
                         {...register("email")}
                         className={`${textFont.className} w-full bg-white border ${errors.email ? 'border-[#de3e4f]' : 'border-gray-200'} px-4 py-3.5 text-base font-medium text-[#15161b] placeholder-gray-300 rounded-xl focus:border-[#de3e4f] focus:ring-2 focus:ring-[#de3e4f]/10 focus:outline-none transition-all disabled:opacity-50`}
@@ -215,7 +215,7 @@ export default function BecomePartnerSection() {
                       </label>
                       <input
                         type="tel"
-                        placeholder="9876543210"
+                        placeholder="Your number"
                         disabled={isSubmitting}
                         {...register("phone")}
                         className={`${textFont.className} w-full bg-white border ${errors.phone ? 'border-[#de3e4f]' : 'border-gray-200'} px-4 py-3.5 text-base font-medium text-[#15161b] placeholder-gray-300 rounded-xl focus:border-[#de3e4f] focus:ring-2 focus:ring-[#de3e4f]/10 focus:outline-none transition-all disabled:opacity-50`}

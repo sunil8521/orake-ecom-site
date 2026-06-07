@@ -7,12 +7,12 @@ import { useAuthStore } from "@/store/useAuthStore";
 import { authClient } from "@/lib/auth-client";
 
 const FIRST_DELAY = 15 * 1000;   // 15 seconds
-const RESHOW_DELAY = 2 * 60 * 1000; // 2 minutes
+const RESHOW_DELAY =  20 * 1000; // 2 minutes
 
 export default function SignupPopup() {
   const [visible, setVisible] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
-  const { openAuthModal } = useAuthStore();
+  const { openAuthModal, isAuthModalOpen } = useAuthStore();
   const session = authClient.useSession();
   const isAuthenticated = !!session.data?.user;
 
@@ -53,7 +53,7 @@ export default function SignupPopup() {
     openAuthModal("signup");
   };
 
-  const shouldShow = visible && !isAuthenticated;
+  const shouldShow = visible && !isAuthenticated && !isAuthModalOpen;
 
   return (
     <AnimatePresence>

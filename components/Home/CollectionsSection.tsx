@@ -34,11 +34,8 @@ function NewsletterForm() {
   );
 }
 
-export default function CollectionsSection({ products = [] }: { products?: any[] }) {
-  // Find products matching the hardcoded names or fallback to defaults
-  const strawberryProduct = products.find(p => p.name === 'Fan Favorites Box' || p.name?.toLowerCase().includes('strawberry')) || { rating: 5, numReviews: 24, price: 85 };
-  const gingerProduct = products.find(p => p.name === 'Chaos Edition Box' || p.name?.toLowerCase().includes('ginger')) || { rating: 4, numReviews: 12, price: 85 };
-
+export default function CollectionsSection() {
+ 
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -175,7 +172,7 @@ export default function CollectionsSection({ products = [] }: { products?: any[]
                   <span className="text-xs md:text-sm text-gray-400 line-through decoration-1">Rs. 100.00</span>
                 </div>
 
-                <Link href="/products/fan-favorites-box" className="group/btn flex items-center gap-1.5 text-[#15161b] hover:text-[#c25b5e] text-[11px] sm:text-sm font-bold uppercase tracking-[0.1em] sm:tracking-[0.2em] transition-all duration-300 whitespace-nowrap">
+                <Link href="/products" className="group/btn flex items-center gap-1.5 text-[#15161b] hover:text-[#c25b5e] text-[11px] sm:text-sm font-bold uppercase tracking-[0.1em] sm:tracking-[0.2em] transition-all duration-300 whitespace-nowrap">
                   View Product
                   <ArrowRight size={16} className="group-hover/btn:translate-x-1.5 transition-transform duration-300" />
                 </Link>
@@ -235,7 +232,7 @@ export default function CollectionsSection({ products = [] }: { products?: any[]
                   <span className="text-xs md:text-sm text-gray-400 line-through decoration-1">Rs. 100.00</span>
                 </div>
 
-                <Link href="/products/chaos-edition-box" className="group/btn flex items-center gap-1.5 text-[#15161b] hover:text-[#dbba53] text-[11px] sm:text-sm font-bold uppercase tracking-[0.1em] sm:tracking-[0.2em] transition-all duration-300 whitespace-nowrap">
+                <Link href="/products" className="group/btn flex items-center gap-1.5 text-[#15161b] hover:text-[#dbba53] text-[11px] sm:text-sm font-bold uppercase tracking-[0.1em] sm:tracking-[0.2em] transition-all duration-300 whitespace-nowrap">
                   View Product
                   <ArrowRight size={16} className="group-hover/btn:translate-x-1.5 transition-transform duration-300" />
                 </Link>

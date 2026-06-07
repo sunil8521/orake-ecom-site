@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import WishlistHero from "@/components/Wishlist/WishlistHero";
 import WishlistList from "@/components/Wishlist/WishlistList";
+import WishlistSkeleton from "@/components/Wishlist/WishlistSkeleton";
 import { getWishlist } from "@/lib/data/wishlist";
 import { Suspense } from "react";
 import { headers } from "next/headers";
@@ -25,7 +26,7 @@ async function WishlistContent() {
 export default function WishlistPage() {
   return (
     <div className="min-h-screen bg-white">
-      <Suspense fallback={<p>Loading wishlist...</p>}>
+      <Suspense fallback={<WishlistSkeleton />}>
         <WishlistContent />
       </Suspense>
     </div>
